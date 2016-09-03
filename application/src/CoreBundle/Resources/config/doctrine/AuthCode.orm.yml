@@ -1,0 +1,25 @@
+CoreBundle\Entity\AuthCode:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\AuthCodeRepository
+    manyToOne:
+        user:
+            targetEntity: User
+            inversedBy: auth_codes
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+        client:
+            targetEntity: Client
+            inversedBy: auth_codes
+            joinColumn:
+                name: client_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+    lifecycleCallbacks: {  }

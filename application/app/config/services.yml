@@ -1,0 +1,14 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+  translation.loader.po:
+    class: Symfony\Component\Translation\Loader\PoFileLoader
+    tags:
+      - { name: translation.loader, alias: po }
+  translation.loader.mo:
+    class: Symfony\Component\Translation\Loader\MoFileLoader
+    tags:
+      - { name: translation.loader, alias: mo }

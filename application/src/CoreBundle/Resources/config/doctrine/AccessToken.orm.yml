@@ -1,0 +1,25 @@
+CoreBundle\Entity\AccessToken:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\AccessTokenRepository
+    manyToOne:
+        user:
+            targetEntity: User
+            inversedBy: access_tokens
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+        client:
+            targetEntity: Client
+            inversedBy: access_tokens
+            joinColumn:
+                name: client_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+    lifecycleCallbacks: {  }

@@ -1,0 +1,25 @@
+CoreBundle\Entity\RefreshToken:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\RefreshTokenRepository
+    manyToOne:
+        user:
+            targetEntity: User
+            inversedBy: refresh_tokens
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+        client:
+            targetEntity: Client
+            inversedBy: refresh_tokens
+            joinColumn:
+                name: client_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+    lifecycleCallbacks: {  }

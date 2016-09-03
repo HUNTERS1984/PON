@@ -1,0 +1,5 @@
+app_homepage:
+    prefix: /v1
+    type: rest
+    resource: AppBundle\Controller\DefaultController
+    name_prefix: api_home_page

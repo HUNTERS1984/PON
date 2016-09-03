@@ -1,0 +1,44 @@
+{
+  "name": "PON",
+  "description": "",
+  "main": "",
+  "authors": [
+    "QuangVo"
+  ],
+  "license": "proprietary",
+  "homepage": "http://pon.dev/",
+  "moduleType": [
+    "globals"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "modernizr": "*",
+    "font-awesome": "*",
+    "ionicons": "*",
+    "material-design-iconic-font": "~1.0.1",
+    "themify-icons": "*",
+    "weather-icons": "*",
+    "simple-line-icons": "*",
+    "jquery-slimscroll": "*",
+    "blockUI": "*",
+    "jquery.nicescroll": "*",
+    "jquery.scrollTo": "*",
+    "wow": "*",
+    "datatables.net": "*",
+    "datatables.net-bs": "*",
+    "datatables.net-fixedheader": "*",
+    "datatables.net-fixedheader-bs": "*",
+    "datatables.net-responsive": "*",
+    "datatables.net-responsive-bs": "*",
+    "datatables-colvis": "*",
+    "datatables-buttons": "*"
+  }
+}
