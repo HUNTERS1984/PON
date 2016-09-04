@@ -29,3 +29,16 @@ docker run -d --name phpfpm --restart=always -ti -p 9000:9000 -e SYMFONY__DATABA
 docker build -t pon/nginx $(pwd)/vagrant/docker/nginx
 
 docker run -d --name nginx --restart=always -ti -p 80:80 --link mysql:mysql --link phpfpm:phpfpm --volumes-from='app' -e DOMAIN=pon1.dev -e ENVPON=app  pon/nginx bash
+
+
+##Symlink###
+yes | cp -rf $(pwd)/vagrant/bin/restart.sh /usr/bin/restart && chmod a+x /usr/bin/restart
+yes | cp -rf $(pwd)/vagrant/bin/clean.sh /usr/bin/clean && chmod a+x /usr/bin/clean
+yes | cp -rf $(pwd)/vagrant/bin/mysql.sh /usr/bin/mysql && chmod a+x /usr/bin/mysql
+yes | cp -rf $(pwd)/vagrant/bin/mysqldump.sh /usr/bin/mysqldump && chmod a+x /usr/bin/mysqldump
+yes | cp -rf $(pwd)/vagrant/bin/login.sh /usr/bin/login && chmod a+x /usr/bin/login
+yes | cp -rf $(pwd)/vagrant/bin/composer.sh /usr/bin/composer && chmod a+x /usr/bin/composer
+yes | cp -rf $(pwd)/vagrant/bin/console.sh /usr/bin/console && chmod a+x /usr/bin/console
+yes | cp -rf $(pwd)/vagrant/bin/npm.sh /usr/bin/npm && chmod a+x /usr/bin/npm
+yes | cp -rf $(pwd)/vagrant/bin/bower.sh /usr/bin/bower && chmod a+x /usr/bin/bower
+yes | cp -rf $(pwd)/vagrant/bin/gulp.sh /usr/bin/gulp && chmod a+x /usr/bin/gulp
