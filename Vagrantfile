@@ -74,7 +74,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       nginx.run "pon/nginx",
             name: "nginx",
             cmd: "bash",
-            args: "-ti -p 80:80 --link mysql:mysql --link phpfpm:phpfpm --volumes-from='app'"
+            args: "-ti -p 80:80 --link mysql:mysql --link phpfpm:phpfpm -e DOMAIN=pon.dev -e ENVPON=app_dev --volumes-from='app'"
     end
 
     default.vm.provision :shell, inline: 'cp /var/www/vagrant/bin/restart.sh /usr/bin/restart && chmod a+x /usr/bin/restart'
