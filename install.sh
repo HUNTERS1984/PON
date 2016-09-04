@@ -2,6 +2,8 @@
 
 # run without sudo: usermod -aG docker pon
 
+#sudo no password : pon ALL=(ALL) NOPASSWD:ALL
+
 
 
 IFS=$'\n' read -rd '' -a runningContainers <<<"$(docker ps -a -q)"
@@ -32,13 +34,13 @@ docker run -d --name nginx --restart=always -ti -p 80:80 --link mysql:mysql --li
 
 
 ##Symlink###
-yes | cp -rf $(pwd)/vagrant/bin/restart.sh /usr/bin/restart && chmod a+x /usr/bin/restart
-yes | cp -rf $(pwd)/vagrant/bin/clean.sh /usr/bin/clean && chmod a+x /usr/bin/clean
-yes | cp -rf $(pwd)/vagrant/bin/mysql.sh /usr/bin/mysql && chmod a+x /usr/bin/mysql
-yes | cp -rf $(pwd)/vagrant/bin/mysqldump.sh /usr/bin/mysqldump && chmod a+x /usr/bin/mysqldump
-yes | cp -rf $(pwd)/vagrant/bin/login.sh /usr/bin/login && chmod a+x /usr/bin/login
-yes | cp -rf $(pwd)/vagrant/bin/composer.sh /usr/bin/composer && chmod a+x /usr/bin/composer
-yes | cp -rf $(pwd)/vagrant/bin/console.sh /usr/bin/console && chmod a+x /usr/bin/console
-yes | cp -rf $(pwd)/vagrant/bin/npm.sh /usr/bin/npm && chmod a+x /usr/bin/npm
-yes | cp -rf $(pwd)/vagrant/bin/bower.sh /usr/bin/bower && chmod a+x /usr/bin/bower
-yes | cp -rf $(pwd)/vagrant/bin/gulp.sh /usr/bin/gulp && chmod a+x /usr/bin/gulp
+yes | sudo cp -rf $(pwd)/vagrant/bin/restart.sh /usr/bin/restart && sudo chmod a+x /usr/bin/restart
+yes | sudo cp -rf $(pwd)/vagrant/bin/clean.sh /usr/bin/clean && sudo chmod a+x /usr/bin/clean
+yes | sudo cp -rf $(pwd)/vagrant/bin/mysql.sh /usr/bin/mysql && sudo chmod a+x /usr/bin/mysql
+yes | sudo  cp -rf $(pwd)/vagrant/bin/mysqldump.sh /usr/bin/mysqldump && sudo chmod a+x /usr/bin/mysqldump
+yes | sudo  cp -rf $(pwd)/vagrant/bin/login.sh /usr/bin/login && sudo  chmod a+x /usr/bin/login
+yes | sudo  cp -rf $(pwd)/vagrant/bin/composer.sh /usr/bin/composer && sudo  chmod a+x /usr/bin/composer
+yes | sudo  cp -rf $(pwd)/vagrant/bin/console.sh /usr/bin/console && sudo  chmod a+x /usr/bin/console
+yes | sudo  cp -rf $(pwd)/vagrant/bin/npm.sh /usr/bin/npm && sudo  chmod a+x /usr/bin/npm
+yes | sudo  cp -rf $(pwd)/vagrant/bin/bower.sh /usr/bin/bower && sudo  chmod a+x /usr/bin/bower
+yes | sudo  cp -rf $(pwd)/vagrant/bin/gulp.sh /usr/bin/gulp && sudo  chmod a+x /usr/bin/gulp
