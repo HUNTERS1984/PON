@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     default.ssh.keep_alive = true
     default.vm.provision :shell, inline: 'echo 1 > /proc/sys/net/ipv4/ip_forward'
     default.vm.provision :shell, inline: 'echo "cd /var/www/application" >> /home/vagrant/.bashrc'
-    default.vm.provision :shell, inline: 'sudo restorecon -v -n /var/www/vagrant/docker/mysql/data'
+    default.vm.provision :shell, inline: 'sudo restorecon -v -n /var/www/vagrant/data'
 
     default.vm.provider "virtualbox" do |v|
        v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]

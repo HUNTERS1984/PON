@@ -14,6 +14,8 @@ fi
 
 chmod -R 777 $(pwd)/vagrant/data
 
+restorecon -v -n $(pwd)/vagrant/data
+
 docker run -d --name app --restart=always -ti -v $(pwd)/application:/var/www/pon -v $(pwd)/vagrant/data:/data/mariadb -w $(pwd)/vagrant/data  debian bash
 
 docker build -t pon/mysql $(pwd)/vagrant/docker/mysql
