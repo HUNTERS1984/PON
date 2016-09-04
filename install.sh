@@ -2,6 +2,8 @@
 
 # run without sudo: usermod -aG docker pon
 
+
+
 IFS=$'\n' read -rd '' -a runningContainers <<<"$(docker ps -a -q)"
 
 if [ ! "$runningContainers" ]; then
@@ -24,4 +26,4 @@ docker run -d --name phpfpm --restart=always -ti -p 9000:9000 -e SYMFONY__DATABA
 
 docker build -t pon/nginx $(pwd)/vagrant/docker/nginx
 
-docker run -d --name nginx --restart=always -ti -p 80:80 --link mysql:mysql --link phpfpm:phpfpm --volumes-from='app'  pon/nginx bash
+docker run -d --name nginx --restart=always -ti -p 80:80 --link mysql:mysql --link phpfpm:phpfpm --volumes-from='app' -e DOMAIN=pon1.dev -e ENVPON=app  pon/nginx bash
