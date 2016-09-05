@@ -87,6 +87,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     default.vm.provision :shell, inline: 'cp /var/www/vagrant/bin/npm.sh /usr/bin/npm && chmod a+x /usr/bin/npm'
     default.vm.provision :shell, inline: 'cp /var/www/vagrant/bin/bower.sh /usr/bin/bower && chmod a+x /usr/bin/bower'
     default.vm.provision :shell, inline: 'cp /var/www/vagrant/bin/gulp.sh /usr/bin/gulp && chmod a+x /usr/bin/gulp'
+    default.vm.provision :shell, inline: 'cp /var/www/vagrant/bin/cache.sh /usr/bin/cache && chmod a+x /usr/bin/cache'
     default.vm.provision :shell, inline: 'sudo restorecon -v -n /var/www/application'
 
   end

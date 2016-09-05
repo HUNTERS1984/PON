@@ -42,3 +42,4 @@ WORKDIR /var/www/pon
 
 ENTRYPOINT ["/start.sh"]
 CMD ["composer"]
+CMD ["chmod"]
