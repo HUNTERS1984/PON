@@ -14,14 +14,6 @@ if [ ! "$runningContainers" ]; then
     docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
 fi
 
-restorecon -Rv -n $(pwd)/vagrant/data
-restorecon -Rv -n $(pwd)/application/var/logs
-restorecon -Rv -n $(pwd)/application/var/cache
-
-chmod -R 777 $(pwd)/vagrant/data
-chmod -R 777 $(pwd)/application/var/logs
-chmod -R 777 $(pwd)/application/var/cache
-
 
 docker run -d --name app --restart=always -ti -v $(pwd)/application:/var/www/pon:rw,z -v $(pwd)/vagrant/data:/data/mariadb:rw,z -w $(pwd)/vagrant/data  debian bash
 
