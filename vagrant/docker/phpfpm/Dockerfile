@@ -40,6 +40,9 @@ EXPOSE 9000
 
 WORKDIR /var/www/pon
 
+RUN usermod -u 1000 www-data
+RUN usermod -G staff www-data
+
 ENTRYPOINT ["/start.sh"]
 CMD ["composer"]
 CMD ["chmod"]

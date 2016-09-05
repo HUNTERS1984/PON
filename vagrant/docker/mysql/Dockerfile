@@ -10,6 +10,9 @@ VOLUME ["/data/mariadb"]
 
 EXPOSE 3306
 
+RUN usermod -u 1000 www-data
+RUN usermod -G staff www-data
+
 RUN chmod -R 777 /data/mariadb
 
 ADD start.sh /opt/bin/start.sh
