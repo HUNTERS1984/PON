@@ -21,11 +21,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.hostname = "pon.dev"
     config.vm.network "private_network", ip: "192.168.56.103"
 
- #   config.hostmanager.enabled = true
- #   config.hostmanager.manage_host = true
- #   config.hostmanager.include_offline = true
- #   config.hostmanager.ignore_private_ip = false
- #    config.hostmanager.aliases = %w(pon.dev)
+    config.hostmanager.enabled = true
+    config.hostmanager.manage_host = true
+    config.hostmanager.include_offline = true
+    config.hostmanager.ignore_private_ip = false
+     config.hostmanager.aliases = %w(pon.dev)
   config.vm.define "default" do |default|
     default.vm.box = "minimum/centos-7-docker"
     default.vm.synced_folder ".", "/var/www", type: "nfs",:mount_options => ['nolock,vers=3,udp,noatime']
