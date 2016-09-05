@@ -15,8 +15,12 @@ if [ ! "$runningContainers" ]; then
 fi
 
 chmod -R 777 $(pwd)/vagrant/data
+chmod -R 777 $(pwd)/application/var/logs
+chmod -R 777 $(pwd)/application/var/cache
 
 restorecon -v -n $(pwd)/vagrant/data
+restorecon -v -n $(pwd)/application/var/logs
+restorecon -v -n $(pwd)/application/var/cache
 
 docker run -d --name app --restart=always -ti -v $(pwd)/application:/var/www/pon -v $(pwd)/vagrant/data:/data/mariadb -w $(pwd)/vagrant/data  debian bash
 
