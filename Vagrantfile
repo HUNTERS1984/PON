@@ -49,7 +49,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       app.run "debian",
             name: "app",
             cmd: "bash",
-            args: "-ti -v /var/www/application:/var/www/pon -v /var/www/vagrant/data:/data/mariadb -w /var/www/vagrant/data"
+            args: "-ti -v /var/www/application:/var/www/pon:rw,z -v /var/www/vagrant/data:/data/mariadb:rw,z -w /var/www/vagrant/data"
     end
 
 
