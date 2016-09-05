@@ -7,7 +7,10 @@ chmod -R 777 /var/lib/php/session
 
 
 if [ -n "${DOMAIN}" ]; then
-    sed -i -e "s/pon.dev/${DOMAIN}/g" /etc/nginx/conf.d/pon.conf
+    sed -i -e "s/pon.dev/XXXXX/g" /etc/nginx/conf.d/pon.conf
+    sed -i -e "s/XXXXX/${DOMAIN}/g" /etc/nginx/conf.d/pon.conf
+    sed -i -e "s/,/ /g" /etc/nginx/conf.d/pon.conf
+
 fi
 
 if [ -n "${ENVPON}" ]; then

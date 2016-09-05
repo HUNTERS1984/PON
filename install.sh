@@ -35,7 +35,7 @@ docker run -d --name phpfpm --restart=always -ti -p 9000:9000 -e SYMFONY__DATABA
 
 docker build -t pon/nginx $(pwd)/vagrant/docker/nginx
 
-docker run -d --name nginx --restart=always -ti -p 80:80 --link mysql:mysql --link phpfpm:phpfpm --volumes-from='app' -e DOMAIN=pon.cm -e ENVPON=app  pon/nginx bash
+docker run -d --name nginx --restart=always -ti -p 80:80 --link mysql:mysql --link phpfpm:phpfpm --volumes-from='app' -e DOMAIN=pon.cm,www.pon.cm -e ENVPON=app  pon/nginx bash
 
 
 ##Symlink###
