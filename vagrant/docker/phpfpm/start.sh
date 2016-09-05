@@ -4,6 +4,8 @@
 #source ~/.bashrc
 mkdir -p /var/lib/php/session
 chmod -R 777 /var/lib/php/session
+chmod -R 777 /var/www/pon/var/cache
+chmod -R 777 /var/www/pon/var/logs
 
 /usr/local/sbin/php-fpm
 
