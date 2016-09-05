@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     default.ssh.keep_alive = true
     default.vm.provision :shell, inline: 'echo 1 > /proc/sys/net/ipv4/ip_forward'
     default.vm.provision :shell, inline: 'echo "cd /var/www/application" >> /home/vagrant/.bashrc'
-    default.vm.provision :shell, inline: 'sudo restorecon -v -n /var/www/vagrant/data'
+    default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/vagrant/data'
 
     default.vm.provider "virtualbox" do |v|
        v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
@@ -88,7 +88,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     default.vm.provision :shell, inline: 'cp /var/www/vagrant/bin/bower.sh /usr/bin/bower && chmod a+x /usr/bin/bower'
     default.vm.provision :shell, inline: 'cp /var/www/vagrant/bin/gulp.sh /usr/bin/gulp && chmod a+x /usr/bin/gulp'
     default.vm.provision :shell, inline: 'cp /var/www/vagrant/bin/cache.sh /usr/bin/cache && chmod a+x /usr/bin/cache'
-    default.vm.provision :shell, inline: 'sudo restorecon -v -n /var/www/application'
+    default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/application'
 
   end
 

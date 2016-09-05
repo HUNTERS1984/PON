@@ -14,9 +14,9 @@ if [ ! "$runningContainers" ]; then
     docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
 fi
 
-restorecon -v -n $(pwd)/vagrant/data
-restorecon -v -n $(pwd)/application/var/logs
-restorecon -v -n $(pwd)/application/var/cache
+restorecon -Rv -n $(pwd)/vagrant/data
+restorecon -Rv -n $(pwd)/application/var/logs
+restorecon -Rv -n $(pwd)/application/var/cache
 
 chmod -R 777 $(pwd)/vagrant/data
 chmod -R 777 $(pwd)/application/var/logs
