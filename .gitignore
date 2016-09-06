@@ -12,8 +12,6 @@ application/var/sessions/*
 /application/web/backend/
 /application/npm-debug.log
 /.vagrant
-/vagrant/data/elasticsearch
-/vagrant/data/mysql
-/vagrant/data/rabbitmq
+/vagrant/data
 /application/node_modules/
 /application/bower_components/
