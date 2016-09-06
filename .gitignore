@@ -13,10 +13,7 @@ application/var/sessions/*
 /application/npm-debug.log
 /.vagrant
 /vagrant/data/elasticsearch
-!/vagrant/data/elasticsearch/.gitkeep
 /vagrant/data/mysql
-!/vagrant/data/mysql/.gitkeep
 /vagrant/data/rabbitmq
-!/vagrant/data/rabbitmq/.gitkeep
 /application/node_modules/
 /application/bower_components/

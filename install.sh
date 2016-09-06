@@ -14,6 +14,12 @@ if [ ! "$runningContainers" ]; then
     docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
 fi
 
+mkdir -p $(pwd)/vagrant/data/elasticsearch $(pwd)/vagrant/data/mysql $(pwd)/vagrant/data/rabbitmq $(pwd)/application/node_modules $(pwd)/application/bower_components
+sudo restorecon -Rv -n $(pwd)/vagrant/data/elasticsearch
+sudo restorecon -Rv -n $(pwd)/vagrant/data/mysql
+sudo restorecon -Rv -n $(pwd)/vagrant/data/rabbitmq
+sudo restorecon -Rv -n $(pwd)/application/node_modules
+sudo restorecon -Rv -n $(pwd)/application/bower_components
 
 docker run -d --name app --restart=always -ti -v $(pwd)/application:/var/www/pon:rw,z -v $(pwd)/vagrant/data:/data/mariadb:rw,z --user 1000:50 -w $(pwd)/vagrant/data  debian bash
 

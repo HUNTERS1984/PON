@@ -36,9 +36,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     default.ssh.keep_alive = true
     default.vm.provision :shell, inline: 'echo 1 > /proc/sys/net/ipv4/ip_forward'
     default.vm.provision :shell, inline: 'echo "cd /var/www/application" >> /home/vagrant/.bashrc'
+    default.vm.provision "shell", path: "vagrant/bin/clean.sh"
+    default.vm.provision :shell, inline: 'mkdir -p /var/www/vagrant/data/elasticsearch /var/www/vagrant/data/mysql /var/www/vagrant/data/rabbitmq /var/www/application/node_modules /var/www/application/bower_components'
     default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/vagrant/data/elasticsearch'
     default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/vagrant/data/mysql'
     default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/vagrant/data/rabbitmq'
+    default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/application/node_modules'
+    default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/application/bower_components'
 
     default.vm.provider "virtualbox" do |v|
        v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
@@ -51,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       app.run "debian",
             name: "app",
             cmd: "bash",
-            args: "-ti -v /var/www/application:/var/www/pon:rw,z -v /var/www/vagrant/data/mysql:/data/mariadb:rw,z --user 1000:50 -w /var/www/vagrant/data"
+            args: "-ti -v /var/www/application:/var/www/pon:rw,z -v /var/www/vagrant/data/mysql:/data/mariadb:rw,z --user 1000:50 -w /var/www/vagrant/data/elasticsearch -w /var/www/vagrant/data/mysql -w /var/www/vagrant/data/rabbitmq"
     end
 
 
