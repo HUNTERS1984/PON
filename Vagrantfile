@@ -36,7 +36,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     default.ssh.keep_alive = true
     default.vm.provision :shell, inline: 'echo 1 > /proc/sys/net/ipv4/ip_forward'
     default.vm.provision :shell, inline: 'echo "cd /var/www/application" >> /home/vagrant/.bashrc'
-    default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/vagrant/data'
+    default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/vagrant/data/elasticsearch'
+    default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/vagrant/data/mysql'
+    default.vm.provision :shell, inline: 'sudo restorecon -Rv -n /var/www/vagrant/data/rabbitmq'
 
     default.vm.provider "virtualbox" do |v|
        v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
@@ -49,11 +51,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       app.run "debian",
             name: "app",
             cmd: "bash",
-            args: "-ti -v /var/www/application:/var/www/pon:rw,z -v /var/www/vagrant/data:/data/mariadb:rw,z -w /var/www/vagrant/data"
+            args: "-ti -v /var/www/application:/var/www/pon:rw,z -v /var/www/vagrant/data/mysql:/data/mariadb:rw,z --user 1000:50 -w /var/www/vagrant/data"
     end
 
 
-     default.vm.provision "docker" do |mysql|
+    default.vm.provision "docker" do |mysql|
       mysql.build_image "/var/www/vagrant/docker/mysql", args: "-t pon/mysql"
       mysql.run "pon/mysql",
             name: "mysql",
@@ -61,12 +63,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             args: "-ti -p 3306:3306 --volumes-from='app'"
     end
 
+    default.vm.provision "docker" do |es|
+      es.run "elasticsearch",
+            name: "elasticsearch",
+            cmd: "elasticsearch",
+            args: "-ti -p 9200:9200 -v /var/www/vagrant/data/elasticsearch:/usr/share/elasticsearch/data:rw,z  --user 1000:50 "
+    end
+
+    default.vm.provision "docker" do |rabbitmq|
+      rabbitmq.run "rabbitmq:3-management",
+            name: "rabbitmq",
+            cmd: "rabbitmq-server",
+            args: "-ti -p 15672:15672 -p 5672:5672 -v /var/www/vagrant/data/rabbitmq:/var/lib/rabbitmq:rw,z  --user 1000:50 "
+    end
+
     default.vm.provision "docker" do |phpfpm|
       phpfpm.build_image "/var/www/vagrant/docker/phpfpm", args: "-t pon/phpfpm"
       phpfpm.run "pon/phpfpm",
             name: "phpfpm",
             cmd: "bash",
-            args: "-ti -p 9000:9000 -e SYMFONY__DATABASE__HOST='mysql' --link mysql:mysql --volumes-from='app'"
+            args: "-ti -p 9000:9000 -e SYMFONY__DATABASE__HOST='mysql' -e SYMFONY__ELASTICSEARCH__HOST='elasticsearch' -e SYMFONY__RABBITMQ__HOST='rabbitmq' --link mysql:mysql --link elasticsearch:elasticsearch --link rabbitmq:rabbitmq  --volumes-from='app'"
     end
 
     default.vm.provision "docker" do |nginx|

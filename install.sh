@@ -15,15 +15,19 @@ if [ ! "$runningContainers" ]; then
 fi
 
 
-docker run -d --name app --restart=always -ti -v $(pwd)/application:/var/www/pon:rw,z -v $(pwd)/vagrant/data:/data/mariadb:rw,z -w $(pwd)/vagrant/data  debian bash
+docker run -d --name app --restart=always -ti -v $(pwd)/application:/var/www/pon:rw,z -v $(pwd)/vagrant/data:/data/mariadb:rw,z --user 1000:50 -w $(pwd)/vagrant/data  debian bash
 
 docker build -t pon/mysql $(pwd)/vagrant/docker/mysql
 
 docker run -d --name mysql --restart=always -ti -p 3306:3306 --volumes-from='app' pon/mysql bash
 
+docker run -d --name elasticsearch --restart=always -ti -p 9200:9200 -v $(pwd)/vagrant/data/elasticsearch:/usr/share/elasticsearch/data:rw,z  --user 1000:50 elasticsearch elasticsearch
+
+docker run -d --name rabbitmq --restart=always -ti -p -p 15672:15672 -p 5672:5672 -v $(pwd)/vagrant/data/rabbitmq:/var/lib/rabbitmq:rw,z  --user 1000:50 rabbitmq:3-management rabbitmq-server
+
 docker build -t pon/phpfpm $(pwd)/vagrant/docker/phpfpm
 
-docker run -d --name phpfpm --restart=always -ti -p 9000:9000 -e SYMFONY__DATABASE__HOST='mysql' --link mysql:mysql --volumes-from='app'  pon/phpfpm bash
+docker run -d --name phpfpm --restart=always -ti -p 9000:9000 -e SYMFONY__DATABASE__HOST='mysql' -e SYMFONY__ELASTICSEARCH__HOST='elasticsearch' -e SYMFONY__RABBITMQ__HOST='rabbitmq' --link mysql:mysql --link elasticsearch:elasticsearch --link rabbitmq:rabbitmq --volumes-from='app'  pon/phpfpm bash
 
 docker build -t pon/nginx $(pwd)/vagrant/docker/nginx
 
