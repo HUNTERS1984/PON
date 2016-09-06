@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: rabbitmq.yml }
     - { resource: "@AdminBundle/Resources/config/services.yml" }
     - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@CoreBundle/Resources/config/services.yml" }
@@ -107,3 +108,4 @@ fos_rest:
             'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
         messages:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+

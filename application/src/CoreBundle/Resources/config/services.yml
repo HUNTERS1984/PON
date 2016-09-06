@@ -15,3 +15,13 @@ services:
         class: CoreBundle\DummyData\ClientDummy
         calls:
             - [setManager, ["@pon.manager.client"]]
+
+    pon.queue.consumer.scrapping:
+            class: CoreBundle\Queue\Consumer\ScrappingConsumer
+
+    pon.queue.producer.scrapping:
+        class: CoreBundle\Queue\Producer\DelayedProducer
+        arguments:
+            - "@old_sound_rabbit_mq.connection.default"
+            - expire_offer
+            - delay
