@@ -16,6 +16,8 @@ fi
 
 mkdir -p $(pwd)/vagrant/data/elasticsearch $(pwd)/vagrant/data/mysql $(pwd)/vagrant/data/rabbitmq $(pwd)/application/node_modules $(pwd)/application/bower_components
 sudo chmod -R 777 $(pwd)/vagrant/data
+sudo chmod -R 777 $(pwd)/application/node_modules
+sudo chmod -R 777 $(pwd)/application/bower_components
 sudo restorecon -Rv -n $(pwd)/vagrant/data/elasticsearch
 sudo restorecon -Rv -n $(pwd)/vagrant/data/mysql
 sudo restorecon -Rv -n $(pwd)/vagrant/data/rabbitmq
