@@ -33,7 +33,7 @@ docker run -d --name rabbitmq --restart=always -ti -p -p 15672:15672 -p 5672:567
 
 docker build -t pon/phpfpm $(pwd)/vagrant/docker/phpfpm
 
-docker run -d --name phpfpm --restart=always -ti -p 9000:9000 -e SYMFONY__DATABASE__HOST='mysql' -e SYMFONY__ELASTICSEARCH__HOST='elasticsearch' -e SYMFONY__RABBITMQ__HOST='rabbitmq' --link mysql:mysql --link elasticsearch:elasticsearch --link rabbitmq:rabbitmq --volumes-from='app'  pon/phpfpm bash
+docker run -d --name phpfpm --restart=always -ti -p 9000:9000 -e SYMFONY__DATABASE__HOST='mysql' -e SYMFONY__ELASTICSEARCH__HOST='elasticsearch' -e SYMFONY__RABBITMQ__HOST='rabbitmq' --link mysql:mysql --link elasticsearch:elasticsearch --link rabbitmq:rabbitmq  --volumes-from='app'  pon/phpfpm bash
 
 docker build -t pon/nginx $(pwd)/vagrant/docker/nginx
 
