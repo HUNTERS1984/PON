@@ -55,4 +55,4 @@ yes | sudo  cp -rf $(pwd)/vagrant/bin/npm.sh /usr/bin/npm && sudo  chmod a+x /us
 yes | sudo  cp -rf $(pwd)/vagrant/bin/bower.sh /usr/bin/bower && sudo  chmod a+x /usr/bin/bower
 yes | sudo  cp -rf $(pwd)/vagrant/bin/gulp.sh /usr/bin/gulp && sudo  chmod a+x /usr/bin/gulp
 yes | sudo  cp -rf $(pwd)/vagrant/bin/cache.sh /usr/bin/cache && sudo chmod a+x /usr/bin/cache
-yes | sudo  cp -rf $(pwd)cp /var/www/vagrant/bin/queue.sh /usr/bin/queue && chmod a+x /usr/bin/queue
+yes | sudo  cp -rf $(pwd)/vagrant/bin/queue.sh /usr/bin/queue && sudo chmod a+x /usr/bin/queue
