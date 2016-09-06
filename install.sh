@@ -21,7 +21,7 @@ sudo restorecon -Rv -n $(pwd)/vagrant/data/rabbitmq
 sudo restorecon -Rv -n $(pwd)/application/node_modules
 sudo restorecon -Rv -n $(pwd)/application/bower_components
 
-docker run -d --name app --restart=always -ti -v $(pwd)/application:/var/www/pon:rw,z -v $(pwd)/vagrant/data:/data/mariadb:rw,z --user 1000:50 -w $(pwd)/vagrant/data  debian bash
+docker run -d --name app --restart=always -ti -v $(pwd)/application:/var/www/pon:rw,z -v $(pwd)/vagrant/data/mysql:/data/mariadb:rw,z --user 1000:50 -w $(pwd)/vagrant/data/elasticsearch -w $(pwd)/vagrant/data/mysql -w $(pwd)/vagrant/data/rabbitmq  debian bash
 
 docker build -t pon/mysql $(pwd)/vagrant/docker/mysql
 
