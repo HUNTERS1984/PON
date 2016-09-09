@@ -4,10 +4,10 @@ CoreBundle\Entity\AccessToken:
     repositoryClass: CoreBundle\Repository\AccessTokenRepository
     manyToOne:
         user:
-            targetEntity: User
+            targetEntity: AppUser
             inversedBy: access_tokens
             joinColumn:
-                name: user_id
+                name: app_user_id
                 referencedColumnName: id
         client:
             targetEntity: Client

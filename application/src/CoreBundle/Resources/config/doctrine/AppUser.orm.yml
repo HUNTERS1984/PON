@@ -1,0 +1,50 @@
+CoreBundle\Entity\AppUser:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\AppUserRepository
+    oneToMany:
+        socialProfiles:
+            targetEntity: SocialProfile
+            mappedBy: appUser
+        appUserProfiles:
+            targetEntity: AppUserProfile
+            mappedBy: appUser
+        posts:
+            targetEntity: Post
+            mappedBy: appUser
+        useLists:
+            targetEntity: UseList
+            mappedBy: appUser
+        likeLists:
+            targetEntity: LikeList
+            mappedBy: appUser
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        temporaryHash:
+            type: string
+            length: 60
+        android_push_key:
+            type: string
+            length: 255
+            nullable: TRUE
+        apple_push_key:
+            type: string
+            length: 255
+            nullable: TRUE
+        role:
+            type: string
+            length: 60
+            nullable: TRUE
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+        deletedAt:
+            type: datetime
+            nullable: TRUE
+    lifecycleCallbacks: {  }

@@ -1,0 +1,51 @@
+CoreBundle\Entity\Store:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\StoreRepository
+    oneToMany:
+        pushSettings:
+            targetEntity: PushSetting
+            mappedBy: store
+        news:
+            targetEntity: News
+            mappedBy: store
+        couponTypes:
+            targetEntity: CouponType
+            mappedBy: store
+    manyToOne:
+        storeType:
+            targetEntity: StoreType
+            inversedBy: stores
+            joinColumn:
+                name: store_type_id
+                referencedColumnName: id
+        user:
+            targetEntity: User
+            inversedBy: stores
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        latitude:
+            type: string
+            length: 20
+        longtitude:
+            type: string
+            length: 20
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+        deletedAt:
+            type: datetime
+            nullable: TRUE
+    lifecycleCallbacks: {  }

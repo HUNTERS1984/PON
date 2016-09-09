@@ -1,0 +1,37 @@
+CoreBundle\Entity\AppUserProfile:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\AppUserProfileRepository
+    manyToOne:
+        appUser:
+            targetEntity: AppUser
+            inversedBy: appUserProfiles
+            joinColumn:
+                name: app_user_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 100
+        gender:
+            type: integer
+        address:
+            type: string
+            length: 255
+        avatarUrl:
+            type: string
+            length: 255
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+        deletedAt:
+            type: datetime
+            nullable: TRUE
+    lifecycleCallbacks: {  }

@@ -23,4 +23,3 @@ class AuthCode extends BaseAuthCode
         return $this->id;
     }
 }
-

@@ -1,0 +1,41 @@
+CoreBundle\Entity\News:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\NewsRepository
+    manyToOne:
+        store:
+            targetEntity: Store
+            inversedBy: news
+            joinColumn:
+                name: store_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+        message:
+            type: string
+            length: 255
+        json:
+            type: string
+            length: 20
+        type:
+            type: integer
+        time:
+            type: datetime
+        date:
+            type: datetime
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+        deletedAt:
+            type: datetime
+            nullable: TRUE
+    lifecycleCallbacks: {  }

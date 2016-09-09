@@ -12,7 +12,7 @@ class AccessToken extends BaseAccessToken
      * @var int
      */
     protected $id;
-
+    
     /**
      * Get id
      *
@@ -23,4 +23,3 @@ class AccessToken extends BaseAccessToken
         return $this->id;
     }
 }
-

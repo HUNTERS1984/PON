@@ -1,0 +1,22 @@
+CoreBundle\Entity\StoreType:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\StoreTypeRepository
+    oneToMany:
+        stores:
+            targetEntity: Store
+            mappedBy: storeType
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 100
+        iconUrl:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

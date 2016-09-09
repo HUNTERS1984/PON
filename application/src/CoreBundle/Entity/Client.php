@@ -24,4 +24,3 @@ class Client extends BaseClient
         return $this->id;
     }
 }
-

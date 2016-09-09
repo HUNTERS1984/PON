@@ -1,19 +1,19 @@
-CoreBundle\Entity\AuthCode:
+CoreBundle\Entity\LikeList:
     type: entity
     table: null
-    repositoryClass: CoreBundle\Repository\AuthCodeRepository
+    repositoryClass: CoreBundle\Repository\LikeListRepository
     manyToOne:
-        user:
+        coupon:
+            targetEntity: Coupon
+            inversedBy: likeLists
+            joinColumn:
+                name: coupon_id
+                referencedColumnName: id
+        appUser:
             targetEntity: AppUser
-            inversedBy: auth_codes
+            inversedBy: likeLists
             joinColumn:
                 name: app_user_id
-                referencedColumnName: id
-        client:
-            targetEntity: Client
-            inversedBy: auth_codes
-            joinColumn:
-                name: client_id
                 referencedColumnName: id
     id:
         id:
