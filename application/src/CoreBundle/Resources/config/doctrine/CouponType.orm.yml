@@ -1,0 +1,29 @@
+CoreBundle\Entity\CouponType:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\CouponTypeRepository
+    oneToMany:
+        coupons:
+            targetEntity: Coupon
+            mappedBy: couponType
+    manyToOne:
+        store:
+            targetEntity: Store
+            inversedBy: couponTypes
+            joinColumn:
+                name: store_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 100
+        iconUrl:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

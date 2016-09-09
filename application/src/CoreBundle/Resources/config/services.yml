@@ -1,9 +1,9 @@
 services:
-    pon.manager.user:
-        class: CoreBundle\Manager\UserManager
+    pon.manager.app_user:
+        class: CoreBundle\Manager\AppUserManager
         factory_service:  doctrine
         factory_method:   getEntityManager
-        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\User"]
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\AppUser"]
 
     pon.manager.client:
         class: CoreBundle\Manager\ClientManager
@@ -15,6 +15,11 @@ services:
         class: CoreBundle\DummyData\ClientDummy
         calls:
             - [setManager, ["@pon.manager.client"]]
+
+    pon.dummy.app_user:
+        class: CoreBundle\DummyData\AppUserDummy
+        calls:
+            - [setManager, ["@pon.manager.app_user"]]
 
     pon.queue.consumer.scrapping:
             class: CoreBundle\Queue\Consumer\ScrappingConsumer

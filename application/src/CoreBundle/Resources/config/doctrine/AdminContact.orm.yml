@@ -1,0 +1,24 @@
+CoreBundle\Entity\AdminContact:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\AdminContactRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        email:
+            type: string
+            length: 100
+        name:
+            type: string
+            length: 255
+        message:
+            type: text
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+    lifecycleCallbacks: {  }

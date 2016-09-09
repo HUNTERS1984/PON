@@ -1,0 +1,29 @@
+CoreBundle\Entity\Tag:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\TagRepository
+    manyToMany:
+        posts:
+            targetEntity: Post
+            mappedBy: tags
+        coupons:
+            targetEntity: Coupon
+            mappedBy: tags
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        tag:
+            type: string
+            length: 255
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+        deletedAt:
+            type: datetime
+            nullable: TRUE
+    lifecycleCallbacks: {  }

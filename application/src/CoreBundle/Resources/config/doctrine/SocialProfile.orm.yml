@@ -1,0 +1,39 @@
+CoreBundle\Entity\SocialProfile:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\SocialProfileRepository
+    manyToOne:
+        appUser:
+            targetEntity: AppUser
+            inversedBy: socialProfiles
+            joinColumn:
+                name: app_user_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        socialType:
+            type: integer
+        socialId:
+            type: string
+            length: 255
+        socialToken:
+            type: string
+            length: 255
+        socialSecret:
+            type: string
+            length: 255
+        nickname:
+            type: string
+            length: 255
+        json:
+            type: text
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+    lifecycleCallbacks: {  }

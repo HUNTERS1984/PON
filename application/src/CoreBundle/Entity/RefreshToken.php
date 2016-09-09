@@ -23,4 +23,3 @@ class RefreshToken extends BaseRefreshToken
         return $this->id;
     }
 }
-
