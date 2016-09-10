@@ -3,3 +3,9 @@ app_homepage:
     type: rest
     resource: AppBundle\Controller\DefaultController
     name_prefix: api_home_page
+
+app_user:
+    prefix: /v1
+    type: rest
+    resource: AppBundle\Controller\UserController
+    name_prefix: api_user

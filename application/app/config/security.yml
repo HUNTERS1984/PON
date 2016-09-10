@@ -19,6 +19,7 @@ security:
             fos_oauth: true                            # OAuth2 protected resource
             stateless: true                            # Do no set session cookies
             anonymous: false                           # Anonymous access is not allowed
+            security: false
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

@@ -60,6 +60,12 @@ abstract class AbstractManager
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
+    protected function delete($object)
+    {
+        $this->objectManager->remove($object);
+        $this->objectManager->flush();
+    }
+
 
 
     /**

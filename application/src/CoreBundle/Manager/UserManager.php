@@ -11,4 +11,24 @@ class UserManager extends AbstractManager
     {
         $this->save($user);
     }
+
+    public function saveUser(User $user)
+    {
+        $this->save($user);
+    }
+
+    public function getUsers()
+    {
+        return $this->findAll();
+    }
+
+    public function getUser($id)
+    {
+        return $this->findOneById($id);
+    }
+    
+    public function deletUser(User $user)
+    {
+        $this->delete($user);
+    }
 }
