@@ -3,6 +3,8 @@ namespace CoreBundle\Manager;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\QueryBuilder;
+use Elastica\QueryBuilder\DSL\Query;
 use Symfony\Component\Validator\Tests\Fixtures\EntityInterface;
 
 abstract class AbstractManager
@@ -60,6 +62,20 @@ abstract class AbstractManager
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
+    /**
+     * @param $entity
+     *
+     * @return boolean
+    */
+    public function delete($entity, $andFlush = true)
+    {
+        $this->objectManager->remove($entity, $andFlush = true);
+        if (true === $andFlush) {
+            $this->objectManager->flush();
+        }
+        return true;
+    }
+
 
 
     /**
@@ -74,5 +90,41 @@ abstract class AbstractManager
             $this->objectManager->flush();
         }
         return $entity;
+    }
+
+    /**
+     * Get Query
+     * @param array $criticals
+     * @param array $orderBys
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return Query
+     *
+    */
+    public function getQuery($criticals = [], $orderBys = [], $limit = 10, $offset = 0)
+    {
+        /** @var QueryBuilder $qb*/
+        $qb =  $this->repository
+            ->createQueryBuilder('p');
+
+        $index = 0;
+        foreach($criticals as $key => $critical) {
+            if(in_array($critical['type'], ['is', 'is not'])) {
+                $qb->andWhere("p.$key ".$critical['type']." ".$critical['value']);
+            }else{
+                $qb->andWhere("p.$key ".$critical['type']." ?$index")
+                    ->setParameter($index, $critical['value']);
+                $index++;
+            }
+        }
+
+
+        foreach($orderBys as $key => $orderBy) {
+            $qb->addOrderBy("p.$key", $orderBy);
+        }
+
+        // Create our query
+        return $qb->getQuery();
     }
 }

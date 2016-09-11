@@ -21,7 +21,7 @@ framework:
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
+    validation:      { enabled: true }
     #serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
@@ -97,15 +97,39 @@ fos_rest:
     format_listener: true
     view:
         view_response_listener: 'force'
+        formats:
+            json: true
+        templating_formats:
+            html: false
     routing_loader:
         default_format: json
         include_format: false
     access_denied_listener:
         json: true
+    disable_csrf_role: ROLE_API
+
+    serializer:
+        serialize_null: true
     exception:
         codes:
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': 404
+            'Symfony\Component\HttpKernel\Exception\BadRequestHttpException': 400
+            'Symfony\Component\HttpKernel\Exception\ConflictHttpException': 409
             'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+            'Symfony\Component\Security\Core\Exception\AuthenticationException': 401
         messages:
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': true
+            'Symfony\Component\HttpKernel\Exception\BadRequestHttpException': true
+            'Symfony\Component\HttpKernel\Exception\ConflictHttpException': true
+            'Symfony\Component\Security\Core\Exception\AuthenticationException': true
 
+
+jms_serializer:
+    metadata:
+        directories:
+            CORESUB:
+                namespace_prefix: "CoreBundle"
+                path: "@CoreBundle/Resources/config/serializer"
+            FOSSUB:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "@CoreBundle/Resources/config/serializer"

@@ -11,6 +11,28 @@ services:
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Client"]
 
+    pon.manager.store_type:
+        class: CoreBundle\Manager\StoreTypeManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\StoreType"]
+        calls:
+            - [setPagination, ["@pon.paginator.pagination"]]
+    pon.manager.store:
+        class: CoreBundle\Manager\StoreManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Store"]
+        calls:
+            - [setPagination, ["@pon.paginator.pagination"]]
+    pon.manager.user:
+        class: CoreBundle\Manager\UserManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\User"]
+        calls:
+            - [setPagination, ["@pon.paginator.pagination"]]
+
     pon.dummy.client:
         class: CoreBundle\DummyData\ClientDummy
         calls:
@@ -20,6 +42,20 @@ services:
         class: CoreBundle\DummyData\AppUserDummy
         calls:
             - [setManager, ["@pon.manager.app_user"]]
+
+    pon.exception.exception_handler:
+        class: CoreBundle\Exception\ExceptionHandler
+        arguments: ["@validator", "@translator"]
+
+    pon.utils.data:
+        class: CoreBundle\Utils\Data
+
+    pon.serializator.serializer:
+        class: CoreBundle\Serializator\Serializer
+        arguments: ["@serializer"]
+
+    pon.paginator.pagination:
+        class: CoreBundle\Paginator\Pagination
 
     pon.queue.consumer.scrapping:
             class: CoreBundle\Queue\Consumer\ScrappingConsumer

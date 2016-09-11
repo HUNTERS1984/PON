@@ -1,0 +1,34 @@
+CoreBundle\Entity\Store:
+    properties:
+        name:
+            - NotBlank:
+                message: store.name.not_blank
+            - Length:
+                min: 1
+                max: 255
+                minMessage: store.name.min_message
+                maxMessage: store.name.max_message
+        latitude:
+            - NotBlank:
+                message: store.latitude.not_blank
+            - Length:
+                min: 1
+                max: 20
+                minMessage: store.latitude.min_message
+                maxMessage: store.latitude.max_message
+        longtitude:
+            - NotBlank:
+                message: store.longtitude.not_blank
+            - Length:
+                min: 1
+                max: 20
+                minMessage: store.longtitude.min_message
+                maxMessage: store.longtitude.max_message
+        storeType:
+            - NotBlank:
+                message: store.store_type.not_blank
+            - Valid: ~
+        user:
+            - NotBlank:
+                message: store.user.not_blank
+            - Valid: ~

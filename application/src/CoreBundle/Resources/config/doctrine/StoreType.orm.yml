@@ -19,4 +19,11 @@ CoreBundle\Entity\StoreType:
         iconUrl:
             type: string
             length: 255
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+        deletedAt:
+            type: datetime
+            nullable: TRUE
     lifecycleCallbacks: {  }
