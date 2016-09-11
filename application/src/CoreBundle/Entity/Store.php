@@ -2,6 +2,8 @@
 
 namespace CoreBundle\Entity;
 
+use JMS\Serializer\Annotation\Groups;
+
 /**
  * Store
  */
@@ -11,6 +13,7 @@ class Store
      * @var integer
      */
     private $id;
+
     /**
      * @var string
      */

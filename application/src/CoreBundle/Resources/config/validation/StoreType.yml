@@ -1,0 +1,19 @@
+CoreBundle\Entity\StoreType:
+    properties:
+        name:
+            - NotBlank:
+                message: store_type.name.not_blank
+            - Length:
+                min: 1
+                max: 100
+                minMessage: store_type.name.min_message
+                maxMessage: store_type.name.max_message
+
+        iconUrl:
+            - NotBlank:
+                message: store_type.iconUrl.not_blank
+            - Length:
+                min: 1
+                max: 255
+                minMessage: store_type.iconUrl.min_message
+                maxMessage: store_type.iconUrl.max_message

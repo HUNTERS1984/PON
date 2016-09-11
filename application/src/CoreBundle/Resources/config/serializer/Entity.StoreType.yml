@@ -1,0 +1,20 @@
+CoreBundle\Entity\StoreType:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose : true
+            groups: [view]
+        name:
+            expose : true
+            groups: [create, view]
+            description: how many objects to return
+        iconUrl:
+            expose: true
+            groups: [create, view]
+            serialized_name: iconUrl
+        createdAt:
+            expose: true
+            groups: [view]
+        updatedAt:
+            expose: true
+            groups: [view]

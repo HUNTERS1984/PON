@@ -1,0 +1,69 @@
+store_type:
+    not_found: Store Type is not found.
+    delete_false: Deleting is not successful
+    name:
+        not_blank: The name should not be blank
+        min_message: The Name must be at least 1 characters long
+        max_message: The Name cannot be longer than 100 characters
+    iconUrl:
+       not_blank: The Icon Url should not be blank
+       min_message: The Icon Url must be at least 1 characters long
+       max_message: The Icon Url cannot be longer than 255 characters
+
+user:
+    not_found: User is not found.
+    delete_false: Deleting is not successful
+    fullName:
+        not_blank: The FullName should not be blank
+        min_message: The FullName must be at least 1 characters long
+        max_message: The FullName cannot be longer than 255 characters
+    sex:
+        not_blank: The Sex should not be blank
+        choice: The Sex should be 1 or 0
+    birthday:
+        not_blank: The Birthday should not be blank
+        date: The Birthday should have format YYYY/mm/dd
+    locale:
+        not_blank: The Locale should not be blank
+        min_message: The Locale must be at least 1 characters long
+        max_message: The Locale cannot be longer than 5 characters
+    temporaryHash:
+        not_blank: The TemporaryHash should not be blank
+        min_message: The TemporaryHash must be at least 1 characters long
+        max_message: The TemporaryHash cannot be longer than 5 characters
+    rememberToken:
+        not_blank: The TemporaryHash should not be blank
+        min_message: The RememberToken must be at least 1 characters long
+        max_message: The RememberToken cannot be longer than 100 characters
+    company:
+        not_blank: The Company should not be blank
+        min_message: The Company must be at least 1 characters long
+        max_message: The Company cannot be longer than 255 characters
+    address:
+        not_blank: The Address should not be blank
+        min_message: The Address must be at least 1 characters long
+        max_message: The Address cannot be longer than 255 characters
+    tel:
+        not_blank: The Tel should not be blank
+        min_message: The Tel must be at least 1 characters long
+        max_message: The Tel cannot be longer than 20 characters
+
+store:
+    not_found: Store is not found.
+    delete_false: Deleting is not successful
+    user:
+        not_blank: The User should not be blank
+    store_type:
+        not_blank: The StoreType should not be blank
+    name:
+        not_blank: The name should not be blank
+        min_message: The Name must be at least 1 characters long
+        max_message: The Name cannot be longer than 100 characters
+    latitude:
+       not_blank: The latitude should not be blank
+       min_message: The latitude must be at least 1 characters long
+       max_message: The latitude cannot be longer than 20 characters
+    longtitude:
+       not_blank: The longtitude should not be blank
+       min_message: The longtitude must be at least 1 characters long
+       max_message: The longtitude cannot be longer than 20 characters

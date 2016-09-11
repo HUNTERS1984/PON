@@ -1,5 +1,16 @@
-app_homepage:
+app_user:
     prefix: /v1
     type: rest
-    resource: AppBundle\Controller\DefaultController
-    name_prefix: api_home_page
+    resource: AppBundle\Controller\UserController
+    name_prefix: api_user
+app_type:
+    prefix: /v1
+    type: rest
+    resource: AppBundle\Controller\TypeController
+    name_prefix: api_type
+app_store:
+    prefix: /v1
+    type: rest
+    resource: AppBundle\Controller\StoreController
+    name_prefix: api_store
+

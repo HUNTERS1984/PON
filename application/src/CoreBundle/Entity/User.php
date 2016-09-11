@@ -15,7 +15,7 @@ class User extends BaseUser
     /**
      * @var string
      */
-    private $fullname;
+    private $fullName;
 
     /**
      * @var integer
@@ -79,27 +79,27 @@ class User extends BaseUser
 
 
     /**
-     * Set fullname
+     * Set fullName
      *
-     * @param string $fullname
+     * @param string $fullName
      *
      * @return User
      */
-    public function setFullname($fullname)
+    public function setFullname($fullName)
     {
-        $this->fullname = $fullname;
+        $this->fullName = $fullName;
 
         return $this;
     }
 
     /**
-     * Get fullname
+     * Get fullName
      *
      * @return string
      */
-    public function getFullname()
+    public function getFullName()
     {
-        return $this->fullname;
+        return $this->fullName;
     }
 
     /**

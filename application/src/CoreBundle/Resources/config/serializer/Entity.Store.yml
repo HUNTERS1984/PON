@@ -1,0 +1,27 @@
+CoreBundle\Entity\Store:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose : true
+            groups: [view]
+        name:
+            expose : true
+            groups: [view,create_store]
+        latitude:
+            expose: true
+            groups: [view,create_store]
+        longtitude:
+            expose: true
+            groups: [view,create_store]
+        storeType:
+            expose: false
+            groups: [view]
+        user:
+            expose: true
+            groups: [view]
+        createdAt:
+            expose: true
+            groups: [view]
+        updatedAt:
+            expose: true
+            groups: [view]
