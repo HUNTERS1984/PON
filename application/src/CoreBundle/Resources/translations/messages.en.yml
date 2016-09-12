@@ -13,7 +13,7 @@ store_type:
 user:
     not_found: User is not found.
     delete_false: Deleting is not successful
-    fullName:
+    full_name:
         not_blank: The FullName should not be blank
         min_message: The FullName must be at least 1 characters long
         max_message: The FullName cannot be longer than 255 characters
@@ -27,11 +27,11 @@ user:
         not_blank: The Locale should not be blank
         min_message: The Locale must be at least 1 characters long
         max_message: The Locale cannot be longer than 5 characters
-    temporaryHash:
+    temporary_hash:
         not_blank: The TemporaryHash should not be blank
         min_message: The TemporaryHash must be at least 1 characters long
         max_message: The TemporaryHash cannot be longer than 5 characters
-    rememberToken:
+    remember_token:
         not_blank: The TemporaryHash should not be blank
         min_message: The RememberToken must be at least 1 characters long
         max_message: The RememberToken cannot be longer than 100 characters
