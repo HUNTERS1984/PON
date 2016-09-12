@@ -2,22 +2,22 @@
 
 namespace CoreBundle\Exception;
 
-use Symfony\Component\Validator\Validator\RecursiveValidator;
-use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ExceptionHandler
 {
     /**
-     * @var RecursiveValidator
+     * @var ValidatorInterface
     */
     protected $validator;
 
     /**
-     * @var DataCollectorTranslator
+     * @var TranslatorInterface
     */
     protected $translator;
 
-    public function __construct(RecursiveValidator $validator,DataCollectorTranslator $translator)
+    public function __construct(ValidatorInterface $validator,TranslatorInterface $translator)
     {
         $this->validator = $validator;
         $this->translator = $translator;
