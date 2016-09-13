@@ -1,0 +1,31 @@
+CoreBundle\Entity\AppUser:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose : true
+            groups: [view]
+        plainPassword:
+            expose : true
+            groups: [view,create_app_user]
+            serialized_name: plainPassword
+        temporaryHash:
+            expose : true
+            groups: [view,create_app_user]
+            serialized_name: temporaryHash
+        androidPushKey:
+            expose: true
+            groups: [view,create_app_user]
+            serialized_name: androidPushKey
+        applePushKey:
+            expose: true
+            groups: [view,create_app_user]
+            serialized_name: applePushKey
+        role:
+            expose: true
+            groups: [view,create_app_user]
+        createdAt:
+            expose: true
+            groups: [view]
+        updatedAt:
+            expose: true
+            groups: [view]

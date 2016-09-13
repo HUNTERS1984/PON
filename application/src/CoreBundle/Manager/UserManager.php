@@ -70,11 +70,11 @@ class UserManager extends AbstractManager
         $offset = isset($params['offset']) ? $params['offset'] : 0;
 
         $conditions = [];
-        if(isset($params['name'])) {
+        if(isset($params['userName'])) {
             $conditions = [
-                'name' => [
+                'username' => [
                     'type' => 'like',
-                    'value' => "%".$params['name']."%"
+                    'value' => "%".$params['userName']."%"
                 ]
             ];
         }

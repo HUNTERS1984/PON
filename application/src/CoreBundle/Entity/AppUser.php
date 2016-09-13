@@ -20,12 +20,12 @@ class AppUser extends BaseUser
     /**
      * @var string
      */
-    private $android_push_key;
+    private $androidPushKey;
 
     /**
      * @var string
      */
-    private $apple_push_key;
+    private $applePushKey;
 
     /**
      * @var string
@@ -96,7 +96,7 @@ class AppUser extends BaseUser
      */
     public function setAndroidPushKey($androidPushKey)
     {
-        $this->android_push_key = $androidPushKey;
+        $this->androidPushKey = $androidPushKey;
 
         return $this;
     }
@@ -108,7 +108,7 @@ class AppUser extends BaseUser
      */
     public function getAndroidPushKey()
     {
-        return $this->android_push_key;
+        return $this->androidPushKey;
     }
 
     /**
@@ -120,7 +120,7 @@ class AppUser extends BaseUser
      */
     public function setApplePushKey($applePushKey)
     {
-        $this->apple_push_key = $applePushKey;
+        $this->applePushKey = $applePushKey;
 
         return $this;
     }
@@ -132,7 +132,7 @@ class AppUser extends BaseUser
      */
     public function getApplePushKey()
     {
-        return $this->apple_push_key;
+        return $this->applePushKey;
     }
 
     /**

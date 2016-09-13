@@ -3,6 +3,11 @@ app_user:
     type: rest
     resource: AppBundle\Controller\UserController
     name_prefix: api_user
+app_app_user:
+    prefix: /v1
+    type: rest
+    resource: AppBundle\Controller\AppUserController
+    name_prefix: api_app_user
 app_type:
     prefix: /v1
     type: rest
