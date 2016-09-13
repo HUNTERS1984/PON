@@ -3,7 +3,7 @@
 namespace CoreBundle\Form\Type;
 
 
-use CoreBundle\Entity\User;
+use CoreBundle\Entity\AppUser;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class AppUserType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => User::class,
+                'data_class' => AppUser::class,
                 'csrf_protection'   => false,
             ]
         );
@@ -36,7 +36,7 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('userName', TextType::class, [
+            ->add('username', TextType::class, [
                 'required' => true,
             ])
             ->add('plainPassword', PasswordType::class, [
@@ -45,40 +45,16 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'required' => true,
             ])
-            ->add('fullName', TextType::class, [
-                'required' => true,
-            ])
-            ->add('sex', ChoiceType::class, [
-                'required' => true,
-                'choices' => [
-                    'Female' => 0,
-                    'Male' => 1
-                ]
-            ])
-            ->add('birthday', DateTimeType::class, [
-                'required' => true,
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd'
-            ])
-            ->add('locale', TextType::class, [
-                'required' => true
-            ])
             ->add('temporaryHash', TextType::class, [
+                'required' => true,
+            ])
+            ->add('androidPushKey', TextType::class, [
+                'required' => true,
+            ])
+            ->add('applePushKey', TextType::class, [
                 'required' => true
             ])
-            ->add('rememberToken', TextType::class, [
-                'required' => true
-            ])
-            ->add('company', TextType::class, [
-                'required' => true
-            ])
-            ->add('address', TextType::class, [
-                'required' => true
-            ])
-            ->add('tel', TextType::class, [
-                'required' => true
-            ])
-            ->add('imageUser', TextType::class, [
+            ->add('role', TextType::class, [
                 'required' => true
             ]);
     }

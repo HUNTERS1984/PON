@@ -1,0 +1,65 @@
+CoreBundle\Entity\AppUser:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [username]
+            message: app_user.username.unique
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [email]
+            message: app_user.email.unique
+    properties:
+        username:
+            - NotBlank:
+                message: app_user.username.not_blank
+                groups: [create_app_user]
+            - Length:
+                min: 1
+                max: 180
+                minMessage: app_user.username.min_message
+                maxMessage: app_user.username.max_message
+        email:
+            - NotBlank:
+                message: app_user.email.not_blank
+                groups: [create_app_user]
+            - Email:
+                message: app_user.email.email
+                checkMX: false
+            - Length:
+                min: 1
+                max: 180
+                minMessage: app_user.email.min_message
+                maxMessage: app_user.email.max_message
+        plainPassword:
+            - NotBlank:
+                message: app_user.plain_password.not_blank
+                groups: [create_app_user]
+            - Length:
+                min: 1
+                max: 180
+                minMessage: app_user.plain_password.min_message
+                maxMessage: app_user.plain_password.max_message
+        temporaryHash:
+            - NotBlank:
+                message: app_user.temporary_hash.not_blank
+            - Length:
+                min: 1
+                max: 5
+                minMessage: app_user.temporary_hash.min_message
+                maxMessage: app_user.temporary_hash.max_message
+        androidPushKey:
+            - Length:
+                min: 1
+                max: 255
+                minMessage: app_user.android_push_key.min_message
+                maxMessage: app_user.android_push_key.max_message
+        androidPushKey:
+            - Length:
+                min: 1
+                max: 255
+                minMessage: app_user.apple_push_key.min_message
+                maxMessage: app_user.android_push_key.max_message
+        role:
+            - Length:
+                min: 1
+                max: 255
+                minMessage: app_user.role.min_message
+                maxMessage: app_user.role.max_message

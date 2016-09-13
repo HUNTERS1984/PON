@@ -13,6 +13,20 @@ store_type:
 user:
     not_found: User is not found.
     delete_false: Deleting is not successful
+    username:
+        not_blank: The Username should not be blank
+        min_message: The Username must be at least 1 characters long
+        max_message: The Username cannot be longer than 180 characters
+    email:
+        not_blank: The email should not be blank
+        min_message: The email must be at least 1 characters long
+        max_message: The email cannot be longer than 180 characters
+        email: The email is not a valid email.
+        unique: The email is already exists.
+    plain_password:
+        not_blank: The PlainPassword should not be blank
+        min_message: The PlainPassword must be at least 1 characters long
+        max_message: The PlainPassword cannot be longer than 180 characters
     full_name:
         not_blank: The FullName should not be blank
         min_message: The FullName must be at least 1 characters long
@@ -47,6 +61,39 @@ user:
         not_blank: The Tel should not be blank
         min_message: The Tel must be at least 1 characters long
         max_message: The Tel cannot be longer than 20 characters
+
+app_user:
+    not_found: App User is not found.
+    delete_false: Deleting is not successful
+    username:
+        not_blank: The Username should not be blank
+        min_message: The Username must be at least 1 characters long
+        max_message: The Username cannot be longer than 180 characters
+        unique: The Username is already exists.
+    email:
+        not_blank: The email should not be blank
+        min_message: The email must be at least 1 characters long
+        max_message: The email cannot be longer than 180 characters
+        email: The email is not a valid email.
+        unique: The email is already exists.
+    plain_password:
+        not_blank: The PlainPassword should not be blank
+        min_message: The PlainPassword must be at least 1 characters long
+        max_message: The PlainPassword cannot be longer than 180 characters
+    android_push_key:
+        not_blank: The Android PushKey Hash should not be blank
+        min_message: The Android PushKey must be at least 1 characters long
+        max_message: The Android PushKey cannot be longer than 255 characters
+    apple_push_key:
+        min_message: The Android PushKey must be at least 1 characters long
+        max_message: The Android PushKey cannot be longer than 255 characters
+    role:
+        min_message: The Locale must be at least 1 characters long
+        max_message: The Locale cannot be longer than 60 characters
+    temporary_hash:
+        not_blank: The TemporaryHash should not be blank
+        min_message: The TemporaryHash must be at least 1 characters long
+        max_message: The TemporaryHash cannot be longer than 5 characters
 
 store:
     not_found: Store is not found.

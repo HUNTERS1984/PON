@@ -28,11 +28,11 @@ CoreBundle\Entity\AppUser:
         temporaryHash:
             type: string
             length: 60
-        android_push_key:
+        androidPushKey:
             type: string
             length: 255
             nullable: TRUE
-        apple_push_key:
+        applePushKey:
             type: string
             length: 255
             nullable: TRUE
