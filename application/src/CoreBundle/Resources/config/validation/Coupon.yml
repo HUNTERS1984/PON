@@ -1,0 +1,45 @@
+CoreBundle\Entity\Coupon:
+    properties:
+        type:
+            - NotBlank:
+                message: coupon.type.not_blank
+            - Choice:
+                choices:  [0, 1]
+                message:  coupon.type.choice
+        title:
+            - NotBlank:
+                message: coupon.title.not_blank
+            - Length:
+                min: 1
+                max: 255
+                minMessage: coupon.title.min_message
+                maxMessage: coupon.title.max_message
+        startDate:
+            - NotBlank:
+                message: coupon.start_date.not_blank
+            - Date:
+                message: coupon.start_date.date
+        endDate:
+            - NotBlank:
+                message: coupon.end_date.not_blank
+            - Date:
+                message: coupon.end_date.date
+        status:
+            - NotBlank:
+                message: coupon.status.not_blank
+            - Choice:
+                choices:  [0, 1]
+                message:  coupon.status.choice
+        imageUrl:
+            - Length:
+                min: 1
+                max: 255
+                minMessage: coupon.image_url.min_message
+                maxMessage: coupon.image_url.max_message
+        size:
+            - Type:
+                type: integer
+                message: coupon.size.integer
+        couponType:
+            - NotBlank:
+                message: coupon.coupon_type.not_blank

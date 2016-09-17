@@ -1,0 +1,42 @@
+CoreBundle\Entity\Coupon:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose : true
+            groups: [view]
+        type:
+            expose : true
+            groups: [view,create_coupon]
+        title:
+            expose: true
+            groups: [view,create_coupon]
+        description:
+            expose: true
+            groups: [view,create_coupon]
+        startDate:
+            expose: true
+            groups: [view,create_coupon]
+            serialized_name: startDate
+        endDate:
+            expose: true
+            groups: [view,create_coupon]
+            serialized_name: endDate
+        status:
+            expose: true
+            groups: [view,create_coupon]
+        imageUrl:
+            expose: true
+            groups: [view,create_coupon]
+            serialized_name: imageUrl
+        size:
+            expose: true
+            groups: [view,create_coupon]
+        couponType:
+            expose: true
+            groups: [view]
+        createdAt:
+            expose: true
+            groups: [view]
+        updatedAt:
+            expose: true
+            groups: [view]

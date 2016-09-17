@@ -21,9 +21,16 @@ app_store:
     type: rest
     resource: AppBundle\Controller\StoreController
     name_prefix: api_store
+
 app_coupon_type:
     prefix: /v1
     type: rest
     resource: AppBundle\Controller\CouponTypeController
     name_prefix: api_coupon_type
+
+app_coupon:
+    prefix: /v1
+    type: rest
+    resource: AppBundle\Controller\CouponController
+    name_prefix: api_coupon
 
