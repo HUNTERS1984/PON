@@ -55,11 +55,6 @@ class AppUser extends BaseUser
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $appUserProfiles;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     private $posts;
 
 
@@ -263,40 +258,6 @@ class AppUser extends BaseUser
     public function getSocialProfiles()
     {
         return $this->socialProfiles;
-    }
-
-    /**
-     * Add appUserProfile
-     *
-     * @param \CoreBundle\Entity\AppUserProfile $appUserProfile
-     *
-     * @return AppUser
-     */
-    public function addAppUserProfile(\CoreBundle\Entity\AppUserProfile $appUserProfile)
-    {
-        $this->appUserProfiles[] = $appUserProfile;
-
-        return $this;
-    }
-
-    /**
-     * Remove appUserProfile
-     *
-     * @param \CoreBundle\Entity\AppUserProfile $appUserProfile
-     */
-    public function removeAppUserProfile(\CoreBundle\Entity\AppUserProfile $appUserProfile)
-    {
-        $this->appUserProfiles->removeElement($appUserProfile);
-    }
-
-    /**
-     * Get appUserProfiles
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAppUserProfiles()
-    {
-        return $this->appUserProfiles;
     }
 
     /**
