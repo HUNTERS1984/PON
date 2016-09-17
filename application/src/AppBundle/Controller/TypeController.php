@@ -47,7 +47,7 @@ class TypeController extends FOSRestController implements ClassResourceInterface
         $data = $form->getData();
         $this->get('pon.exception.exception_handler')->validate($data, BadRequestHttpException::class);
 
-        $storeType = $this->getManager()->saveStoreType($data);
+        $storeType = $this->getManager()->createStoreType($data);
         return $this->view($storeType, 201);
     }
 

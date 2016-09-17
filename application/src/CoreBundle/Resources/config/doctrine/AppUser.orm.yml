@@ -3,11 +3,14 @@ CoreBundle\Entity\AppUser:
     table: null
     repositoryClass: CoreBundle\Repository\AppUserRepository
     oneToMany:
+        accessTokens:
+            targetEntity: AccessToken
+            mappedBy: appUser
+        refreshTokens:
+            targetEntity: RefreshToken
+            mappedBy: appUser
         socialProfiles:
             targetEntity: SocialProfile
-            mappedBy: appUser
-        appUserProfiles:
-            targetEntity: AppUserProfile
             mappedBy: appUser
         posts:
             targetEntity: Post
@@ -39,6 +42,20 @@ CoreBundle\Entity\AppUser:
         role:
             type: string
             length: 60
+            nullable: TRUE
+        name:
+            type: string
+            length: 100
+        gender:
+            type: integer
+            nullable: TRUE
+        address:
+            type: string
+            length: 255
+            nullable: TRUE
+        avatarUrl:
+            type: string
+            length: 255
             nullable: TRUE
         createdAt:
             type: datetime

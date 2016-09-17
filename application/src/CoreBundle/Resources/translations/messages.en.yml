@@ -10,6 +10,21 @@ store_type:
        min_message: The Icon Url must be at least 1 characters long
        max_message: The Icon Url cannot be longer than 255 characters
 
+coupon_type:
+    not_found: Coupon Type is not found.
+    delete_false: Deleting is not successful
+    name:
+        not_blank: The name should not be blank
+        min_message: The Name must be at least 1 characters long
+        max_message: The Name cannot be longer than 100 characters
+    iconUrl:
+       not_blank: The Icon Url should not be blank
+       min_message: The Icon Url must be at least 1 characters long
+       max_message: The Icon Url cannot be longer than 255 characters
+
+    store:
+        not_blank: The Store should not be blank
+
 user:
     not_found: User is not found.
     delete_false: Deleting is not successful
@@ -65,6 +80,10 @@ user:
 app_user:
     not_found: App User is not found.
     delete_false: Deleting is not successful
+    name:
+        not_blank: The name should not be blank
+        min_message: The name must be at least 1 characters long
+        max_message: The name cannot be longer than 100 characters
     username:
         not_blank: The Username should not be blank
         min_message: The Username must be at least 1 characters long
@@ -90,6 +109,14 @@ app_user:
     role:
         min_message: The Locale must be at least 1 characters long
         max_message: The Locale cannot be longer than 60 characters
+    address:
+        min_message: The address must be at least 1 characters long
+        max_message: The address cannot be longer than 255 characters
+    avatar_url:
+        min_message: The Avatar Url must be at least 1 characters long
+        max_message: The Avatar Url cannot be longer than 255 characters
+    gender:
+        choice: The Gender should be 1 or 0
     temporary_hash:
         not_blank: The TemporaryHash should not be blank
         min_message: The TemporaryHash must be at least 1 characters long

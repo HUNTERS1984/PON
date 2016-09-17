@@ -3,15 +3,15 @@ CoreBundle\Entity\AccessToken:
     table: null
     repositoryClass: CoreBundle\Repository\AccessTokenRepository
     manyToOne:
-        user:
+        appUser:
             targetEntity: AppUser
-            inversedBy: access_tokens
+            inversedBy: accessTokens
             joinColumn:
                 name: app_user_id
                 referencedColumnName: id
         client:
             targetEntity: Client
-            inversedBy: access_tokens
+            inversedBy: accessTokens
             joinColumn:
                 name: client_id
                 referencedColumnName: id

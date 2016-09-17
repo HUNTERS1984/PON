@@ -20,6 +20,19 @@ CoreBundle\Entity\AppUser:
             expose: true
             groups: [view,create_app_user]
             serialized_name: applePushKey
+        name:
+            expose: true
+            groups: [view,create_app_user]
+        gender:
+            expose: true
+            groups: [view,create_app_user]
+        address:
+            expose: true
+            groups: [view,create_app_user]
+        avatarUrl:
+            expose: true
+            groups: [view,create_app_user]
+            serialized_name: avatarUrl
         role:
             expose: true
             groups: [view,create_app_user]
