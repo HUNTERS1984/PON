@@ -2,11 +2,10 @@
 
 namespace CoreBundle\Manager;
 
-use CoreBundle\Entity\StoreType;
+use CoreBundle\Entity\CouponType;
 use CoreBundle\Paginator\Pagination;
-use Doctrine\DBAL\Query\QueryBuilder;
 
-class StoreTypeManager extends AbstractManager
+class CouponTypeManager extends AbstractManager
 {
     /**
      * @var Pagination
@@ -23,46 +22,46 @@ class StoreTypeManager extends AbstractManager
 
 
     /**
-     * @param StoreType $storeType
+     * @param CouponType $couponType
      *
-     * @return StoreType
+     * @return CouponType
      */
-    public function saveStoreType(StoreType $storeType)
+    public function saveCouponType(CouponType $couponType)
     {
-        $storeType->setUpdatedAt(new \DateTime());
-        return $this->save($storeType);
+        $couponType->setUpdatedAt(new \DateTime());
+        return $this->save($couponType);
     }
 
     /**
-     * @param StoreType $storeType
+     * @param CouponType $couponType
      *
-     * @return StoreType
+     * @return CouponType
      */
-    public function createStoreType(StoreType $storeType)
+    public function createCouponType(CouponType $couponType)
     {
-        $storeType->setCreatedAt(new \DateTime());
-        $this->saveStoreType($storeType);
+        $couponType->setCreatedAt(new \DateTime());
+        $this->saveCouponType($couponType);
     }
 
     /**
-     * @param StoreType $storeType
+     * @param CouponType $couponType
      *
      * @return boolean
      */
-    public function deleteStoreType(StoreType $storeType)
+    public function deleteCouponType(CouponType $couponType)
     {
-        $storeType
+        $couponType
             ->setDeletedAt(new \DateTime());
-        return $this->saveStoreType($storeType);
+        return $this->saveCouponType($couponType);
     }
 
     /**
-     * List Store Type
+     * List Coupon Type
      * @param array $params
      *
      * @return array
      */
-    public function listStoreType($params)
+    public function listCouponType($params)
     {
         $limit = isset($params['limit']) ? $params['limit'] : 10;
         $offset = isset($params['offset']) ? $params['offset'] : 0;

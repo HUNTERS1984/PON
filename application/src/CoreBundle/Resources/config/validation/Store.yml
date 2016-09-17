@@ -31,4 +31,3 @@ CoreBundle\Entity\Store:
         user:
             - NotBlank:
                 message: store.user.not_blank
-            - Valid: ~

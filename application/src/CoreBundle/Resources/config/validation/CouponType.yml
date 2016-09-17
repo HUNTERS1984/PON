@@ -1,0 +1,22 @@
+CoreBundle\Entity\CouponType:
+    properties:
+        name:
+            - NotBlank:
+                message: coupon_type.name.not_blank
+            - Length:
+                min: 1
+                max: 100
+                minMessage: coupon_type.name.min_message
+                maxMessage: coupon_type.name.max_message
+
+        iconUrl:
+            - NotBlank:
+                message: coupon_type.iconUrl.not_blank
+            - Length:
+                min: 1
+                max: 255
+                minMessage: coupon_type.iconUrl.min_message
+                maxMessage: coupon_type.iconUrl.max_message
+        store:
+            - NotBlank:
+                message: coupon_type.store.not_blank

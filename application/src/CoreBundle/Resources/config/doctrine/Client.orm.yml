@@ -2,7 +2,13 @@ CoreBundle\Entity\Client:
     type: entity
     table: null
     repositoryClass: CoreBundle\Repository\ClientRepository
-
+    oneToMany:
+        accessTokens:
+            targetEntity: AccessToken
+            mappedBy: client
+        refreshTokens:
+            targetEntity: RefreshToken
+            mappedBy: client
     id:
         id:
             type: integer

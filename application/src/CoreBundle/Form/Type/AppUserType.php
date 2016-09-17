@@ -54,6 +54,22 @@ class AppUserType extends AbstractType
             ->add('applePushKey', TextType::class, [
                 'required' => true
             ])
+            ->add('name', TextType::class, [
+                'required' => true,
+            ])
+            ->add('address', TextType::class, [
+                'required' => true,
+            ])
+            ->add('gender', ChoiceType::class, [
+                'required' => true,
+                'choices' => [
+                    'Female' => 0,
+                    'Male' => 1
+                ]
+            ])
+            ->add('avatarUrl', TextType::class, [
+                'required' => true,
+            ])
             ->add('role', TextType::class, [
                 'required' => true
             ]);

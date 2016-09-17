@@ -3,19 +3,27 @@ app_user:
     type: rest
     resource: AppBundle\Controller\UserController
     name_prefix: api_user
+
 app_app_user:
     prefix: /v1
     type: rest
     resource: AppBundle\Controller\AppUserController
     name_prefix: api_app_user
+
 app_type:
     prefix: /v1
     type: rest
     resource: AppBundle\Controller\TypeController
     name_prefix: api_type
+
 app_store:
     prefix: /v1
     type: rest
     resource: AppBundle\Controller\StoreController
     name_prefix: api_store
+app_coupon_type:
+    prefix: /v1
+    type: rest
+    resource: AppBundle\Controller\CouponTypeController
+    name_prefix: api_coupon_type
 

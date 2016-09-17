@@ -449,4 +449,198 @@ class AppUser extends BaseUser
     {
         return $this->likeLists;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $accessTokens;
+
+
+    /**
+     * Add accessToken
+     *
+     * @param \CoreBundle\Entity\AccessToken $accessToken
+     *
+     * @return AppUser
+     */
+    public function addAccessToken(\CoreBundle\Entity\AccessToken $accessToken)
+    {
+        $this->accessTokens[] = $accessToken;
+
+        return $this;
+    }
+
+    /**
+     * Remove accessToken
+     *
+     * @param \CoreBundle\Entity\AccessToken $accessToken
+     */
+    public function removeAccessToken(\CoreBundle\Entity\AccessToken $accessToken)
+    {
+        $this->accessTokens->removeElement($accessToken);
+    }
+
+    /**
+     * Get accessTokens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAccessTokens()
+    {
+        return $this->accessTokens;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $refreshTokens;
+
+
+    /**
+     * Add refreshToken
+     *
+     * @param \CoreBundle\Entity\RefreshToken $refreshToken
+     *
+     * @return AppUser
+     */
+    public function addRefreshToken(\CoreBundle\Entity\RefreshToken $refreshToken)
+    {
+        $this->refreshTokens[] = $refreshToken;
+
+        return $this;
+    }
+
+    /**
+     * Remove refreshToken
+     *
+     * @param \CoreBundle\Entity\RefreshToken $refreshToken
+     */
+    public function removeRefreshToken(\CoreBundle\Entity\RefreshToken $refreshToken)
+    {
+        $this->refreshTokens->removeElement($refreshToken);
+    }
+
+    /**
+     * Get refreshTokens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRefreshTokens()
+    {
+        return $this->refreshTokens;
+    }
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var integer
+     */
+    private $gender;
+
+    /**
+     * @var string
+     */
+    private $address;
+
+    /**
+     * @var string
+     */
+    private $avatarUrl;
+
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return AppUser
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param integer $gender
+     *
+     * @return AppUser
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return integer
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return AppUser
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set avatarUrl
+     *
+     * @param string $avatarUrl
+     *
+     * @return AppUser
+     */
+    public function setAvatarUrl($avatarUrl)
+    {
+        $this->avatarUrl = $avatarUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get avatarUrl
+     *
+     * @return string
+     */
+    public function getAvatarUrl()
+    {
+        return $this->avatarUrl;
+    }
 }
