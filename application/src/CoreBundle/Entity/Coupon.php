@@ -50,7 +50,7 @@ class Coupon
     /**
      * @var integer
      */
-    private $limit;
+    private $size;
 
     /**
      * @var \DateTime
@@ -251,29 +251,6 @@ class Coupon
         return $this->imageUrl;
     }
 
-    /**
-     * Set limit
-     *
-     * @param integer $limit
-     *
-     * @return Coupon
-     */
-    public function setLimit($limit)
-    {
-        $this->limit = $limit;
-
-        return $this;
-    }
-
-    /**
-     * Get limit
-     *
-     * @return integer
-     */
-    public function getLimit()
-    {
-        return $this->limit;
-    }
 
     /**
      * Set createdAt
@@ -532,5 +509,23 @@ class Coupon
     public function getLikeLists()
     {
         return $this->likeLists;
+    }
+
+    /**
+     * @param int $size
+     * @return Coupon
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
     }
 }

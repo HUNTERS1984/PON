@@ -141,3 +141,30 @@ store:
        not_blank: The longtitude should not be blank
        min_message: The longtitude must be at least 1 characters long
        max_message: The longtitude cannot be longer than 20 characters
+
+coupon:
+    not_found: Coupon is not found.
+    delete_false: Deleting is not successful
+    coupon_type:
+        not_blank: The Coupon Type should not be blank
+    type:
+        not_blank: The type should not be blank
+        choice: The Type should be 1 or 0
+    title:
+        not_blank: The Title should not be blank
+        min_message: The Title must be at least 1 characters long
+        max_message: The Title cannot be longer than 255 characters
+    startDate:
+        not_blank: The Start Date should not be blank
+        date: The Start Date should have format YYYY/mm/dd
+    endDate:
+        not_blank: The End Date should not be blank
+        date: The Start End should have format YYYY/mm/dd
+    status:
+        not_blank: The status should not be blank
+        choice: The status should be 1 or 0
+    image_url:
+        min_message: The Image Url must be at least 1 characters long
+        max_message: The Image Url cannot be longer than 255 characters
+    size:
+        integer: The Size should be integer

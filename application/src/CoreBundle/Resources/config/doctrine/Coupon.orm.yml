@@ -42,6 +42,7 @@ CoreBundle\Entity\Coupon:
             length: 255
         description:
             type: text
+            nullable: TRUE
         startDate:
             type: date
         endDate:
@@ -51,8 +52,10 @@ CoreBundle\Entity\Coupon:
         imageUrl:
             type: string
             length: 255
-        limit:
+            nullable: TRUE
+        size:
             type: integer
+            nullable: TRUE
         createdAt:
             type: datetime
         updatedAt:
