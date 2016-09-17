@@ -198,6 +198,60 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     }
 
     /**
+     * View Detail App User
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to view app user",
+     *  requirements={
+     *      {
+     *          "name"="id",
+     *          "dataType"="integer",
+     *          "requirement"="\d+",
+     *          "description"="Id of app user"
+     *      }
+     *  },
+     *  output={
+     *     "class"="CoreBundle\Entity\AppUser",
+     *     "groups"={"view"}
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   }
+     * )
+     * @Get("/app/users/{id}", name="view_user")
+     * @return Response
+     */
+    public function getProfileAction($id)
+    {
+        $manager = $this->getManager();
+        /**@var AppUser $appUser*/
+        $appUser = $manager->findOneById($id);
+        if(!$appUser || !is_null($appUser->getDeletedAt())) {
+            $this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found',
+                NotFoundHttpException::class
+            );
+        }
+
+        $profileManager = $this->getProfileManager();
+        /**@var AppUser $appUser*/
+        $appUserProfile = $profileManager->findOneById($id);
+        if(!$appUserProfile) {
+            $this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found',
+                NotFoundHttpException::class
+            );
+        }
+
+        $data = $this->getSerializer()->serialize($appUser, ['view']);
+
+        return $this->view($data, 200);
+    }
+
+    /**
      * Get List App User
      * @ApiDoc(
      *  resource=true,
@@ -235,6 +289,14 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     public function getManager()
     {
         return $this->get('pon.manager.app_user');
+    }
+
+    /**
+     * @return AppUserProfileManager
+     */
+    public function getProfileManager()
+    {
+        return $this->get('pon.manager.app_user_profile');
     }
 
     /**
