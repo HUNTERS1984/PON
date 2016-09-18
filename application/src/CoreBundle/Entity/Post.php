@@ -20,7 +20,7 @@ class Post
     /**
      * @var string
      */
-    private $SocialMediaId;
+    private $socialMediaId;
 
     /**
      * @var string
@@ -102,7 +102,7 @@ class Post
      */
     public function setSocialUserId($socialUserId)
     {
-        $this->socialUserId = $socialUserId;
+        $this->socialUserId = (int)$socialUserId;
 
         return $this;
     }
@@ -126,7 +126,7 @@ class Post
      */
     public function setSocialMediaId($socialMediaId)
     {
-        $this->SocialMediaId = $socialMediaId;
+        $this->socialMediaId = $socialMediaId;
 
         return $this;
     }
@@ -138,7 +138,7 @@ class Post
      */
     public function getSocialMediaId()
     {
-        return $this->SocialMediaId;
+        return $this->socialMediaId;
     }
 
     /**

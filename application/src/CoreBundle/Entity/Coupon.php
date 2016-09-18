@@ -517,7 +517,7 @@ class Coupon
      */
     public function setSize($size)
     {
-        $this->size = $size;
+        $this->size = (int)$size;
         return $this;
     }
 

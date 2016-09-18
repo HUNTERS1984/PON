@@ -54,7 +54,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /**@var AppUser $appUser*/
         $appUser = $form->getData();
         $this->get('pon.exception.exception_handler')->validate($appUser, BadRequestHttpException::class);
-        $user = $this->getManager()->createAppUser($appUser);
+        $this->getManager()->createAppUser($appUser);
         return $this->view($appUser, 201);
     }
 
@@ -104,7 +104,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $appUser = $this->get('pon.utils.data')->setData($request->request->all(), $appUser);
         $this->get('pon.exception.exception_handler')->validate($appUser, BadRequestHttpException::class);
 
-        $appUser = $this->getManager()->saveAppUser($appUser);
+        $this->getManager()->saveAppUser($appUser);
         return $this->view($appUser, 200);
     }
 

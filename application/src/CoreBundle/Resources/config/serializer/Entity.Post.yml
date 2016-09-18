@@ -1,0 +1,51 @@
+CoreBundle\Entity\Post:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose : true
+            groups: [view]
+        socialUserId:
+            expose : true
+            groups: [view,create_post]
+            serialized_name: socialUserId
+        socialMediaId:
+            expose: true
+            groups: [view,create_post]
+            serialized_name: socialMediaId
+        caption:
+            expose: true
+            groups: [view,create_post]
+        description:
+            expose: true
+            groups: [view,create_post]
+        createdTime:
+            expose: true
+            groups: [view,create_post]
+            serialized_name: createdTime
+        status:
+            expose: true
+            groups: [view,create_post]
+        socialUserName:
+            expose: true
+            groups: [view,create_post]
+            serialized_name: socialUserName
+        socialAvatar:
+            expose: true
+            groups: [view,create_post]
+            serialized_name: socialAvatar
+        imageUrl:
+            expose: true
+            groups: [view,create_post]
+            serialized_name: imageUrl
+        url:
+            expose: true
+            groups: [view,create_post]
+        appUser:
+            expose: true
+            groups: [view]
+        createdAt:
+            expose: true
+            groups: [view]
+        updatedAt:
+            expose: true
+            groups: [view]

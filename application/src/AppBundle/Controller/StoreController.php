@@ -97,7 +97,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
         $this->get('pon.exception.exception_handler')->validate($store, BadRequestHttpException::class);
 
-        $store = $this->getManager()->createStore($store);
+        $this->getManager()->createStore($store);
         return $this->view($store, 201);
     }
 
@@ -188,7 +188,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         $store = $this->get('pon.utils.data')->setData($request->request->all(), $store);
         $this->get('pon.exception.exception_handler')->validate($store, BadRequestHttpException::class);
 
-        $store = $this->getManager()->saveStore($store);
+        $this->getManager()->saveStore($store);
         return $this->view($store, 200);
     }
 

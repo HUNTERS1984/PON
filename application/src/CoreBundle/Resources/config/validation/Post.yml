@@ -1,0 +1,70 @@
+CoreBundle\Entity\Post:
+    properties:
+        socialUserId:
+            - NotBlank:
+                message: post.social_user_id.not_blank
+            - Type:
+                type: integer
+                message: post.social_user_id.integer
+        socialMediaId:
+            - NotBlank:
+                message: post.social_media_id.not_blank
+            - Length:
+                min: 1
+                max: 50
+                minMessage: post.social_media_id.min_message
+                maxMessage: post.social_media_id.max_message
+        caption:
+            - NotBlank:
+                message: post.caption.not_blank
+            - Length:
+                min: 1
+                max: 200
+                minMessage: post.caption.min_message
+                maxMessage: post.caption.max_message
+        createdTime:
+            - NotBlank:
+                message: post.created_time.not_blank
+            - Date:
+                message: post.created_time.date
+        status:
+            - NotBlank:
+                message: post.status.not_blank
+            - Choice:
+                choices:  [0, 1]
+                message:  post.status.choice
+        socialUserName:
+            - NotBlank:
+                message: post.social_user_name.not_blank
+            - Length:
+                min: 1
+                max: 100
+                minMessage: post.social_user_name.min_message
+                maxMessage: post.social_user_name.max_message
+        socialAvatar:
+            - NotBlank:
+                message: post.social_avatar.not_blank
+            - Length:
+                min: 1
+                max: 255
+                minMessage: post.social_user_name.min_message
+                maxMessage: post.social_user_name.max_message
+        imageUrl:
+            - NotBlank:
+                message: post.image_url.not_blank
+            - Length:
+                min: 1
+                max: 255
+                minMessage: post.image_url.min_message
+                maxMessage: post.image_url.max_message
+        url:
+            - NotBlank:
+                message: post.url.not_blank
+            - Length:
+                min: 1
+                max: 255
+                minMessage: post.url.min_message
+                maxMessage: post.url.max_message
+        appUser:
+            - NotBlank:
+                message: post.app_user.not_blank

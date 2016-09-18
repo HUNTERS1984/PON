@@ -30,7 +30,7 @@ CoreBundle\Entity\Post:
     fields:
         socialUserId:
             type: integer
-        SocialMediaId:
+        socialMediaId:
             type: string
             length: 50
         caption:
