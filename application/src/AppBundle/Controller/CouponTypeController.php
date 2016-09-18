@@ -76,7 +76,7 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
         $couponType->setStore($store);
         $this->get('pon.exception.exception_handler')->validate($couponType, BadRequestHttpException::class);
 
-        $couponType = $this->getManager()->createCouponType($couponType);
+        $this->getManager()->createCouponType($couponType);
         $couponType = $this->getSerializer()->serialize($couponType, ['view_coupon_type']);
         return $this->view($couponType, 201);
     }
@@ -148,7 +148,7 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
         $couponType = $this->get('pon.utils.data')->setData($request->request->all(), $couponType);
         $this->get('pon.exception.exception_handler')->validate($couponType, BadRequestHttpException::class);
 
-        $couponType = $this->getManager()->saveCouponType($couponType);
+        $this->getManager()->saveCouponType($couponType);
         $couponType = $this->getSerializer()->serialize($couponType, ['view_coupon_type']);
         return $this->view($couponType, 200);
     }

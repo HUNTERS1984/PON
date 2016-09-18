@@ -74,7 +74,7 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
 
         $this->get('pon.exception.exception_handler')->validate($coupon, BadRequestHttpException::class);
 
-        $coupon = $this->getManager()->createCoupon($coupon);
+        $this->getManager()->createCoupon($coupon);
         $coupon = $this->getSerializer()->serialize($coupon, ['view','view_coupon']);
         return $this->view($coupon, 201);
     }
@@ -145,7 +145,7 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
         $coupon = $this->get('pon.utils.data')->setData($request->request->all(), $coupon);
         $this->get('pon.exception.exception_handler')->validate($coupon, BadRequestHttpException::class);
 
-        $coupon = $this->getManager()->saveCoupon($coupon);
+        $this->getManager()->saveCoupon($coupon);
         $coupon = $this->getSerializer()->serialize($coupon, ['view','view_coupon']);
         return $this->view($coupon, 200);
     }

@@ -50,7 +50,7 @@ class UserController extends FOSRestController implements ClassResourceInterface
         /**@var User $user*/
         $user = $form->getData();
         $this->get('pon.exception.exception_handler')->validate($user, BadRequestHttpException::class);
-        $user = $this->getManager()->createUser($user);
+        $this->getManager()->createUser($user);
         return $this->view($user, 201);
     }
 
@@ -100,7 +100,7 @@ class UserController extends FOSRestController implements ClassResourceInterface
 
         $this->get('pon.exception.exception_handler')->validate($user, BadRequestHttpException::class);
 
-        $user = $this->getManager()->saveUser($user);
+        $this->getManager()->saveUser($user);
         return $this->view($user, 200);
     }
 

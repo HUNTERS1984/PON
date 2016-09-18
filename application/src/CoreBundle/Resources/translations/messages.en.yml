@@ -5,7 +5,7 @@ store_type:
         not_blank: The name should not be blank
         min_message: The Name must be at least 1 characters long
         max_message: The Name cannot be longer than 100 characters
-    iconUrl:
+    icon_url:
        not_blank: The Icon Url should not be blank
        min_message: The Icon Url must be at least 1 characters long
        max_message: The Icon Url cannot be longer than 255 characters
@@ -17,7 +17,7 @@ coupon_type:
         not_blank: The name should not be blank
         min_message: The Name must be at least 1 characters long
         max_message: The Name cannot be longer than 100 characters
-    iconUrl:
+    icon_url:
        not_blank: The Icon Url should not be blank
        min_message: The Icon Url must be at least 1 characters long
        max_message: The Icon Url cannot be longer than 255 characters
@@ -154,10 +154,10 @@ coupon:
         not_blank: The Title should not be blank
         min_message: The Title must be at least 1 characters long
         max_message: The Title cannot be longer than 255 characters
-    startDate:
+    start_date:
         not_blank: The Start Date should not be blank
         date: The Start Date should have format YYYY/mm/dd
-    endDate:
+    end_date:
         not_blank: The End Date should not be blank
         date: The Start End should have format YYYY/mm/dd
     status:
@@ -168,3 +168,45 @@ coupon:
         max_message: The Image Url cannot be longer than 255 characters
     size:
         integer: The Size should be integer
+
+post:
+    not_found: Post is not found.
+    delete_false: Deleting is not successful
+    app_user:
+        not_blank: The App User should not be blank
+    social_user_id:
+        not_blank: The Social User Id should not be blank
+        integer: The Social User should be integer
+    social_media_id:
+        not_blank: The Social Media Id should not be blank
+        min_message: The Social Media Id must be at least 1 characters long
+        max_message: The Social Media Id cannot be longer than 50 characters
+    caption:
+        not_blank: The Caption should not be blank
+        min_message: The Title must be at least 1 characters long
+        max_message: The Title cannot be longer than 200 characters
+    created_time:
+        not_blank: The Created Time should not be blank
+        date: The Start Created Time should have format YYYY/mm/dd
+    status:
+        not_blank: The status should not be blank
+        choice: The status should be 1 or 0
+    status:
+        not_blank: The status should not be blank
+        choice: The status should be 1 or 0
+    social_user_name:
+        not_blank: The Social UserName should not be blank
+        min_message: The Social UserName must be at least 1 characters long
+        max_message: The Social UserName cannot be longer than 100 characters
+    social_avatar:
+        not_blank: The Social Avatar should not be blank
+        min_message: The Social Avatar must be at least 1 characters long
+        max_message: The Social Avatar cannot be longer than 255 characters
+    image_url:
+        not_blank: The Image Url should not be blank
+        min_message: The Image Url must be at least 1 characters long
+        max_message: The Image Url cannot be longer than 255 characters
+    url:
+        not_blank: The Url should not be blank
+        min_message: The Url must be at least 1 characters long
+        max_message: The Url cannot be longer than 255 characters
