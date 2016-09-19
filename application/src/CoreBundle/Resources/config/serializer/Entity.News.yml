@@ -1,0 +1,33 @@
+CoreBundle\Entity\News:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose : true
+            groups: [view]
+        title:
+            expose : true
+            groups: [view,create_news]
+        message:
+            expose: true
+            groups: [view,create_news]
+        json:
+            expose: true
+            groups: [view,create_news]
+        type:
+            expose: true
+            groups: [view,create_news]
+        time:
+            expose: true
+            groups: [view,create_news]
+        date:
+            expose: true
+            groups: [view,create_news]
+        store:
+            expose: true
+            groups: [view]
+        createdAt:
+            expose: true
+            groups: [view]
+        updatedAt:
+            expose: true
+            groups: [view]

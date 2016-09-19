@@ -192,8 +192,8 @@ class TypeController extends FOSRestController implements ClassResourceInterface
      *  resource=true,
      *  description="This api is used to list store type",
      *  parameters={
-     *      {"name"="limit", "dataType"="integer", "required"=false, "description"="how many store types to return"},
-     *      {"name"="offset", "dataType"="integer", "required"=false, "description"="point of store types to return"},
+     *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
+     *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
      *      {"name"="name", "dataType"="string", "required"=false, "description"="name of store type"}
      *  },
      *  output={

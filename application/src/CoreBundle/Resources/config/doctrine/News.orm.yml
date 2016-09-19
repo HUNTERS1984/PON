@@ -22,9 +22,11 @@ CoreBundle\Entity\News:
         message:
             type: string
             length: 255
+            nullable: TRUE
         json:
             type: string
             length: 20
+            nullable: TRUE
         type:
             type: integer
         time:
