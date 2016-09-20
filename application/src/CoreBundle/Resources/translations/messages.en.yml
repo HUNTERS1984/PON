@@ -191,9 +191,6 @@ post:
     status:
         not_blank: The status should not be blank
         choice: The status should be 1 or 0
-    status:
-        not_blank: The status should not be blank
-        choice: The status should be 1 or 0
     social_user_name:
         not_blank: The Social UserName should not be blank
         min_message: The Social UserName must be at least 1 characters long
@@ -210,3 +207,27 @@ post:
         not_blank: The Url should not be blank
         min_message: The Url must be at least 1 characters long
         max_message: The Url cannot be longer than 255 characters
+
+news:
+    not_found: News is not found.
+    delete_false: Deleting is not successful
+    store:
+        not_blank: The Store should not be blank
+    title:
+        not_blank: The Title should not be blank
+        min_message: The Title must be at least 1 characters long
+        max_message: The Title cannot be longer than 255 characters
+    message:
+        min_message: The Message must be at least 1 characters long
+        max_message: The Message cannot be longer than 255 characters
+    json:
+        min_message: The Message must be at least 1 characters long
+        max_message: The Message cannot be longer than 255 characters
+    type:
+        integer: The Type should be integer
+    time:
+        not_blank: The Time should not be blank
+        date: The Time should have format YYYY/mm/dd
+    time:
+        not_blank: The Date should not be blank
+        date: The Date should have format YYYY/mm/dd

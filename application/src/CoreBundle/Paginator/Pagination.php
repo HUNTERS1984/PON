@@ -62,4 +62,15 @@ class Pagination
 
         return $paginator;
     }
+
+    /**
+     * @param int $pageNumber
+     * @param int $limit
+     *
+     * @return int
+     */
+    public function getOffsetNumber($pageNumber, $limit)
+    {
+        return ($pageNumber - 1) * $limit;
+    }
 }

@@ -247,8 +247,8 @@ class PostController extends FOSRestController  implements ClassResourceInterfac
      *  resource=true,
      *  description="This api is used to list post",
      *  parameters={
-     *      {"name"="limit", "dataType"="integer", "required"=false, "description"="how many post to return"},
-     *      {"name"="offset", "dataType"="integer", "required"=false, "description"="point of post to return"}
+     *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
+     *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
      *  },
      *  output={
      *     "class"="CoreBundle\Entity\Post",

@@ -2,82 +2,74 @@
 
 namespace CoreBundle\Manager;
 
-use CoreBundle\Entity\Store;
+use CoreBundle\Entity\News;
 use CoreBundle\Paginator\Pagination;
 
-class StoreManager extends AbstractManager
+class NewsManager extends AbstractManager
 {
     /**
      * @var Pagination
-    */
+     */
     protected $pagination;
 
     /**
      * @var Pagination $pagination
-    */
+     */
     public function setPagination(Pagination $pagination)
     {
         $this->pagination = $pagination;
     }
 
     /**
-     * @param Store $store
+     * @param News $news
      *
-     * @return Store
+     * @return News
      */
-    public function createStore(Store $store)
+    public function createNews(News $news)
     {
-        $store->setCreatedAt(new \DateTime());
-        $this->saveStore($store);
+        $news->setCreatedAt(new \DateTime());
+        $this->saveNews($news);
     }
 
     /**
-     * @param Store $store
+     * @param News $news
      *
-     * @return Store
+     * @return News
      */
-    public function saveStore(Store $store)
+    public function saveNews(News $news)
     {
-        $store->setUpdatedAt(new \DateTime());
-        return $this->save($store);
+        $news->setUpdatedAt(new \DateTime());
+        return $this->save($news);
     }
 
     /**
-     * @param Store $store
+     * @param News $news
      *
      * @return boolean
      */
-    public function deleteStore(Store $store)
+    public function deleteNews(News $news)
     {
-        $store
+        $news
             ->setDeletedAt(new \DateTime());
-        return $this->saveStore($store);
+        return $this->saveNews($news);
     }
 
     /**
-     * List Store
+     * List News
      * @param array $params
      *
      * @return array
      */
-    public function listStore($params)
+    public function listNews($params)
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
 
         $conditions = [];
-        if(isset($params['name'])) {
-            $conditions = [
-                'name' => [
-                    'type' => 'like',
-                    'value' => "%".$params['name']."%"
-                ]
-            ];
-        }
 
         $conditions['deletedAt'] = [
             'type' => 'is',
-            'value' =>  'NULL'
+            'value' => 'NULL'
         ];
 
         $orderBy = ['createdAt' => 'DESC'];

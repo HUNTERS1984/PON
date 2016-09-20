@@ -63,8 +63,8 @@ class CouponTypeManager extends AbstractManager
      */
     public function listCouponType($params)
     {
-        $limit = isset($params['limit']) ? $params['limit'] : 10;
-        $offset = isset($params['offset']) ? $params['offset'] : 0;
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
 
         $conditions = [];
         if(isset($params['name'])) {
