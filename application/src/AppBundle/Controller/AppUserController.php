@@ -42,11 +42,16 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *     400 = "Returned when the API has invalid input"
      *   }
      * )
-     * @Post("/app/signup", name="create_app_user")
+     * @Post("/app/signup", name="app_signup")
      * @return Response
      */
     public function postAction(Request $request)
     {
+        return $this->view(BaseResponse::getData([
+            "token"     =>  "54BO12AlfQ+BMV8oI6cxNpgVMhHzZ/vtydvnybEwvKDX1BhE5Vef0c5TuMm+W8Bz4zvObuDMrFbF7cg0W4cnqQ==",
+            "id"        =>  1,
+            "profile"   =>  []
+        ]));
         $data = $request->request->all();
         $form = $this->createForm(AppUserType::class, new AppUser());
         $form->submit($data);
@@ -57,12 +62,71 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         }
 
         $result = $this->getManager()->createAppUser($appUser);
-        $data = array(
+        $data = [
             "token"     =>  $result->getAccessTokens(),
             "id"        =>  $result->getId(),
-            "profile"   =>  array()
-        );
+            "profile"   =>  []
+        ];
         return $this->view(BaseResponse::getData($data));
+    }
+
+    /**
+     * Signin
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to signin",
+     *  input={
+     *       "class"="CoreBundle\Entity\AppUser",
+     *       "groups"={"create_app_user"}
+     *       },
+     *  output={
+     *       "class"="CoreBundle\Entity\AppUser",
+     *       "groups"={"view"}
+     *     },
+     *  statusCodes = {
+     *     201 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input"
+     *   }
+     * )
+     * @Post("/app/signin", name="app_sigin")
+     * @return Response
+     */
+    public function postSignInAction(Request $request)
+    {
+        return $this->view(BaseResponse::getData([
+            "token"     =>  "54BO12AlfQ+BMV8oI6cxNpgVMhHzZ/vtydvnybEwvKDX1BhE5Vef0c5TuMm+W8Bz4zvObuDMrFbF7cg0W4cnqQ==",
+            "id"        =>  1,
+            "profile"   =>  ["name" => "pon1", "gender" => 1, "avatar_url" => "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRnmDcVgG8baIROATyOcdiUW7TmVsai35eRWxD-k4cq_ouqbjmw"]
+
+        ]));
+    }
+
+    /**
+     * Signout
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to signout",
+     *  input={
+     *       "class"="CoreBundle\Entity\AppUser",
+     *       "groups"={"create_app_user"}
+     *       },
+     *  output={
+     *       "class"="CoreBundle\Entity\AppUser",
+     *       "groups"={"view"}
+     *     },
+     *  statusCodes = {
+     *     201 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input"
+     *   }
+     * )
+     * @Post("/app/signout", name="app_signout")
+     * @return Response
+     */
+    public function postSignOutAction(Request $request)
+    {
+        return $this->view(BaseResponse::getData());
     }
 
     /**
