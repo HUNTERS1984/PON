@@ -60,8 +60,7 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
 
             if(!$store) {
                 $this->get('pon.exception.exception_handler')->throwError(
-                    'store.not_found',
-                    BadRequestHttpException::class
+                    'store.not_found'
                 );
             }
         }
@@ -73,7 +72,10 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
         $news = $form->getData();
         $news->setStore($store);
 
-        $this->get('pon.exception.exception_handler')->validate($news, BadRequestHttpException::class);
+        if($error = $this->get('pon.exception.exception_handler')->validate($news)) {
+            return $error;
+        }
+
         $this->getManager()->createNews($news);
         $news = $this->getSerializer()->serialize($news, ['view','view_news']);
 
@@ -123,8 +125,7 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
         $news = $manager->findOneById($id);
         if(!$news) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'news.not_found',
-                NotFoundHttpException::class
+                'news.not_found'
             );
         }
 
@@ -137,15 +138,18 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
 
             if(!$store) {
                 $this->get('pon.exception.exception_handler')->throwError(
-                    'store.not_found',
-                    BadRequestHttpException::class
+                    'store.not_found'
                 );
             }
             $news->setStore($store);
         }
 
         $news = $this->get('pon.utils.data')->setData($request->request->all(), $news);
-        $this->get('pon.exception.exception_handler')->validate($news, BadRequestHttpException::class);
+
+        if($error = $this->get('pon.exception.exception_handler')->validate($news)) {
+            return $error;
+        }
+
 
         $this->getManager()->saveNews($news);
         $news = $this->getSerializer()->serialize($news, ['view','view_news']);
@@ -182,16 +186,14 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
         $news = $manager->findOneById($id);
         if(!$news) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'news.not_found',
-                NotFoundHttpException::class
+                'news.not_found'
             );
         }
 
         $status = $manager->deleteNews($news);
         if(!$status) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'news.delete_false',
-                BadRequestHttpException::class
+                'news.delete_false'
             );
         }
 
@@ -231,8 +233,7 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
         $news = $manager->findOneById($id);
         if(!$news || !is_null($news->getDeletedAt())) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'news.not_found',
-                NotFoundHttpException::class
+                'news.not_found'
             );
         }
 

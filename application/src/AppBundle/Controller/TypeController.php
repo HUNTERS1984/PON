@@ -45,7 +45,9 @@ class TypeController extends FOSRestController implements ClassResourceInterface
         $form = $this->createForm(StoreTypeType::class, new StoreType());
         $form->submit($request->request->all());
         $storeType = $form->getData();
-        $this->get('pon.exception.exception_handler')->validate($storeType, BadRequestHttpException::class);
+        if($error = $this->get('pon.exception.exception_handler')->validate($storeType)) {
+            return $error;
+        }
 
         $this->getManager()->createStoreType($storeType);
         return $this->view($storeType, 201);
@@ -87,13 +89,15 @@ class TypeController extends FOSRestController implements ClassResourceInterface
         $storeType = $manager->findOneById($id);
         if(!$storeType) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'store_type.not_found',
-                NotFoundHttpException::class
+                'store_type.not_found'
             );
         }
 
         $storeType = $this->get('pon.utils.data')->setData($request->request->all(), $storeType);
-        $this->get('pon.exception.exception_handler')->validate($storeType, BadRequestHttpException::class);
+
+        if($error = $this->get('pon.exception.exception_handler')->validate($storeType)) {
+            return $error;
+        }
 
         $this->getManager()->saveStoreType($storeType);
         return $this->view($storeType, 200);
@@ -127,16 +131,14 @@ class TypeController extends FOSRestController implements ClassResourceInterface
         $storeType = $manager->findOneById($id);
         if(!$storeType) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'store_type.not_found',
-                NotFoundHttpException::class
+                'store_type.not_found'
             );
         }
 
         $status = $manager->deleteStoreType($storeType);
         if(!$status) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'store_type.delete_false',
-                BadRequestHttpException::class
+                'store_type.delete_false'
             );
         }
 
@@ -176,8 +178,7 @@ class TypeController extends FOSRestController implements ClassResourceInterface
         $storeType = $manager->findOneById($id);
         if(!$storeType || !is_null($storeType->getDeletedAt())) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'store_type.not_found',
-                NotFoundHttpException::class
+                'store_type.not_found'
             );
         }
 

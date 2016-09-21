@@ -53,7 +53,10 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $form->submit($data);
         /**@var AppUser $appUser*/
         $appUser = $form->getData();
-        $this->get('pon.exception.exception_handler')->validate($appUser, BadRequestHttpException::class);
+        if($error = $this->get('pon.exception.exception_handler')->validate($appUser)) {
+            return $error;
+        }
+
         $this->getManager()->createAppUser($appUser);
         return $this->view($appUser, 201);
     }
@@ -95,14 +98,17 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /**@var AppUser $appUser*/
         $appUser = $manager->findOneById($id);
         if(!$appUser) {
-            $this->get('pon.exception.exception_handler')->throwError(
-                'app_user.not_found',
-                NotFoundHttpException::class
+            return $this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
             );
         }
 
         $appUser = $this->get('pon.utils.data')->setData($request->request->all(), $appUser);
-        $this->get('pon.exception.exception_handler')->validate($appUser, BadRequestHttpException::class);
+
+        if($error =  $this->get('pon.exception.exception_handler')->validate($appUser)) {
+            return $error;
+        }
+
 
         $this->getManager()->saveAppUser($appUser);
         return $this->view($appUser, 200);
@@ -136,17 +142,15 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $manager = $this->getManager();
         $appUser = $manager->findOneById($id);
         if(!$appUser) {
-            $this->get('pon.exception.exception_handler')->throwError(
-                'app_user.not_found',
-                NotFoundHttpException::class
+            return $this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
             );
         }
 
         $status = $manager->deleteAppUser($appUser);
         if(!$status) {
-            $this->get('pon.exception.exception_handler')->throwError(
-                'app_user.delete_false',
-                BadRequestHttpException::class
+            return $this->get('pon.exception.exception_handler')->throwError(
+                'app_user.delete_false'
             );
         }
 
@@ -186,9 +190,8 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /**@var AppUser $appUser*/
         $appUser = $manager->findOneById($id);
         if(!$appUser || !is_null($appUser->getDeletedAt())) {
-            $this->get('pon.exception.exception_handler')->throwError(
-                'app_user.not_found',
-                NotFoundHttpException::class
+            return $this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
             );
         }
 

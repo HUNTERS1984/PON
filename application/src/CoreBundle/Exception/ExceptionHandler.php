@@ -3,7 +3,10 @@
 namespace CoreBundle\Exception;
 
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class ExceptionHandler
 {
@@ -23,16 +26,26 @@ class ExceptionHandler
         $this->translator = $translator;
     }
 
-    public function validate($data, $exceptionClass)
+    public function validate($data)
     {
         $errors = $this->validator->validate($data);
         if ($errors->count() > 0) {
-            throw new $exceptionClass($this->translator->trans($errors[0]->getMessage()));
+            return [
+                'code' => (int)$this->translator->trans($errors[0]->getMessage(),[],'codes'),
+                'message' => $this->translator->trans($errors[0]->getMessage()),
+                'data' => []
+            ];
         }
+
+        return false;
     }
 
-    public function throwError($message, $exceptionClass)
+    public function throwError($message)
     {
-        throw new $exceptionClass($this->translator->trans($message));
+        return [
+            'code' => (int)$this->translator->trans($message,[],'codes'),
+            'message' => $this->translator->trans($message),
+            'data' => []
+        ];
     }
 }

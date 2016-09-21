@@ -49,7 +49,10 @@ class UserController extends FOSRestController implements ClassResourceInterface
         $form->submit($data);
         /**@var User $user*/
         $user = $form->getData();
-        $this->get('pon.exception.exception_handler')->validate($user, BadRequestHttpException::class);
+        if($error = $this->get('pon.exception.exception_handler')->validate($user)) {
+            return $error;
+        }
+
         $this->getManager()->createUser($user);
         return $this->view($user, 201);
     }
@@ -91,14 +94,15 @@ class UserController extends FOSRestController implements ClassResourceInterface
         $user = $manager->findOneById($id);
         if(!$user) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'user.not_found',
-                NotFoundHttpException::class
+                'user.not_found'
             );
         }
 
         $user = $this->get('pon.utils.data')->setData($request->request->all(), $user);
 
-        $this->get('pon.exception.exception_handler')->validate($user, BadRequestHttpException::class);
+        if($error = $this->get('pon.exception.exception_handler')->validate($user)) {
+            return $error;
+        }
 
         $this->getManager()->saveUser($user);
         return $this->view($user, 200);
@@ -132,16 +136,14 @@ class UserController extends FOSRestController implements ClassResourceInterface
         $user = $manager->findOneById($id);
         if(!$user) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'user.not_found',
-                NotFoundHttpException::class
+                'user.not_found'
             );
         }
 
         $status = $manager->deleteUser($user);
         if(!$status) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'user.delete_false',
-                BadRequestHttpException::class
+                'user.delete_false'
             );
         }
 
@@ -181,8 +183,7 @@ class UserController extends FOSRestController implements ClassResourceInterface
         $user = $manager->findOneById($id);
         if(!$user || !is_null($user->getDeletedAt())) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'user.not_found',
-                NotFoundHttpException::class
+                'user.not_found'
             );
         }
 

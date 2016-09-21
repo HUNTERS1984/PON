@@ -68,8 +68,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
             if(!$storeType) {
                 $this->get('pon.exception.exception_handler')->throwError(
-                    'store_type.not_found',
-                    BadRequestHttpException::class
+                    'store_type.not_found'
                 );
             }
         }
@@ -81,8 +80,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
             if(!$user || !$user->isEnabled()) {
                 $this->get('pon.exception.exception_handler')->throwError(
-                    'user.not_found',
-                    BadRequestHttpException::class
+                    'user.not_found'
                 );
             }
         }
@@ -95,7 +93,10 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         $store->setStoreType($storeType);
         $store->setUser($user);
 
-        $this->get('pon.exception.exception_handler')->validate($store, BadRequestHttpException::class);
+        if($error = $this->get('pon.exception.exception_handler')->validate($store)) {
+            return $error;
+        }
+
 
         $this->getManager()->createStore($store);
         return $this->view($store, 201);
@@ -150,8 +151,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         $store = $manager->findOneById($id);
         if(!$store) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'store.not_found',
-                NotFoundHttpException::class
+                'store.not_found'
             );
         }
 
@@ -164,8 +164,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
             if(!$storeType) {
                 $this->get('pon.exception.exception_handler')->throwError(
-                    'store_type.not_found',
-                    BadRequestHttpException::class
+                    'store_type.not_found'
                 );
             }
             $store->setStoreType($storeType);
@@ -178,15 +177,17 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
             if(!$user || !$user->isEnabled()) {
                 $this->get('pon.exception.exception_handler')->throwError(
-                    'user.not_found',
-                    BadRequestHttpException::class
+                    'user.not_found'
                 );
             }
             $store->setUser($user);
         }
 
         $store = $this->get('pon.utils.data')->setData($request->request->all(), $store);
-        $this->get('pon.exception.exception_handler')->validate($store, BadRequestHttpException::class);
+
+        if($error = $this->get('pon.exception.exception_handler')->validate($store)) {
+            return $error;
+        }
 
         $this->getManager()->saveStore($store);
         return $this->view($store, 200);
@@ -222,16 +223,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         $store = $manager->findOneById($id);
         if(!$store) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'store.not_found',
-                NotFoundHttpException::class
+                'store.not_found'
             );
         }
 
         $status = $manager->deleteStore($store);
         if(!$status) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'store.delete_false',
-                BadRequestHttpException::class
+                'store.delete_false'
             );
         }
 
@@ -271,8 +270,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         $store = $manager->findOneById($id);
         if(!$store || !is_null($store->getDeletedAt())) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'store.not_found',
-                NotFoundHttpException::class
+                'store.not_found'
             );
         }
 

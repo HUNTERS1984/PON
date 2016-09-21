@@ -63,8 +63,7 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
 
             if(!$store) {
                 $this->get('pon.exception.exception_handler')->throwError(
-                    'store.not_found',
-                    BadRequestHttpException::class
+                    'store.not_found'
                 );
             }
         }
@@ -74,7 +73,10 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
         /**@var CouponType $couponType*/
         $couponType = $form->getData();
         $couponType->setStore($store);
-        $this->get('pon.exception.exception_handler')->validate($couponType, BadRequestHttpException::class);
+
+        if($error = $this->get('pon.exception.exception_handler')->validate($couponType)) {
+            return $error;
+        }
 
         $this->getManager()->createCouponType($couponType);
         $couponType = $this->getSerializer()->serialize($couponType, ['view_coupon_type']);
@@ -125,8 +127,7 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
         $couponType = $manager->findOneById($id);
         if(!$couponType) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'coupon_type.not_found',
-                NotFoundHttpException::class
+                'coupon_type.not_found'
             );
         }
 
@@ -138,15 +139,17 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
 
             if(!$store) {
                 $this->get('pon.exception.exception_handler')->throwError(
-                    'store.not_found',
-                    BadRequestHttpException::class
+                    'store.not_found'
                 );
             }
             $couponType->setStore($store);
         }
 
         $couponType = $this->get('pon.utils.data')->setData($request->request->all(), $couponType);
-        $this->get('pon.exception.exception_handler')->validate($couponType, BadRequestHttpException::class);
+
+        if($error = $this->get('pon.exception.exception_handler')->validate($couponType)){
+            return $error;
+        }
 
         $this->getManager()->saveCouponType($couponType);
         $couponType = $this->getSerializer()->serialize($couponType, ['view_coupon_type']);
@@ -182,16 +185,14 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
         $couponType = $manager->findOneById($id);
         if(!$couponType) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'coupon_type.not_found',
-                NotFoundHttpException::class
+                'coupon_type.not_found'
             );
         }
 
         $status = $manager->deleteCouponType($couponType);
         if(!$status) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'coupon_type.delete_false',
-                BadRequestHttpException::class
+                'coupon_type.delete_false'
             );
         }
 
@@ -232,8 +233,7 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
         $couponType = $manager->findOneById($id);
         if(!$couponType || !is_null($couponType->getDeletedAt())) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'coupon_type.not_found',
-                NotFoundHttpException::class
+                'coupon_type.not_found'
             );
         }
 

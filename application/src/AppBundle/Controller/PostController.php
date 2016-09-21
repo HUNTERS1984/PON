@@ -60,8 +60,7 @@ class PostController extends FOSRestController  implements ClassResourceInterfac
 
             if(!$appUser) {
                 $this->get('pon.exception.exception_handler')->throwError(
-                    'app_user.not_found',
-                    BadRequestHttpException::class
+                    'app_user.not_found'
                 );
             }
         }
@@ -73,7 +72,9 @@ class PostController extends FOSRestController  implements ClassResourceInterfac
         $post = $form->getData();
         $post->setAppUser($appUser);
 
-        $this->get('pon.exception.exception_handler')->validate($post, BadRequestHttpException::class);
+        if($error = $this->get('pon.exception.exception_handler')->validate($post)) {
+            return $error;
+        }
         $this->getManager()->createPost($post);
         $post = $this->getSerializer()->serialize($post, ['view','view_post']);
 
@@ -123,8 +124,7 @@ class PostController extends FOSRestController  implements ClassResourceInterfac
         $post = $manager->findOneById($id);
         if(!$post) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'post.not_found',
-                NotFoundHttpException::class
+                'post.not_found'
             );
         }
 
@@ -137,15 +137,18 @@ class PostController extends FOSRestController  implements ClassResourceInterfac
 
             if(!$appUser) {
                 $this->get('pon.exception.exception_handler')->throwError(
-                    'app_user.not_found',
-                    BadRequestHttpException::class
+                    'app_user.not_found'
                 );
             }
             $post->setAppUser($appUser);
         }
 
         $post = $this->get('pon.utils.data')->setData($request->request->all(), $post);
-        $this->get('pon.exception.exception_handler')->validate($post, BadRequestHttpException::class);
+
+        if($error = $this->get('pon.exception.exception_handler')->validate($post)) {
+            return $error;
+        }
+
 
         $this->getManager()->savePost($post);
         $post = $this->getSerializer()->serialize($post, ['view','view_post']);
@@ -182,16 +185,14 @@ class PostController extends FOSRestController  implements ClassResourceInterfac
         $post = $manager->findOneById($id);
         if(!$post) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'post.not_found',
-                NotFoundHttpException::class
+                'post.not_found'
             );
         }
 
         $status = $manager->deletePost($post);
         if(!$status) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'post.delete_false',
-                BadRequestHttpException::class
+                'post.delete_false'
             );
         }
 
@@ -231,8 +232,7 @@ class PostController extends FOSRestController  implements ClassResourceInterfac
         $post = $manager->findOneById($id);
         if(!$post || !is_null($post->getDeletedAt())) {
             $this->get('pon.exception.exception_handler')->throwError(
-                'post.not_found',
-                NotFoundHttpException::class
+                'post.not_found'
             );
         }
 
