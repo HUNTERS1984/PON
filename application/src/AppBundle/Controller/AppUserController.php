@@ -19,15 +19,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use CoreBundle\Utils\Response as BaseResponse;
 
 class AppUserController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * Create App User
+     * Signup
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to create app user",
+     *  description="This api is used to signup",
      *  input={
      *       "class"="CoreBundle\Entity\AppUser",
      *       "groups"={"create_app_user"}
@@ -42,20 +42,24 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *     400 = "Returned when the API has invalid input"
      *   }
      * )
-     * @Post("/app/users", name="create_app_user")
+     * @Post("/app/signup", name="create_app_user")
      * @return Response
      */
     public function postAction(Request $request)
     {
-
         $data = $request->request->all();
         $form = $this->createForm(AppUserType::class, new AppUser());
         $form->submit($data);
         /**@var AppUser $appUser*/
         $appUser = $form->getData();
         $this->get('pon.exception.exception_handler')->validate($appUser, BadRequestHttpException::class);
-        $this->getManager()->createAppUser($appUser);
-        return $this->view($appUser, 201);
+        $result = $this->getManager()->createAppUser($appUser);
+        $data = array(
+            "token"     =>  $result->getAccessTokens(),
+            "id"        =>  $result->getId(),
+            "profile"   =>  array()
+        );
+        return $this->view(BaseResponse::getData($data));
     }
 
     /**

@@ -36,7 +36,7 @@ class AppUserManager extends AbstractManager
         $appUser
             ->setEnabled(true)
             ->setCreatedAt(new \DateTime());
-        $this->saveAppUser($appUser);
+        return $this->saveAppUser($appUser);
     }
 
     /**
