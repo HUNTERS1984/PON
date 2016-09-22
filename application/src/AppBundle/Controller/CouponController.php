@@ -8,6 +8,7 @@ use CoreBundle\Form\Type\CouponTypeType;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\CouponTypeManager;
 use Faker\Factory;
+use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -279,6 +280,61 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'can_use' => $faker->randomElements([0, 1]),
                 'code' => $faker->ean13,
                 'shop_id' => 1
+            ];
+        }
+        return $this->view(BaseResponse::getData($data), 200, [
+            'X-Pon-Limit' => 20,
+            'X-Pon-Offset' => 0,
+            'X-Pon-Item-Total' => 20,
+            'X-Pon-Page-Total' => 1,
+            'X-Pon-Current-Page' => 1
+        ]);
+
+        $params = $request->query->all();
+        $data = $this->getManager()->listCoupon($params);
+        $coupons = $this->getSerializer()->serialize($data['data'], ['view', 'view_coupon']);
+        return $this->view($coupons, 200, $data['pagination']);
+    }
+
+    /**
+     * Get Shop Coupon
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to list shop coupon",
+     *  parameters={
+     *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
+     *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
+     *      {"name"="shop_id", "dataType"="integer", "required"=false, "description"="shop id"}
+     *  },
+     *  output={
+     *     "class"="CoreBundle\Entity\Coupon",
+     *     "groups"={"view"}
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The Shop is not found"
+     *   }
+     * )
+     * @Get("/shop/{id}/coupons")
+     * @return Response
+     */
+    public function getShopCouponAction($id, Request $request)
+    {
+        $faker = Factory::create();
+        $data = [];
+        for ($i = 0; $i < 20; $i++) {
+            $data[] = [
+                'id' => $i + 1,
+                'title' => $faker->name,
+                'type' => $faker->randomElements([0, 1]),
+                'expired_time' => time(),
+                'image_url' => $faker->imageUrl(),
+                'is_like' => $faker->randomElements([0, 1]),
+                'can_use' => $faker->randomElements([0, 1]),
+                'code' => $faker->ean13,
+                'shop_id' => $id
             ];
         }
         return $this->view(BaseResponse::getData($data), 200, [
