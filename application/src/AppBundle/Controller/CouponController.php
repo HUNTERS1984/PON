@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use CoreBundle\Utils\Response as BaseResponse;
 
 
-class CouponController extends FOSRestController  implements ClassResourceInterface
+class CouponController extends FOSRestController implements ClassResourceInterface
 {
     /**
      * Create Coupon
@@ -54,12 +54,12 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
 
         $couponTypeId = $request->request->get('coupon_type_id');
         $couponType = null;
-        if($couponTypeId){
+        if ($couponTypeId) {
             /**@var CouponTypeManager $couponTypeManager */
             $couponTypeManager = $this->getCouponTypeManager();
             $couponType = $couponTypeManager->findOneById($couponTypeId);
 
-            if(!$couponType) {
+            if (!$couponType) {
                 return $this->get('pon.exception.exception_handler')->throwError(
                     'coupon_type.not_found'
                 );
@@ -69,16 +69,16 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
         $form = $this->createForm(CouponType::class, new Coupon());
         $form->submit($request->request->all());
 
-        /**@var Coupon $coupon*/
+        /**@var Coupon $coupon */
         $coupon = $form->getData();
         $coupon->setCouponType($couponType);
 
-        if($error = $this->get('pon.exception.exception_handler')->validate($coupon)) {
+        if ($error = $this->get('pon.exception.exception_handler')->validate($coupon)) {
             return $error;
         }
 
         $this->getManager()->createCoupon($coupon);
-        $coupon = $this->getSerializer()->serialize($coupon, ['view','view_coupon']);
+        $coupon = $this->getSerializer()->serialize($coupon, ['view', 'view_coupon']);
         return $this->view($coupon, 201);
     }
 
@@ -118,24 +118,24 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
      * )
      * @return Response
      */
-    public function putAction($id ,Request $request)
+    public function putAction($id, Request $request)
     {
         $manager = $this->getManager();
-        /**@var Coupon $coupon*/
+        /**@var Coupon $coupon */
         $coupon = $manager->findOneById($id);
-        if(!$coupon) {
+        if (!$coupon) {
             $this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_found'
             );
         }
 
         $couponTypeId = $request->request->get('coupon_type_id');
-        if($couponTypeId) {
+        if ($couponTypeId) {
             /**@var CouponTypeManager $couponTypeManager */
             $couponTypeManager = $this->getCouponTypeManager();
             $couponType = $couponTypeManager->findOneById($couponTypeId);
 
-            if(!$couponType) {
+            if (!$couponType) {
                 $this->get('pon.exception.exception_handler')->throwError(
                     'coupon_type.not_found'
                 );
@@ -145,12 +145,12 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
 
         $coupon = $this->get('pon.utils.data')->setData($request->request->all(), $coupon);
 
-        if($error = $this->get('pon.exception.exception_handler')->validate($coupon)) {
+        if ($error = $this->get('pon.exception.exception_handler')->validate($coupon)) {
             return $error;
         }
 
         $this->getManager()->saveCoupon($coupon);
-        $coupon = $this->getSerializer()->serialize($coupon, ['view','view_coupon']);
+        $coupon = $this->getSerializer()->serialize($coupon, ['view', 'view_coupon']);
         return $this->view($coupon, 200);
     }
 
@@ -178,18 +178,18 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
      */
     public function deleteAction($id)
     {
-        /**@var CouponManager $manager*/
+        /**@var CouponManager $manager */
         $manager = $this->getManager();
-        /**@var Coupon $coupon*/
+        /**@var Coupon $coupon */
         $coupon = $manager->findOneById($id);
-        if(!$coupon) {
+        if (!$coupon) {
             $this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_found'
             );
         }
 
         $status = $manager->deleteCoupon($coupon);
-        if(!$status) {
+        if (!$status) {
             $this->get('pon.exception.exception_handler')->throwError(
                 'coupon.delete_false'
             );
@@ -227,15 +227,15 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
     public function getAction($id)
     {
         $manager = $this->getManager();
-        /**@var Coupon $coupon*/
+        /**@var Coupon $coupon */
         $coupon = $manager->findOneById($id);
-        if(!$coupon || !is_null($coupon->getDeletedAt())) {
+        if (!$coupon || !is_null($coupon->getDeletedAt())) {
             $this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_found'
             );
         }
 
-        $data = $this->getSerializer()->serialize($coupon, ['view','view_coupon']);
+        $data = $this->getSerializer()->serialize($coupon, ['view', 'view_coupon']);
 
         return $this->view($data, 200);
     }
@@ -268,20 +268,20 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
     {
         $faker = Factory::create();
         $data = [];
-        for($i=0; $i< 20; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $data[] = [
-                'id'        =>  $i+1,
-                'title'   => $faker->name,
-                'type' => $faker->randomElements([0,1]),
+                'id' => $i + 1,
+                'title' => $faker->name,
+                'type' => $faker->randomElements([0, 1]),
                 'expired_time' => time(),
                 'image_url' => $faker->imageUrl(),
-                'is_like' => $faker->randomElements([0,1]),
-                'can_use' => $faker->randomElements([0,1]),
+                'is_like' => $faker->randomElements([0, 1]),
+                'can_use' => $faker->randomElements([0, 1]),
                 'code' => $faker->ean13,
                 'shop_id' => 1
             ];
         }
-        return $this->view(BaseResponse::getData($data),[
+        return $this->view(BaseResponse::getData($data), 200, [
             'X-Pon-Limit' => 20,
             'X-Pon-Offset' => 0,
             'X-Pon-Item-Total' => 20,
@@ -291,7 +291,7 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
 
         $params = $request->query->all();
         $data = $this->getManager()->listCoupon($params);
-        $coupons = $this->getSerializer()->serialize($data['data'], ['view','view_coupon']);
+        $coupons = $this->getSerializer()->serialize($data['data'], ['view', 'view_coupon']);
         return $this->view($coupons, 200, $data['pagination']);
     }
 
