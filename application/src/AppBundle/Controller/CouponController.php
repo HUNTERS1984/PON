@@ -7,6 +7,7 @@ use CoreBundle\Form\Type\CouponType;
 use CoreBundle\Form\Type\CouponTypeType;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\CouponTypeManager;
+use Faker\Factory;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use CoreBundle\Utils\Response as BaseResponse;
 
 
 class CouponController extends FOSRestController  implements ClassResourceInterface
@@ -246,7 +248,8 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
      *  parameters={
      *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
      *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
-     *      {"name"="title", "dataType"="string", "required"=false, "description"="name of coupon"}
+     *      {"name"="shop_type", "dataType"="integer", "required"=false, "description"="shop type"}
+     *      {"name"="filer", "dataType"="string", "required"=false, "description"="filter of coupon"}
      *  },
      *  output={
      *     "class"="CoreBundle\Entity\Coupon",
@@ -263,6 +266,18 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
      */
     public function cgetAction(Request $request)
     {
+        $faker = Factory::create();
+        return $this->view(BaseResponse::getData([
+            'id'        =>  1,
+            'title'   => $faker->name,
+            'type' => $faker->randomElements([0,1]),
+            'expired_time' => time(),
+            'image_url' => $faker->imageUrl(),
+            'is_like' => $faker->randomElements([0,1]),
+            'can_use' => $faker->randomElements([0,1]),
+            'code' => $faker->ean13,
+            'shop_id' => 1
+        ]));
         $params = $request->query->all();
         $data = $this->getManager()->listCoupon($params);
         $coupons = $this->getSerializer()->serialize($data['data'], ['view','view_coupon']);
