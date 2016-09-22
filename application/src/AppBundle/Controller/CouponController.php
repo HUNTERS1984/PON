@@ -248,7 +248,7 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
      *  parameters={
      *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
      *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
-     *      {"name"="shop_type", "dataType"="integer", "required"=false, "description"="shop type"}
+     *      {"name"="shop_type", "dataType"="integer", "required"=false, "description"="shop type"},
      *      {"name"="filer", "dataType"="string", "required"=false, "description"="filter of coupon"}
      *  },
      *  output={
@@ -267,17 +267,22 @@ class CouponController extends FOSRestController  implements ClassResourceInterf
     public function cgetAction(Request $request)
     {
         $faker = Factory::create();
-        return $this->view(BaseResponse::getData([
-            'id'        =>  1,
-            'title'   => $faker->name,
-            'type' => $faker->randomElements([0,1]),
-            'expired_time' => time(),
-            'image_url' => $faker->imageUrl(),
-            'is_like' => $faker->randomElements([0,1]),
-            'can_use' => $faker->randomElements([0,1]),
-            'code' => $faker->ean13,
-            'shop_id' => 1
-        ]));
+        $data = [];
+        for($i=0; $i< 20; $i++) {
+            $data[] = [
+                'id'        =>  $i+1,
+                'title'   => $faker->name,
+                'type' => $faker->randomElements([0,1]),
+                'expired_time' => time(),
+                'image_url' => $faker->imageUrl(),
+                'is_like' => $faker->randomElements([0,1]),
+                'can_use' => $faker->randomElements([0,1]),
+                'code' => $faker->ean13,
+                'shop_id' => 1
+            ];
+        }
+        return $this->view(BaseResponse::getData($data));
+
         $params = $request->query->all();
         $data = $this->getManager()->listCoupon($params);
         $coupons = $this->getSerializer()->serialize($data['data'], ['view','view_coupon']);
