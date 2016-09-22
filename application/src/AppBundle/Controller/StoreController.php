@@ -8,6 +8,8 @@ use CoreBundle\Form\Type\StoreType;
 use CoreBundle\Manager\StoreManager;
 use CoreBundle\Manager\StoreTypeManager;
 use CoreBundle\Manager\UserManager;
+use Faker\Factory;
+use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -15,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use CoreBundle\Utils\Response as BaseResponse;
 
 
 class StoreController extends FOSRestController  implements ClassResourceInterface
@@ -261,10 +264,29 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *     404 = "Returned when the The Store is not found"
      *   }
      * )
+     * @Get("/shop/{id}")
      * @return Response
      */
     public function getAction($id)
     {
+        $faker = Factory::create();
+        $data = [
+            'id' => $id,
+            'title' => $faker->name,
+            'shop_type' => 1,
+            'operation_start_time' => time(),
+            'operation_end_time' => time(),
+            'image_url' => $faker->imageUrl(),
+            'is_follow' => $faker->randomElement(0,1),
+            'tel' => $faker->phoneNumber,
+            'lattitude' => $faker->latitude,
+            'longitude' => $faker->longitude,
+            'address' => $faker->address,
+            'close_date' => "Saturday and Sunday",
+            'ave_bill' => $faker->numberBetween(100,200)
+        ];
+        return $this->view(BaseResponse::getData($data));
+
         $manager = $this->getManager();
         /**@var Store $store*/
         $store = $manager->findOneById($id);
