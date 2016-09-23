@@ -273,11 +273,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             $data[] = [
                 'id' => $i + 1,
                 'title' => $faker->name,
-                'type' => $faker->randomElements([0, 1]),
+                'type' => $faker->randomElement([0, 1]),
                 'expired_time' => time(),
                 'image_url' => $faker->imageUrl(),
-                'is_like' => $faker->randomElements([0, 1]),
-                'can_use' => $faker->randomElements([0, 1]),
+                'is_like' => $faker->randomElement([0, 1]),
+                'can_use' => $faker->randomElement([0, 1]),
                 'code' => $faker->ean13,
                 'shop_id' => 1
             ];
@@ -328,11 +328,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             $data[] = [
                 'id' => $i + 1,
                 'title' => $faker->name,
-                'type' => $faker->randomElements([0, 1]),
+                'type' => $faker->randomElement([0, 1]),
                 'expired_time' => time(),
                 'image_url' => $faker->imageUrl(),
-                'is_like' => $faker->randomElements([0, 1]),
-                'can_use' => $faker->randomElements([0, 1]),
+                'is_like' => $faker->randomElement([0, 1]),
+                'can_use' => $faker->randomElement([0, 1]),
                 'code' => $faker->ean13,
                 'shop_id' => $id
             ];
