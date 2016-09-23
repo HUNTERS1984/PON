@@ -333,6 +333,64 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     }
 
     /**
+     * Get Shop By Map
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to get list shop by map",
+     *  parameters={
+     *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
+     *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"}
+     *  },
+     *  output={
+     *     "class"="CoreBundle\Entity\Store",
+     *     "groups"={"view"}
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The Shop is not found"
+     *   }
+     * )
+     * @Get("/shop/maps/{longtitude}/{latitude}")
+     * @return Response
+     */
+    public function getShopByMapAction($longtitude, $latitude, Request $request)
+    {
+        $faker = Factory::create();
+        $data = [];
+        for ($i = 0; $i < 20; $i++) {
+            $data[] = [
+                'id' => $faker->numberBetween(1,200),
+                'title' => $faker->name,
+                'shop_type' => 1,
+                'operation_start_time' => time(),
+                'operation_end_time' => time(),
+                'image_url' => $faker->imageUrl(),
+                'is_follow' => $faker->randomElement(0,1),
+                'tel' => $faker->phoneNumber,
+                'lattitude' => $latitude,
+                'longitude' => $longtitude,
+                'address' => $faker->address,
+                'close_date' => "Saturday and Sunday",
+                'ave_bill' => $faker->numberBetween(100,200)
+            ];
+        }
+        return $this->view(BaseResponse::getData($data), 200, [
+            'X-Pon-Limit' => 20,
+            'X-Pon-Offset' => 0,
+            'X-Pon-Item-Total' => 20,
+            'X-Pon-Page-Total' => 1,
+            'X-Pon-Current-Page' => 1
+        ]);
+
+        $params = $request->query->all();
+        $data = $this->getManager()->listCoupon($params);
+        $coupons = $this->getSerializer()->serialize($data['data'], ['view', 'view_coupon']);
+        return $this->view($coupons, 200, $data['pagination']);
+    }
+
+    /**
      * @return StoreManager
      */
     public function getManager()
