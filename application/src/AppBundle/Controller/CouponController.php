@@ -267,19 +267,221 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function cgetAction(Request $request)
     {
-        $faker = Factory::create();
+        $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
             $data[] = [
                 'id' => $i + 1,
                 'title' => $faker->name,
-                'type' => $faker->randomElement([0, 1]),
+                'type' => [
+                    'id' => $faker->randomElement([0, 1]),
+                    'name' => $faker->name,
+                    'icon_url' => $faker->imageUrl(),
+                    'shop' => [
+                        'id' => $faker->numberBetween(1, 200),
+                        'title' => $faker->name,
+                        'shop_type' => 1,
+                        'operation_start_time' => time(),
+                        'operation_end_time' => time(),
+                        'avatar_url' => $faker->imageUrl(),
+                        'is_follow' => $faker->randomElement(0, 1),
+                        'tel' => $faker->phoneNumber,
+                        'lattitude' => $faker->latitude,
+                        'longitude' => $faker->longitude,
+                        'address' => $faker->address,
+                        'close_date' => "Saturday and Sunday",
+                        'ave_bill' => $faker->numberBetween(100, 200)
+                    ]
+                ],
+                'coupon_photo_url' => [
+                    $faker->imageUrl(),
+                    $faker->imageUrl(),
+                    $faker->imageUrl(),
+                    $faker->imageUrl()
+                ],
+                'user_photo_url' => [
+                    $faker->imageUrl(),
+                    $faker->imageUrl(),
+                    $faker->imageUrl(),
+                    $faker->imageUrl()
+                ],
                 'expired_time' => time(),
                 'image_url' => $faker->imageUrl(),
                 'is_like' => $faker->randomElement([0, 1]),
                 'can_use' => $faker->randomElement([0, 1]),
                 'code' => $faker->ean13,
-                'shop_id' => 1
+                'description' => $faker->paragraph(6),
+                'similar_coupon' => [
+                    [
+                        'id' => $i + 2,
+                        'title' => $faker->name,
+                        'type' => [
+                            'id' => $faker->randomElement([0, 1]),
+                            'name' => $faker->name,
+                            'icon_url' => $faker->imageUrl(),
+                            'shop' => [
+                                'id' => $faker->numberBetween(1, 200),
+                                'title' => $faker->name,
+                                'shop_type' => 1,
+                                'operation_start_time' => time(),
+                                'operation_end_time' => time(),
+                                'avatar_url' => $faker->imageUrl(),
+                                'is_follow' => $faker->randomElement(0, 1),
+                                'tel' => $faker->phoneNumber,
+                                'lattitude' => $faker->latitude,
+                                'longitude' => $faker->longitude,
+                                'address' => $faker->address,
+                                'close_date' => "Saturday and Sunday",
+                                'ave_bill' => $faker->numberBetween(100, 200)
+                            ]
+                        ],
+                        'coupon_photo_url' => [
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl()
+                        ],
+                        'user_photo_url' => [
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl()
+                        ],
+                        'expired_time' => time(),
+                        'image_url' => $faker->imageUrl(),
+                        'is_like' => $faker->randomElement([0, 1]),
+                        'can_use' => $faker->randomElement([0, 1]),
+                        'code' => $faker->ean13,
+                        'description' => $faker->paragraph(6),
+                    ],
+                    [
+                        'id' => $i + 2,
+                        'title' => $faker->name,
+                        'type' => [
+                            'id' => $faker->randomElement([0, 1]),
+                            'name' => $faker->name,
+                            'icon_url' => $faker->imageUrl(),
+                            'shop' => [
+                                'id' => $faker->numberBetween(1, 200),
+                                'title' => $faker->name,
+                                'shop_type' => 1,
+                                'operation_start_time' => time(),
+                                'operation_end_time' => time(),
+                                'avatar_url' => $faker->imageUrl(),
+                                'is_follow' => $faker->randomElement(0, 1),
+                                'tel' => $faker->phoneNumber,
+                                'lattitude' => $faker->latitude,
+                                'longitude' => $faker->longitude,
+                                'address' => $faker->address,
+                                'close_date' => "Saturday and Sunday",
+                                'ave_bill' => $faker->numberBetween(100, 200)
+                            ]
+                        ],
+                        'coupon_photo_url' => [
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl()
+                        ],
+                        'user_photo_url' => [
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl()
+                        ],
+                        'expired_time' => time(),
+                        'image_url' => $faker->imageUrl(),
+                        'is_like' => $faker->randomElement([0, 1]),
+                        'can_use' => $faker->randomElement([0, 1]),
+                        'code' => $faker->ean13,
+                        'description' => $faker->paragraph(6),
+                    ],
+                    [
+                        'id' => $i + 2,
+                        'title' => $faker->name,
+                        'type' => [
+                            'id' => $faker->randomElement([0, 1]),
+                            'name' => $faker->name,
+                            'icon_url' => $faker->imageUrl(),
+                            'shop' => [
+                                'id' => $faker->numberBetween(1, 200),
+                                'title' => $faker->name,
+                                'shop_type' => 1,
+                                'operation_start_time' => time(),
+                                'operation_end_time' => time(),
+                                'avatar_url' => $faker->imageUrl(),
+                                'is_follow' => $faker->randomElement(0, 1),
+                                'tel' => $faker->phoneNumber,
+                                'lattitude' => $faker->latitude,
+                                'longitude' => $faker->longitude,
+                                'address' => $faker->address,
+                                'close_date' => "Saturday and Sunday",
+                                'ave_bill' => $faker->numberBetween(100, 200)
+                            ]
+                        ],
+                        'coupon_photo_url' => [
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl()
+                        ],
+                        'user_photo_url' => [
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl()
+                        ],
+                        'expired_time' => time(),
+                        'image_url' => $faker->imageUrl(),
+                        'is_like' => $faker->randomElement([0, 1]),
+                        'can_use' => $faker->randomElement([0, 1]),
+                        'code' => $faker->ean13,
+                        'description' => $faker->paragraph(6),
+                    ],
+                    [
+                        'id' => $i + 2,
+                        'title' => $faker->name,
+                        'type' => [
+                            'id' => $faker->randomElement([0, 1]),
+                            'name' => $faker->name,
+                            'icon_url' => $faker->imageUrl(),
+                            'shop' => [
+                                'id' => $faker->numberBetween(1, 200),
+                                'title' => $faker->name,
+                                'shop_type' => 1,
+                                'operation_start_time' => time(),
+                                'operation_end_time' => time(),
+                                'avatar_url' => $faker->imageUrl(),
+                                'is_follow' => $faker->randomElement(0, 1),
+                                'tel' => $faker->phoneNumber,
+                                'lattitude' => $faker->latitude,
+                                'longitude' => $faker->longitude,
+                                'address' => $faker->address,
+                                'close_date' => "Saturday and Sunday",
+                                'ave_bill' => $faker->numberBetween(100, 200)
+                            ]
+                        ],
+                        'coupon_photo_url' => [
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl()
+                        ],
+                        'user_photo_url' => [
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl(),
+                            $faker->imageUrl()
+                        ],
+                        'expired_time' => time(),
+                        'image_url' => $faker->imageUrl(),
+                        'is_like' => $faker->randomElement([0, 1]),
+                        'can_use' => $faker->randomElement([0, 1]),
+                        'code' => $faker->ean13,
+                        'description' => $faker->paragraph(6),
+                    ]
+                ],
+
             ];
         }
         return $this->view(BaseResponse::getData($data), 200, [
@@ -322,19 +524,51 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getShopCouponAction($id, Request $request)
     {
-        $faker = Factory::create();
+        $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
             $data[] = [
                 'id' => $i + 1,
                 'title' => $faker->name,
-                'type' => $faker->randomElement([0, 1]),
+                'type' => [
+                    'id' => $faker->randomElement([0, 1]),
+                    'name' => $faker->name,
+                    'icon_url' => $faker->imageUrl(),
+                    'shop' => [
+                        'id' => $id,
+                        'title' => $faker->name,
+                        'shop_type' => 1,
+                        'operation_start_time' => time(),
+                        'operation_end_time' => time(),
+                        'avatar_url' => $faker->imageUrl(),
+                        'is_follow' => $faker->randomElement(0, 1),
+                        'tel' => $faker->phoneNumber,
+                        'lattitude' => $faker->latitude,
+                        'longitude' => $faker->longitude,
+                        'address' => $faker->address,
+                        'close_date' => "Saturday and Sunday",
+                        'ave_bill' => $faker->numberBetween(100, 200)
+                    ]
+                ],
+                'coupon_photo_url' => [
+                    $faker->imageUrl(),
+                    $faker->imageUrl(),
+                    $faker->imageUrl(),
+                    $faker->imageUrl()
+                ],
+                'user_photo_url' => [
+                    $faker->imageUrl(),
+                    $faker->imageUrl(),
+                    $faker->imageUrl(),
+                    $faker->imageUrl()
+                ],
                 'expired_time' => time(),
                 'image_url' => $faker->imageUrl(),
                 'is_like' => $faker->randomElement([0, 1]),
                 'can_use' => $faker->randomElement([0, 1]),
                 'code' => $faker->ean13,
-                'shop_id' => $id
+                'description' => $faker->paragraph(6),
+
             ];
         }
         return $this->view(BaseResponse::getData($data), 200, [
