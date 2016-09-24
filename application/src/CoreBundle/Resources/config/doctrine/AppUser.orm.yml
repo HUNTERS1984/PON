@@ -31,6 +31,7 @@ CoreBundle\Entity\AppUser:
         temporaryHash:
             type: string
             length: 60
+            nullable: TRUE
         androidPushKey:
             type: string
             length: 255
@@ -46,6 +47,7 @@ CoreBundle\Entity\AppUser:
         name:
             type: string
             length: 100
+            nullable: TRUE
         gender:
             type: integer
             nullable: TRUE

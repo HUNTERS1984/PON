@@ -12,26 +12,26 @@ class ExceptionHandler
 {
     /**
      * @var ValidatorInterface
-    */
+     */
     protected $validator;
 
     /**
      * @var TranslatorInterface
-    */
+     */
     protected $translator;
 
-    public function __construct(ValidatorInterface $validator,TranslatorInterface $translator)
+    public function __construct(ValidatorInterface $validator, TranslatorInterface $translator)
     {
         $this->validator = $validator;
         $this->translator = $translator;
     }
 
-    public function validate($data)
+    public function validate($data, $constraints = null, $groups = null)
     {
-        $errors = $this->validator->validate($data);
+        $errors = $this->validator->validate($data, $constraints, $groups);
         if ($errors->count() > 0) {
             return [
-                'code' => (int)$this->translator->trans($errors[0]->getMessage(),[],'codes'),
+                'code' => (int)$this->translator->trans($errors[0]->getMessage(), [], 'codes'),
                 'message' => $this->translator->trans($errors[0]->getMessage()),
                 'data' => []
             ];
@@ -43,7 +43,7 @@ class ExceptionHandler
     public function throwError($message)
     {
         return [
-            'code' => (int)$this->translator->trans($message,[],'codes'),
+            'code' => (int)$this->translator->trans($message, [], 'codes'),
             'message' => $this->translator->trans($message),
             'data' => []
         ];

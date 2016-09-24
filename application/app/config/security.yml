@@ -14,10 +14,11 @@ security:
         oauth_token:                                   # Everyone can access the access token URL.
             pattern: ^/oauth/v2/token
             security: false
+
         api:
-            security: false
+            security: true
             pattern: ^/api/v1                                # All URLs are protected
-            fos_oauth: false                            # OAuth2 protected resource
+            fos_oauth: true                            # OAuth2 protected resource
             stateless: true                            # Do no set session cookies
             anonymous: false                           # Anonymous access is not allowed
         # disables authentication for assets and the profiler, adapt it according to your needs

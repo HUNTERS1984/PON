@@ -39,7 +39,7 @@ class AppUserType extends AbstractType
             ->add('username', TextType::class, [
                 'required' => true,
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('password', PasswordType::class, [
                 'required' => true,
             ])
             ->add('email', EmailType::class, [
