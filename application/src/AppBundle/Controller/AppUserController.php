@@ -16,6 +16,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use OAuth2\OAuth2ServerException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -117,7 +118,16 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      */
     public function postSingInAction(Request $request)
     {
-        $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+        try {
+            $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+        } catch (OAuth2ServerException $e) {
+            $content = json_decode($e->getHttpResponse()->getContent());
+            return $this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found', $content->error_description
+            );
+        }
+
+
         $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
 
         if(!$appUser || !is_null($appUser->getDeletedAt())) {

@@ -40,11 +40,11 @@ class ExceptionHandler
         return false;
     }
 
-    public function throwError($message)
+    public function throwError($message, $description = "")
     {
         return [
             'code' => (int)$this->translator->trans($message, [], 'codes'),
-            'message' => $this->translator->trans($message),
+            'message' => !empty($description)? $description: $this->translator->trans($message),
             'data' => []
         ];
     }
