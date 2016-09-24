@@ -3,10 +3,7 @@ FOS\UserBundle\Model\User:
     properties:
         email:
             expose: true
-            groups: [view,create_user]
         username:
             expose : true
-            groups: [view,create_user]
         enabled:
             expose : true
-            groups: [view,create_user]

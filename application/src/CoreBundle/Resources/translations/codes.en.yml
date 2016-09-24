@@ -1,4 +1,4 @@
-store_type:
+store_type:   # 1001
     not_found: 1000
     delete_false: Deleting is not successful
     name:
@@ -10,7 +10,7 @@ store_type:
        min_message: The Icon Url must be at least 1 characters long
        max_message: The Icon Url cannot be longer than 255 characters
 
-coupon_type:
+coupon_type:  # 2001
     not_found: Coupon Type is not found.
     delete_false: Deleting is not successful
     name:
@@ -25,7 +25,7 @@ coupon_type:
     store:
         not_blank: The Store should not be blank
 
-user:
+user:  # 3001
     not_found: User is not found.
     delete_false: Deleting is not successful
     username:
@@ -77,7 +77,7 @@ user:
         min_message: The Tel must be at least 1 characters long
         max_message: The Tel cannot be longer than 20 characters
 
-app_user:
+app_user:  #4001
     not_found: App User is not found.
     delete_false: Deleting is not successful
     name:
@@ -122,7 +122,7 @@ app_user:
         min_message: The TemporaryHash must be at least 1 characters long
         max_message: The TemporaryHash cannot be longer than 5 characters
 
-store:
+store: #5001
     not_found: Store is not found.
     delete_false: Deleting is not successful
     user:
@@ -142,7 +142,7 @@ store:
        min_message: The longtitude must be at least 1 characters long
        max_message: The longtitude cannot be longer than 20 characters
 
-coupon:
+coupon: #6001
     not_found: Coupon is not found.
     delete_false: Deleting is not successful
     coupon_type:
@@ -169,7 +169,7 @@ coupon:
     size:
         integer: The Size should be integer
 
-post:
+post: #7001
     not_found: Post is not found.
     delete_false: Deleting is not successful
     app_user:
@@ -208,7 +208,7 @@ post:
         min_message: The Url must be at least 1 characters long
         max_message: The Url cannot be longer than 255 characters
 
-news:
+news: #8001
     not_found: News is not found.
     delete_false: Deleting is not successful
     store:

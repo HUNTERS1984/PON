@@ -95,10 +95,10 @@ app_user:
         max_message: The email cannot be longer than 180 characters
         email: The email is not a valid email.
         unique: The email is already exists.
-    plain_password:
-        not_blank: The PlainPassword should not be blank
-        min_message: The PlainPassword must be at least 1 characters long
-        max_message: The PlainPassword cannot be longer than 180 characters
+    password:
+        not_blank: The Password should not be blank
+        min_message: The Password must be at least 1 characters long
+        max_message: The Password cannot be longer than 180 characters
     android_push_key:
         not_blank: The Android PushKey Hash should not be blank
         min_message: The Android PushKey must be at least 1 characters long

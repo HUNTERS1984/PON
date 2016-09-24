@@ -57,9 +57,18 @@ abstract class AbstractManager
      * @param array $criteria
      * @return array
      */
-    protected function find(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function find(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * @param array $criteria
+     * @return array
+     */
+    public function findOneBy(array $criteria)
+    {
+        return $this->repository->findOneBy($criteria);
     }
 
     /**

@@ -8,9 +8,6 @@ CoreBundle\Entity\AppUser:
             message: app_user.email.unique
     properties:
         name:
-            - NotBlank:
-                message: app_user.name.not_blank
-                groups: [create_app_user]
             - Length:
                 min: 1
                 max: 100
@@ -18,8 +15,7 @@ CoreBundle\Entity\AppUser:
                 maxMessage: app_user.name.max_message
         username:
             - NotBlank:
-                message: app_user.username.not_blank
-                groups: [create_app_user]
+                message: app_user.username.not_blank=
             - Length:
                 min: 1
                 max: 180
@@ -28,7 +24,6 @@ CoreBundle\Entity\AppUser:
         email:
             - NotBlank:
                 message: app_user.email.not_blank
-                groups: [create_app_user]
             - Email:
                 message: app_user.email.email
                 checkMX: false
@@ -37,18 +32,15 @@ CoreBundle\Entity\AppUser:
                 max: 180
                 minMessage: app_user.email.min_message
                 maxMessage: app_user.email.max_message
-        plainPassword:
+        password:
             - NotBlank:
-                message: app_user.plain_password.not_blank
-                groups: [create_app_user]
+                message: app_user.password.not_blank
             - Length:
                 min: 1
                 max: 180
-                minMessage: app_user.plain_password.min_message
-                maxMessage: app_user.plain_password.max_message
+                minMessage: app_user.password.min_message
+                maxMessage: app_user.password.max_message
         temporaryHash:
-            - NotBlank:
-                message: app_user.temporary_hash.not_blank
             - Length:
                 min: 1
                 max: 5
