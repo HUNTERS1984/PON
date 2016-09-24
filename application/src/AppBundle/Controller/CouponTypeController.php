@@ -270,7 +270,7 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
      */
     public function cgetAction(Request $request)
     {
-        $faker = Factory::create();
+        $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
             $data[] = [

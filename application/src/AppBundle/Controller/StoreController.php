@@ -322,10 +322,48 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *     404 = "Returned when the The Store is not found"
      *   }
      * )
+     * @Get("/shops")
      * @return Response
      */
     public function cgetAction(Request $request)
     {
+        $faker = Factory::create('ja_JP');
+        $data = [];
+        for ($i = 0; $i < 20; $i++) {
+            $data[] = [
+                'id' => $faker->numberBetween(1,200),
+                'title' => $faker->name,
+                'shop_type' => [
+                    'id' => $faker->numberBetween(1,200),
+                    'name' => $faker->name,
+                    'icon_url' => $faker->imageUrl()
+                ],
+                'shop_photo_url' => [
+                  $faker->imageUrl(),
+                  $faker->imageUrl(),
+                  $faker->imageUrl(),
+                  $faker->imageUrl(),
+                ],
+                'operation_start_time' => time(),
+                'operation_end_time' => time(),
+                'avatar_url' => $faker->imageUrl(),
+                'is_follow' => $faker->randomElement(0,1),
+                'tel' => $faker->phoneNumber,
+                'lattitude' => $faker->latitude,
+                'longitude' => $faker->longitude,
+                'address' => $faker->address,
+                'close_date' => "Saturday and Sunday",
+                'ave_bill' => $faker->numberBetween(100,200)
+            ];
+        }
+        return $this->view(BaseResponse::getData($data), 200, [
+            'X-Pon-Limit' => 20,
+            'X-Pon-Offset' => 0,
+            'X-Pon-Item-Total' => 20,
+            'X-Pon-Page-Total' => 1,
+            'X-Pon-Current-Page' => 1
+        ]);
+
         $params = $request->query->all();
         $data = $this->getManager()->listStore($params);
         $stores = $this->getSerializer()->serialize($data['data'], ['view']);
@@ -357,13 +395,17 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getShopByMapAction($longtitude, $latitude, Request $request)
     {
-        $faker = Factory::create();
+        $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
             $data[] = [
                 'id' => $faker->numberBetween(1,200),
                 'title' => $faker->name,
-                'shop_type' => 1,
+                'shop_type' => [
+                    'id' => $faker->numberBetween(1,200),
+                    'name' => $faker->name,
+                    'icon_url' => $faker->imageUrl()
+                ],
                 'operation_start_time' => time(),
                 'operation_end_time' => time(),
                 'image_url' => $faker->imageUrl(),
