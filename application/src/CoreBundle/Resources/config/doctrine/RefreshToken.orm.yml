@@ -3,15 +3,15 @@ CoreBundle\Entity\RefreshToken:
     table: null
     repositoryClass: CoreBundle\Repository\RefreshTokenRepository
     manyToOne:
-        appUser:
+        user:
             targetEntity: AppUser
-            inversedBy: refreshTokens
+            inversedBy: refresh_tokens
             joinColumn:
                 name: app_user_id
                 referencedColumnName: id
         client:
             targetEntity: Client
-            inversedBy: refreshTokens
+            inversedBy: refresh_tokens
             joinColumn:
                 name: client_id
                 referencedColumnName: id

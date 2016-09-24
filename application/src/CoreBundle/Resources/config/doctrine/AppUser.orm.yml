@@ -3,12 +3,6 @@ CoreBundle\Entity\AppUser:
     table: null
     repositoryClass: CoreBundle\Repository\AppUserRepository
     oneToMany:
-        accessTokens:
-            targetEntity: AccessToken
-            mappedBy: appUser
-        refreshTokens:
-            targetEntity: RefreshToken
-            mappedBy: appUser
         socialProfiles:
             targetEntity: SocialProfile
             mappedBy: appUser

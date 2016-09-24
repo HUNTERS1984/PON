@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use CoreBundle\Utils\Response as BaseResponse;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class AppUserController extends FOSRestController implements ClassResourceInterface
 {
@@ -154,17 +155,19 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * @Get("/signout", name="sign_out")
      * @return Response
      */
-    public function getSignOutAction()
+    public function getSignOutAction(Request $request)
     {
         $appUser = $this->getUser();
-        var_dump($appUser);die();
+
         if(!$appUser) {
             return $this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
             );
         }
 
-       $this->get('security.token_storage')->setToken(null);
+        $token = $this->get('security.token_storage')->getToken();
+        $accessToken = $this->get('fos_oauth_server.access_token_manager')->findTokenBy(['token'=> $token->getToken()]);
+        $this->get('fos_oauth_server.access_token_manager')->deleteToken($accessToken);
 
         return $this->view(BaseResponse::getData([]));
     }

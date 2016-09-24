@@ -14,7 +14,18 @@ security:
         oauth_token:                                   # Everyone can access the access token URL.
             pattern: ^/oauth/v2/token
             security: false
-
+        api_signin:
+            security: true
+            pattern: ^/api/v1/signin                               # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true                           # Anonymous access is not allowed
+        api_signup:
+            security: true
+            pattern: ^/api/v1/signup                               # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true                           # Anonymous access is not allowed
         api:
             security: true
             pattern: ^/api/v1                                # All URLs are protected
