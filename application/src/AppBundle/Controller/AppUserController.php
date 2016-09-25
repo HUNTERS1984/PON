@@ -43,7 +43,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *          "description"="email of app"
      *      },
      *     {
-     *          "name"="password",
+     *          "name"="plainPassword",
      *          "dataType"="string",
      *          "description"="password of app"
      *      }
@@ -69,9 +69,22 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             return $error;
         }
 
-        $result = $this->getManager()->createAppUser($appUser);
+        $this->getManager()->createAppUser($appUser);
 
-        return $this->view(BaseResponse::getData($result));
+        try {
+            $request->request->set('username', $appUser->getUsername());
+            $request->request->set('password', $data['plainPassword']);
+            $request->request->set('client_id',$this->getParameter('client_id'));
+            $request->request->set('client_secret',$this->getParameter('client_secret'));
+            $request->request->set('grant_type',$this->getParameter('grant_type'));
+            $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+            return $token;
+        } catch (OAuth2ServerException $e) {
+            $content = json_decode($e->getHttpResponse()->getContent());
+            return $this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found', $content->error_description
+            );
+        }
     }
 
     /**
@@ -89,21 +102,6 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *          "name"="password",
      *          "dataType"="string",
      *          "description"="password of app"
-     *      },
-     *     {
-     *          "name"="grant_type",
-     *          "dataType"="string",
-     *          "description"="grand type of app"
-     *      },
-     *     {
-     *          "name"="client_id",
-     *          "dataType"="string",
-     *          "description"="client id of app"
-     *      },
-     *     {
-     *          "name"="client_secret",
-     *          "dataType"="string",
-     *          "description"="client id of app"
      *      }
      *  },
      *  statusCodes = {
@@ -119,6 +117,9 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     public function postSingInAction(Request $request)
     {
         try {
+            $request->request->set('client_id',$this->getParameter('client_id'));
+            $request->request->set('client_secret',$this->getParameter('client_secret'));
+            $request->request->set('grant_type',$this->getParameter('grant_type'));
             $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
         } catch (OAuth2ServerException $e) {
             $content = json_decode($e->getHttpResponse()->getContent());
