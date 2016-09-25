@@ -32,7 +32,7 @@ CoreBundle\Entity\AppUser:
                 max: 180
                 minMessage: app_user.email.min_message
                 maxMessage: app_user.email.max_message
-        password:
+        plainPassword:
             - NotBlank:
                 message: app_user.password.not_blank
             - Length:
