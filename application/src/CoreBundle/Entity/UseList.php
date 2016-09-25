@@ -81,3 +81,4 @@ class UseList
         return $this->appUser;
     }
 }
+

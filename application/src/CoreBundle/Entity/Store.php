@@ -2,8 +2,6 @@
 
 namespace CoreBundle\Entity;
 
-use JMS\Serializer\Annotation\Groups;
-
 /**
  * Store
  */
@@ -45,15 +43,34 @@ class Store
     private $deletedAt;
 
     /**
-     * @var \CoreBundle\Entity\StoreType
+     * @var \Doctrine\Common\Collections\Collection
      */
-    private $storeType;
+    private $pushSettings;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $news;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $coupons;
 
     /**
      * @var \CoreBundle\Entity\User
      */
     private $user;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->pushSettings = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->news = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->coupons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -210,66 +227,6 @@ class Store
     }
 
     /**
-     * Set storeType
-     *
-     * @param \CoreBundle\Entity\StoreType $storeType
-     *
-     * @return Store
-     */
-    public function setStoreType(\CoreBundle\Entity\StoreType $storeType = null)
-    {
-        $this->storeType = $storeType;
-
-        return $this;
-    }
-
-    /**
-     * Get storeType
-     *
-     * @return \CoreBundle\Entity\StoreType
-     */
-    public function getStoreType()
-    {
-        return $this->storeType;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \CoreBundle\Entity\User $user
-     *
-     * @return Store
-     */
-    public function setUser(\CoreBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \CoreBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $pushSettings;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->pushSettings = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Add pushSetting
      *
      * @param \CoreBundle\Entity\PushSetting $pushSetting
@@ -302,11 +259,6 @@ class Store
     {
         return $this->pushSettings;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $news;
-
 
     /**
      * Add news
@@ -341,43 +293,63 @@ class Store
     {
         return $this->news;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $couponTypes;
-
 
     /**
-     * Add couponType
+     * Add coupon
      *
-     * @param \CoreBundle\Entity\CouponType $couponType
+     * @param \CoreBundle\Entity\Coupon $coupon
      *
      * @return Store
      */
-    public function addCouponType(\CoreBundle\Entity\CouponType $couponType)
+    public function addCoupon(\CoreBundle\Entity\Coupon $coupon)
     {
-        $this->couponTypes[] = $couponType;
+        $this->coupons[] = $coupon;
 
         return $this;
     }
 
     /**
-     * Remove couponType
+     * Remove coupon
      *
-     * @param \CoreBundle\Entity\CouponType $couponType
+     * @param \CoreBundle\Entity\Coupon $coupon
      */
-    public function removeCouponType(\CoreBundle\Entity\CouponType $couponType)
+    public function removeCoupon(\CoreBundle\Entity\Coupon $coupon)
     {
-        $this->couponTypes->removeElement($couponType);
+        $this->coupons->removeElement($coupon);
     }
 
     /**
-     * Get couponTypes
+     * Get coupons
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCouponTypes()
+    public function getCoupons()
     {
-        return $this->couponTypes;
+        return $this->coupons;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \CoreBundle\Entity\User $user
+     *
+     * @return Store
+     */
+    public function setUser(\CoreBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \CoreBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
+

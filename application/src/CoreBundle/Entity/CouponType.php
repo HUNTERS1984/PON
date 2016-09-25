@@ -23,11 +23,6 @@ class CouponType
     private $iconUrl;
 
     /**
-     * @var \CoreBundle\Entity\Store
-     */
-    private $store;
-
-    /**
      * @var \DateTime
      */
     private $createdAt;
@@ -42,6 +37,18 @@ class CouponType
      */
     private $deletedAt;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $coupons;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->coupons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -102,39 +109,75 @@ class CouponType
     }
 
     /**
-     * Set store
+     * Set createdAt
      *
-     * @param \CoreBundle\Entity\Store $store
+     * @param \DateTime $createdAt
      *
      * @return CouponType
      */
-    public function setStore(\CoreBundle\Entity\Store $store = null)
+    public function setCreatedAt($createdAt)
     {
-        $this->store = $store;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get store
+     * Get createdAt
      *
-     * @return \CoreBundle\Entity\Store
+     * @return \DateTime
      */
-    public function getStore()
+    public function getCreatedAt()
     {
-        return $this->store;
+        return $this->createdAt;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $coupons;
 
     /**
-     * Constructor
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return CouponType
      */
-    public function __construct()
+    public function setUpdatedAt($updatedAt)
     {
-        $this->coupons = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set deletedAt
+     *
+     * @param \DateTime $deletedAt
+     *
+     * @return CouponType
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return \DateTime
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
     }
 
     /**
@@ -170,58 +213,5 @@ class CouponType
     {
         return $this->coupons;
     }
-
-    /**
-     * @param \DateTime $createdAt
-     * @return StoreType
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     * @return StoreType
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param \DateTime $deletedAt
-     * @return StoreType
-     */
-    public function setDeletedAt($deletedAt)
-    {
-        $this->deletedAt = $deletedAt;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDeletedAt()
-    {
-        return $this->deletedAt;
-    }
 }
+

@@ -82,6 +82,18 @@ class Post
      */
     private $appUser;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $tags;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -102,7 +114,7 @@ class Post
      */
     public function setSocialUserId($socialUserId)
     {
-        $this->socialUserId = (int)$socialUserId;
+        $this->socialUserId = $socialUserId;
 
         return $this;
     }
@@ -428,18 +440,6 @@ class Post
     {
         return $this->appUser;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $tags;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add tag
@@ -475,3 +475,4 @@ class Post
         return $this->tags;
     }
 }
+

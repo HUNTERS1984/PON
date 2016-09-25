@@ -1,22 +1,39 @@
 <?php
 
 namespace CoreBundle\Entity;
-use FOS\UserBundle\Model\Group as BaseGroup;
 
 /**
  * Group
  */
-class Group extends BaseGroup
+class Group
 {
     /**
-     * @var int
+     * @var integer
      */
-    protected $id;
+    private $id;
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $users;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Add user
@@ -52,3 +69,4 @@ class Group extends BaseGroup
         return $this->users;
     }
 }
+

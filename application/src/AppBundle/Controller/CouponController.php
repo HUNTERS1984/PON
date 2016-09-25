@@ -160,24 +160,24 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             'can_use' => $faker->randomElement([0, 1]),
             'code' => $faker->ean13,
             'description' => $faker->paragraph(6),
+            'shop' => [
+                'id' => $faker->numberBetween(1, 200),
+                'title' => $faker->company,
+                'operation_start_time' => new \DateTime(),
+                'operation_end_time' => new \DateTime(),
+                'avatar_url' => $faker->imageUrl(640,480,'food'),
+                'is_follow' => $faker->randomElement(0, 1),
+                'tel' => $faker->phoneNumber,
+                'lattitude' => $faker->latitude,
+                'longitude' => $faker->longitude,
+                'address' => $faker->address,
+                'close_date' => "Saturday and Sunday",
+                'ave_bill' => $faker->numberBetween(100, 200)
+            ],
             'coupon_type' => [
                 'id' => $faker->randomElement([0, 1]),
                 'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(640,480,'food'),
-                'shop' => [
-                    'id' => $faker->numberBetween(1, 200),
-                    'title' => $faker->company,
-                    'operation_start_time' => new \DateTime(),
-                    'operation_end_time' => new \DateTime(),
-                    'avatar_url' => $faker->imageUrl(640,480,'food'),
-                    'is_follow' => $faker->randomElement(0, 1),
-                    'tel' => $faker->phoneNumber,
-                    'lattitude' => $faker->latitude,
-                    'longitude' => $faker->longitude,
-                    'address' => $faker->address,
-                    'close_date' => "Saturday and Sunday",
-                    'ave_bill' => $faker->numberBetween(100, 200)
-                ]
+                'icon_url' => $faker->imageUrl(640,480,'food')
             ],
             'coupon_photo_url' => [
                 $faker->imageUrl(640,480,'food'),
