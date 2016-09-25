@@ -65,6 +65,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
             'address' => $faker->address,
             'close_date' => "Saturday and Sunday",
             'ave_bill' => $faker->numberBetween(100, 200),
+            'help_text' => $faker->paragraph(2),
             'shop_photo_url' => [
                 $faker->imageUrl(640, 480, 'food'),
                 $faker->imageUrl(640, 480, 'food'),
