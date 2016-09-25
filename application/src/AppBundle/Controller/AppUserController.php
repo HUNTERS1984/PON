@@ -79,7 +79,9 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             $request->request->set('client_secret',$this->getParameter('client_secret'));
             $request->request->set('grant_type',$this->getParameter('grant_type'));
             $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
-            return $token;
+
+            $result = json_decode($token->getContent(),true)['access_token'];
+            return  $this->view(BaseResponse::getData($result));
         } catch (OAuth2ServerException $e) {
             $content = json_decode($e->getHttpResponse()->getContent());
             return $this->get('pon.exception.exception_handler')->throwError(
