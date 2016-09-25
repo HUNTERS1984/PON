@@ -293,6 +293,102 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     }
 
     /**
+     * Get List Favorite Coupon
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to list coupon",
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *     },
+     *  parameters={
+     *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
+     *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   }
+     * )
+     * @Get("/favorite/coupons")
+     * @return Response
+     */
+    public function getFavoriteCouponAction(Request $request)
+    {
+        $faker = Factory::create('ja_JP');
+        $data = [];
+        for ($i = 0; $i < 20; $i++) {
+            $data[] =
+                [
+                    'id' => $i + 1,
+                    'title' => $faker->name,
+                    'imageUrl' => $faker->imageUrl(640, 480, 'food'),
+                    'expired_time' => new \DateTime(),
+                    'is_like' => $faker->randomElement([0, 1]),
+                    'can_use' => $faker->randomElement([0, 1])
+                ];
+        }
+        return $this->view(BaseResponse::getData($data, [
+            'limit' => 20,
+            'offset' => 0,
+            'item_total' => 20,
+            'page_total' => 1,
+            'current_page' => 1
+        ]));
+
+    }
+
+    /**
+     * Get List Used Coupon
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to list coupon",
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *     },
+     *  parameters={
+     *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
+     *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   }
+     * )
+     * @Get("/used/coupons")
+     * @return Response
+     */
+    public function getUsedCouponAction(Request $request)
+    {
+        $faker = Factory::create('ja_JP');
+        $data = [];
+        for ($i = 0; $i < 20; $i++) {
+            $data[] =
+                [
+                    'id' => $i + 1,
+                    'title' => $faker->name,
+                    'imageUrl' => $faker->imageUrl(640, 480, 'food'),
+                    'expired_time' => new \DateTime(),
+                    'is_like' => $faker->randomElement([0, 1]),
+                    'can_use' => $faker->randomElement([0, 1])
+                ];
+        }
+        return $this->view(BaseResponse::getData($data, [
+            'limit' => 20,
+            'offset' => 0,
+            'item_total' => 20,
+            'page_total' => 1,
+            'current_page' => 1
+        ]));
+
+    }
+
+    /**
      * @return CouponManager
      */
     public function getManager()
