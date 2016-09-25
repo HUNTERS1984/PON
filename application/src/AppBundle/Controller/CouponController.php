@@ -228,7 +228,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'operation_start_time' => new \DateTime(),
                 'operation_end_time' => new \DateTime(),
                 'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                'is_follow' => $faker->randomElement(0, 1),
+                'is_follow' => $faker->randomElement([0, 1]),
                 'tel' => $faker->phoneNumber,
                 'lattitude' => $faker->latitude,
                 'longitude' => $faker->longitude,
