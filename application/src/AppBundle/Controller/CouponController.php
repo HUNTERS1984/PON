@@ -57,49 +57,49 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
         $faker = Factory::create('ja_JP');
         $data = [];
-        $j=0;
+        $j = 0;
         for ($i = 0; $i < 20; $i++) {
             $data[] = [
                 'id' => $i + 1,
                 'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(640,480,'food'),
+                'icon_url' => $faker->imageUrl(640, 480, 'food'),
                 'coupons' => [
                     [
-                        'id' => $j+1,
+                        'id' => $j + 1,
                         'title' => $faker->name,
-                        'imageUrl' => $faker->imageUrl(640,480,'food'),
+                        'imageUrl' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
                         'can_use' => $faker->randomElement([0, 1])
                     ],
                     [
-                        'id' => $j+2,
+                        'id' => $j + 2,
                         'title' => $faker->name,
-                        'imageUrl' => $faker->imageUrl(640,480,'food'),
+                        'imageUrl' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
                         'can_use' => $faker->randomElement([0, 1]),
                     ],
                     [
-                        'id' => $j+3,
+                        'id' => $j + 3,
                         'title' => $faker->name,
-                        'imageUrl' => $faker->imageUrl(640,480,'food'),
+                        'imageUrl' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => time(),
                         'is_like' => $faker->randomElement([0, 1]),
                         'can_use' => $faker->randomElement([0, 1]),
                     ],
                     [
-                        'id' => $j+4,
+                        'id' => $j + 4,
                         'title' => $faker->name,
-                        'imageUrl' => $faker->imageUrl(640,480,'food'),
+                        'imageUrl' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
                         'can_use' => $faker->randomElement([0, 1]),
                     ],
                     [
-                        'id' => $j+5,
+                        'id' => $j + 5,
                         'title' => $faker->name,
-                        'imageUrl' => $faker->imageUrl(640,480,'food'),
+                        'imageUrl' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
                         'can_use' => $faker->randomElement([0, 1]),
@@ -107,9 +107,77 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 ]
 
             ];
-            $j=$j+5;
+            $j = $j + 5;
         }
-        return $this->view(BaseResponse::getData($data,[
+        return $this->view(BaseResponse::getData($data, [
+            'limit' => 20,
+            'offset' => 0,
+            'item_total' => 20,
+            'page_total' => 1,
+            'current_page' => 1
+        ]));
+
+    }
+
+    /**
+     * Get List Feature Coupon Follow Coupon Type
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to list coupon",
+     *  requirements={
+     *      {
+     *          "name"="type",
+     *          "dataType"="integer",
+     *          "description"="featured type (1,2,3,4)"
+     *      },
+     *     {
+     *          "name"="couponType",
+     *          "dataType"="integer",
+     *          "description"="type of coupon"
+     *      }
+     *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *     },
+     *  parameters={
+     *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
+     *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The Coupon is not found"
+     *   }
+     * )
+     * @Get("/featured/{type}/coupons/{couponType}")
+     * @return Response
+     */
+    public function getCouponsByFeaturedAndTypeAction($type, $couponType, Request $request)
+    {
+        $faker = Factory::create('ja_JP');
+        $data = [
+            'id' => $couponType,
+            'name' => $faker->name,
+            'icon_url' => $faker->imageUrl(640, 480, 'food')
+        ];
+        $coupons = [];
+        for ($i = 0; $i < 20; $i++) {
+            $coupons[] =
+                [
+                    'id' => $i + 1,
+                    'title' => $faker->name,
+                    'imageUrl' => $faker->imageUrl(640, 480, 'food'),
+                    'expired_time' => new \DateTime(),
+                    'is_like' => $faker->randomElement([0, 1]),
+                    'can_use' => $faker->randomElement([0, 1])
+                ];
+        }
+        $data['coupons'] = $coupons;
+        return $this->view(BaseResponse::getData($data, [
             'limit' => 20,
             'offset' => 0,
             'item_total' => 20,
@@ -155,7 +223,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             'id' => $id,
             'title' => $faker->name,
             'expired_time' => new \DateTime(),
-            'image_url' => $faker->imageUrl(640,480,'food'),
+            'image_url' => $faker->imageUrl(640, 480, 'food'),
             'is_like' => $faker->randomElement([0, 1]),
             'can_use' => $faker->randomElement([0, 1]),
             'code' => $faker->ean13,
@@ -165,7 +233,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'title' => $faker->company,
                 'operation_start_time' => new \DateTime(),
                 'operation_end_time' => new \DateTime(),
-                'avatar_url' => $faker->imageUrl(640,480,'food'),
+                'avatar_url' => $faker->imageUrl(640, 480, 'food'),
                 'is_follow' => $faker->randomElement(0, 1),
                 'tel' => $faker->phoneNumber,
                 'lattitude' => $faker->latitude,
@@ -177,25 +245,25 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             'coupon_type' => [
                 'id' => $faker->randomElement([0, 1]),
                 'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(640,480,'food')
+                'icon_url' => $faker->imageUrl(640, 480, 'food')
             ],
             'coupon_photo_url' => [
-                $faker->imageUrl(640,480,'food'),
-                $faker->imageUrl(640,480,'food'),
-                $faker->imageUrl(640,480,'food'),
-                $faker->imageUrl(640,480,'food')
+                $faker->imageUrl(640, 480, 'food'),
+                $faker->imageUrl(640, 480, 'food'),
+                $faker->imageUrl(640, 480, 'food'),
+                $faker->imageUrl(640, 480, 'food')
             ],
             'user_photo_url' => [
-                $faker->imageUrl(640,480,'food'),
-                $faker->imageUrl(640,480,'food'),
-                $faker->imageUrl(640,480,'food'),
-                $faker->imageUrl(640,480,'food')
+                $faker->imageUrl(640, 480, 'food'),
+                $faker->imageUrl(640, 480, 'food'),
+                $faker->imageUrl(640, 480, 'food'),
+                $faker->imageUrl(640, 480, 'food')
             ],
             'similar_coupon' => [
                 [
                     'id' => 1,
                     'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640,480,'food'),
+                    'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
                     'can_use' => $faker->randomElement([0, 1])
@@ -203,7 +271,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 [
                     'id' => 2,
                     'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640,480,'food'),
+                    'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
                     'can_use' => $faker->randomElement([0, 1])
@@ -211,7 +279,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 [
                     'id' => 3,
                     'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640,480,'food'),
+                    'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
                     'can_use' => $faker->randomElement([0, 1])
@@ -219,7 +287,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 [
                     'id' => 4,
                     'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640,480,'food'),
+                    'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
                     'can_use' => $faker->randomElement([0, 1])
