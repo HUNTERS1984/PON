@@ -14,9 +14,28 @@ security:
         oauth_token:                                   # Everyone can access the access token URL.
             pattern: ^/oauth/v2/token
             security: false
-        api_coupon_coupon:
+
+        api_shop_detail:
             security: true
-            pattern: ^/api/v1/coupons/[0-9]+   # All URLs are protected
+            pattern: ^/api/v1/shops/[0-9]+   # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true
+        api_coupon_type:
+            security: true
+            pattern: ^/api/v1/coupon/types   # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true
+        api_featured_coupon_type:
+            security: true
+            pattern: ^/api/v1/featured/[0-9]+/coupons/[0-9]+/   # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true
+        api_coupon_detail:
+            security: true
+            pattern: ^/api/v1/coupons/[0-9]+/   # All URLs are protected
             fos_oauth: true                            # OAuth2 protected resource
             stateless: true                            # Do no set session cookies
             anonymous: true                           # Anonymous access is not allowed
