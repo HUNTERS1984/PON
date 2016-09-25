@@ -10,12 +10,6 @@ app_app_user:
     resource: AppBundle\Controller\AppUserController
     name_prefix: api_app_user
 
-app_type:
-    prefix: /v1
-    type: rest
-    resource: AppBundle\Controller\TypeController
-    name_prefix: api_type
-
 app_store:
     prefix: /v1
     type: rest

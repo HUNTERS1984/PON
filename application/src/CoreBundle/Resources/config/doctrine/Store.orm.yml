@@ -9,16 +9,10 @@ CoreBundle\Entity\Store:
         news:
             targetEntity: News
             mappedBy: store
-        couponTypes:
-            targetEntity: CouponType
+        coupons:
+            targetEntity: Coupon
             mappedBy: store
     manyToOne:
-        storeType:
-            targetEntity: StoreType
-            inversedBy: stores
-            joinColumn:
-                name: store_type_id
-                referencedColumnName: id
         user:
             targetEntity: User
             inversedBy: stores

@@ -22,6 +22,7 @@ class AccessToken extends BaseAccessToken
     {
         return $this->id;
     }
+    
     /**
      * @var \CoreBundle\Entity\AppUser
      */

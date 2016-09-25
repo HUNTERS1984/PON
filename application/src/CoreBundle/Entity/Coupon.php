@@ -68,10 +68,39 @@ class Coupon
     private $deletedAt;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $useLists;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $likeLists;
+
+    /**
      * @var \CoreBundle\Entity\CouponType
      */
     private $couponType;
 
+    /**
+     * @var \CoreBundle\Entity\Store
+     */
+    private $store;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $tags;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->useLists = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->likeLists = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -251,6 +280,29 @@ class Coupon
         return $this->imageUrl;
     }
 
+    /**
+     * Set size
+     *
+     * @param integer $size
+     *
+     * @return Coupon
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get size
+     *
+     * @return integer
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
 
     /**
      * Set createdAt
@@ -325,120 +377,6 @@ class Coupon
     }
 
     /**
-     * Set couponType
-     *
-     * @param \CoreBundle\Entity\CouponType $couponType
-     *
-     * @return Coupon
-     */
-    public function setCouponType(\CoreBundle\Entity\CouponType $couponType = null)
-    {
-        $this->couponType = $couponType;
-
-        return $this;
-    }
-
-    /**
-     * Get couponType
-     *
-     * @return \CoreBundle\Entity\CouponType
-     */
-    public function getCouponType()
-    {
-        return $this->couponType;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $tags;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add tag
-     *
-     * @param \CoreBundle\Entity\Tag $tag
-     *
-     * @return Coupon
-     */
-    public function addTag(\CoreBundle\Entity\Tag $tag)
-    {
-        $this->tags[] = $tag;
-
-        return $this;
-    }
-
-    /**
-     * Remove tag
-     *
-     * @param \CoreBundle\Entity\Tag $tag
-     */
-    public function removeTag(\CoreBundle\Entity\Tag $tag)
-    {
-        $this->tags->removeElement($tag);
-    }
-
-    /**
-     * Get tags
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $appUsers;
-
-
-    /**
-     * Add appUser
-     *
-     * @param \CoreBundle\Entity\AppUser $appUser
-     *
-     * @return Coupon
-     */
-    public function addAppUser(\CoreBundle\Entity\AppUser $appUser)
-    {
-        $this->appUsers[] = $appUser;
-
-        return $this;
-    }
-
-    /**
-     * Remove appUser
-     *
-     * @param \CoreBundle\Entity\AppUser $appUser
-     */
-    public function removeAppUser(\CoreBundle\Entity\AppUser $appUser)
-    {
-        $this->appUsers->removeElement($appUser);
-    }
-
-    /**
-     * Get appUsers
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAppUsers()
-    {
-        return $this->appUsers;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $useLists;
-
-
-    /**
      * Add useList
      *
      * @param \CoreBundle\Entity\UseList $useList
@@ -471,11 +409,6 @@ class Coupon
     {
         return $this->useLists;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $likeLists;
-
 
     /**
      * Add likeList
@@ -512,20 +445,85 @@ class Coupon
     }
 
     /**
-     * @param int $size
+     * Set couponType
+     *
+     * @param \CoreBundle\Entity\CouponType $couponType
+     *
      * @return Coupon
      */
-    public function setSize($size)
+    public function setCouponType(\CoreBundle\Entity\CouponType $couponType = null)
     {
-        $this->size = (int)$size;
+        $this->couponType = $couponType;
+
         return $this;
     }
 
     /**
-     * @return int
+     * Get couponType
+     *
+     * @return \CoreBundle\Entity\CouponType
      */
-    public function getSize()
+    public function getCouponType()
     {
-        return $this->size;
+        return $this->couponType;
+    }
+
+    /**
+     * Set store
+     *
+     * @param \CoreBundle\Entity\Store $store
+     *
+     * @return Coupon
+     */
+    public function setStore(\CoreBundle\Entity\Store $store = null)
+    {
+        $this->store = $store;
+
+        return $this;
+    }
+
+    /**
+     * Get store
+     *
+     * @return \CoreBundle\Entity\Store
+     */
+    public function getStore()
+    {
+        return $this->store;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param \CoreBundle\Entity\Tag $tag
+     *
+     * @return Coupon
+     */
+    public function addTag(\CoreBundle\Entity\Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param \CoreBundle\Entity\Tag $tag
+     */
+    public function removeTag(\CoreBundle\Entity\Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }
+

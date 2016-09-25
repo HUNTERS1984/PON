@@ -225,3 +225,4 @@ class Tag
         return $this->coupons;
     }
 }
+

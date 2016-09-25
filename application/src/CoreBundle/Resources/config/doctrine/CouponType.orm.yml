@@ -6,13 +6,6 @@ CoreBundle\Entity\CouponType:
         coupons:
             targetEntity: Coupon
             mappedBy: couponType
-    manyToOne:
-        store:
-            targetEntity: Store
-            inversedBy: couponTypes
-            joinColumn:
-                name: store_id
-                referencedColumnName: id
     id:
         id:
             type: integer

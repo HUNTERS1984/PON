@@ -313,3 +313,4 @@ class News
         return $this->store;
     }
 }
+

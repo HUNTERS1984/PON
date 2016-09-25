@@ -81,3 +81,4 @@ class LikeList
         return $this->appUser;
     }
 }
+

@@ -28,6 +28,12 @@ CoreBundle\Entity\Coupon:
             joinColumn:
                 name: coupon_type_id
                 referencedColumnName: id
+        store:
+            targetEntity: Store
+            inversedBy: coupons
+            joinColumn:
+                name: store_id
+                referencedColumnName: id
     id:
         id:
             type: integer

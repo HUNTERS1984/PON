@@ -7,7 +7,6 @@ namespace CoreBundle\Entity;
  */
 class SocialProfile
 {
-
     /**
      * @var integer
      */
@@ -285,3 +284,4 @@ class SocialProfile
         return $this->appUser;
     }
 }
+
