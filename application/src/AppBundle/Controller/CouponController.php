@@ -132,6 +132,12 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *          "description"="Id of coupon"
      *      }
      *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *     },
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the coupon is not authorized",
