@@ -43,7 +43,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *          "description"="email of app"
      *      },
      *     {
-     *          "name"="plainPassword",
+     *          "name"="password",
      *          "dataType"="string",
      *          "description"="password of app"
      *      }
@@ -61,6 +61,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     public function postSingUpAction(Request $request)
     {
         $data = $request->request->all();
+        $data['plainPassword'] = $data['password'];
         $form = $this->createForm(AppUserType::class, new AppUser());
         $form->submit($data);
         /**@var AppUser $appUser*/
