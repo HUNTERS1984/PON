@@ -188,6 +188,32 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     }
 
     /**
+     * Check Valid Token
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to signout",
+     *     headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *     },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   }
+     * )
+     * @Get("/authorized", name="authorized")
+     * @return Response
+     */
+    public function getCheckValidTokenAction(Request $request)
+    {
+        return $this->view(BaseResponse::getData([]));
+    }
+
+    /**
      * @return AppUserManager
      */
     public function getManager()
