@@ -22,11 +22,11 @@ class Pagination
         $paginator = $this->paginate($query, $currentPage, $limit);
 
         $pagination = [
-            'X-Pon-Limit' => $limit,
-            'X-Pon-Offset' => $offset,
-            'X-Pon-Item-Total' => $paginator->count(),
-            'X-Pon-Page-Total' => ceil($paginator->count()/$limit),
-            'X-Pon-Current-Page' => $currentPage
+            'limit' => $limit,
+            'offset' => $offset,
+            'item_total' => $paginator->count(),
+            'page_total' => ceil($paginator->count()/$limit),
+            'current_page' => $currentPage
         ];
 
         return [

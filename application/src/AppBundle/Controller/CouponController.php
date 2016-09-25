@@ -109,13 +109,13 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ];
             $j=$j+5;
         }
-        return $this->view(BaseResponse::getData($data), 200, [
-            'X-Pon-Limit' => 20,
-            'X-Pon-Offset' => 0,
-            'X-Pon-Item-Total' => 20,
-            'X-Pon-Page-Total' => 1,
-            'X-Pon-Current-Page' => 1
-        ]);
+        return $this->view(BaseResponse::getData($data,[
+            'limit' => 20,
+            'offset' => 0,
+            'item_total' => 20,
+            'page_total' => 1,
+            'current_page' => 1
+        ]));
 
     }
 
