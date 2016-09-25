@@ -50,8 +50,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *  },
      *  statusCodes = {
      *     201 = "Returned when successful",
-     *     401="Returned when the user is not authorized",
-     *     400 = "Returned when the API has invalid input"
+     *     401="Returned when the user is not authorized"
      *   }
      * )
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
@@ -110,8 +109,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *  },
      *  statusCodes = {
      *     201 = "Returned when successful",
-     *     401="Returned when the user is not authorized",
-     *     400 = "Returned when the API has invalid input"
+     *     401="Returned when the user is not authorized"
      *   }
      * )
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
@@ -162,9 +160,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *     },
      *  statusCodes = {
      *     200 = "Returned when successful",
-     *     401="Returned when the user is not authorized",
-     *     400 = "Returned when the API has invalid input",
-     *     404 = "Returned when the The App User is not found"
+     *     401="Returned when the user is not authorized"
      *   }
      * )
      * @Get("/signout", name="sign_out")
@@ -200,9 +196,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *     },
      *  statusCodes = {
      *     200 = "Returned when successful",
-     *     401="Returned when the user is not authorized",
-     *     400 = "Returned when the API has invalid input",
-     *     404 = "Returned when the The App User is not found"
+     *     401="Returned when the user is not authorized"
      *   }
      * )
      * @Get("/authorized", name="authorized")

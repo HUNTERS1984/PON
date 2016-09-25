@@ -45,9 +45,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *  },
      *  statusCodes = {
      *     200 = "Returned when successful",
-     *     401="Returned when the user is not authorized",
-     *     400 = "Returned when the API has invalid input",
-     *     404 = "Returned when the The Coupon is not found"
+     *     401="Returned when the user is not authorized"
      *   }
      * )
      * @Get("/featured/{type}/coupons")
@@ -148,9 +146,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *  },
      *  statusCodes = {
      *     200 = "Returned when successful",
-     *     401="Returned when the user is not authorized",
-     *     400 = "Returned when the API has invalid input",
-     *     404 = "Returned when the The Coupon is not found"
+     *     401="Returned when the user is not authorized"
      *   }
      * )
      * @Get("/featured/{type}/coupons/{couponType}")
@@ -208,9 +204,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *     },
      *  statusCodes = {
      *     200 = "Returned when successful",
-     *     401="Returned when the coupon is not authorized",
-     *     400 = "Returned when the API has invalid input",
-     *     404 = "Returned when the The Coupon is not found"
+     *     401="Returned when the user is not authorized"
      *   }
      * )
      * @return Response
