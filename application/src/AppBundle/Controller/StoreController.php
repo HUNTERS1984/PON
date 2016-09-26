@@ -53,7 +53,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     {
         $faker = Factory::create('ja_JP');
         $data = [
-            'id' => $id,
+            'id' => (int)$id,
             'title' => $faker->company,
             'operation_start_time' => new \DateTime(),
             'operation_end_time' => new \DateTime(),

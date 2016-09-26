@@ -214,7 +214,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 
         $faker = Factory::create('ja_JP');
         $data = [
-            'id' => $id,
+            'id' => (int)$id,
             'title' => $faker->name,
             'expired_time' => new \DateTime(),
             'image_url' => $faker->imageUrl(640, 480, 'food'),
