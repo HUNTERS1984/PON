@@ -76,7 +76,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 [
                     'id' => 1,
                     'title' => $faker->name,
-                    'imageUrl' => $faker->imageUrl(640, 480, 'food'),
+                    'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
                     'can_use' => $faker->randomElement([0, 1])
@@ -84,7 +84,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 [
                     'id' => 2,
                     'title' => $faker->name,
-                    'imageUrl' => $faker->imageUrl(640, 480, 'food'),
+                    'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
                     'can_use' => $faker->randomElement([0, 1])
@@ -92,7 +92,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 [
                     'id' => 3,
                     'title' => $faker->name,
-                    'imageUrl' => $faker->imageUrl(640, 480, 'food'),
+                    'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
                     'can_use' => $faker->randomElement([0, 1])
@@ -100,7 +100,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 [
                     'id' => 4,
                     'title' => $faker->name,
-                    'imageUrl' => $faker->imageUrl(640, 480, 'food'),
+                    'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
                     'can_use' => $faker->randomElement([0, 1])
