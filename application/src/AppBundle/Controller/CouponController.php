@@ -326,7 +326,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'title' => $faker->name,
                     'imageUrl' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([0, 1]),
+                    'is_like' => 1,
                     'can_use' => $faker->randomElement([0, 1])
                 ];
         }
