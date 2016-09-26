@@ -197,7 +197,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'id' => $i+1,
                     'title' => $faker->company,
                     'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                    'is_follow' => $faker->randomElement([0, 1]),
+                    'is_follow' => 1,
                 ];
         }
         return $this->view(BaseResponse::getData($data, [
