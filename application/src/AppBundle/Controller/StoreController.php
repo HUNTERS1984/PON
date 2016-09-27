@@ -79,7 +79,12 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
-                    'can_use' => $faker->randomElement([0, 1])
+                    'can_use' => $faker->randomElement([0, 1]),
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([0, 1]),
+                        'name' => $faker->name,
+                        'icon_url' => $faker->imageUrl(640, 480, 'food')
+                    ],
                 ],
                 [
                     'id' => 2,
@@ -87,7 +92,12 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
-                    'can_use' => $faker->randomElement([0, 1])
+                    'can_use' => $faker->randomElement([0, 1]),
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([0, 1]),
+                        'name' => $faker->name,
+                        'icon_url' => $faker->imageUrl(640, 480, 'food')
+                    ],
                 ],
                 [
                     'id' => 3,
@@ -95,7 +105,12 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
-                    'can_use' => $faker->randomElement([0, 1])
+                    'can_use' => $faker->randomElement([0, 1]),
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([0, 1]),
+                        'name' => $faker->name,
+                        'icon_url' => $faker->imageUrl(640, 480, 'food')
+                    ],
                 ],
                 [
                     'id' => 4,
@@ -103,7 +118,12 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
-                    'can_use' => $faker->randomElement([0, 1])
+                    'can_use' => $faker->randomElement([0, 1]),
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([0, 1]),
+                        'name' => $faker->name,
+                        'icon_url' => $faker->imageUrl(640, 480, 'food')
+                    ],
                 ],
             ]
         ];
