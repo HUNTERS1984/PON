@@ -25,9 +25,10 @@ CoreBundle\Entity\AppUser:
         address:
             expose: true
             groups: [view]
-        avatarUrl:
+        webPath:
             expose: true
             groups: [view]
+            serialized_name: avatar_url
         role:
             expose: true
             groups: [view]

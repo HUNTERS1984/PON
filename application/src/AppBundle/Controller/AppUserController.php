@@ -17,6 +17,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use OAuth2\OAuth2ServerException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -65,6 +66,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $form->submit($data);
         /**@var AppUser $appUser*/
         $appUser = $form->getData();
+        $appUser->setPassword($data['password']);
         if($error = $this->get('pon.exception.exception_handler')->validate($appUser)) {
             return $this->view($error);
         }
@@ -145,6 +147,82 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         ];
 
         return  $this->view(BaseResponse::getData($result));
+    }
+
+    /**
+     * Update Profile
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to update app user",
+     *  requirements={
+     *      {
+     *          "name"="username",
+     *          "dataType"="string",
+     *          "description"="username of app user"
+     *      },
+     *     {
+     *          "name"="email",
+     *          "dataType"="string",
+     *          "description"="email of app user"
+     *      },
+     *     {
+     *          "name"="gender",
+     *          "dataType"="integer",
+     *          "description"="gender of app user"
+     *      },
+     *     {
+     *          "name"="address",
+     *          "dataType"="string",
+     *          "description"="address of app user"
+     *      }
+     *  },
+     *  parameters={
+     *      {"name"="avatar_url", "dataType"="file", "required"=true, "description"="image of avatar"}
+     *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   }
+     * )
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @Post("/app/users", name="update_app_user")
+     * @return Response
+     */
+    public function postProfileAction(Request $request)
+    {
+        $manager = $this->getManager();
+        /**@var AppUser $appUser*/
+        $appUser = $this->getUser();
+
+        foreach ($_FILES as $file) {
+            if($file['size'] <= 0){
+                continue;
+            }
+            $appUser->setFile(new UploadedFile($file['tmp_name'],
+                $file['name'], $file['type'],
+                $file['size'], $file['error'], $test = false));
+            $appUser->setBasePath($request->getSchemeAndHttpHost());
+            $appUser->upload();
+            break;
+        }
+
+        $appUser = $this->get('pon.utils.data')->setData($request->request->all(), $appUser);
+
+        if($error =  $this->get('pon.exception.exception_handler')->validate($appUser)) {
+            return $error;
+        }
+
+
+        $this->getManager()->saveAppUser($appUser);
+        return $this->view(BaseResponse::getData($appUser), 200);
     }
 
     /**

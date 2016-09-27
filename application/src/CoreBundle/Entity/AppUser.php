@@ -2,6 +2,7 @@
 
 namespace CoreBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * AppUser
@@ -508,6 +509,50 @@ class AppUser extends BaseUser
      */
     private $avatarUrl;
 
+    /**
+     * @var string
+    */
+    private $webPath;
+
+    /**
+     * @var string
+    */
+    private $basePath;
+
+    /**
+     * @var UploadedFile
+     */
+    private $file;
+
+    public function getAbsolutePath()
+    {
+        return null === $this->avatarUrl
+            ? null
+            : $this->getUploadRootDir().'/'.$this->avatarUrl;
+    }
+
+    public function setBasePath($basePath)
+    {
+        $this->basePath = $basePath;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->avatarUrl
+            ? null
+            : $this->basePath."/".$this->getUploadDir().'/'.$this->avatarUrl;
+    }
+
+    protected function getUploadRootDir()
+    {
+        return __DIR__.'/../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        return 'uploads/appusers';
+    }
+
 
     /**
      * Set name
@@ -603,5 +648,46 @@ class AppUser extends BaseUser
     public function getAvatarUrl()
     {
         return $this->avatarUrl;
+    }
+
+    /**
+     * Set file
+     *
+     * @param UploadedFile $file
+     *
+     * @return AppUser
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function upload()
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+        $newFile = sprintf("%s.%s",$this->getId(),$this->getFile()->guessExtension());
+        $this->getFile()->move(
+            $this->getUploadRootDir(),
+            $newFile
+        );
+
+        $this->avatarUrl = $newFile;
+        $this->webPath = $this->getWebPath();
+
+        $this->file = null;
     }
 }
