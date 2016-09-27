@@ -218,6 +218,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             $couponPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
             $userPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
         }
+
         $data = [
             'id' => (int)$id,
             'title' => $faker->name,
@@ -230,8 +231,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             'shop' => [
                 'id' => $faker->numberBetween(1, 200),
                 'title' => $faker->company,
-                'operation_start_time' => new \DateTime(),
-                'operation_end_time' => new \DateTime(),
+                'operation_start_time' =>  '08:00',
+                'operation_end_time' => '23:00',
                 'avatar_url' => $faker->imageUrl(640, 480, 'food'),
                 'is_follow' => $faker->randomElement([0, 1]),
                 'tel' => $faker->phoneNumber,
