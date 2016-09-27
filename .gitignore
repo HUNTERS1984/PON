@@ -1,5 +1,6 @@
 /.idea
-/application/web/uploads/
+!/application/web/uploads/.gitkeep
+/application/web/uploads/*
 /application/web/bundles/
 /application/var/bootstrap.php.cache
 application/var/cache
