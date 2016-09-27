@@ -15,7 +15,7 @@ CoreBundle\Entity\AppUser:
                 maxMessage: app_user.name.max_message
         username:
             - NotBlank:
-                message: app_user.username.not_blank=
+                message: app_user.username.not_blank
             - Length:
                 min: 1
                 max: 180
@@ -32,7 +32,7 @@ CoreBundle\Entity\AppUser:
                 max: 180
                 minMessage: app_user.email.min_message
                 maxMessage: app_user.email.max_message
-        plainPassword:
+        password:
             - NotBlank:
                 message: app_user.password.not_blank
             - Length:
@@ -74,6 +74,9 @@ CoreBundle\Entity\AppUser:
                 max: 255
                 minMessage: app_user.avatar_url.min_message
                 maxMessage: app_user.avatar_url.max_message
+
+        file:
+            - Image: ~
         role:
             - Length:
                 min: 1
