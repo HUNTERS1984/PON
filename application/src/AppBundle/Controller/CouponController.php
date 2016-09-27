@@ -219,7 +219,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             $couponPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
             $userPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
         }
-        $coordinates = $faker->getProviders('Address')->localCoordinates();
         $data = [
             'id' => (int)$id,
             'title' => $faker->name,
@@ -237,8 +236,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'avatar_url' => $faker->imageUrl(640, 480, 'food'),
                 'is_follow' => $faker->randomElement([0, 1]),
                 'tel' => $faker->phoneNumber,
-                'lattitude' => $coordinates['lattitude'],
-                'longitude' => $coordinates['longitude'],
+                'lattitude' => $faker->getProviders('Address')->localCoordinates(),
+                'longitude' => $faker->longitude,
                 'address' => $faker->address,
                 'close_date' => "Saturday and Sunday",
                 'ave_bill' => $faker->numberBetween(100, 200)
