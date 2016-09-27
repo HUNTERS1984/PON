@@ -66,7 +66,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /**@var AppUser $appUser*/
         $appUser = $form->getData();
         if($error = $this->get('pon.exception.exception_handler')->validate($appUser)) {
-            return $error;
+            return $this->view($error);
         }
 
         $this->getManager()->createAppUser($appUser);
@@ -84,9 +84,9 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             return  $this->view(BaseResponse::getData($result));
         } catch (OAuth2ServerException $e) {
             $content = json_decode($e->getHttpResponse()->getContent());
-            return $this->get('pon.exception.exception_handler')->throwError(
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found', $content->error_description
-            );
+            ));
         }
     }
 
@@ -125,18 +125,18 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
         } catch (OAuth2ServerException $e) {
             $content = json_decode($e->getHttpResponse()->getContent());
-            return $this->get('pon.exception.exception_handler')->throwError(
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found', $content->error_description
-            );
+            ));
         }
 
 
         $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
 
         if(!$appUser || !is_null($appUser->getDeletedAt())) {
-            return $this->get('pon.exception.exception_handler')->throwError(
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
-            );
+            ));
         }
 
         $result = [
@@ -171,9 +171,9 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $appUser = $this->getUser();
 
         if(!$appUser) {
-            return $this->get('pon.exception.exception_handler')->throwError(
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
-            );
+            ));
         }
 
         $token = $this->get('security.token_storage')->getToken();
