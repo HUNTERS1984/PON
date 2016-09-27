@@ -213,6 +213,12 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
 
         $faker = Factory::create('ja_JP');
+        $couponPhotoUrl = [];
+        $userPhotoUrl = [];
+        for($i=1; $i< $id; $i++) {
+            $couponPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
+            $userPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
+        }
         $data = [
             'id' => (int)$id,
             'title' => $faker->name,
@@ -241,18 +247,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'name' => $faker->name,
                 'icon_url' => $faker->imageUrl(640, 480, 'food')
             ],
-            'coupon_photo_url' => [
-                $faker->imageUrl(640, 480, 'food'),
-                $faker->imageUrl(640, 480, 'food'),
-                $faker->imageUrl(640, 480, 'food'),
-                $faker->imageUrl(640, 480, 'food')
-            ],
-            'user_photo_url' => [
-                $faker->imageUrl(640, 480, 'food'),
-                $faker->imageUrl(640, 480, 'food'),
-                $faker->imageUrl(640, 480, 'food'),
-                $faker->imageUrl(640, 480, 'food')
-            ],
+            'coupon_photo_url' =>  $couponPhotoUrl,
+            'user_photo_url' => $userPhotoUrl,
             'similar_coupon' => [
                 [
                     'id' => 1,
