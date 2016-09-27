@@ -15,6 +15,12 @@ security:
             pattern: ^/oauth/v2/token
             security: false
 
+        api_featured_shop_type:
+            security: true
+            pattern: ^/api/v1/featured/[0-9]+/shops/[0-9]+   # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true
         api_shop_detail:
             security: true
             pattern: ^/api/v1/shops/[0-9]+   # All URLs are protected
