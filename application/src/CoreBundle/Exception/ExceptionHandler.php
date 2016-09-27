@@ -33,7 +33,7 @@ class ExceptionHandler
             return [
                 'code' => (int)$this->translator->trans($errors[0]->getMessage(), [], 'codes'),
                 'message' => $this->translator->trans($errors[0]->getMessage()),
-                'data' => []
+                'data' => null
             ];
         }
 
@@ -45,7 +45,7 @@ class ExceptionHandler
         return [
             'code' => (int)$this->translator->trans($message, [], 'codes'),
             'message' => !empty($description)? $description: $this->translator->trans($message),
-            'data' => []
+            'data' => null
         ];
     }
 }
