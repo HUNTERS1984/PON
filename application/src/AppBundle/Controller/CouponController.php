@@ -211,7 +211,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getAction($id)
     {
-
         $faker = Factory::create('ja_JP');
         $couponPhotoUrl = [];
         $userPhotoUrl = [];
@@ -236,8 +235,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'avatar_url' => $faker->imageUrl(640, 480, 'food'),
                 'is_follow' => $faker->randomElement([0, 1]),
                 'tel' => $faker->phoneNumber,
-                'lattitude' => $faker->getProviders('Address')->localCoordinates(),
-                'longitude' => $faker->longitude,
+                'lattitude' => (string)$faker->latitude,
+                'longitude' => (string)$faker->longitude,
                 'address' => $faker->address,
                 'close_date' => "Saturday and Sunday",
                 'ave_bill' => $faker->numberBetween(100, 200)
