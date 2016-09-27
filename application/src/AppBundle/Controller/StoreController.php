@@ -128,7 +128,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
             ]
         ];
 
-        return $this->view($data, 200);
+        return $this->view(BaseResponse::getData($data));
     }
 
     /**
