@@ -193,7 +193,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *   }
      * )
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
-     * @Post("/app/users", name="update_app_user")
+     * @Post("/profile", name="update_profile")
      * @return Response
      */
     public function postProfileAction(Request $request)
