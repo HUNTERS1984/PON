@@ -292,6 +292,34 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     }
 
     /**
+     * Check Profile
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to get profile",
+     *     headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *     },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   }
+     * )
+     * @Get("/profile", name="authorized")
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @return Response
+     */
+    public function getProfileAction(Request $request)
+    {
+        /**@var AppUser $appUser*/
+        $appUser = $this->getUser();
+        $appUser->setBasePath($request->getSchemeAndHttpHost());
+        return $this->view(BaseResponse::getData($appUser));
+    }
+
+    /**
      * @return AppUserManager
      */
     public function getManager()
