@@ -201,22 +201,29 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $manager = $this->getManager();
         /**@var AppUser $appUser*/
         $appUser = $this->getUser();
+        $fileUpload = null;
         foreach ($_FILES as $file) {
             if($file['size'] <= 0){
-                continue;
+                break;
             }
-            $appUser->setFile(new UploadedFile($file['tmp_name'],
+            $fileUpload = new UploadedFile($file['tmp_name'],
                 $file['name'], $file['type'],
-                $file['size'], $file['error'], $test = false));
-            $appUser->upload();
+                $file['size'], $file['error'], $test = false);
             break;
         }
         $appUser->setBasePath($request->getSchemeAndHttpHost());
-
         $appUser = $this->get('pon.utils.data')->setData($request->request->all(), $appUser);
+
+        if($fileUpload) {
+            $appUser->setFile($fileUpload);
+        }
 
         if($error =  $this->get('pon.exception.exception_handler')->validate($appUser)) {
             return $error;
+        }
+
+        if($fileUpload) {
+            $appUser->upload();
         }
 
 

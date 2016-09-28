@@ -688,7 +688,5 @@ class AppUser extends BaseUser
 
         $this->avatarUrl = $newFile;
         $this->webPath = $this->getWebPath();
-
-        $this->file = null;
     }
 }
