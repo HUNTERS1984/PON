@@ -74,9 +74,9 @@ CoreBundle\Entity\AppUser:
                 max: 255
                 minMessage: app_user.avatar_url.min_message
                 maxMessage: app_user.avatar_url.max_message
-
         file:
-            - Image: ~
+            - Image:
+                maxSize: 1024k
         role:
             - Length:
                 min: 1
