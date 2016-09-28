@@ -132,9 +132,9 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             ));
         }
 
-
+        /**@var AppUser $appUser*/
         $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
-
+        $appUser->setBasePath($request->getSchemeAndHttpHost());
         if(!$appUser || !is_null($appUser->getDeletedAt())) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
@@ -201,7 +201,6 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $manager = $this->getManager();
         /**@var AppUser $appUser*/
         $appUser = $this->getUser();
-
         foreach ($_FILES as $file) {
             if($file['size'] <= 0){
                 continue;
@@ -209,10 +208,10 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             $appUser->setFile(new UploadedFile($file['tmp_name'],
                 $file['name'], $file['type'],
                 $file['size'], $file['error'], $test = false));
-            $appUser->setBasePath($request->getSchemeAndHttpHost());
             $appUser->upload();
             break;
         }
+        $appUser->setBasePath($request->getSchemeAndHttpHost());
 
         $appUser = $this->get('pon.utils.data')->setData($request->request->all(), $appUser);
 

@@ -534,6 +534,7 @@ class AppUser extends BaseUser
     public function setBasePath($basePath)
     {
         $this->basePath = $basePath;
+        $this->webPath = $this->getWebPath();
     }
 
     public function getWebPath()
