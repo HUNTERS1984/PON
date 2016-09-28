@@ -10,6 +10,7 @@ use CoreBundle\Manager\StoreTypeManager;
 use CoreBundle\Manager\UserManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -287,6 +288,40 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
             'current_page' => 1
         ]));
 
+    }
+
+    /**
+     * Follow Shop
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to follow shop",
+     *  requirements={
+     *      {
+     *          "name"="id",
+     *          "dataType"="string",
+     *          "description"="id of shop"
+     *      }
+     *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   }
+     * )
+     *
+     * @Post("/follow/shops/{id}", name="follow_shop")
+     * @return Response
+     */
+    public function postFollowShopAction($id, Request $request)
+    {
+        return $this->view(BaseResponse::getData([]), 200);
     }
 
     /**
