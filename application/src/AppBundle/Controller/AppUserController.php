@@ -156,14 +156,9 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *  description="This api is used to update app user",
      *  requirements={
      *      {
-     *          "name"="username",
+     *          "name"="name",
      *          "dataType"="string",
-     *          "description"="username of app user"
-     *      },
-     *     {
-     *          "name"="email",
-     *          "dataType"="string",
-     *          "description"="email of app user"
+     *          "description"="name of app user"
      *      },
      *     {
      *          "name"="gender",
