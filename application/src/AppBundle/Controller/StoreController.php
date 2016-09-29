@@ -331,9 +331,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *  description="This api is used to list coupon",
      *  requirements={
      *      {
-     *          "name"="longt",
-     *          "dataType"="integer",
-     *          "description"="type (1,2,3,4)"
+     *          "name"="lattitude",
+     *          "dataType"="string",
+     *          "description"="lattitude of app"
+     *      },
+     *     {
+     *          "name"="longitude",
+     *          "dataType"="string",
+     *          "description"="longitude of app"
      *      }
      *  },
      *  headers={
