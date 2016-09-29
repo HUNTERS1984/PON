@@ -364,7 +364,19 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         $faker = Factory::create('ja_JP');
         $data = [];
         $j = 0;
-        for ($i = 0; $i < 20; $i++) {
+        $arrayGeo = [
+            [10.785871, 106.6851],
+            [10.784338, 106.684574],
+            [10.788322, 106.685196],
+            [10.786783, 106.683758],
+            [10.785076, 106.682965],
+            [10.785919, 106.686226],
+            [10.839665, 106.779503],
+            [10.839812, 106.780339],
+            [10.840795, 106.778982],
+            [10.840592, 106.777550],
+        ];
+        for ($i = 0; $i < 10; $i++) {
             $data[] = [
                 'id' => $i+1,
                 'title' => $faker->company,
@@ -373,8 +385,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 'avatar_url' => $faker->imageUrl(640, 480, 'food'),
                 'is_follow' => $faker->randomElement([0, 1]),
                 'tel' => $faker->phoneNumber,
-                'lattitude' => $lattitude,
-                'longitude' => $longitude,
+                'lattitude' => $arrayGeo[$i][0],
+                'longitude' => $arrayGeo[$i][1],
                 'address' => $faker->address,
                 'close_date' => "Saturday and Sunday",
                 'ave_bill' => $faker->numberBetween(100, 200),
@@ -445,7 +457,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         return $this->view(BaseResponse::getData($data, [
             'limit' => 20,
             'offset' => 0,
-            'item_total' => 20,
+            'item_total' => 10,
             'page_total' => 1,
             'current_page' => 1
         ]));
