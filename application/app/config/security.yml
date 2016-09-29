@@ -15,6 +15,12 @@ security:
             pattern: ^/oauth/v2/token
             security: false
 
+        api_map_shop_coupons:
+            security: true
+            pattern: ^/map/[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)/[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)/shops   # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true
         api_featured_shop_type:
             security: true
             pattern: ^/api/v1/featured/[0-9]+/shops/[0-9]+   # All URLs are protected
