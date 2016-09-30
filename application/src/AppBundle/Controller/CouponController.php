@@ -61,7 +61,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             $data[] = [
                 'id' => $i + 1,
                 'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(640, 480, 'food'),
+                'icon_url' => $faker->imageUrl(46, 46, 'food'),
                 'coupons' => [
                     [
                         'id' => $j + 1,
@@ -159,7 +159,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         $data = [
             'id' => $couponType,
             'name' => $faker->name,
-            'icon_url' => $faker->imageUrl(640, 480, 'food')
+            'icon_url' => $faker->imageUrl(46, 46, 'food')
         ];
         $coupons = [];
         for ($i = 0; $i < 20; $i++) {
@@ -246,7 +246,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             'coupon_type' => [
                 'id' => $faker->randomElement([0, 1]),
                 'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(640, 480, 'food')
+                'icon_url' => $faker->imageUrl(46, 46, 'food')
             ],
             'coupon_photo_url' =>  $couponPhotoUrl,
             'user_photo_url' => $userPhotoUrl,
@@ -328,7 +328,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'coupon_type' => [
                         'id' => $faker->randomElement([0, 1]),
                         'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(640, 480, 'food')
+                        'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
                 ];
         }
@@ -381,7 +381,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'coupon_type' => [
                         'id' => $faker->randomElement([0, 1]),
                         'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(640, 480, 'food')
+                        'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
                 ];
         }

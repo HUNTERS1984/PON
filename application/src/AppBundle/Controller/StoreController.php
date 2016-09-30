@@ -84,7 +84,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'coupon_type' => [
                         'id' => $faker->randomElement([0, 1]),
                         'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(640, 480, 'food')
+                        'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
                 ],
                 [
@@ -97,7 +97,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'coupon_type' => [
                         'id' => $faker->randomElement([0, 1]),
                         'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(640, 480, 'food')
+                        'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
                 ],
                 [
@@ -110,7 +110,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'coupon_type' => [
                         'id' => $faker->randomElement([0, 1]),
                         'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(640, 480, 'food')
+                        'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
                 ],
                 [
@@ -123,7 +123,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'coupon_type' => [
                         'id' => $faker->randomElement([0, 1]),
                         'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(640, 480, 'food')
+                        'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
                 ],
             ]
@@ -408,7 +408,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'coupon_type' => [
                             'id' => $faker->randomElement([0, 1]),
                             'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(640, 480, 'food')
+                            'icon_url' => $faker->imageUrl(46, 46, 'food')
                         ],
                     ],
                     [
@@ -421,7 +421,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'coupon_type' => [
                             'id' => $faker->randomElement([0, 1]),
                             'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(640, 480, 'food')
+                            'icon_url' => $faker->imageUrl(46, 46, 'food')
                         ],
                     ],
                     [
@@ -434,7 +434,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'coupon_type' => [
                             'id' => $faker->randomElement([0, 1]),
                             'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(640, 480, 'food')
+                            'icon_url' => $faker->imageUrl(46, 46, 'food')
                         ],
                     ],
                     [
@@ -447,7 +447,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'coupon_type' => [
                             'id' => $faker->randomElement([0, 1]),
                             'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(640, 480, 'food')
+                            'icon_url' => $faker->imageUrl(46, 46, 'food')
                         ],
                     ],
                 ]
