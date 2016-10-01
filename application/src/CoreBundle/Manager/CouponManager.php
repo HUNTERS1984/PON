@@ -75,6 +75,15 @@ class CouponManager extends AbstractManager
             ];
         }
 
+        if(isset($params['coupon_type_id'])) {
+            $conditions = [
+                'couponType' => [
+                    'type' => '=',
+                    'value' => $params['coupon_type_id']
+                ]
+            ];
+        }
+
         $conditions['deletedAt'] = [
             'type' => 'is',
             'value' =>  'NULL'
