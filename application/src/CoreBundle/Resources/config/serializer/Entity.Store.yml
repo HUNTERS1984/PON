@@ -3,16 +3,16 @@ CoreBundle\Entity\Store:
     properties:
         id:
             expose : true
-            groups: [view, view_coupon_type]
+            groups: [view, view_coupon_type, view_coupon]
         name:
             expose : true
-            groups: [view,create_store,view_coupon_type]
+            groups: [view,create_store,view_coupon_type, view_coupon]
         latitude:
             expose: true
-            groups: [view,create_store,view_coupon_type]
+            groups: [view,create_store,view_coupon_type, view_coupon]
         longtitude:
             expose: true
-            groups: [view,create_store,view_coupon_type]
+            groups: [view,create_store,view_coupon_type, view_coupon]
         storeType:
             expose: false
             groups: [view,view_coupon_type]

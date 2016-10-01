@@ -2,12 +2,15 @@
 
 namespace AppBundle\Controller;
 
+use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\CategoryManager;
+use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -242,11 +245,35 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *     401="Returned when the user is not authorized"
      *   }
      * )
+     * @View(serializerGroups={"view_coupon"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getAction($id)
     {
-        $user = $this->getUser();
+        $userLoginId = 0;
+        /**@var AppUser $appUser*/
+        $appUser = $this->getUser();
+        if($appUser){
+            $userLoginId = $appUser->getId();
+        }
+        var_dump($appUser);die;
+        $manager = $this->getManager();
+        /**@var Coupon $coupon*/
+        $coupon = $manager->findOneById($id);
+        $listCoupon = $manager->listCoupon(array("page_size" => 4, "coupon_type_id" => $coupon->getCouponType()->getId()));
+        $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
+        return $this->view(BaseResponse::getData($coupon));
+        //$coupon["similar_coupon"] = $listCoupon;
+        //var_dump($listCoupon);
+        ///return $coupon;
+        //$listCoupon = $this->getSerializer()->serialize($listCoupon, ['view', 'view_coupon']);
+        //$data["store_id"] = 1;
+        //$storeManager = $this->getStoreManager();
+        //$store = $storeManager->findOneById($data["store_id"]);
+        //echo "<pre>"; print_r($data);
+        //echo "<pre>"; print_r($listCoupon);
+
+        //die;
         $faker = Factory::create('ja_JP');
         $couponPhotoUrl = [];
         $userPhotoUrl = [];
@@ -312,6 +339,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'id' => $faker->randomElement([1, 2]),
                         'name' => $faker->name,
                     ],
+                    'need_login' => 1
                 ],
                 [
                     'id' => 2,
@@ -560,7 +588,16 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     }
 
     /**
-     * @return CategoryManager
+     *
+     * @return StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->get('pon.manager.store');
+    }
+
+    /**
+     * @return CouponTypeManager
      */
     public function getCouponTypeManager()
     {

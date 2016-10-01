@@ -3,38 +3,43 @@ CoreBundle\Entity\Coupon:
     properties:
         id:
             expose : true
-            groups: [view]
+            groups: [view,view_coupon,view_coupon_list]
         type:
             expose : true
             groups: [view,create_coupon]
             serialized_name: couponType
+            groups: [view,create_coupon,view_coupon]
         title:
             expose: true
-            groups: [view,create_coupon]
+            groups: [view,create_coupon,view_coupon,view_coupon_list]
+        store:
+            expose: true
+            groups: [view,view_coupon]
+            serialized_name: shop
         description:
             expose: true
-            groups: [view,create_coupon]
+            groups: [view,create_coupon,view_coupon]
         startDate:
             expose: true
-            groups: [view,create_coupon]
+            groups: [view,create_coupon,view_coupon]
             serialized_name: startDate
         endDate:
             expose: true
-            groups: [view,create_coupon]
-            serialized_name: endDate
+            groups: [view,create_coupon,view_coupon, view_coupon_list]
+            serialized_name: expired_time
         status:
             expose: true
-            groups: [view,create_coupon]
+            groups: [view,create_coupon,view_coupon]
         imageUrl:
             expose: true
-            groups: [view,create_coupon]
-            serialized_name: imageUrl
+            groups: [view,create_coupon,view_coupon, view_coupon_list]
+            serialized_name: image_url
         size:
             expose: true
             groups: [view,create_coupon]
         createdAt:
             expose: true
-            groups: [view]
+            groups: [view,view_coupon]
         updatedAt:
             expose: true
-            groups: [view]
+            groups: [view,view_coupon]
