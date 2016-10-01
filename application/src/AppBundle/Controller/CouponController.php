@@ -3,10 +3,8 @@
 namespace AppBundle\Controller;
 
 use CoreBundle\Entity\Coupon;
-use CoreBundle\Form\Type\CouponType;
-use CoreBundle\Form\Type\CouponTypeType;
 use CoreBundle\Manager\CouponManager;
-use CoreBundle\Manager\CouponTypeManager;
+use CoreBundle\Manager\CategoryManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -23,7 +21,7 @@ use CoreBundle\Utils\Response as BaseResponse;
 class CouponController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * Get List Feature Coupon
+     * Get List Featured Category
      * @ApiDoc(
      *  resource=true,
      *  description="This api is used to list coupon",
@@ -55,7 +53,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getFeaturedCouponAction($type, Request $request)
     {
         $faker = Factory::create('ja_JP');
-        $user = $this-$this->getUser();
+        $user = $this->getUser();
         $data = [];
         $j = 0;
         for ($i = 0; $i < 20; $i++) {
@@ -71,7 +69,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
                         'need_login' => $needLogin = $faker->randomElement([0, 1]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
+                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
+                        'coupon_type' => [
+                            'id' => $faker->randomElement([1, 2]),
+                            'name' => $faker->name
+                        ]
                     ],
                     [
                         'id' => $j + 2,
@@ -80,7 +82,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
                         'need_login' => $needLogin = $faker->randomElement([0, 1]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
+                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
+                        'coupon_type' => [
+                            'id' => $faker->randomElement([1, 2]),
+                            'name' => $faker->name
+                        ]
                     ],
                     [
                         'id' => $j + 3,
@@ -89,7 +95,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
                         'need_login' => $needLogin = $faker->randomElement([0, 1]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
+                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
+                        'coupon_type' => [
+                            'id' => $faker->randomElement([1, 2]),
+                            'name' => $faker->name
+                        ]
                     ],
                     [
                         'id' => $j + 4,
@@ -98,7 +108,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
                         'need_login' => $needLogin = $faker->randomElement([0, 1]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
+                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
+                        'coupon_type' => [
+                            'id' => $faker->randomElement([1, 2]),
+                            'name' => $faker->name
+                        ]
                     ],
                     [
                         'id' => $j + 5,
@@ -107,7 +121,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
                         'need_login' => $needLogin = $faker->randomElement([0, 1]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
+                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
+                        'coupon_type' => [
+                            'id' => $faker->randomElement([1, 2]),
+                            'name' => $faker->name
+                        ]
                     ],
                 ]
 
@@ -125,7 +143,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     }
 
     /**
-     * Get List Feature Coupon Follow Coupon Type
+     * Get List Featured Coupons By Category
      * @ApiDoc(
      *  resource=true,
      *  description="This api is used to list coupon",
@@ -136,9 +154,9 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *          "description"="featured type (1,2,3,4)"
      *      },
      *     {
-     *          "name"="couponType",
+     *          "name"="category",
      *          "dataType"="integer",
-     *          "description"="type of coupon"
+     *          "description"="id of category"
      *      }
      *  },
      *  headers={
@@ -156,15 +174,15 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *     401="Returned when the user is not authorized"
      *   }
      * )
-     * @Get("/featured/{type}/coupons/{couponType}")
+     * @Get("/featured/{type}/category/{category}/coupons")
      * @return Response
      */
-    public function getCouponsByFeaturedAndTypeAction($type, $couponType, Request $request)
+    public function getCouponsByFeaturedAndCategoryAction($type, $category, Request $request)
     {
         $faker = Factory::create('ja_JP');
         $user = $this->getUser();
         $data = [
-            'id' => $couponType,
+            'id' => $category,
             'name' => $faker->name,
             'icon_url' => $faker->imageUrl(46, 46, 'food')
         ];
@@ -178,7 +196,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
                     'need_login' => $needLogin = $faker->randomElement([0, 1]),
-                    'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
+                    'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([1, 2]),
+                        'name' => $faker->name
+                    ]
                 ];
         }
         $data['coupons'] = $coupons;
@@ -261,12 +283,16 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'longitude' => '137.746582',
                 'address' => $faker->address,
                 'close_date' => "Saturday and Sunday",
-                'ave_bill' => $faker->numberBetween(100, 200)
+                'ave_bill' => $faker->numberBetween(100, 200),
+                'category' => [
+                    'id' => $faker->randomElement([0, 1]),
+                    'name' => $faker->name,
+                    'icon_url' => $faker->imageUrl(46, 46, 'food')
+                ]
             ],
             'coupon_type' => [
-                'id' => $faker->randomElement([0, 1]),
+                'id' => $faker->randomElement([1, 2]),
                 'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(46, 46, 'food')
             ],
             'coupon_photo_url' =>  $couponPhotoUrl,
             'user_photo_url' => $userPhotoUrl,
@@ -277,7 +303,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
-                    'can_use' => $faker->randomElement([0, 1])
+                    'can_use' => $faker->randomElement([0, 1]),
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([1, 2]),
+                        'name' => $faker->name,
+                    ],
                 ],
                 [
                     'id' => 2,
@@ -285,7 +315,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
-                    'can_use' => $faker->randomElement([0, 1])
+                    'can_use' => $faker->randomElement([0, 1]),
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([1, 2]),
+                        'name' => $faker->name,
+                    ],
                 ],
                 [
                     'id' => 3,
@@ -293,7 +327,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
-                    'can_use' => $faker->randomElement([0, 1])
+                    'can_use' => $faker->randomElement([0, 1]),
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([1, 2]),
+                        'name' => $faker->name,
+                    ],
                 ],
                 [
                     'id' => 4,
@@ -301,7 +339,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
-                    'can_use' => $faker->randomElement([0, 1])
+                    'can_use' => $faker->randomElement([0, 1]),
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([1, 2]),
+                        'name' => $faker->name,
+                    ],
                 ],
             ],
         ];
@@ -347,6 +389,15 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'is_like' => 1,
                     'need_login' => $needLogin = $faker->randomElement([0, 1]),
                     'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
+                    'shop' => [
+                        'id' => $faker->numberBetween(1, 200),
+                        'title' => $faker->company,
+                        'category' => [
+                            'id' => $faker->randomElement([0, 1]),
+                            'name' => $faker->name,
+                            'icon_url' => $faker->imageUrl(46, 46, 'food')
+                        ]
+                    ],
                     'coupon_type' => [
                         'id' => $faker->randomElement([0, 1]),
                         'name' => $faker->name,
@@ -402,6 +453,15 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'is_like' => $faker->randomElement([0, 1]),
                     'need_login' => $needLogin = $faker->randomElement([0, 1]),
                     'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
+                    'shop' => [
+                        'id' => $faker->numberBetween(1, 200),
+                        'title' => $faker->company,
+                        'category' => [
+                            'id' => $faker->randomElement([0, 1]),
+                            'name' => $faker->name,
+                            'icon_url' => $faker->imageUrl(46, 46, 'food')
+                        ]
+                    ],
                     'coupon_type' => [
                         'id' => $faker->randomElement([0, 1]),
                         'name' => $faker->name,
@@ -496,11 +556,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     }
 
     /**
-     * @return CouponTypeManager
+     * @return CategoryManager
      */
     public function getCouponTypeManager()
     {
-        return $this->get('pon.manager.coupon_type');
+        return $this->get('pon.manager.category');
     }
 
     /**

@@ -16,10 +16,10 @@ app_store:
     resource: AppBundle\Controller\StoreController
     name_prefix: api_store
 
-app_coupon_type:
+app_category:
     prefix: /v1
     type: rest
-    resource: AppBundle\Controller\CouponTypeController
+    resource: AppBundle\Controller\CategoryController
     name_prefix: api_coupon_type
 
 app_coupon:

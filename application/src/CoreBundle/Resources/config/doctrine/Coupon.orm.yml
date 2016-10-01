@@ -22,12 +22,6 @@ CoreBundle\Entity\Coupon:
                     tag_id:
                         referencedColumnName: id
     manyToOne:
-        couponType:
-            targetEntity: CouponType
-            inversedBy: coupons
-            joinColumn:
-                name: coupon_type_id
-                referencedColumnName: id
         store:
             targetEntity: Store
             inversedBy: coupons

@@ -168,4 +168,3 @@ class AdminContact
         return $this->updatedAt;
     }
 }
-

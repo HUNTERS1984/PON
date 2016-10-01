@@ -74,6 +74,11 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 $faker->imageUrl(640, 480, 'food'),
                 $faker->imageUrl(640, 480, 'food')
             ],
+            'category' => [
+                'id' => $faker->randomElement([1, 2]),
+                'name' => $faker->name,
+                'icon_url' => $faker->imageUrl(46, 46, 'food')
+            ],
             'coupons' => [
                 [
                     'id' => 1,
@@ -84,9 +89,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'need_login' => $needLogin = $faker->randomElement([0, 1]),
                     'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                     'coupon_type' => [
-                        'id' => $faker->randomElement([0, 1]),
+                        'id' => $faker->randomElement([1, 2]),
                         'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
                 ],
                 [
@@ -98,9 +102,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'need_login' => $needLogin = $faker->randomElement([0, 1]),
                     'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                     'coupon_type' => [
-                        'id' => $faker->randomElement([0, 1]),
+                        'id' => $faker->randomElement([1, 2]),
                         'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
                 ],
                 [
@@ -112,9 +115,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'need_login' => $needLogin = $faker->randomElement([0, 1]),
                     'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                     'coupon_type' => [
-                        'id' => $faker->randomElement([0, 1]),
+                        'id' => $faker->randomElement([1, 2]),
                         'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
                 ],
                 [
@@ -126,9 +128,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'need_login' => $needLogin = $faker->randomElement([0, 1]),
                     'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                     'coupon_type' => [
-                        'id' => $faker->randomElement([0, 1]),
+                        'id' => $faker->randomElement([1, 2]),
                         'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
                 ],
             ]
@@ -138,7 +139,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     }
 
     /**
-     * Get List Feature Shop Follow Featured And Coupon Type
+     * Get List Feature Shop Follow Featured And Category
      * @ApiDoc(
      *  resource=true,
      *  description="This api is used to list shop",
@@ -149,9 +150,9 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *          "description"="featured type (1,2,3,4)"
      *      },
      *     {
-     *          "name"="couponType",
+     *          "name"="category",
      *          "dataType"="integer",
-     *          "description"="type of coupon"
+     *          "description"="id of category"
      *      }
      *  },
      *  headers={
@@ -169,10 +170,10 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *     401="Returned when the user is not authorized"
      *   }
      * )
-     * @Get("/featured/{type}/shops/{couponType}")
+     * @Get("/featured/{type}/shops/{category}")
      * @return Response
      */
-    public function getByFeaturedAndTypeAction($type, $couponType, Request $request)
+    public function getByFeaturedAndTypeAction($type, $category, Request $request)
     {
         $faker = Factory::create('ja_JP');
         $data = [];
@@ -251,15 +252,15 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     }
 
     /**
-     * Get List Shop follow coupon type
+     * Get List Shop follow category
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list shop follow coupon type",
+     *  description="This api is used to list shop follow category",
      *  requirements={
      *      {
-     *          "name"="type",
+     *          "name"="id",
      *          "dataType"="integer",
-     *          "description"="type of coupon"
+     *          "description"="id of category"
      *      }
      *  },
      *  headers={
@@ -277,10 +278,10 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *     401="Returned when the user is not authorized"
      *   }
      * )
-     * @Get("/coupon/{type}/shops")
+     * @Get("/category/{id}/shops")
      * @return Response
      */
-    public function getShopByCouponTypeAction($type, Request $request)
+    public function getShopByCouponTypeAction($id, Request $request)
     {
         $faker = Factory::create('ja_JP');
         $data = [];
@@ -420,6 +421,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getShopCouponByMapAction($lattitude, $longitude, Request $request)
     {
+        $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [];
         $j = 0;
@@ -456,6 +458,11 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     $faker->imageUrl(640, 480, 'food'),
                     $faker->imageUrl(640, 480, 'food')
                 ],
+                'category' => [
+                    'id' => $faker->randomElement([1, 2]),
+                    'name' => $faker->name,
+                    'icon_url' => $faker->imageUrl(46, 46, 'food')
+                ],
                 'coupons' => [
                     [
                         'id' => 1,
@@ -466,9 +473,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'need_login' => $needLogin = $faker->randomElement([0, 1]),
                         'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                         'coupon_type' => [
-                            'id' => $faker->randomElement([0, 1]),
+                            'id' => $faker->randomElement([1, 2]),
                             'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(46, 46, 'food')
                         ],
                     ],
                     [
@@ -480,9 +486,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'need_login' => $needLogin = $faker->randomElement([0, 1]),
                         'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                         'coupon_type' => [
-                            'id' => $faker->randomElement([0, 1]),
+                            'id' => $faker->randomElement([1, 2]),
                             'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(46, 46, 'food')
                         ],
                     ],
                     [
@@ -494,9 +499,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'need_login' => $needLogin = $faker->randomElement([0, 1]),
                         'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                         'coupon_type' => [
-                            'id' => $faker->randomElement([0, 1]),
+                            'id' => $faker->randomElement([1, 2]),
                             'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(46, 46, 'food')
                         ],
                     ],
                     [
@@ -508,9 +512,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'need_login' => $needLogin = $faker->randomElement([0, 1]),
                         'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                         'coupon_type' => [
-                            'id' => $faker->randomElement([0, 1]),
+                            'id' => $faker->randomElement([1, 2]),
                             'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(46, 46, 'food')
                         ],
                     ],
                 ]

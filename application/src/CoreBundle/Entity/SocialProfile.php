@@ -284,4 +284,3 @@ class SocialProfile
         return $this->appUser;
     }
 }
-

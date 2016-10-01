@@ -3,9 +3,9 @@
 namespace CoreBundle\Entity;
 
 /**
- * CouponType
+ * Category
  */
-class CouponType
+class Category
 {
     /**
      * @var integer
@@ -40,14 +40,14 @@ class CouponType
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $coupons;
+    private $stores;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->coupons = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->stores = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -65,7 +65,7 @@ class CouponType
      *
      * @param string $name
      *
-     * @return CouponType
+     * @return Category
      */
     public function setName($name)
     {
@@ -89,7 +89,7 @@ class CouponType
      *
      * @param string $iconUrl
      *
-     * @return CouponType
+     * @return Category
      */
     public function setIconUrl($iconUrl)
     {
@@ -113,7 +113,7 @@ class CouponType
      *
      * @param \DateTime $createdAt
      *
-     * @return CouponType
+     * @return Category
      */
     public function setCreatedAt($createdAt)
     {
@@ -137,7 +137,7 @@ class CouponType
      *
      * @param \DateTime $updatedAt
      *
-     * @return CouponType
+     * @return Category
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -161,7 +161,7 @@ class CouponType
      *
      * @param \DateTime $deletedAt
      *
-     * @return CouponType
+     * @return Category
      */
     public function setDeletedAt($deletedAt)
     {
@@ -181,37 +181,36 @@ class CouponType
     }
 
     /**
-     * Add coupon
+     * Add store
      *
-     * @param \CoreBundle\Entity\Coupon $coupon
+     * @param \CoreBundle\Entity\Store $store
      *
-     * @return CouponType
+     * @return Category
      */
-    public function addCoupon(\CoreBundle\Entity\Coupon $coupon)
+    public function addStore(\CoreBundle\Entity\Store $store)
     {
-        $this->coupons[] = $coupon;
+        $this->stores[] = $store;
 
         return $this;
     }
 
     /**
-     * Remove coupon
+     * Remove store
      *
-     * @param \CoreBundle\Entity\Coupon $coupon
+     * @param \CoreBundle\Entity\Store $store
      */
-    public function removeCoupon(\CoreBundle\Entity\Coupon $coupon)
+    public function removeStore(\CoreBundle\Entity\Store $store)
     {
-        $this->coupons->removeElement($coupon);
+        $this->stores->removeElement($store);
     }
 
     /**
-     * Get coupons
+     * Get stores
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCoupons()
+    public function getStores()
     {
-        return $this->coupons;
+        return $this->stores;
     }
 }
-

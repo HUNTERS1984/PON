@@ -15,6 +15,9 @@ CoreBundle\Entity\AppUser:
         likeLists:
             targetEntity: LikeList
             mappedBy: appUser
+        followLists:
+            targetEntity: FollowList
+            mappedBy: appUser
     id:
         id:
             type: integer

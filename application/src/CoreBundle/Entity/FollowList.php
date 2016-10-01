@@ -3,9 +3,9 @@
 namespace CoreBundle\Entity;
 
 /**
- * LikeList
+ * FollowList
  */
-class LikeList
+class FollowList
 {
     /**
      * @var integer
@@ -13,9 +13,9 @@ class LikeList
     private $id;
 
     /**
-     * @var \CoreBundle\Entity\Coupon
+     * @var \CoreBundle\Entity\Store
      */
-    private $coupon;
+    private $store;
 
     /**
      * @var \CoreBundle\Entity\AppUser
@@ -34,27 +34,27 @@ class LikeList
     }
 
     /**
-     * Set coupon
+     * Set Store
      *
-     * @param \CoreBundle\Entity\Coupon $coupon
+     * @param \CoreBundle\Entity\Store $store
      *
-     * @return LikeList
+     * @return FollowList
      */
-    public function setCoupon(\CoreBundle\Entity\Coupon $coupon = null)
+    public function setStore(\CoreBundle\Entity\Store $store = null)
     {
-        $this->coupon = $coupon;
+        $this->store = $store;
 
         return $this;
     }
 
     /**
-     * Get coupon
+     * Get store
      *
-     * @return \CoreBundle\Entity\Coupon
+     * @return \CoreBundle\Entity\Store
      */
-    public function getCoupon()
+    public function getStore()
     {
-        return $this->coupon;
+        return $this->store;
     }
 
     /**
@@ -62,7 +62,7 @@ class LikeList
      *
      * @param \CoreBundle\Entity\AppUser $appUser
      *
-     * @return LikeList
+     * @return FollowList
      */
     public function setAppUser(\CoreBundle\Entity\AppUser $appUser = null)
     {

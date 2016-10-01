@@ -313,4 +313,3 @@ class PushSetting
         return $this->store;
     }
 }
-

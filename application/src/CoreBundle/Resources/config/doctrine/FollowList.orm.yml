@@ -1,0 +1,25 @@
+CoreBundle\Entity\FollowList:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\FollowListRepository
+    manyToOne:
+        store:
+            targetEntity: Store
+            inversedBy: followLists
+            joinColumn:
+                name: store_id
+                referencedColumnName: id
+        appUser:
+            targetEntity: AppUser
+            inversedBy: followLists
+            joinColumn:
+                name: app_user_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+    lifecycleCallbacks: {  }

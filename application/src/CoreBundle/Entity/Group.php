@@ -69,4 +69,3 @@ class Group
         return $this->users;
     }
 }
-

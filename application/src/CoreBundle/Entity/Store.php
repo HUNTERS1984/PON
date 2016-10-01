@@ -351,5 +351,72 @@ class Store
     {
         return $this->user;
     }
-}
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $followLists;
 
+
+    /**
+     * Add followList
+     *
+     * @param \CoreBundle\Entity\FollowList $followList
+     *
+     * @return Store
+     */
+    public function addFollowList(\CoreBundle\Entity\FollowList $followList)
+    {
+        $this->followLists[] = $followList;
+
+        return $this;
+    }
+
+    /**
+     * Remove followList
+     *
+     * @param \CoreBundle\Entity\FollowList $followList
+     */
+    public function removeFollowList(\CoreBundle\Entity\FollowList $followList)
+    {
+        $this->followLists->removeElement($followList);
+    }
+
+    /**
+     * Get followLists
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFollowLists()
+    {
+        return $this->followLists;
+    }
+    /**
+     * @var \CoreBundle\Entity\Category
+     */
+    private $category;
+
+
+    /**
+     * Set category
+     *
+     * @param \CoreBundle\Entity\Category $category
+     *
+     * @return Store
+     */
+    public function setCategory(\CoreBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \CoreBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+}
