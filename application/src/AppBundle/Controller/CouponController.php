@@ -256,7 +256,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         if($appUser){
             $userLoginId = $appUser->getId();
         }
-        var_dump($appUser);die;
         $manager = $this->getManager();
         /**@var Coupon $coupon*/
         $coupon = $manager->findOneById($id);
