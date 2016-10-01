@@ -55,6 +55,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getFeaturedCouponAction($type, Request $request)
     {
         $faker = Factory::create('ja_JP');
+        $user = $this-$this->getUser();
         $data = [];
         $j = 0;
         for ($i = 0; $i < 20; $i++) {
@@ -69,7 +70,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'image_url' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
-                        'can_use' => $faker->randomElement([0, 1])
+                        'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
                     ],
                     [
                         'id' => $j + 2,
@@ -77,7 +79,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'image_url' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
-                        'can_use' => $faker->randomElement([0, 1]),
+                        'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
                     ],
                     [
                         'id' => $j + 3,
@@ -85,7 +88,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'image_url' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
-                        'can_use' => $faker->randomElement([0, 1]),
+                        'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
                     ],
                     [
                         'id' => $j + 4,
@@ -93,7 +97,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'image_url' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
-                        'can_use' => $faker->randomElement([0, 1]),
+                        'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
                     ],
                     [
                         'id' => $j + 5,
@@ -101,7 +106,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'image_url' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
                         'is_like' => $faker->randomElement([0, 1]),
-                        'can_use' => $faker->randomElement([0, 1]),
+                        'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
                     ],
                 ]
 
@@ -156,6 +162,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getCouponsByFeaturedAndTypeAction($type, $couponType, Request $request)
     {
         $faker = Factory::create('ja_JP');
+        $user = $this->getUser();
         $data = [
             'id' => $couponType,
             'name' => $faker->name,
@@ -170,7 +177,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
-                    'can_use' => $faker->randomElement([0, 1])
+                    'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                    'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0
                 ];
         }
         $data['coupons'] = $coupons;
@@ -212,6 +220,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getAction($id)
     {
+        $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $couponPhotoUrl = [];
         $userPhotoUrl = [];
@@ -220,13 +229,24 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             $userPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
         }
 
+        $needLogin = $faker->randomElement([0, 1]);
+        $canUse = (!$needLogin) || ($needLogin && $user)  ? 1 : 0;
+
+        if(!$canUse) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.need_to_login'
+            ));
+        }
+
+
         $data = [
             'id' => (int)$id,
             'title' => $faker->name,
             'expired_time' => new \DateTime(),
             'image_url' => $faker->imageUrl(640, 480, 'food'),
             'is_like' => $faker->randomElement([0, 1]),
-            'can_use' => $faker->randomElement([0, 1]),
+            'need_login' => $needLogin,
+            'can_use' => $canUse,
             'code' => $faker->ean13,
             'description' => $faker->paragraph(6),
             'shop' => [
@@ -314,6 +334,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getFavoriteCouponAction(Request $request)
     {
+        $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -324,7 +345,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => 1,
-                    'can_use' => $faker->randomElement([0, 1]),
+                    'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                    'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                     'coupon_type' => [
                         'id' => $faker->randomElement([0, 1]),
                         'name' => $faker->name,
@@ -367,6 +389,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getUsedCouponAction(Request $request)
     {
+        $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -377,7 +400,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
-                    'can_use' => $faker->randomElement([0, 1]),
+                    'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                    'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                     'coupon_type' => [
                         'id' => $faker->randomElement([0, 1]),
                         'name' => $faker->name,
