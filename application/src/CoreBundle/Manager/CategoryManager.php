@@ -2,10 +2,10 @@
 
 namespace CoreBundle\Manager;
 
-use CoreBundle\Entity\CouponType;
+use CoreBundle\Entity\Category;
 use CoreBundle\Paginator\Pagination;
 
-class CouponTypeManager extends AbstractManager
+class CategoryManager extends AbstractManager
 {
     /**
      * @var Pagination
@@ -22,46 +22,46 @@ class CouponTypeManager extends AbstractManager
 
 
     /**
-     * @param CouponType $couponType
+     * @param Category $category
      *
-     * @return CouponType
+     * @return Category
      */
-    public function saveCouponType(CouponType $couponType)
+    public function saveCategory(Category $category)
     {
-        $couponType->setUpdatedAt(new \DateTime());
-        return $this->save($couponType);
+        $category->setUpdatedAt(new \DateTime());
+        return $this->save($category);
     }
 
     /**
-     * @param CouponType $couponType
+     * @param Category $category
      *
-     * @return CouponType
+     * @return Category
      */
-    public function createCouponType(CouponType $couponType)
+    public function createCouponType(Category $category)
     {
-        $couponType->setCreatedAt(new \DateTime());
-        $this->saveCouponType($couponType);
+        $category->setCreatedAt(new \DateTime());
+        $this->saveCategory($category);
     }
 
     /**
-     * @param CouponType $couponType
+     * @param Category $category
      *
      * @return boolean
      */
-    public function deleteCouponType(CouponType $couponType)
+    public function deleteCouponType(Category $category)
     {
-        $couponType
+        $category
             ->setDeletedAt(new \DateTime());
-        return $this->saveCouponType($couponType);
+        return $this->saveCategory($category);
     }
 
     /**
-     * List Coupon Type
+     * List Category
      * @param array $params
      *
      * @return array
      */
-    public function listCouponType($params)
+    public function listCategory($params)
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;

@@ -2,9 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use CoreBundle\Entity\CouponType;
-use CoreBundle\Form\Type\CouponTypeType;
-use CoreBundle\Manager\CouponTypeManager;
+use CoreBundle\Manager\CategoryManager;
 use CoreBundle\Manager\StoreManager;
 use CoreBundle\Serializator\Serializer;
 use Faker\Factory;
@@ -22,13 +20,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use CoreBundle\Utils\Response as BaseResponse;
 
 
-class CouponTypeController extends FOSRestController implements ClassResourceInterface
+class CategoryController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * Get List Coupon Type
+     * Get List Category
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list coupon type",
+     *  description="This api is used to list Category",
      *  headers={
      *         {
      *             "name"="Authorization",
@@ -44,10 +42,10 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
      *     401="Returned when the user is not authorized",
      *   }
      * )
-     * @Get("/coupon/types")
+     * @Get("/categories")
      * @return Response
      */
-    public function getCouponTypesAction(Request $request)
+    public function getCategoriesAction(Request $request)
     {
         $faker = Factory::create('ja_JP');
 
@@ -69,10 +67,10 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
     }
 
     /**
-     * Get List Coupon Type Follow Shops
+     * Get List Category Include shop total
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list coupon type",
+     *  description="This api is used to list category",
      *  headers={
      *         {
      *             "name"="Authorization",
@@ -88,10 +86,10 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
      *     401="Returned when the user is not authorized",
      *   }
      * )
-     * @Get("/coupon/types/shop")
+     * @Get("/categories/shop")
      * @return Response
      */
-    public function getCouponTypesShopAction(Request $request)
+    public function getCategoriesIncludeShopAction(Request $request)
     {
         $faker = Factory::create('ja_JP');
 
@@ -115,11 +113,11 @@ class CouponTypeController extends FOSRestController implements ClassResourceInt
 
 
     /**
-     * @return CouponTypeManager
+     * @return CategoryManager
      */
     public function getManager()
     {
-        return $this->get('pon.manager.coupon_type');
+        return $this->get('pon.manager.category');
     }
 
     /**

@@ -526,4 +526,3 @@ class Coupon
         return $this->tags;
     }
 }
-

@@ -1,11 +1,11 @@
-CoreBundle\Entity\CouponType:
+CoreBundle\Entity\Category:
     type: entity
     table: null
-    repositoryClass: CoreBundle\Repository\CouponTypeRepository
+    repositoryClass: CoreBundle\Repository\CategoryRepository
     oneToMany:
-        coupons:
-            targetEntity: Coupon
-            mappedBy: couponType
+        stores:
+            targetEntity: Store
+            mappedBy: category
     id:
         id:
             type: integer

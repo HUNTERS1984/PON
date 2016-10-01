@@ -39,15 +39,21 @@ security:
             fos_oauth: true                            # OAuth2 protected resource
             stateless: true                            # Do no set session cookies
             anonymous: true
-        api_coupon_type:
+        api_category_shop:
             security: true
-            pattern: ^/api/v1/coupon/types   # All URLs are protected
+            pattern: ^/api/v1/category/[0-9]+/shops   # All URLs are protected
             fos_oauth: true                            # OAuth2 protected resource
             stateless: true                            # Do no set session cookies
             anonymous: true
-        api_featured_coupon_type:
+        api_categories:
             security: true
-            pattern: ^/api/v1/featured/[0-9]+/coupons/[0-9]+   # All URLs are protected
+            pattern: ^/api/v1/categories   # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true
+        api_featured_category_coupons:
+            security: true
+            pattern: ^/api/v1/featured/[0-9]+/category/[0-9]+/coupons   # All URLs are protected
             fos_oauth: true                            # OAuth2 protected resource
             stateless: true                            # Do no set session cookies
             anonymous: true

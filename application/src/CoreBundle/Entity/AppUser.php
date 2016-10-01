@@ -372,6 +372,7 @@ class AppUser extends BaseUser
     {
         return $this->useLists;
     }
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -688,5 +689,44 @@ class AppUser extends BaseUser
 
         $this->avatarUrl = $newFile;
         $this->webPath = $this->getWebPath();
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $followLists;
+
+
+    /**
+     * Add followList
+     *
+     * @param \CoreBundle\Entity\FollowList $followList
+     *
+     * @return AppUser
+     */
+    public function addFollowList(\CoreBundle\Entity\FollowList $followList)
+    {
+        $this->followLists[] = $followList;
+
+        return $this;
+    }
+
+    /**
+     * Remove followList
+     *
+     * @param \CoreBundle\Entity\FollowList $followList
+     */
+    public function removeFollowList(\CoreBundle\Entity\FollowList $followList)
+    {
+        $this->followLists->removeElement($followList);
+    }
+
+    /**
+     * Get followLists
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFollowLists()
+    {
+        return $this->followLists;
     }
 }

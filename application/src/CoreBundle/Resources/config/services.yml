@@ -35,11 +35,11 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
 
-    pon.manager.coupon_type:
-        class: CoreBundle\Manager\CouponTypeManager
+    pon.manager.category:
+        class: CoreBundle\Manager\CategoryManager
         factory_service:  doctrine
         factory_method:   getEntityManager
-        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\CouponType"]
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Category"]
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
 

@@ -475,4 +475,3 @@ class Post
         return $this->tags;
     }
 }
-

@@ -3,6 +3,9 @@ CoreBundle\Entity\Store:
     table: null
     repositoryClass: CoreBundle\Repository\StoreRepository
     oneToMany:
+        followLists:
+            targetEntity: FollowList
+            mappedBy: store
         pushSettings:
             targetEntity: PushSetting
             mappedBy: store
@@ -13,6 +16,12 @@ CoreBundle\Entity\Store:
             targetEntity: Coupon
             mappedBy: store
     manyToOne:
+        category:
+            targetEntity: Category
+            inversedBy: stores
+            joinColumn:
+                name: category_id
+                referencedColumnName: id
         user:
             targetEntity: User
             inversedBy: stores
