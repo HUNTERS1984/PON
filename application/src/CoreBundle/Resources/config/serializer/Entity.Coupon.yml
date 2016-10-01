@@ -7,6 +7,7 @@ CoreBundle\Entity\Coupon:
         type:
             expose : true
             groups: [view,create_coupon]
+            serialized_name: couponType
         title:
             expose: true
             groups: [view,create_coupon]
@@ -31,9 +32,6 @@ CoreBundle\Entity\Coupon:
         size:
             expose: true
             groups: [view,create_coupon]
-        couponType:
-            expose: true
-            groups: [view]
         createdAt:
             expose: true
             groups: [view]

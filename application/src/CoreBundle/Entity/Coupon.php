@@ -78,11 +78,6 @@ class Coupon
     private $likeLists;
 
     /**
-     * @var \CoreBundle\Entity\CouponType
-     */
-    private $couponType;
-
-    /**
      * @var \CoreBundle\Entity\Store
      */
     private $store;
@@ -443,30 +438,7 @@ class Coupon
     {
         return $this->likeLists;
     }
-
-    /**
-     * Set couponType
-     *
-     * @param \CoreBundle\Entity\CouponType $couponType
-     *
-     * @return Coupon
-     */
-    public function setCouponType(\CoreBundle\Entity\CouponType $couponType = null)
-    {
-        $this->couponType = $couponType;
-
-        return $this;
-    }
-
-    /**
-     * Get couponType
-     *
-     * @return \CoreBundle\Entity\CouponType
-     */
-    public function getCouponType()
-    {
-        return $this->couponType;
-    }
+    
 
     /**
      * Set store
