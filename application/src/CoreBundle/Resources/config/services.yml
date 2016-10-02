@@ -51,6 +51,22 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
 
+    pon.manager.like_list:
+            class: CoreBundle\Manager\LikeListManager
+            factory_service:  doctrine
+            factory_method:   getEntityManager
+            arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\LikeList"]
+            calls:
+                - [setPagination, ["@pon.paginator.pagination"]]
+
+    pon.manager.use_list:
+              class: CoreBundle\Manager\UseListManager
+              factory_service:  doctrine
+              factory_method:   getEntityManager
+              arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\UseList"]
+              calls:
+                  - [setPagination, ["@pon.paginator.pagination"]]
+
     pon.manager.post:
         class: CoreBundle\Manager\PostManager
         factory_service:  doctrine

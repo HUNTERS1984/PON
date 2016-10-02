@@ -86,7 +86,7 @@ security:
             pattern: ^/api/v1                                # All URLs are protected
             fos_oauth: true                            # OAuth2 protected resource
             stateless: true                            # Do no set session cookies
-            anonymous: false                           # Anonymous access is not allowed
+            anonymous: true                           # Anonymous access is not allowed
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
