@@ -17,6 +17,7 @@
     "gulp-watch": "^4.3.5",
     "gulp.spritesmith": "^6.2.1",
     "gulp-less": "*",
-    "gulp-if": "*"
+    "gulp-if": "*",
+    "gulp-sourcemaps": "*"
   }
 }
