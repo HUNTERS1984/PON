@@ -9,8 +9,12 @@ use CoreBundle\Entity\UseList;
 use CoreBundle\Form\Type\CouponType;
 use CoreBundle\Form\Type\CouponTypeType;
 use CoreBundle\Manager\CouponManager;
+ 
 use CoreBundle\Manager\CouponTypeManager;
 use CoreBundle\Manager\LikeListManager;
+ 
+use CoreBundle\Manager\CategoryManager;
+ 
 use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -242,7 +246,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         //echo "<pre>"; print_r($listCoupon);
 
         //die;
-
         $faker = Factory::create('ja_JP');
         $couponPhotoUrl = [];
         $userPhotoUrl = [];
@@ -252,14 +255,15 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         $data = [
-            //'id' => (int)$id,
-            //'title' => $faker->name,
-            //'expired_time' => new \DateTime(),
-            //'image_url' => $faker->imageUrl(640, 480, 'food'),
+            'id' => (int)$id,
+            'title' => $faker->name,
+            'expired_time' => new \DateTime(),
+            'image_url' => $faker->imageUrl(640, 480, 'food'),
             'is_like' => $faker->randomElement([0, 1]),
-            //'can_use' => $faker->randomElement([0, 1]),
-            //'code' => $faker->ean13,
-            //'description' => $faker->paragraph(6),
+            'need_login' => $needLogin,
+            'can_use' => $canUse,
+            'code' => $faker->ean13,
+            'description' => $faker->paragraph(6),
             'shop' => [
                 'id' => $faker->numberBetween(1, 200),
                 'title' => $faker->company,
@@ -279,7 +283,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'name' => $faker->name,
                 'icon_url' => $faker->imageUrl(46, 46, 'food')
             ],
-            //'coupon_photo_url' =>  $couponPhotoUrl,
+            'coupon_photo_url' =>  $couponPhotoUrl,
             'user_photo_url' => $userPhotoUrl,
             'similar_coupon' => [
                 [
@@ -289,6 +293,10 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'expired_time' => new \DateTime(),
                     'is_like' => $faker->randomElement([0, 1]),
                     'can_use' => $faker->randomElement([0, 1]),
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([1, 2]),
+                        'name' => $faker->name,
+                    ],
                     'need_login' => 1
                 ],
                 [
@@ -590,6 +598,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     }
 
     /**
+     *
      * @return StoreManager
      */
     public function getStoreManager()
