@@ -392,7 +392,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         if(!$appUser) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
-            ) , 404);
+            ) , 401);
         }
 
         $shopId = (int)$id;
