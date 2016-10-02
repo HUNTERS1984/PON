@@ -162,6 +162,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *         }
      *     },
      *  parameters={
+     *      {"name"="lattitude", "dataType"="string", "required"=false, "description"="lattitude of user"},
+     *      {"name"="longitude", "dataType"="string", "required"=false, "description"="longitude of user"},
      *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
      *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
      *  },
@@ -216,6 +218,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *         }
      *     },
      *  parameters={
+     *      {"name"="lattitude", "dataType"="string", "required"=false, "description"="lattitude of user"},
+     *      {"name"="longitude", "dataType"="string", "required"=false, "description"="longitude of user"},
      *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
      *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
      *  },
