@@ -5,6 +5,7 @@ var gulpif = require('gulp-if');
 var uglify = require('gulp-uglify');
 var less = require('gulp-less');
 var concat = require('gulp-concat');
+var sourcemaps = require('gulp-sourcemaps');
 
 var dir = {
     admin_path: './src/AdminBundle/Resources/public/',
@@ -27,7 +28,9 @@ gulp.task('admin-styles', function () {
         //dir.bower + 'bootstrap/dist/css/bootstrap.min.css',
         dir.admin_path + '/css/**'
     ])
+    .pipe(sourcemaps.init())
     .pipe(gulpif(/[.]less/, less()))
+    .pipe(sourcemaps.write())
     .pipe(concat('admin.css'))
     .pipe(gulp.dest(dir.admin_dist + 'css'));
 });
