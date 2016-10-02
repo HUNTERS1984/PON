@@ -2,7 +2,6 @@
 
 namespace CoreBundle\Manager;
 
-use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\LikeList;
 use CoreBundle\Paginator\Pagination;
 

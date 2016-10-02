@@ -10,6 +10,7 @@ use CoreBundle\Form\Type\CouponType;
 use CoreBundle\Form\Type\CouponTypeType;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\CouponTypeManager;
+use CoreBundle\Manager\LikeListManager;
 use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
