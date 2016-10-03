@@ -47,8 +47,10 @@ class CategoryController extends FOSRestController implements ClassResourceInter
      */
     public function getCategoriesAction(Request $request)
     {
+
+        $params = $request->query->all();
         $manager = $this->getManager();
-        $listCatogory = $manager->listCategory(array("page_size" => 4 , "page_index" => 1));
+        $listCatogory = $manager->listCategory($params);
         return $this->view(BaseResponse::getData($listCatogory));
 
 
