@@ -75,11 +75,11 @@ class CouponManager extends AbstractManager
             ];
         }
 
-        if(isset($params['coupon_type_id'])) {
+        if(isset($params['store_id'])) {
             $conditions = [
-                'couponType' => [
+                'store' => [
                     'type' => '=',
-                    'value' => $params['coupon_type_id']
+                    'value' => $params['store_id']
                 ]
             ];
         }
@@ -92,7 +92,7 @@ class CouponManager extends AbstractManager
         $orderBy = ['createdAt' => 'DESC'];
 
         $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
-
+        //return $query;
         return $this->pagination->render($query, $limit, $offset);
     }
 

@@ -259,7 +259,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         $manager = $this->getManager();
         /**@var Coupon $coupon*/
         $coupon = $manager->findOneById($id);
-        $listCoupon = $manager->listCoupon(array("page_size" => 4, "coupon_type_id" => $coupon->getCouponType()->getId()));
+        $listCoupon = $manager->listCoupon(array("page_size" => 4));
         $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
         return $this->view(BaseResponse::getData($coupon));
         //$coupon["similar_coupon"] = $listCoupon;

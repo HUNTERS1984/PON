@@ -6,9 +6,8 @@ CoreBundle\Entity\Coupon:
             groups: [view,view_coupon,view_coupon_list]
         type:
             expose : true
-            groups: [view,create_coupon]
+            groups: [view,create_coupon,view_coupon,view_coupon_list]
             serialized_name: couponType
-            groups: [view,create_coupon,view_coupon]
         title:
             expose: true
             groups: [view,create_coupon,view_coupon,view_coupon_list]

@@ -7,6 +7,7 @@ use CoreBundle\Entity\User;
 use CoreBundle\Form\Type\StoreType;
 use CoreBundle\Manager\StoreManager;
 use CoreBundle\Manager\StoreTypeManager;
+use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\UserManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -52,6 +53,22 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getAction($id)
     {
+        $manager = $this->getManager();
+        /**@var Store $store*/
+        $store = $manager->findOneById($id);
+        if(!$store || !is_null($store->getDeletedAt())) {
+            $this->get('pon.exception.exception_handler')->throwError(
+                'store.not_found'
+            );
+        }
+        $store = $this->getSerializer()->serialize($store, ['view_store']);
+
+        $managerCoupon = $this->getCouponManager();
+        $listCoupon = $managerCoupon->listCoupon(array("page_size" => 4, "store_id" => $store["id"]));
+        $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
+        return $listCoupon;
+        return $this->view(BaseResponse::getData($store));
+
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [
@@ -60,7 +77,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
             'operation_start_time' =>  '08:00',
             'operation_end_time' => '23:00',
             'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-            'is_follow' => $faker->randomElement([0, 1]),
+            //'is_follow' => $faker->randomElement([0, 1]),
             'tel' => $faker->phoneNumber,
             'lattitude' => '35.911594',
             'longitude' => '137.746582',
@@ -556,6 +573,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     public function getUserManager()
     {
         return $this->get('pon.manager.user');
+    }
+
+    /**
+     * @return CouponManager
+     */
+    public function getCouponManager()
+    {
+        return $this->get('pon.manager.coupon');
     }
 
     /**

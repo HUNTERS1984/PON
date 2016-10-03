@@ -20,12 +20,57 @@ class Store
     /**
      * @var string
      */
+    private $tel;
+
+    /**
+     * @var string
+     */
+    private $address;
+
+    /**
+     * @var string
+     */
+    private $closeDate;
+
+    /**
+     * @var integer
+     */
+    private $aveBill;
+
+    /**
+     * @var string
+     */
+    private $helpText;
+
+    /**
+     * @var string
+     */
+    private $shopPhotoUrl;
+
+    /**
+     * @var string
+     */
     private $latitude;
 
     /**
      * @var string
      */
     private $longtitude;
+
+    /**
+     * @var string
+     */
+    private $avatarUrl;
+
+    /**
+     * @var \DateTime
+     */
+    private $operationStartTime;
+
+    /**
+     * @var \DateTime
+     */
+    private $operationEndTime;
 
     /**
      * @var \DateTime
@@ -107,6 +152,30 @@ class Store
     }
 
     /**
+     * Set avatarUrl
+     *
+     * @param string $avatarUrl
+     *
+     * @return Store
+     */
+    public function setAvatarUrl($avatarUrl)
+    {
+        $this->avatarUrl = $avatarUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get avatarUrl
+     *
+     * @return string
+     */
+    public function getAvatarUrl()
+    {
+        return $this->avatarUrl;
+    }
+
+    /**
      * Set latitude
      *
      * @param string $latitude
@@ -176,6 +245,54 @@ class Store
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Set operationStartTime
+     *
+     * @param \DateTime $operationStartTime
+     *
+     * @return Store
+     */
+    public function setOperationStartTime($operationStartTime)
+    {
+        $this->operationStartTime = $operationStartTime;
+
+        return $this;
+    }
+
+    /**
+     * Get setOperationStartTime
+     *
+     * @return \DateTime
+     */
+    public function getOperationStartTime()
+    {
+        return $this->operationStartTime;
+    }
+
+    /**
+     * Get setOperationEndTime
+     *
+     * @return \DateTime
+     */
+    public function getOperationEndTime()
+    {
+        return $this->operationEndTime;
+    }
+
+    /**
+     * Set operationEndTime
+     *
+     * @param \DateTime $operationEndTime
+     *
+     * @return Store
+     */
+    public function setOperationEndTime($operationEndTime)
+    {
+        $this->operationEndTime = $operationEndTime;
+
+        return $this;
     }
 
     /**

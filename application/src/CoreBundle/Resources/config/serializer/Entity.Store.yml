@@ -3,25 +3,62 @@ CoreBundle\Entity\Store:
     properties:
         id:
             expose : true
-            groups: [view, view_coupon_type, view_coupon]
+            groups: [view_store,view_coupon_type,view_coupon]
         name:
             expose : true
-            groups: [view,create_store,view_coupon_type, view_coupon]
+            groups: [view_store,create_store,view_coupon_type,view_coupon]
+            serialized_name: title
+        avatarUrl:
+            expose : true
+            groups: [view_store,create_store,view_coupon]
+            serialized_name: avatar_url
+        tel:
+            expose : true
+            groups: [view_store,create_store,view_coupon]
+            serialized_name: tel
+        address:
+            expose : true
+            groups: [view_store,create_store,view_coupon]
+            serialized_name: address
+        closeDate:
+            expose : true
+            groups: [view_store,create_store,view_coupon]
+            serialized_name: close_date
+        aveBill:
+            expose : true
+            groups: [view_store,create_store,view_coupon]
+            serialized_name: ave_bill
+        helpText:
+            expose : true
+            groups: [view_store,create_store,view_coupon]
+            serialized_name: help_text
+        shopPhotoUrl:
+            expose : true
+            groups: [view_store,create_store,view_coupon]
+            serialized_name: shop_photo_url
+        operationStartTime:
+            expose: true
+            groups: [view_store]
+            serialized_name: operation_start_time
+        operationEndTime:
+            expose: true
+            groups: [view_store]
+            serialized_name: operation_end_time
         latitude:
             expose: true
-            groups: [view,create_store,view_coupon_type, view_coupon]
+            groups: [view_store,create_store,view_coupon_type, view_coupon]
         longtitude:
             expose: true
-            groups: [view,create_store,view_coupon_type, view_coupon]
+            groups: [view_store,create_store,view_coupon_type, view_coupon]
+        category:
+            expose: true
+            groups: [view_store]
         storeType:
             expose: false
-            groups: [view,view_coupon_type]
-        user:
-            expose: true
-            groups: [view]
+            groups: [view_store,view_coupon_type]
         createdAt:
             expose: true
-            groups: [view]
+            groups: [view_store]
         updatedAt:
             expose: true
-            groups: [view]
+            groups: [view_store]
