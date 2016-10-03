@@ -47,6 +47,11 @@ class CategoryController extends FOSRestController implements ClassResourceInter
      */
     public function getCategoriesAction(Request $request)
     {
+        $manager = $this->getManager();
+        $listCatogory = $manager->listCategory(array("page_size" => 4 , "page_index" => 1));
+        return $this->view(BaseResponse::getData($listCatogory));
+
+
         $faker = Factory::create('ja_JP');
 
         for ($i = 0; $i < 20; $i++) {

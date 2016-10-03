@@ -20,7 +20,7 @@ class Category
     /**
      * @var string
      */
-    private $iconUrl;
+    private $icon_url;
 
     /**
      * @var \DateTime
@@ -37,17 +37,14 @@ class Category
      */
     private $deletedAt;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $stores;
+
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->stores = new \Doctrine\Common\Collections\ArrayCollection();
+
     }
 
     /**
@@ -85,27 +82,27 @@ class Category
     }
 
     /**
-     * Set iconUrl
+     * Set icon_url
      *
-     * @param string $iconUrl
+     * @param string $icon_url
      *
      * @return Category
      */
     public function setIconUrl($iconUrl)
     {
-        $this->iconUrl = $iconUrl;
+        $this->icon_url = $iconUrl;
 
         return $this;
     }
 
     /**
-     * Get iconUrl
+     * Get icon_url
      *
      * @return string
      */
     public function getIconUrl()
     {
-        return $this->iconUrl;
+        return $this->icon_url;
     }
 
     /**
@@ -180,37 +177,5 @@ class Category
         return $this->deletedAt;
     }
 
-    /**
-     * Add store
-     *
-     * @param \CoreBundle\Entity\Store $store
-     *
-     * @return Category
-     */
-    public function addStore(\CoreBundle\Entity\Store $store)
-    {
-        $this->stores[] = $store;
 
-        return $this;
-    }
-
-    /**
-     * Remove store
-     *
-     * @param \CoreBundle\Entity\Store $store
-     */
-    public function removeStore(\CoreBundle\Entity\Store $store)
-    {
-        $this->stores->removeElement($store);
-    }
-
-    /**
-     * Get stores
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getStores()
-    {
-        return $this->stores;
-    }
 }
