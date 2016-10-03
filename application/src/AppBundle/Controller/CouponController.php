@@ -554,7 +554,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         if(!$appUser) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
-            ) , 404);
+            ) , 401);
         }
 
         $couponId = (int)$id;
@@ -617,9 +617,9 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
         $appUser = $this->getUser();
         if(!$appUser) {
-//            return $this->view($this->get('pon.exception.exception_handler')->throwError(
-//                'app_user.not_found'
-//            ) , 404);
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
+            ) , 401);
         }
 
         $couponId = (int)$id;
