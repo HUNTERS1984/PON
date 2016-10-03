@@ -24,14 +24,14 @@ CoreBundle\Entity\Coupon:
             serialized_name: startDate
         endDate:
             expose: true
-            groups: [view,create_coupon,view_coupon, view_coupon_list]
+            groups: [view,create_coupon,view_coupon,view_coupon_list]
             serialized_name: expired_time
         status:
             expose: true
-            groups: [view,create_coupon,view_coupon]
+            groups: [view,create_coupon,view_coupon,view_coupon_list]
         imageUrl:
             expose: true
-            groups: [view,create_coupon,view_coupon, view_coupon_list]
+            groups: [view,create_coupon,view_coupon,view_coupon_list]
             serialized_name: image_url
         size:
             expose: true

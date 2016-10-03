@@ -355,44 +355,50 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getFavoriteCouponAction(Request $request)
     {
-        $userLoginId = 1;
+        //$userLoginId = 1;
+        //$pageSize = $request->request->get('page_size'); not work
+        $pageSize = isset($_GET["page_size"]) ? $_GET["page_size"] : 10;
+        //$pageIndex = $request->request->get('page_index'); not work
+        $pageIndex = isset($_GET["page_index"]) ? $_GET["page_index"] : 1;
         /**@var AppUser $appUser*/
         $appUser = $this->getUser();
+
         if(!$appUser) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
             ) , 404);
         }
+
         if ($appUser){
             $userLoginId = $appUser->getId();
+            if(!$userLoginId) {
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'app_user.not_found'
+                ) , 404);
+            }
         }
-
-
         $managerLikeList = $this->getLikeListManager();
         /**@var Coupon $coupon*/
-        $listCoupon = $managerLikeList->listCoupon(array("page_size" => 4, "app_user_id" => $userLoginId));
-        $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon']);
-
-
-        $manager = $this->getManager();
-        foreach($listCoupon['data'] as $k=>$v){
-
-            /**@var Coupon $coupon*/
-            $coupon = $manager->findOneById($v['id']);
-            $listCoupon['data'][$k]['title'] = $coupon->getTitle();
-            $listCoupon['data'][$k]['image_url'] = $coupon->getImageUrl();
-            $listCoupon['data'][$k]['expired_time'] = $coupon->getEndDate();
-            $listCoupon['data'][$k]['is_like'] = 1;
-            $listCoupon['data'][$k]['can_use'] = 0;
-            if($coupon->getStatus() == 1){
-                $listCoupon['data'][$k]['can_use'] = 1;
+        $listCouponTmp = $managerLikeList->listCoupon(array("page_size" => $pageSize, "page_index" => $pageIndex, "app_user_id" => $userLoginId));
+        $listCouponTmp = $this->getSerializer()->serialize($listCouponTmp, ['view_coupon_list']);
+        $listCoupon = [];
+        if(!empty($listCouponTmp["data"])) {
+            $listCoupon["pagination"] = $listCouponTmp["pagination"];
+            foreach ($listCouponTmp['data'] as $k => $v) {
+                $coupon = $v["coupon"];
+                $listCoupon['data'][$k]['id'] = $coupon["id"];
+                $listCoupon['data'][$k]['couponType'] = $coupon["couponType"];
+                $listCoupon['data'][$k]['title'] = $coupon["title"];
+                $listCoupon['data'][$k]['image_url'] = $coupon["image_url"];
+                $listCoupon['data'][$k]['expired_time'] = $coupon["expired_time"];
+                $listCoupon['data'][$k]['is_like'] = 1;
+                $listCoupon['data'][$k]['can_use'] = 0;
+                if ($coupon["status"] == 1) {
+                    $listCoupon['data'][$k]['can_use'] = 1;
+                }
             }
-
         }
         return $this->view($listCoupon);
-
-
-
 
 
         $faker = Factory::create('ja_JP');

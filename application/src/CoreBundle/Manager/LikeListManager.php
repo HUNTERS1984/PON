@@ -43,6 +43,16 @@ class LikeListManager extends AbstractManager
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
 
         $conditions = [];
+
+        if(isset($params['app_user_id'])) {
+            $conditions = [
+                'appUser' => [
+                    'type' => '=',
+                    'value' => $params['app_user_id']
+                ]
+            ];
+        }
+
         $orderBy = ['id' => 'DESC'];
 
         $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
