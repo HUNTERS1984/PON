@@ -359,19 +359,30 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         /**@var AppUser $appUser*/
         $appUser = $this->getUser();
         if(!$appUser) {
-//            return $this->view($this->get('pon.exception.exception_handler')->throwError(
-//                'app_user.not_found'
-//            ) , 404);
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
+            ) , 404);
         }
         if ($appUser){
             $userLoginId = $appUser->getId();
         }
+
 
         $managerLikeList = $this->getLikeListManager();
         /**@var Coupon $coupon*/
         $listCoupon = $managerLikeList->listCoupon(array("page_size" => 4, "app_user_id" => $userLoginId));
         $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon']);
 
+
+        $manager = $this->getManager();
+        foreach($listCoupon['data'] as $k=>$v){
+
+            /**@var Coupon $coupon*/
+            $coupon = $manager->findOneById($v['id']);
+            $listCoupon['data'][$k]['title'] = $coupon->getTitle();
+            $listCoupon['data'][$k]['image_url'] = $coupon->getImageUrl();
+            $listCoupon['data'][$k]['expired_time'] = $coupon->getEndDate();
+        }
         return $this->view($listCoupon);
 
 
