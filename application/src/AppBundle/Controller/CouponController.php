@@ -382,6 +382,12 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             $listCoupon['data'][$k]['title'] = $coupon->getTitle();
             $listCoupon['data'][$k]['image_url'] = $coupon->getImageUrl();
             $listCoupon['data'][$k]['expired_time'] = $coupon->getEndDate();
+            $listCoupon['data'][$k]['is_like'] = 1;
+            $listCoupon['data'][$k]['can_use'] = 0;
+            if($coupon->getStatus() == 1){
+                $listCoupon['data'][$k]['can_use'] = 1;
+            }
+
         }
         return $this->view($listCoupon);
 
