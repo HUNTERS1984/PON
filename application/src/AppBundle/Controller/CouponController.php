@@ -448,6 +448,49 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getUsedCouponAction(Request $request)
     {
+
+        $userLoginId = 1;
+        /**@var AppUser $appUser*/
+        $appUser = $this->getUser();
+        if(!$appUser) {
+//            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+//                'app_user.not_found'
+//            ) , 404);
+        }
+        if ($appUser){
+            $userLoginId = $appUser->getId();
+        }
+
+        $managerUseList = $this->getUseListManager();
+        /**@var Coupon $coupon*/
+        $listCoupon = $managerUseList->listCoupon(array("page_size" => 4, "app_user_id" => $userLoginId));
+        $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon']);
+
+
+        $manager = $this->getManager();
+        foreach($listCoupon['data'] as $k=>$v){
+            /**@var Coupon $coupon*/
+            $coupon = $manager->findOneById($v['id']);
+            $listCoupon['data'][$k]['title'] = $coupon->getTitle();
+            $listCoupon['data'][$k]['image_url'] = $coupon->getImageUrl();
+            $listCoupon['data'][$k]['expired_time'] = $coupon->getEndDate();
+            $listCoupon['data'][$k]['is_like'] = 1;
+            $listCoupon['data'][$k]['can_use'] = 0;
+            if($coupon->getStatus() == 1){
+                $listCoupon['data'][$k]['can_use'] = 1;
+            }
+
+        }
+        return $this->view($listCoupon);
+
+
+
+
+
+
+
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
