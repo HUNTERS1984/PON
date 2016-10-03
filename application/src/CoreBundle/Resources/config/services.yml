@@ -27,6 +27,15 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Store"]
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
+    pon.manager.follow_list:
+        class: CoreBundle\Manager\FollowListManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\FollowList"]
+        calls:
+            - [setPagination, ["@pon.paginator.pagination"]]
+
+
     pon.manager.user:
         class: CoreBundle\Manager\UserManager
         factory_service:  doctrine

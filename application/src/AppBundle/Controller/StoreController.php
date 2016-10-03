@@ -2,12 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use CoreBundle\Entity\FollowList;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\User;
 use CoreBundle\Form\Type\StoreType;
 use CoreBundle\Manager\StoreManager;
 use CoreBundle\Manager\StoreTypeManager;
 use CoreBundle\Manager\CouponManager;
+use CoreBundle\Manager\FollowListManager;
 use CoreBundle\Manager\UserManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -402,6 +404,38 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function postFollowShopAction($id, Request $request)
     {
+
+        $appUser = $this->getUser();
+        if(!$appUser) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
+            ) , 401);
+        }
+
+        $shopId = (int)$id;
+        if ($shopId > 0) {
+            $manager = $this->getManager();
+            /**@var Store $store*/
+            $store = $manager->findOneById($shopId);
+            if (!$store) {
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ) , 404);
+
+            }
+        }
+
+        $managerFollowList = $this->getFollowListManager();
+        /**@var FollowList $followList*/
+        $followList = new FollowList();
+        $followList->setStore($store);
+        $followList->setAppUser($appUser);
+        $followList = $managerFollowList->saveFollowList($followList);
+        if (!$followList) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'follow_list.fail'
+            ) , 404);
+        }
         return $this->view(BaseResponse::getData([]), 200);
     }
 
@@ -565,6 +599,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     public function getStoreTypeManager()
     {
         return $this->get('pon.manager.store_type');
+    }
+
+    /**
+     * @return FollowListManager
+     */
+    public function getFollowListManager()
+    {
+        return $this->get('pon.manager.follow_list');
     }
 
     /**
