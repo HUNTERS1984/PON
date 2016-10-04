@@ -55,8 +55,10 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getAction($id)
     {
-        $manager = $this->getManager();
+
         /**@var Store $store*/
+        /*
+        $manager = $this->getManager();
         $store = $manager->findOneById($id);
         if(!$store || !is_null($store->getDeletedAt())) {
             $this->get('pon.exception.exception_handler')->throwError(
@@ -70,7 +72,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
         return $listCoupon;
         return $this->view(BaseResponse::getData($store));
-
+        */
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [
