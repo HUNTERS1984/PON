@@ -37,6 +37,8 @@ CoreBundle\Entity\Coupon:
     fields:
         type:
             type: integer
+        needLogin:
+            type: integer
         title:
             type: string
             length: 255

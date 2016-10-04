@@ -18,6 +18,11 @@ class Coupon
     private $type;
 
     /**
+     * @var integer
+     */
+    private $needLogin;
+
+    /**
      * @var string
      */
     private $title;

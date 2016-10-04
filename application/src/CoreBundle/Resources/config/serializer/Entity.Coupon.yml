@@ -36,6 +36,12 @@ CoreBundle\Entity\Coupon:
         size:
             expose: true
             groups: [view,create_coupon]
+        needLogin:
+            expose: true
+            groups: [view,create_coupon,view_coupon_list]
+        likeList:
+            expose: true
+            groups: [view_coupon_list]
         createdAt:
             expose: true
             groups: [view,view_coupon]
