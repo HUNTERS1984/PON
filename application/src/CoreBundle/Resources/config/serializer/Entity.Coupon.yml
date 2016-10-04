@@ -38,7 +38,8 @@ CoreBundle\Entity\Coupon:
             groups: [view,create_coupon]
         needLogin:
             expose: true
-            groups: [view,create_coupon,view_coupon_list]
+            groups: [view,create_coupon,view_coupon,view_coupon_list]
+            serialized_name: need_login
         likeList:
             expose: true
             groups: [view_coupon_list]

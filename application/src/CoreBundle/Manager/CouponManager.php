@@ -66,21 +66,25 @@ class CouponManager extends AbstractManager
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
 
         $conditions = [];
+
         if(isset($params['title'])) {
-            $conditions = [
-                'title' => [
-                    'type' => 'like',
-                    'value' => "%".$params['title']."%"
-                ]
+            $conditions['title'] = [
+                'type' => 'like',
+                'value' => "%".$params['title']."%"
+            ];
+        }
+
+        if(isset($params['type'])) {
+            $conditions['type'] = [
+                'type' => '=',
+                'value' => $params['type']
             ];
         }
 
         if(isset($params['store_id'])) {
-            $conditions = [
-                'store' => [
-                    'type' => '=',
-                    'value' => $params['store_id']
-                ]
+            $conditions['store'] = [
+                'type' => '=',
+                'value' => $params['store_id']
             ];
         }
 

@@ -121,18 +121,17 @@ abstract class AbstractManager
         foreach($criticals as $key => $critical) {
             if(in_array($critical['type'], ['is', 'is not'])) {
                 $qb->andWhere("p.$key ".$critical['type']." ".$critical['value']);
+            }elseif(in_array($critical['type'], ['in', 'not in'])) {
+                $qb->andWhere("p.$key ".$critical['type']." (".$critical['value']. ")");
             }else{
                 $qb->andWhere("p.$key ".$critical['type']." ?$index")
                     ->setParameter($index, $critical['value']);
                 $index++;
             }
         }
-
-
         foreach($orderBys as $key => $orderBy) {
             $qb->addOrderBy("p.$key", $orderBy);
         }
-
         // Create our query
         return $qb->getQuery();
     }

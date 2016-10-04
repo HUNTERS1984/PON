@@ -3,10 +3,10 @@ CoreBundle\Entity\LikeList:
     properties:
         id:
             expose : true
-            groups: [view,view_coupon,view_coupon_list]
+            groups: [view_like_list,view_coupon,view_coupon_list]
         coupon:
             expose : true
-            groups: [view,view_coupon,view_coupon_list]
+            groups: [view_like_list,view_coupon,view_coupon_list]
         app_user_id:
             expose: true
-            groups: [view,view_coupon,view_coupon_list]
+            groups: [view_like_list,view_coupon,view_coupon_list]

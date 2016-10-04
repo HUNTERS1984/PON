@@ -38,11 +38,11 @@ CoreBundle\Entity\Store:
             serialized_name: shop_photo_url
         operationStartTime:
             expose: true
-            groups: [view_store]
+            groups: [view_store,view_coupon]
             serialized_name: operation_start_time
         operationEndTime:
             expose: true
-            groups: [view_store]
+            groups: [view_store,view_coupon]
             serialized_name: operation_end_time
         latitude:
             expose: true

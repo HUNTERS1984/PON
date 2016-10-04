@@ -127,6 +127,30 @@ class Coupon
     }
 
     /**
+     * Get needLogin
+     *
+     * @return integer
+     */
+    public function getNeedLogin()
+    {
+        return $this->needLogin;
+    }
+
+    /**
+     * Set needLogin
+     *
+     * @param integer $needLogin
+     *
+     * @return Coupon
+     */
+    public function setNeedLogin($needLogin)
+    {
+        $this->needLogin = $needLogin;
+
+        return $this;
+    }
+
+    /**
      * Get type
      *
      * @return integer

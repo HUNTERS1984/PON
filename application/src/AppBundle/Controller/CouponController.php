@@ -219,7 +219,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *     401="Returned when the user is not authorized"
      *   }
      * )
-     * @View(serializerGroups={"view_coupon"}, serializerEnableMaxDepthChecks=true)
+     *
      * @return Response
      */
     public function getAction($id)
@@ -232,22 +232,46 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
         $manager = $this->getManager();
         /**@var Coupon $coupon*/
-        $coupon = $manager->findOneById($id);
-        $listCoupon = $manager->listCoupon(array("page_size" => 4));
-        $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
-        return $coupon;
-        return $this->view(BaseResponse::getData($coupon));
-        //$coupon["similar_coupon"] = $listCoupon;
-        //var_dump($listCoupon);
-        ///return $coupon;
-        //$listCoupon = $this->getSerializer()->serialize($listCoupon, ['view', 'view_coupon']);
-        //$data["store_id"] = 1;
-        //$storeManager = $this->getStoreManager();
-        //$store = $storeManager->findOneById($data["store_id"]);
-        //echo "<pre>"; print_r($data);
-        //echo "<pre>"; print_r($listCoupon);
+        $couponDetail = $manager->findOneById($id);
+        if($couponDetail){
+            $couponDetail = $this->getSerializer()->serialize($couponDetail, ['view_coupon']);
+            $couponDetail["can_use"] = ($couponDetail["need_login"] == 0 || ($couponDetail["need_login"] == 1 && $userLoginId > 0)) ? 1 : 0;
+            $couponDetail["is_like"] = 0;
+            $couponDetail["shop"]["is_follow"] = 0;
+            $listCoupon = $manager->listCoupon(array("page_size" => 4, "type" => $couponDetail["couponType"]));
+            $listCouponId = [$id => (int)$id];
+            if(isset($listCoupon['data']) && count($listCoupon['data']) > 0){
+                $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
+                foreach ($listCoupon['data'] as &$coupon){
+                    $coupon["is_like"] = 0;
+                    $coupon["can_use"] = ($coupon["need_login"] == 0 || ($coupon["need_login"] == 1 && $userLoginId > 0)) ? 1 : 0;
+                    $listCouponId[$coupon["id"]] = $coupon["id"];
+                }
+            }
+            if($userLoginId > 0){
+                $managerLikeList = $this->getLikeListManager();
+                $listLike = $managerLikeList->listCoupon(array("list_coupon_id" => $listCouponId, "app_user_id" => $userLoginId));
+                $listLike = $this->getSerializer()->serialize($listLike, ['view_coupon_list']);
+                if(isset($listLike['data']) && count($listLike["data"]) > 0){
+                    $listLikeCouponId = [];
+                    foreach ($listLike['data'] as $like){
+                        $listLikeCouponId[] = $like["coupon"]["id"];
+                    }
+                    if(in_array($id, $listLikeCouponId)){
+                        $couponDetail["is_like"] = 1;
+                    }
+                    foreach ($listCoupon['data'] as &$coupon){
+                        if(in_array($coupon["id"], $listLikeCouponId)){
+                            $coupon["is_like"] = 1;
+                        }
+                    }
+                }
+            }
+            $couponDetail["similar_coupon"] = $listCoupon["data"];
+        }
 
-        //die;
+        return $this->view(BaseResponse::getData($couponDetail));
+
         $faker = Factory::create('ja_JP');
         $couponPhotoUrl = [];
         $userPhotoUrl = [];
@@ -264,7 +288,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             'is_like' => $faker->randomElement([0, 1]),
             'need_login' => $needLogin,
             'can_use' => $canUse,
-            'code' => $faker->ean13,
+            //'code' => $faker->ean13,
             'description' => $faker->paragraph(6),
             'shop' => [
                 'id' => $faker->numberBetween(1, 200),
@@ -272,7 +296,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'operation_start_time' =>  '08:00',
                 'operation_end_time' => '23:00',
                 'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                'is_follow' => $faker->randomElement([0, 1]),
+                //'is_follow' => $faker->randomElement([0, 1]),
                 'tel' => $faker->phoneNumber,
                 'lattitude' => '35.911594',
                 'longitude' => '137.746582',
@@ -285,8 +309,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'name' => $faker->name,
                 'icon_url' => $faker->imageUrl(46, 46, 'food')
             ],
-            'coupon_photo_url' =>  $couponPhotoUrl,
-            'user_photo_url' => $userPhotoUrl,
+            //'coupon_photo_url' =>  $couponPhotoUrl,
+            //'user_photo_url' => $userPhotoUrl,
             'similar_coupon' => [
                 [
                     'id' => 1,
@@ -478,7 +502,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 ) , 404);
             }
         }
-        
+
         $managerUseList = $this->getUseListManager();
         /**@var Coupon $coupon*/
         $listCouponTmp = $managerUseList->listCoupon(array("page_size" => $pageSize, "page_index" => $pageIndex, "app_user_id" => $userLoginId));

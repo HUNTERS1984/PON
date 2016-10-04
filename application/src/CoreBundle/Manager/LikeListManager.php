@@ -45,18 +45,22 @@ class LikeListManager extends AbstractManager
         $conditions = [];
 
         if(isset($params['app_user_id'])) {
-            $conditions = [
-                'appUser' => [
-                    'type' => '=',
-                    'value' => $params['app_user_id']
-                ]
+            $conditions['appUser'] = [
+                'type' => '=',
+                'value' => $params['app_user_id']
+            ];
+        }
+
+        if(isset($params['list_coupon_id'])) {
+            $conditions['coupon'] = [
+                'type' => 'in',
+                'value' => implode(",", $params['list_coupon_id'])
             ];
         }
 
         $orderBy = ['id' => 'DESC'];
 
         $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
-
         return $this->pagination->render($query, $limit, $offset);
     }
 
