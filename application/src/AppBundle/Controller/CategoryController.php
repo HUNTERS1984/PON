@@ -51,7 +51,7 @@ class CategoryController extends FOSRestController implements ClassResourceInter
         $params = $request->query->all();
         $manager = $this->getManager();
         $listCatogory = $manager->listCategory($params);
-        $listCatogory = $this->getSerializer()->serialize($listCatogory, ['list_store_category']);
+        $listCatogory = $this->getSerializer()->serialize($listCatogory, ['list_view']);
         return $this->view(BaseResponse::getData($listCatogory));
 
 

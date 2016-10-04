@@ -3,10 +3,11 @@ CoreBundle\Entity\Category:
     properties:
         id:
             expose : true
-            groups: [view_store]
+            groups: [view_store,list_view]
         name:
             expose : true
-            groups: [view_store]
-        iconUrl:
+            groups: [view_store,list_view]
+        icon_url:
             expose: true
-            groups: [view_store]
+            groups: [view_store,list_view]
+            serialized_name: icon_url

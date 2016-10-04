@@ -76,10 +76,10 @@ class CategoryManager extends AbstractManager
             ];
         }
 
-        $conditions['deletedAt'] = [
-            'type' => 'is',
-            'value' =>  'NULL'
-        ];
+//        $conditions['deletedAt'] = [
+//            'type' => 'is',
+//            'value' =>  'NULL'
+//        ];
 
         $orderBy = ['createdAt' => 'DESC'];
 
