@@ -1,0 +1,12 @@
+CoreBundle\Entity\Category:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose : true
+            groups: [view_store]
+        name:
+            expose : true
+            groups: [view_store]
+        iconUrl:
+            expose: true
+            groups: [view_store]

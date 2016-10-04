@@ -44,6 +44,30 @@ CoreBundle\Entity\Store:
         longtitude:
             type: string
             length: 20
+        avatarUrl:
+            type: string
+            length: 255
+        tel:
+            type: string
+            length: 255
+        address:
+            type: string
+            length: 255
+        closeDate:
+            type: string
+            length: 255
+        aveBill:
+            type: integer
+        helpText:
+            type: string
+            length: 255
+        shopPhotoUrl:
+            type: string
+            length: 255
+        operationStartTime:
+            type: datetime
+        operationEndTime:
+            type: datetime
         createdAt:
             type: datetime
         updatedAt:
