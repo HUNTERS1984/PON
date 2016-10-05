@@ -99,6 +99,23 @@ class CategoryController extends FOSRestController implements ClassResourceInter
      */
     public function getCategoriesIncludeShopAction(Request $request)
     {
+
+
+        $params = $request->query->all();
+        $manager = $this->getManager();
+        $listCategoryStore = $manager->listCategoryCountShop($params);
+        $listCategoryStoreResult = $listCategoryStore;
+        foreach ($listCategoryStore['data'] as $k=>$v){
+            $listCategoryStoreResult['data'][$k]['id'] =  $v['0']->getId();
+            $listCategoryStoreResult['data'][$k]['name'] =  $v['0']->getName();
+            $listCategoryStoreResult['data'][$k]['icon_url'] =  $v['0']->getIconUrl();
+            $listCategoryStoreResult['data'][$k]['shop_count'] =  $v['shop_count'];
+            unset($listCategoryStoreResult['data'][$k]['0']);
+        }
+
+        return $this->view($listCategoryStoreResult);
+
+
         $faker = Factory::create('ja_JP');
 
         for ($i = 0; $i < 20; $i++) {

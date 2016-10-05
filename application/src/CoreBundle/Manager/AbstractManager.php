@@ -111,7 +111,7 @@ abstract class AbstractManager
      * @return Query
      *
     */
-    public function getQuery($criticals = [], $orderBys = [], $limit = 10, $offset = 0)
+    public function getQuery($criticals = [], $orderBys = [], $limit = 10, $offset = 0 , $groupBy = '')
     {
         /** @var QueryBuilder $qb*/
         $qb =  $this->repository
@@ -128,12 +128,63 @@ abstract class AbstractManager
             }
         }
 
+        if($groupBy != ''){
+            $qb->addGroupBy("p.$groupBy");
+        }
 
         foreach($orderBys as $key => $orderBy) {
             $qb->addOrderBy("p.$key", $orderBy);
         }
-
         // Create our query
         return $qb->getQuery();
     }
+
+    /**
+     * Get Query
+     * @param array $criticals
+     * @param array $orderBys
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return Query
+     *
+     */
+    public function getQueryJoin($criticals = [], $orderBys = [], $limit = 10, $offset = 0 , $select = '' , $joinTable = [] ,  $groupBy = '')
+    {
+        /** @var QueryBuilder $qb*/
+        $qb =  $this->repository
+            ->createQueryBuilder('p');
+
+
+        if($select != ''){
+            $qb->select($select);
+        }
+
+        $index = 0;
+        foreach($criticals as $key => $critical) {
+            if(in_array($critical['type'], ['is', 'is not'])) {
+                $qb->andWhere("p.$key ".$critical['type']." ".$critical['value']);
+            }else{
+                $qb->andWhere("p.$key ".$critical['type']." ?$index")
+                    ->setParameter($index, $critical['value']);
+                $index++;
+            }
+        }
+
+        foreach ($joinTable as $k=>$v){
+            $qb->leftJoin($k , $v['name'] , $v['type'], $v['where']);
+        }
+
+
+        if($groupBy != ''){
+            $qb->addGroupBy($groupBy);
+        }
+
+        foreach($orderBys as $key => $orderBy) {
+            $qb->addOrderBy("p.$key", $orderBy);
+        }
+        // Create our query
+        return $qb->getQuery();
+    }
+
 }
