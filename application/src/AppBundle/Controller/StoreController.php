@@ -11,6 +11,7 @@ use CoreBundle\Manager\StoreTypeManager;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\FollowListManager;
 use CoreBundle\Manager\UserManager;
+use CoreBundle\Manager\LikeListManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -55,9 +56,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getAction($id)
     {
+        $userLoginId = 0;
+        /**@var AppUser $appUser*/
+        $appUser = $this->getUser();
+        if($appUser){
+            $userLoginId = $appUser->getId();
+        }
 
         /**@var Store $store*/
-        /*
         $manager = $this->getManager();
         $store = $manager->findOneById($id);
         if(!$store || !is_null($store->getDeletedAt())) {
@@ -67,12 +73,47 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         }
         $store = $this->getSerializer()->serialize($store, ['view_store']);
 
+        /**@var Coupon $coupon*/
         $managerCoupon = $this->getCouponManager();
         $listCoupon = $managerCoupon->listCoupon(array("page_size" => 4, "store_id" => $store["id"]));
         $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
-        return $listCoupon;
+        $listCouponId = [$id => (int)$id];
+        if(isset($listCoupon['data']) && count($listCoupon['data']) > 0){
+            $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
+            $listCouponTypeValue = $this->getParameter('coupon_types');
+            foreach ($listCoupon['data'] as &$coupon){
+                $coupon["is_like"] = 0;
+                $coupon["can_use"] = ($coupon["need_login"] == 0 || ($coupon["need_login"] == 1 && $userLoginId > 0)) ? 1 : 0;
+                $couponType = [
+                    'id' => $coupon["couponType"],
+                    'name' => $listCouponTypeValue[$coupon["couponType"]],
+                ];
+                $coupon["couponType"] = $couponType;
+                $listCouponId[$coupon["id"]] = $coupon["id"];
+            }
+        }
+        if($userLoginId > 0){
+            $managerLikeList = $this->getLikeListManager();
+            $listLike = $managerLikeList->listCoupon(array("list_coupon_id" => $listCouponId, "app_user_id" => $userLoginId));
+            $listLike = $this->getSerializer()->serialize($listLike, ['view_coupon_list']);
+            if(isset($listLike['data']) && count($listLike["data"]) > 0){
+                $listLikeCouponId = [];
+                foreach ($listLike['data'] as $like){
+                    $listLikeCouponId[] = $like["coupon"]["id"];
+                }
+                if(in_array($id, $listLikeCouponId)){
+                    $couponDetail["is_like"] = 1;
+                }
+                foreach ($listCoupon['data'] as &$coupon){
+                    if(in_array($coupon["id"], $listLikeCouponId)){
+                        $coupon["is_like"] = 1;
+                    }
+                }
+            }
+        }
+        $store["coupons"] = $listCoupon["data"];
         return $this->view(BaseResponse::getData($store));
-        */
+
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [
@@ -354,6 +395,37 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getFollowShopAction(Request $request)
     {
+        /*
+        $userLoginId = 1;
+        $pageSize = $request->query->get('page_size');
+        $pageSize = !empty($pageSize) ? $pageSize : 10;
+        $pageIndex = $request->query->get('page_index');
+        $pageIndex = !empty($pageIndex) ? $pageIndex : 1;
+        /**@var AppUser $appUser*/
+        //$appUser = $this->getUser();
+        /*
+        if(!$appUser) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
+            ) , 404);
+        }
+
+        if ($appUser){
+            $userLoginId = $appUser->getId();
+            if(!$userLoginId) {
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'app_user.not_found'
+                ) , 404);
+            }
+        }
+        */
+        /**@var FollowList $followList
+        $followListManager = $this->getFollowListManager();
+        $followList = $followListManager->listShop(array("page_size" => $pageSize, "page_index" => $pageIndex, "app_user_id" => $userLoginId));
+        $followList = $this->getSerializer()->serialize($followList, ['view_store']);
+
+        return $followList;
+         */
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -625,6 +697,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     public function getCouponManager()
     {
         return $this->get('pon.manager.coupon');
+    }
+
+    /**
+     * @return LikeListManager
+     */
+    public function getLikeListManager()
+    {
+        return $this->get('pon.manager.like_list');
     }
 
     /**

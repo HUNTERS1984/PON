@@ -240,14 +240,24 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             $couponDetail["shop"]["is_follow"] = 0;
             $listCoupon = $manager->listCoupon(array("page_size" => 4, "type" => $couponDetail["couponType"]));
             $listCouponId = [$id => (int)$id];
+            $listCouponTypeValue = $this->getParameter('coupon_types');
             if(isset($listCoupon['data']) && count($listCoupon['data']) > 0){
                 $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
                 foreach ($listCoupon['data'] as &$coupon){
                     $coupon["is_like"] = 0;
                     $coupon["can_use"] = ($coupon["need_login"] == 0 || ($coupon["need_login"] == 1 && $userLoginId > 0)) ? 1 : 0;
                     $listCouponId[$coupon["id"]] = $coupon["id"];
+                    $couponType = [
+                        'id' => $coupon["couponType"],
+                        'name' => $listCouponTypeValue[$coupon["couponType"]],
+                    ];
+                    $coupon["couponType"] = $couponType;
                 }
             }
+            $couponDetail["couponType"] = [
+                'id' => $couponDetail["couponType"],
+                'name' => $listCouponTypeValue[$couponDetail["couponType"]],
+            ];
             if($userLoginId > 0){
                 $managerLikeList = $this->getLikeListManager();
                 $listLike = $managerLikeList->listCoupon(array("list_coupon_id" => $listCouponId, "app_user_id" => $userLoginId));
