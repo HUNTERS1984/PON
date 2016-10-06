@@ -85,6 +85,13 @@ abstract class AbstractManager
         return true;
     }
 
+    /**
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
 
 
     /**

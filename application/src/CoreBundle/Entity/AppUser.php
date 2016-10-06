@@ -34,6 +34,12 @@ class AppUser extends BaseUser
     private $role;
 
     /**
+     * @var string
+     */
+    private $facebookId;
+
+
+    /**
      * @var \DateTime
      */
     private $createdAt;
@@ -728,5 +734,23 @@ class AppUser extends BaseUser
     public function getFollowLists()
     {
         return $this->followLists;
+    }
+
+    /**
+     * @param string $facebookId
+     * @return AppUser
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
     }
 }

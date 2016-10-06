@@ -25,3 +25,6 @@ parameters:
     client_secret: 4ok2x70rlfokc8g0wws8c8kwcokw80k44sg48goc0ok4w0so0k
     grant_type: password
 
+    facebook_client_id: 324209427951910
+    facebook_client_secret: a9852f1de3092693d16002a8495e1d74
+

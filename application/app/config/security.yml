@@ -69,6 +69,12 @@ security:
             fos_oauth: true                            # OAuth2 protected resource
             stateless: true                            # Do no set session cookies
             anonymous: true                           # Anonymous access is not allowed
+        api_facebook_signin:
+            security: true
+            pattern: ^/api/v1/facebook/signin                               # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true                           # Anonymous access is not allowed
         api_signin:
             security: true
             pattern: ^/api/v1/signin                               # All URLs are protected
@@ -88,6 +94,7 @@ security:
             stateless: true                            # Do no set session cookies
             anonymous: false                           # Anonymous access is not allowed
         # disables authentication for assets and the profiler, adapt it according to your needs
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
