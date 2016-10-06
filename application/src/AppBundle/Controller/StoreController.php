@@ -196,6 +196,43 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAndTypeAction($type, $category, Request $request)
     {
+        $params = $request->query->all();
+        $where = [];
+        $where['category'] = [
+            'type' => '=',
+            'value' =>  $category
+        ];
+
+        $orderBy = [];
+        switch ($type) {
+            case 1:
+                $orderBy = ['createdAt' => 'ASC'];
+                break;
+            case 2:
+                $orderBy = ['createdAt' => 'DESC'];
+                break;
+            case 3:
+                $orderBy = ['createdAt' => 'DESC'];
+                break;
+            case 4:
+                $orderBy = ['createdAt' => 'DESC'];
+                break;
+            default:
+                $orderBy = ['createdAt' => 'DESC'];
+        }
+
+        $manager = $this->getManager();
+        $listStore = $manager->listStore($params , $where , $orderBy);
+        $listStore = $this->getSerializer()->serialize($listStore, ['list_store_category']);
+        foreach ($listStore['data'] as $k=>$v){
+            $listStore['data'][$k]['is_follow'] = 1;
+        }
+        return $this->view($listStore);
+
+
+
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -252,6 +289,36 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAction($type, Request $request)
     {
+        $params = $request->query->all();
+        $where = [];
+        $orderBy = [];
+        switch ($type) {
+            case 1:
+                $orderBy = ['createdAt' => 'ASC'];
+                break;
+            case 2:
+                $orderBy = ['createdAt' => 'DESC'];
+                break;
+            case 3:
+                $orderBy = ['createdAt' => 'DESC'];
+                break;
+            case 4:
+                $orderBy = ['createdAt' => 'DESC'];
+                break;
+            default:
+                $orderBy = ['createdAt' => 'DESC'];
+        }
+
+        $manager = $this->getManager();
+        $listStore = $manager->listStore($params , $where , $orderBy);
+        $listStore = $this->getSerializer()->serialize($listStore, ['list_store_category']);
+        foreach ($listStore['data'] as $k=>$v){
+            $listStore['data'][$k]['is_follow'] = 1;
+        }
+        return $this->view($listStore);
+
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
