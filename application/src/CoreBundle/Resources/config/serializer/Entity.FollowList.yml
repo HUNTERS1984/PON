@@ -1,0 +1,12 @@
+CoreBundle\Entity\FollowList:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose : true
+            groups: [view_store_list]
+        store:
+            expose : true
+            groups: [view_store_list]
+        appUser:
+            expose: false
+            groups: [view_store_list]

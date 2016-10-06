@@ -67,21 +67,20 @@ class StoreManager extends AbstractManager
 
         $conditions = [];
         if(isset($params['name'])) {
-            $conditions = [
-                'name' => [
-                    'type' => 'like',
-                    'value' => "%".$params['name']."%"
-                ]
+            $conditions['name'] = [
+                'type' => 'like',
+                'value' => "%".$params['name']."%"
             ];
         }
 
-        $conditions['deletedAt'] = [
-            'type' => 'is',
-            'value' =>  'NULL'
-        ];
+        if(isset($params['list_store_id'])) {
+            $conditions['id'] = [
+                'type' => 'in',
+                'value' => implode(",", $params['list_store_id'])
+            ];
+        }
 
         $orderBy = ['createdAt' => 'DESC'];
-
         $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
 
         return $this->pagination->render($query, $limit, $offset);

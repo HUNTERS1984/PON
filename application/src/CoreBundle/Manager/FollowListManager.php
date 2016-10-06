@@ -44,8 +44,15 @@ class FollowListManager extends AbstractManager
 
         $conditions = [];
 
-        $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
+        if(isset($params['app_user_id'])) {
+            $conditions['appUser'] = [
+                'type' => '=',
+                'value' => $params['app_user_id']
+            ];
+        }
 
+        $orderBy = ['id' => 'DESC'];
+        $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
         return $this->pagination->render($query, $limit, $offset);
     }
 

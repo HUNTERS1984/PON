@@ -395,15 +395,13 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getFollowShopAction(Request $request)
     {
-        /*
-        $userLoginId = 1;
+        $userLoginId = 0;
         $pageSize = $request->query->get('page_size');
         $pageSize = !empty($pageSize) ? $pageSize : 10;
         $pageIndex = $request->query->get('page_index');
         $pageIndex = !empty($pageIndex) ? $pageIndex : 1;
         /**@var AppUser $appUser*/
         //$appUser = $this->getUser();
-        /*
         if(!$appUser) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
@@ -418,14 +416,24 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 ) , 404);
             }
         }
-        */
-        /**@var FollowList $followList
-        $followListManager = $this->getFollowListManager();
-        $followList = $followListManager->listShop(array("page_size" => $pageSize, "page_index" => $pageIndex, "app_user_id" => $userLoginId));
-        $followList = $this->getSerializer()->serialize($followList, ['view_store']);
 
-        return $followList;
-         */
+        /**@var Store $listStore */
+        $followListManager = $this->getFollowListManager();
+        $listStore = $followListManager->listShop(array("page_size" => $pageSize, "page_index" => $pageIndex, "app_user_id" => $userLoginId));
+        $listStoreId = [];
+        if(count($listStore["data"]) > 0){
+            $listStoreId = [];
+            foreach ($listStore["data"] as $store){
+                $listStoreId[] = $store->getStore()->getId();
+            }
+            $storeManager = $this->getManager();
+            $listStoreTmp = $storeManager->listStore(array("list_store_id" => $listStoreId));
+            $listStoreTmp = $this->getSerializer()->serialize($listStoreTmp, ['view_store_list']);
+            $listStore["data"] = $listStoreTmp["data"];
+        }
+
+        return $listStore;
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
