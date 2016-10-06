@@ -75,6 +75,15 @@ class CouponManager extends AbstractManager
             ];
         }
 
+        if(isset($params['store_id'])) {
+            $conditions = [
+                'store' => [
+                    'type' => '=',
+                    'value' => $params['store_id']
+                ]
+            ];
+        }
+
         $conditions['deletedAt'] = [
             'type' => 'is',
             'value' =>  'NULL'
@@ -83,7 +92,7 @@ class CouponManager extends AbstractManager
         $orderBy = ['createdAt' => 'DESC'];
 
         $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
-
+        //return $query;
         return $this->pagination->render($query, $limit, $offset);
     }
 

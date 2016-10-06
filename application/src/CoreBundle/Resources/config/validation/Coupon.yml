@@ -40,6 +40,3 @@ CoreBundle\Entity\Coupon:
             - Type:
                 type: integer
                 message: coupon.size.integer
-        couponType:
-            - NotBlank:
-                message: coupon.coupon_type.not_blank
