@@ -4,9 +4,14 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Paginator\Pagination;
+use Facebook\Facebook;
 
 class AppUserManager extends AbstractManager
 {
+    /**
+     * @var Facebook
+    */
+    protected $facebookManager;
 
     public function dummy(AppUser $user)
     {
@@ -65,6 +70,42 @@ class AppUserManager extends AbstractManager
     }
 
     /**
+     * @param string $accessToken
+     *
+     * @return array
+     */
+    public function facebookLogin($accessToken)
+    {
+        /** @var Facebook $manager */
+        $manager = $this->facebookManager;
+        $manager->setDefaultAccessToken($accessToken);
+        try {
+            $response = $manager->get('/me');
+        } catch(\Facebook\Exceptions\FacebookResponseException $e) {
+           return ['status' => false, 'message' => $e->getMessage()];
+        } catch(\Facebook\Exceptions\FacebookSDKException $e) {
+            return ['status' => false, 'message' => $e->getMessage()];
+        }
+        $facebookUser = $response->getGraphUser();
+        $appUser = $this->findOneBy(['facebookId'=> $facebookUser->getId()]);
+        if(!$appUser) {
+            $appUser = new AppUser();
+        }
+        $appUser->setName($facebookUser->getName());
+        $password = md5($accessToken);
+        $appUser->setPlainPassword($password);
+        $appUser->setFacebookId($facebookUser->getId());
+        $appUser->setUsername($facebookUser->getId());
+        if(!$appUser) {
+            $this->createAppUser($appUser);
+        }else{
+            $this->saveAppUser($appUser);
+        }
+
+        return ['status' => true, 'password' => $password, 'user' => $facebookUser];
+    }
+
+    /**
      * List App User
      * @param array $params
      *
@@ -94,5 +135,23 @@ class AppUserManager extends AbstractManager
 
         $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
         return $this->pagination->render($query, $limit, $offset);
+    }
+
+    /**
+     * @param Facebook $facebookManager
+     * @return AppUserManager
+     */
+    public function setFacebookManager($facebookManager)
+    {
+        $this->facebookManager = $facebookManager;
+        return $this;
+    }
+
+    /**
+     * @return Facebook
+     */
+    public function getFacebookManager()
+    {
+        return $this->facebookManager;
     }
 }

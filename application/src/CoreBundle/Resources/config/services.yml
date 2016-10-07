@@ -1,4 +1,7 @@
 services:
+    pon.manager.facebook:
+        class: Facebook\Facebook
+        arguments: ["%facebook_config%"]
     pon.manager.app_user:
         class: CoreBundle\Manager\AppUserManager
         factory_service:  doctrine
@@ -6,6 +9,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\AppUser"]
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
+            - [setFacebookManager, ["@pon.manager.facebook"]]
 
     pon.manager.client:
         class: CoreBundle\Manager\ClientManager

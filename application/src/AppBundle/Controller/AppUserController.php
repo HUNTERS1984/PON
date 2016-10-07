@@ -115,7 +115,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *   }
      * )
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
-     * @Post("/signin", name="app_sigin")
+     * @Post("/signin", name="app_signin")
      * @return Response
      */
     public function postSingInAction(Request $request)
@@ -150,6 +150,68 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     }
 
     /**
+     * Facebook SignIn
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to sigin",
+     *  requirements={
+     *      {
+     *          "name"="facebook_access_token",
+     *          "dataType"="string",
+     *          "description"="access_token of facebook"
+     *      }
+     *  },
+     *  statusCodes = {
+     *     201 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   }
+     * )
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @Post("/facebook/signin", name="app_facebook_signin")
+     * @return Response
+     */
+    public function postFacebookSingInAction(Request $request)
+    {
+        $accessToken = $request->get('facebook_access_token');
+        $result = $this->getManager()->facebookLogin($accessToken);
+
+        if(!$result['status']) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
+            ));
+        }
+        try {
+            $request->request->set('username', $result['user']->getId());
+            $request->request->set('password', $result['password']);
+            $request->request->set('client_id',$this->getParameter('client_id'));
+            $request->request->set('client_secret',$this->getParameter('client_secret'));
+            $request->request->set('grant_type',$this->getParameter('grant_type'));
+            $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+        } catch (OAuth2ServerException $e) {
+            $content = json_decode($e->getHttpResponse()->getContent());
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found', $content->error_description
+            ));
+        }
+
+        /**@var AppUser $appUser*/
+        $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
+        $appUser->setBasePath($request->getSchemeAndHttpHost());
+        if(!$appUser || !is_null($appUser->getDeletedAt())) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
+            ));
+        }
+
+        $result = [
+            'token' => json_decode($token->getContent(),true)['access_token'],
+            'user' =>  $appUser
+        ];
+
+        return  $this->view(BaseResponse::getData($result));
+    }
+
+    /**
      * Update Profile
      * @ApiDoc(
      *  resource=true,
@@ -159,6 +221,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *          "name"="name",
      *          "dataType"="string",
      *          "description"="name of app user"
+     *      },
+     *      {
+     *          "name"="email",
+     *          "dataType"="string",
+     *          "description"="email of app user"
      *      },
      *     {
      *          "name"="gender",

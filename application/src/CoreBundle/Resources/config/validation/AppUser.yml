@@ -22,8 +22,6 @@ CoreBundle\Entity\AppUser:
                 minMessage: app_user.username.min_message
                 maxMessage: app_user.username.max_message
         email:
-            - NotBlank:
-                message: app_user.email.not_blank
             - Email:
                 message: app_user.email.email
                 checkMX: false
