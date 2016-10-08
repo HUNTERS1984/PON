@@ -28,6 +28,12 @@ CoreBundle\Entity\Coupon:
             joinColumn:
                 name: store_id
                 referencedColumnName: id
+        category:
+            targetEntity: Category
+            inversedBy: coupons
+            joinColumn:
+                name: category_id
+                referencedColumnName: id
     id:
         id:
             type: integer
@@ -56,6 +62,8 @@ CoreBundle\Entity\Coupon:
         size:
             type: integer
             nullable: TRUE
+        numUsed:
+            type: integer
         createdAt:
             type: datetime
         updatedAt:

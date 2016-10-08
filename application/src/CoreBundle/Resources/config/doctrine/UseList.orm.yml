@@ -15,6 +15,19 @@ CoreBundle\Entity\UseList:
             joinColumn:
                 name: app_user_id
                 referencedColumnName: id
+        store:
+            targetEntity: Store
+            inversedBy: useLists
+            joinColumn:
+                name: store_id
+                referencedColumnName: id
+        category:
+            targetEntity: Category
+            inversedBy: useLists
+            joinColumn:
+                name: category_id
+                referencedColumnName: id
+
     id:
         id:
             type: integer
@@ -22,4 +35,10 @@ CoreBundle\Entity\UseList:
             generator:
                 strategy: AUTO
     fields:
+        status:
+            type: integer
+        createdAt:
+            type: datetime
+        usedAt:
+            type: datetime
     lifecycleCallbacks: {  }

@@ -64,6 +64,99 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getFeaturedCouponAction($type, Request $request)
     {
+        $params = $request->query->all();
+
+        // Get List Category
+        $categoryManager = $this->getCategoryManager();
+        $category = $categoryManager->listCategory( $params );
+
+        // Tung category lay 5 coupon theo type
+        unset($params);
+        $params['page_size'] = 5;
+        $params['page_index'] = 1;
+        $manager = $this->getManager();
+        $categoryData = [];
+        foreach ($category['data'] as $k=>$v){
+            $where = [];
+            $where['category'] = [
+                'type' => '=',
+                'value' =>  $v->getId()
+            ];
+
+            switch ($type) {
+                case 1:
+                    $orderBy = ['numUsed' => 'DESC'];
+                    $listCoupon = $manager->listCoupon($params , $where , $orderBy);
+                    break;
+                case 2:
+                    $orderBy = ['createdAt' => 'DESC'];
+                    $listCoupon = $manager->listCoupon($params , $where , $orderBy);
+                    break;
+                case 3:
+                    $orderBy = ['createdAt' => 'DESC'];
+                    $listCoupon = $manager->listCoupon($params , $where , $orderBy);
+                    break;
+                case 4:
+                    /**@var AppUser $appUser*/
+                    $appUser = $this->getUser();
+                    if(!$appUser) {
+                        return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                            'app_user.not_found'
+                        ) , 404);
+                    }
+                    if ($appUser){
+                        $userLoginId = $appUser->getId();
+                        if(!$userLoginId) {
+                            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                                'app_user.not_found'
+                            ) , 404);
+                        }
+                    }
+                    $whereOrder['s.appUser'] = [
+                        'type' => '=',
+                        'value' =>  $appUser
+                    ];
+                    $whereOrder['s.status'] = [
+                        'type' => '=',
+                        'value' =>  1
+                    ];
+                    $orderBy = ['s.usedAt' => 'DESC'];
+                    $listCoupon = $manager->listCouponJoin($params , $where , $orderBy , $whereOrder);
+                    break;
+                default:
+                    return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                        'coupon.not_found'
+                    ) , 404);
+            }
+            $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
+
+            $coupons = [];
+            foreach ($listCoupon['data'] as $k1 => $v1) {
+                $coupons[$k1]['id'] = $v1['id'];
+                $coupons[$k1]['title'] = $v1['title'];
+                $coupons[$k1]['image_url'] = $v1['image_url'];
+                $coupons[$k1]['expired_time'] = $v1['expired_time'];
+                $coupons[$k1]['is_like'] = 0;
+                $coupons[$k1]['can_use'] = 0;
+                if ($v1['status'] == 1) {
+                    $coupons[$k1]['can_use'] = 1;
+                }
+            }
+            unset($listCoupon);
+
+
+            $listCoupon['id'] = $category['data'][$k]->getId();
+            $listCoupon['name'] = $category['data'][$k]->getName();
+            $listCoupon['icon_url'] = $category['data'][$k]->getIconUrl();
+            $listCoupon['coupons'] = $coupons;
+
+            $category['data'][$k] = $listCoupon;
+
+        }
+        return $this->view($category);
+
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         $j = 0;
@@ -165,6 +258,100 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getCouponsByFeaturedAndTypeAction($type, $couponType, Request $request)
     {
+        $categoryManager = $this->getCategoryManager();
+        $whereCate = [];
+        $whereCate['id'] = [
+            'type' => '=',
+            'value' =>  $couponType
+        ];
+        $category = $categoryManager->listCategory( [] , $whereCate);
+        if(empty($category['data'])) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'category.not_found'
+            ) , 404);
+        }
+
+
+
+        $params = $request->query->all();
+        $where = [];
+        $whereOrder = [];
+        $where['category'] = [
+            'type' => '=',
+            'value' =>  $couponType
+        ];
+
+        $orderBy = [];
+        $manager = $this->getManager();
+
+        switch ($type) {
+            case 1:
+                $orderBy = ['numUsed' => 'DESC'];
+                $listCoupon = $manager->listCoupon($params , $where , $orderBy);
+                break;
+            case 2:
+                $orderBy = ['createdAt' => 'DESC'];
+                $listCoupon = $manager->listCoupon($params , $where , $orderBy);
+                break;
+            case 3:
+                $orderBy = ['createdAt' => 'DESC'];
+                $listCoupon = $manager->listCoupon($params , $where , $orderBy);
+                break;
+            case 4:
+                /**@var AppUser $appUser*/
+                $appUser = $this->getUser();
+                if(!$appUser) {
+                    return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                        'app_user.not_found'
+                    ) , 404);
+                }
+                if ($appUser){
+                    $userLoginId = $appUser->getId();
+                    if(!$userLoginId) {
+                        return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                            'app_user.not_found'
+                        ) , 404);
+                    }
+                }
+                $whereOrder['s.appUser'] = [
+                    'type' => '=',
+                    'value' =>  $appUser
+                ];
+                $whereOrder['s.status'] = [
+                    'type' => '=',
+                    'value' =>  1
+                ];
+                $orderBy = ['s.usedAt' => 'DESC'];
+                $listCoupon = $manager->listCouponJoin($params , $where , $orderBy , $whereOrder);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'coupon.not_found'
+                ) , 404);
+        }
+
+        $listCoupon = $this->getSerializer()->serialize($listCoupon, ['view_coupon_list']);
+        $coupons = [];
+        foreach ($listCoupon['data'] as $k => $v) {
+            $coupons[$k]['id'] = $v['id'];
+            $coupons[$k]['title'] = $v['title'];
+            $coupons[$k]['image_url'] = $v['image_url'];
+            $coupons[$k]['expired_time'] = $v['expired_time'];
+            $coupons[$k]['is_like'] = 0;
+            $coupons[$k]['can_use'] = 0;
+            if ($v['status'] == 1) {
+                $coupons[$k]['can_use'] = 1;
+            }
+        }
+        unset($listCoupon['data']);
+        $listCoupon['data']['id'] = $category['data']["0"]->getId();
+        $listCoupon['data']['name'] = $category['data']["0"]->getName();
+        $listCoupon['data']['icon_url'] = $category['data']["0"]->getIconUrl();
+        $listCoupon['data']['coupons'] = $coupons;
+        return $this->view($listCoupon);
+
+
+
         $faker = Factory::create('ja_JP');
         $data = [
             'id' => $couponType,
@@ -694,6 +881,14 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getUseListManager()
     {
         return $this->get('pon.manager.use_list');
+    }
+
+    /**
+     * @return CategoryManager
+     */
+    public function getCategoryManager()
+    {
+        return $this->get('pon.manager.category');
     }
 
     /**

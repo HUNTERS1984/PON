@@ -13,6 +13,11 @@ class Coupon
     private $id;
 
     /**
+     * @var \CoreBundle\Entity\Category
+     */
+    private $category;
+
+    /**
      * @var integer
      */
     private $type;
@@ -21,6 +26,11 @@ class Coupon
      * @var string
      */
     private $title;
+
+    /**
+     * @var integer
+     */
+    private $numUsed;
 
     /**
      * @var string
@@ -249,6 +259,30 @@ class Coupon
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set num used
+     *
+     * @param integer $status
+     *
+     * @return Coupon
+     */
+    public function setNumUsed($numUsed)
+    {
+        $this->numUsed = $numUsed;
+
+        return $this;
+    }
+
+    /**
+     * Get num used
+     *
+     * @return integer
+     */
+    public function getNumUsed()
+    {
+        return $this->numUsed;
     }
 
     /**
@@ -497,4 +531,33 @@ class Coupon
     {
         return $this->tags;
     }
+
+
+
+
+    /**
+     * Set category
+     *
+     * @param \CoreBundle\Entity\Category $category
+     *
+     * @return Store
+     */
+    public function setCategory(\CoreBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \CoreBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+
 }

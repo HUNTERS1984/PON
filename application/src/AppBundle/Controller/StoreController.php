@@ -198,31 +198,41 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     {
         $params = $request->query->all();
         $where = [];
+        $whereOrder = [];
         $where['category'] = [
             'type' => '=',
             'value' =>  $category
         ];
 
         $orderBy = [];
+        $manager = $this->getManager();
         switch ($type) {
             case 1:
-                $orderBy = ['createdAt' => 'ASC'];
+                $orderBy = ['numUsed' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
                 break;
             case 2:
                 $orderBy = ['createdAt' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
                 break;
             case 3:
                 $orderBy = ['createdAt' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
                 break;
             case 4:
-                $orderBy = ['createdAt' => 'DESC'];
+                $whereOrder['s.status'] = [
+                    'type' => '=',
+                    'value' =>  1
+                ];
+                $orderBy = ['s.usedAt' => 'DESC'];
+                $listStore = $manager->listStoreJoin($params , $where , $orderBy , $whereOrder);
                 break;
             default:
-                $orderBy = ['createdAt' => 'DESC'];
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ) , 404);
         }
 
-        $manager = $this->getManager();
-        $listStore = $manager->listStore($params , $where , $orderBy);
         $listStore = $this->getSerializer()->serialize($listStore, ['list_store_category']);
         foreach ($listStore['data'] as $k=>$v){
             $listStore['data'][$k]['is_follow'] = 1;
@@ -289,28 +299,38 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAction($type, Request $request)
     {
+
         $params = $request->query->all();
         $where = [];
+        $whereOrder = [];
         $orderBy = [];
+        $manager = $this->getManager();
         switch ($type) {
             case 1:
-                $orderBy = ['createdAt' => 'ASC'];
+                $orderBy = ['numUsed' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
                 break;
             case 2:
                 $orderBy = ['createdAt' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
                 break;
             case 3:
                 $orderBy = ['createdAt' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
                 break;
             case 4:
-                $orderBy = ['createdAt' => 'DESC'];
+                $whereOrder['s.status'] = [
+                    'type' => '=',
+                    'value' =>  1
+                ];
+                $orderBy = ['s.usedAt' => 'DESC'];
+                $listStore = $manager->listStoreJoin($params , $where , $orderBy , $whereOrder);
                 break;
             default:
-                $orderBy = ['createdAt' => 'DESC'];
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ) , 404);
         }
-
-        $manager = $this->getManager();
-        $listStore = $manager->listStore($params , $where , $orderBy);
         $listStore = $this->getSerializer()->serialize($listStore, ['list_store_category']);
         foreach ($listStore['data'] as $k=>$v){
             $listStore['data'][$k]['is_follow'] = 1;

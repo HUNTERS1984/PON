@@ -4,6 +4,7 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\Store;
 use CoreBundle\Paginator\Pagination;
+use Doctrine\ORM\Query\Expr;
 
 class StoreManager extends AbstractManager
 {
@@ -87,18 +88,64 @@ class StoreManager extends AbstractManager
             $orderBy = $orderBys;
         }
 
-
-
-
-//        $conditions['deletedAt'] = [
-//            'type' => 'is',
-//            'value' =>  'NULL'
-//        ];
-
+        $conditions['deletedAt'] = [
+            'type' => 'is',
+            'value' =>  'NULL'
+        ];
 
         $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
 
         return $this->pagination->render($query, $limit, $offset);
     }
+
+    /**
+     * List Store Join UseList
+     * @param array $params
+     *
+     * @return array
+     */
+    public function listStoreJoin($params , $wheres = [] , $orderBys = [] , $whereOrder = [])
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $conditions = [];
+        if(is_array($wheres)){
+            foreach ($wheres as $k=>$v){
+                $conditions[$k] = $v;
+            }
+        }
+
+        if(isset($params['name'])) {
+            $conditions['name'] = [
+                'type' => 'like',
+                'value' => "%".$params['name']."%"
+            ];
+        }
+
+        $conditions['deletedAt'] = [
+            'type' => 'is',
+            'value' =>  'NULL'
+        ];
+
+        if(empty($orderBys)){
+            $orderBy = ['p.createdAt' => 'DESC'];
+        } else {
+            $orderBy = $orderBys;
+        }
+
+        $orderBy = ['s.usedAt' => 'DESC'];
+
+        $groupBy = "";
+        $joinTable['CoreBundle\Entity\UseList']['name'] = 's';
+        $joinTable['CoreBundle\Entity\UseList']['type'] = Expr\Join::WITH;
+        $joinTable['CoreBundle\Entity\UseList']['where'] = 'p.id = s.store';
+
+        $query = $this->getQueryJoin($conditions, $orderBy, $limit, $offset , '' , $joinTable , $groupBy , $whereOrder);
+
+        return $this->pagination->render($query, $limit, $offset);
+    }
+
+
 
 }
