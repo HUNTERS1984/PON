@@ -153,7 +153,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * Facebook SignIn
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to sigin",
+     *  description="This api is used to signin",
      *  requirements={
      *      {
      *          "name"="facebook_access_token",
@@ -177,11 +177,79 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
 
         if(!$result['status']) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                'app_user.not_found'
+                'app_user.not_found', $result['message']
             ));
         }
         try {
-            $request->request->set('username', $result['user']->getId());
+            $request->request->set('username', $result['username']);
+            $request->request->set('password', $result['password']);
+            $request->request->set('client_id',$this->getParameter('client_id'));
+            $request->request->set('client_secret',$this->getParameter('client_secret'));
+            $request->request->set('grant_type',$this->getParameter('grant_type'));
+            $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+        } catch (OAuth2ServerException $e) {
+            $content = json_decode($e->getHttpResponse()->getContent());
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found', $content->error_description
+            ));
+        }
+
+        /**@var AppUser $appUser*/
+        $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
+        $appUser->setBasePath($request->getSchemeAndHttpHost());
+        if(!$appUser || !is_null($appUser->getDeletedAt())) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
+            ));
+        }
+
+        $result = [
+            'token' => json_decode($token->getContent(),true)['access_token'],
+            'user' =>  $appUser
+        ];
+
+        return  $this->view(BaseResponse::getData($result));
+    }
+
+    /**
+     * Twitter SignIn
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to signin",
+     *  requirements={
+     *      {
+     *          "name"="twitter_access_token",
+     *          "dataType"="string",
+     *          "description"="authToken of facebook"
+     *      },
+     *     {
+     *          "name"="twitter_access_token_secret",
+     *          "dataType"="string",
+     *          "description"="authTokenSecret of twitter"
+     *      }
+     *  },
+     *  statusCodes = {
+     *     201 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   }
+     * )
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @Post("/twitter/signin", name="app_twitter_signin")
+     * @return Response
+     */
+    public function postTwitterSingInAction(Request $request)
+    {
+        $accessToken = $request->get('twitter_access_token');
+        $accessTokenSecret = $request->get('twitter_access_token_secret');
+        $result = $this->getManager()->twitterLogin($accessToken, $accessTokenSecret);
+
+        if(!$result['status']) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found', $result['message']
+            ));
+        }
+        try {
+            $request->request->set('username', $result['username']);
             $request->request->set('password', $result['password']);
             $request->request->set('client_id',$this->getParameter('client_id'));
             $request->request->set('client_secret',$this->getParameter('client_secret'));

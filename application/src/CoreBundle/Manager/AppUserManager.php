@@ -2,6 +2,7 @@
 
 namespace CoreBundle\Manager;
 
+use Abraham\TwitterOAuth\TwitterOAuth;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Paginator\Pagination;
 use Facebook\Facebook;
@@ -12,6 +13,11 @@ class AppUserManager extends AbstractManager
      * @var Facebook
     */
     protected $facebookManager;
+
+    /**
+     * @var TwitterOAuth
+    */
+    protected $twitterManager;
 
     public function dummy(AppUser $user)
     {
@@ -88,21 +94,63 @@ class AppUserManager extends AbstractManager
         }
         $facebookUser = $response->getGraphUser();
         $appUser = $this->findOneBy(['facebookId'=> $facebookUser->getId()]);
+        $isNull = false;
         if(!$appUser) {
+            $isNull = true;
             $appUser = new AppUser();
+            $appUser->setUsername($facebookUser->getId());
+            $appUser->setFacebookId($facebookUser->getId());
+            $appUser->setEmail($facebookUser->getId().'@facebook.com');
         }
         $appUser->setName($facebookUser->getName());
         $password = md5($accessToken);
         $appUser->setPlainPassword($password);
-        $appUser->setFacebookId($facebookUser->getId());
-        $appUser->setUsername($facebookUser->getId());
-        if(!$appUser) {
+
+        if($isNull) {
             $this->createAppUser($appUser);
         }else{
             $this->saveAppUser($appUser);
         }
 
-        return ['status' => true, 'password' => $password, 'user' => $facebookUser];
+        return ['status' => true, 'password' => $password, 'username' => $appUser->getUsername()];
+    }
+
+    /**
+     * @param string $accessToken
+     * @param string $accessTokenSecret
+     *
+     * @return array
+     */
+    public function twitterLogin($accessToken, $accessTokenSecret)
+    {
+        /** @var TwitterOAuth $manager */
+        $manager = $this->twitterManager;
+        $manager->setOauthToken($accessToken, $accessTokenSecret);
+        $response = $manager->get("account/verify_credentials");
+        if(isset($response->errors) && count($response->errors) > 0) {
+            return ['status' => false, 'message' => $response->errors[0]->message];
+        }
+        $twitter = $response;
+        $appUser = $this->findOneBy(['twitterId'=> $twitter->id]);
+        $isNull = false;
+        if(!$appUser) {
+            $isNull = true;
+            $appUser = new AppUser();
+            $appUser->setTwitterId($twitter->id);
+            $appUser->setUsername($twitter->id);
+            $appUser->setEmail($twitter->id.'@facebook.com');
+        }
+        $appUser->setName($twitter->name);
+        $password = md5(sprintf("%s_%s",$accessToken,$accessTokenSecret));
+        $appUser->setPlainPassword($password);
+
+        if($isNull) {
+            $this->createAppUser($appUser);
+        }else{
+            $this->saveAppUser($appUser);
+        }
+
+        return ['status' => true, 'password' => $password, 'username' => $appUser->getUsername()];
     }
 
     /**
@@ -153,5 +201,23 @@ class AppUserManager extends AbstractManager
     public function getFacebookManager()
     {
         return $this->facebookManager;
+    }
+
+    /**
+     * @param TwitterOAuth $twitterManager
+     * @return AppUserManager
+     */
+    public function setTwitterManager($twitterManager)
+    {
+        $this->twitterManager = $twitterManager;
+        return $this;
+    }
+
+    /**
+     * @return TwitterOAuth
+     */
+    public function getTwitterManager()
+    {
+        return $this->twitterManager;
     }
 }
