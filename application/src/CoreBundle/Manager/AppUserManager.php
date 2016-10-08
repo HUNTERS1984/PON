@@ -138,7 +138,7 @@ class AppUserManager extends AbstractManager
             $appUser = new AppUser();
             $appUser->setTwitterId($twitter->id);
             $appUser->setUsername($twitter->id);
-            $appUser->setEmail($twitter->id.'@facebook.com');
+            $appUser->setEmail($twitter->id.'@twitter.com');
         }
         $appUser->setName($twitter->name);
         $password = md5(sprintf("%s_%s",$accessToken,$accessTokenSecret));
