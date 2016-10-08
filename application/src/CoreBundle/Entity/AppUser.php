@@ -38,6 +38,11 @@ class AppUser extends BaseUser
      */
     private $facebookId;
 
+    /**
+     * @var string
+     */
+    private $twitterId;
+
 
     /**
      * @var \DateTime
@@ -752,5 +757,23 @@ class AppUser extends BaseUser
     public function getFacebookId()
     {
         return $this->facebookId;
+    }
+
+    /**
+     * @param string $twitterId
+     * @return AppUser
+     */
+    public function setTwitterId($twitterId)
+    {
+        $this->twitterId = $twitterId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTwitterId()
+    {
+        return $this->twitterId;
     }
 }

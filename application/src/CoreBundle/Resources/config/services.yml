@@ -2,6 +2,11 @@ services:
     pon.manager.facebook:
         class: Facebook\Facebook
         arguments: ["%facebook_config%"]
+
+    pon.manager.twitter:
+        class: Abraham\TwitterOAuth\TwitterOAuth
+        arguments: ["%twitter_consumer_key%", "%twitter_consumer_secret%"]
+
     pon.manager.app_user:
         class: CoreBundle\Manager\AppUserManager
         factory_service:  doctrine
@@ -10,6 +15,7 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setFacebookManager, ["@pon.manager.facebook"]]
+            - [setTwitterManager, ["@pon.manager.twitter"]]
 
     pon.manager.client:
         class: CoreBundle\Manager\ClientManager

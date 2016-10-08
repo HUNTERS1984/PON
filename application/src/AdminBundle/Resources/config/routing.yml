@@ -1,11 +1,3 @@
 admin_homepage:
     path:     /
     defaults: { _controller: AdminBundle:Approval:index }
-
-admin_demo:
-    path:     /connect
-    defaults: { _controller: AdminBundle:Demo:connect }
-
-admin_demo_secured:
-    path:     /social/token
-    defaults: { _controller: AdminBundle:Demo:token }
