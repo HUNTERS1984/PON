@@ -38,6 +38,12 @@ class Store
     private $aveBill;
 
     /**
+     * @var integer
+     */
+    private $numUsed;
+
+
+    /**
      * @var string
      */
     private $helpText;
@@ -443,6 +449,30 @@ class Store
     public function getCoupons()
     {
         return $this->coupons;
+    }
+
+    /**
+     * Set num used
+     *
+     * @param integer $status
+     *
+     * @return Coupon
+     */
+    public function setNumUsed($numUsed)
+    {
+        $this->numUsed = $numUsed;
+
+        return $this;
+    }
+
+    /**
+     * Get num used
+     *
+     * @return integer
+     */
+    public function getNumUsed()
+    {
+        return $this->numUsed;
     }
 
     /**

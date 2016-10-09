@@ -239,6 +239,53 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAndTypeAction($type, $category, Request $request)
     {
+        $params = $request->query->all();
+        $where = [];
+        $whereOrder = [];
+        $where['category'] = [
+            'type' => '=',
+            'value' =>  $category
+        ];
+
+        $orderBy = [];
+        $manager = $this->getManager();
+        switch ($type) {
+            case 1:
+                $orderBy = ['numUsed' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
+                break;
+            case 2:
+                $orderBy = ['createdAt' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
+                break;
+            case 3:
+                $orderBy = ['createdAt' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
+                break;
+            case 4:
+                $whereOrder['s.status'] = [
+                    'type' => '=',
+                    'value' =>  1
+                ];
+                $orderBy = ['s.usedAt' => 'DESC'];
+                $listStore = $manager->listStoreJoin($params , $where , $orderBy , $whereOrder);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ) , 404);
+        }
+
+        $listStore = $this->getSerializer()->serialize($listStore, ['list_store_category']);
+        foreach ($listStore['data'] as $k=>$v){
+            $listStore['data'][$k]['is_follow'] = 1;
+        }
+        return $this->view($listStore);
+
+
+
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -295,6 +342,46 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAction($type, Request $request)
     {
+
+        $params = $request->query->all();
+        $where = [];
+        $whereOrder = [];
+        $orderBy = [];
+        $manager = $this->getManager();
+        switch ($type) {
+            case 1:
+                $orderBy = ['numUsed' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
+                break;
+            case 2:
+                $orderBy = ['createdAt' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
+                break;
+            case 3:
+                $orderBy = ['createdAt' => 'DESC'];
+                $listStore = $manager->listStore($params , $where , $orderBy);
+                break;
+            case 4:
+                $whereOrder['s.status'] = [
+                    'type' => '=',
+                    'value' =>  1
+                ];
+                $orderBy = ['s.usedAt' => 'DESC'];
+                $listStore = $manager->listStoreJoin($params , $where , $orderBy , $whereOrder);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ) , 404);
+        }
+        $listStore = $this->getSerializer()->serialize($listStore, ['list_store_category']);
+        foreach ($listStore['data'] as $k=>$v){
+            $listStore['data'][$k]['is_follow'] = 1;
+        }
+        return $this->view($listStore);
+
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {

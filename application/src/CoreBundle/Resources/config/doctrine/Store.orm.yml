@@ -68,6 +68,8 @@ CoreBundle\Entity\Store:
             type: datetime
         operationEndTime:
             type: datetime
+        numUsed:
+            type: integer
         createdAt:
             type: datetime
         updatedAt:

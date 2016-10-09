@@ -10,3 +10,6 @@ CoreBundle\Entity\UseList:
         app_user_id:
             expose: true
             groups: [view,view_coupon,view_coupon_list]
+        store_id:
+            expose: true
+            groups: [view,view_coupon]

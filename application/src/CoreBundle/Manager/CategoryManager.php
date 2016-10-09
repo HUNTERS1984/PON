@@ -62,27 +62,37 @@ class CategoryManager extends AbstractManager
      *
      * @return array
      */
-    public function listCategory($params)
+    public function listCategory($params , $wheres = [] , $orderBys = [])
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
 
         $conditions = [];
+
+        if(is_array($wheres)){
+            foreach ($wheres as $k=>$v){
+                $conditions[$k] = $v;
+            }
+        }
+
         if(isset($params['name'])) {
-            $conditions = [
-                'name' => [
-                    'type' => 'like',
-                    'value' => "%".$params['name']."%"
-                ]
+            $conditions['name'] = [
+                'type' => 'like',
+                'value' => "%".$params['name']."%"
             ];
+        }
+
+
+        if(empty($orderBys)){
+            $orderBy = ['createdAt' => 'DESC'];
+        } else {
+            $orderBy = $orderBys;
         }
 
         $conditions['deletedAt'] = [
             'type' => 'is',
             'value' =>  'NULL'
         ];
-
-        $orderBy = ['createdAt' => 'DESC'];
 
         $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
 
@@ -115,7 +125,7 @@ class CategoryManager extends AbstractManager
             'value' =>  'NULL'
         ];
 
-        $orderBy = ['createdAt' => 'DESC'];
+        $orderBy = ['p.createdAt' => 'DESC'];
 
 
         $select = 'p, COUNT(s.id) AS shop_count';

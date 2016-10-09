@@ -150,7 +150,7 @@ abstract class AbstractManager
      * @return Query
      *
      */
-    public function getQueryJoin($criticals = [], $orderBys = [], $limit = 10, $offset = 0 , $select = '' , $joinTable = [] ,  $groupBy = '')
+    public function getQueryJoin($criticals = [], $orderBys = [], $limit = 10, $offset = 0 , $select = '' , $joinTable = [] ,  $groupBy = '' , $criticalOrders = [])
     {
         /** @var QueryBuilder $qb*/
         $qb =  $this->repository
@@ -172,17 +172,26 @@ abstract class AbstractManager
             }
         }
 
+        foreach($criticalOrders as $key => $critical) {
+            if(in_array($critical['type'], ['is', 'is not'])) {
+                $qb->andWhere("$key ".$critical['type']." ".$critical['value']);
+            }else{
+                $qb->andWhere("$key ".$critical['type']." ?$index")
+                    ->setParameter($index, $critical['value']);
+                $index++;
+            }
+        }
+
         foreach ($joinTable as $k=>$v){
             $qb->leftJoin($k , $v['name'] , $v['type'], $v['where']);
         }
-
 
         if($groupBy != ''){
             $qb->addGroupBy($groupBy);
         }
 
         foreach($orderBys as $key => $orderBy) {
-            $qb->addOrderBy("p.$key", $orderBy);
+            $qb->addOrderBy("$key", $orderBy);
         }
 >>>>>>> Category-get-list
         // Create our query
