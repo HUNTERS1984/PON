@@ -71,6 +71,20 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         $categoryManager = $this->getCategoryManager();
         $category = $categoryManager->listCategory( $params );
 
+
+        // Get List User Liked
+        $listCouponIdLiked = [];
+
+        /**@var AppUser $appUser*/
+        $appUser = $this->getUser();
+        if ($appUser){
+            $userLoginId = $appUser->getId();
+            if($userLoginId){
+                $likeListManager = $this->getLikeListManager();
+                $listCouponIdLiked = $likeListManager->listAllOfUser( $userLoginId );
+            }
+        }
+
         // Tung category lay 5 coupon theo type
         unset($params);
         $params['page_size'] = 5;
@@ -98,21 +112,12 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     $listCoupon = $manager->listCoupon($params , $where , $orderBy);
                     break;
                 case 4:
-                    /**@var AppUser $appUser*/
-                    $appUser = $this->getUser();
-                    if(!$appUser) {
+                    if(!$userLoginId) {
                         return $this->view($this->get('pon.exception.exception_handler')->throwError(
                             'app_user.not_found'
                         ) , 404);
                     }
-                    if ($appUser){
-                        $userLoginId = $appUser->getId();
-                        if(!$userLoginId) {
-                            return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                                'app_user.not_found'
-                            ) , 404);
-                        }
-                    }
+
                     $whereOrder['s.appUser'] = [
                         'type' => '=',
                         'value' =>  $appUser
@@ -137,7 +142,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 $coupons[$k1]['title'] = $v1['title'];
                 $coupons[$k1]['image_url'] = $v1['image_url'];
                 $coupons[$k1]['expired_time'] = $v1['expired_time'];
-                $coupons[$k1]['is_like'] = 0;
+                $coupons[$k1]['is_like'] = in_array($v1['id'] , $listCouponIdLiked)?1:0;
                 $coupons[$k1]['can_use'] = 0;
                 if ($v1['status'] == 1) {
                     $coupons[$k1]['can_use'] = 1;
@@ -272,6 +277,19 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ) , 404);
         }
 
+        // Get List User Liked
+        $listCouponIdLiked = [];
+
+        /**@var AppUser $appUser*/
+        $appUser = $this->getUser();
+        if ($appUser){
+            $userLoginId = $appUser->getId();
+            if($userLoginId){
+                $likeListManager = $this->getLikeListManager();
+                $listCouponIdLiked = $likeListManager->listAllOfUser( $userLoginId );
+            }
+        }
+
 
 
         $params = $request->query->all();
@@ -299,20 +317,10 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 $listCoupon = $manager->listCoupon($params , $where , $orderBy);
                 break;
             case 4:
-                /**@var AppUser $appUser*/
-                $appUser = $this->getUser();
-                if(!$appUser) {
+                if(!$userLoginId) {
                     return $this->view($this->get('pon.exception.exception_handler')->throwError(
                         'app_user.not_found'
                     ) , 404);
-                }
-                if ($appUser){
-                    $userLoginId = $appUser->getId();
-                    if(!$userLoginId) {
-                        return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                            'app_user.not_found'
-                        ) , 404);
-                    }
                 }
                 $whereOrder['s.appUser'] = [
                     'type' => '=',
@@ -338,7 +346,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             $coupons[$k]['title'] = $v['title'];
             $coupons[$k]['image_url'] = $v['image_url'];
             $coupons[$k]['expired_time'] = $v['expired_time'];
-            $coupons[$k]['is_like'] = 0;
+            $coupons[$k]['is_like'] = in_array($v['id'] , $listCouponIdLiked)?1:0;
             $coupons[$k]['can_use'] = 0;
             if ($v['status'] == 1) {
                 $coupons[$k]['can_use'] = 1;
@@ -592,6 +600,10 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ) , 404);
         }
 
+
+        // Get List User Liked
+        $listCouponIdLiked = [];
+
         if ($appUser){
             $userLoginId = $appUser->getId();
             if(!$userLoginId) {
@@ -599,7 +611,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'app_user.not_found'
                 ) , 404);
             }
+            $likeListManager = $this->getLikeListManager();
+            $listCouponIdLiked = $likeListManager->listAllOfUser( $userLoginId );
         }
+
+
         $managerLikeList = $this->getLikeListManager();
         /**@var Coupon $coupon*/
         $listCouponTmp = $managerLikeList->listCoupon(array("page_size" => $pageSize, "page_index" => $pageIndex, "app_user_id" => $userLoginId));
@@ -614,7 +630,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 $listCoupon['data'][$k]['title'] = $coupon["title"];
                 $listCoupon['data'][$k]['image_url'] = $coupon["image_url"];
                 $listCoupon['data'][$k]['expired_time'] = $coupon["expired_time"];
-                $listCoupon['data'][$k]['is_like'] = 1;
+                $listCoupon['data'][$k]['is_like'] = in_array($coupon['id'] , $listCouponIdLiked)?1:0;
                 $listCoupon['data'][$k]['can_use'] = 0;
                 if ($coupon["status"] == 1) {
                     $listCoupon['data'][$k]['can_use'] = 1;
@@ -691,14 +707,22 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ) , 404);
         }
 
+
+        // Get List User Liked
+        $listCouponIdLiked = [];
+
         if ($appUser){
             $userLoginId = $appUser->getId();
+            $userLoginId = 1;
             if(!$userLoginId) {
                 return $this->view($this->get('pon.exception.exception_handler')->throwError(
                     'app_user.not_found'
                 ) , 404);
             }
+            $likeListManager = $this->getLikeListManager();
+            $listCouponIdLiked = $likeListManager->listAllOfUser( $userLoginId );
         }
+
 
         $managerUseList = $this->getUseListManager();
         /**@var Coupon $coupon*/
@@ -715,7 +739,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 $listCoupon['data'][$k]['title'] = $coupon["title"];
                 $listCoupon['data'][$k]['image_url'] = $coupon["image_url"];
                 $listCoupon['data'][$k]['expired_time'] = $coupon["expired_time"];
-                $listCoupon['data'][$k]['is_like'] = 1;
+                $listCoupon['data'][$k]['is_like'] = in_array($coupon['id'] , $listCouponIdLiked)?1:0;
                 $listCoupon['data'][$k]['can_use'] = 0;
                 if ($coupon["status"] == 1) {
                     $listCoupon['data'][$k]['can_use'] = 1;

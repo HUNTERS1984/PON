@@ -193,7 +193,6 @@ abstract class AbstractManager
         foreach($orderBys as $key => $orderBy) {
             $qb->addOrderBy("$key", $orderBy);
         }
->>>>>>> Category-get-list
         // Create our query
         return $qb->getQuery();
     }

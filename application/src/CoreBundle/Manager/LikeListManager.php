@@ -64,4 +64,34 @@ class LikeListManager extends AbstractManager
         return $this->pagination->render($query, $limit, $offset);
     }
 
+
+    /**
+     * List Id Coupon User Liked
+     * @param int $app_user_id
+     *
+     * @return array
+     */
+    public function listAllOfUser($app_user_id)
+    {
+        $limit = 10000;
+        $offset = 0;
+
+        $conditions = [];
+
+        $conditions['appUser'] = [
+            'type' => '=',
+            'value' => $app_user_id
+        ];
+
+        $orderBy = ['id' => 'DESC'];
+        $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
+        $listCoupons = $this->pagination->render($query, $limit, $offset);
+
+        $arrIdResult = [];
+        foreach ($listCoupons['data'] as $k=>$v){
+            $arrIdResult[] = $v->getCoupon()->getId();
+        }
+        return $arrIdResult;
+    }
+
 }

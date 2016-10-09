@@ -277,8 +277,21 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         }
 
         $listStore = $this->getSerializer()->serialize($listStore, ['list_store_category']);
+
+        // Get List Store User Followed
+        $listStoreIdFollowed = [];
+        /**@var AppUser $appUser*/
+        $appUser = $this->getUser();
+        if ($appUser){
+            $userLoginId = $appUser->getId();
+            if($userLoginId) {
+                $followListManager = $this->getFollowListManager();
+                $listStoreIdFollowed = $followListManager->listAllOfUser( $userLoginId );
+            }
+        }
+
         foreach ($listStore['data'] as $k=>$v){
-            $listStore['data'][$k]['is_follow'] = 1;
+            $listStore['data'][$k]['is_follow'] = in_array($v['id'] , $listStoreIdFollowed)?1:0;
         }
         return $this->view($listStore);
 
@@ -375,8 +388,23 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 ) , 404);
         }
         $listStore = $this->getSerializer()->serialize($listStore, ['list_store_category']);
+
+
+        // Get List Store User Followed
+        $listStoreIdFollowed = [];
+        /**@var AppUser $appUser*/
+        $appUser = $this->getUser();
+        if ($appUser){
+            $userLoginId = $appUser->getId();
+            if($userLoginId) {
+                $followListManager = $this->getFollowListManager();
+                $listStoreIdFollowed = $followListManager->listAllOfUser( $userLoginId );
+            }
+        }
+
+
         foreach ($listStore['data'] as $k=>$v){
-            $listStore['data'][$k]['is_follow'] = 1;
+            $listStore['data'][$k]['is_follow'] = in_array($v['id'] , $listStoreIdFollowed)?1:0;
         }
         return $this->view($listStore);
 
@@ -439,10 +467,24 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         /**@var AppUser $appUser*/
         $appUser = $this->getUser();
         if(!$appUser) {
-//            return $this->view($this->get('pon.exception.exception_handler')->throwError(
-//                'app_user.not_found'
-//            ) , 401);
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
+            ) , 401);
         }
+
+        // Get List Store User Followed
+        $listStoreIdFollowed = [];
+        if ($appUser){
+            $userLoginId = $appUser->getId();
+            if(!$userLoginId) {
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'app_user.not_found'
+                ) , 404);
+            }
+            $followListManager = $this->getFollowListManager();
+            $listStoreIdFollowed = $followListManager->listAllOfUser( $userLoginId );
+        }
+
 
         $params = $request->query->all();
         $params['category_id'] = $id;
@@ -450,7 +492,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         $listStore = $manager->listStore($params);
         $listStore = $this->getSerializer()->serialize($listStore, ['list_store_category']);
         foreach ($listStore['data'] as $k=>$v){
-            $listStore['data'][$k]['is_follow'] = 1;
+            $listStore['data'][$k]['is_follow'] = in_array($v['id'] , $listStoreIdFollowed)?1:0;
         }
         return $this->view($listStore);
 
