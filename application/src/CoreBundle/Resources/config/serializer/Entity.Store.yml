@@ -3,14 +3,14 @@ CoreBundle\Entity\Store:
     properties:
         id:
             expose : true
-            groups: [view_store,view_coupon_type,view_coupon,view_store_list]
+            groups: [view_store,view_coupon_type,view_coupon,view_store_list,list_store_category]
         name:
             expose : true
-            groups: [view_store,create_store,view_coupon_type,view_coupon,view_store_list]
+            groups: [view_store,create_store,view_coupon_type,view_coupon,view_store_list,list_store_category]
             serialized_name: title
         avatarUrl:
             expose : true
-            groups: [view_store,create_store,view_coupon,view_store_list]
+            groups: [view_store,create_store,view_coupon,view_store_list,list_store_category]
             serialized_name: avatar_url
         tel:
             expose : true

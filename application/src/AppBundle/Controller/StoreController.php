@@ -349,6 +349,26 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getShopByCouponTypeAction($id, Request $request)
     {
+        /**@var AppUser $appUser*/
+        $appUser = $this->getUser();
+        if(!$appUser) {
+//            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+//                'app_user.not_found'
+//            ) , 401);
+        }
+
+        $params = $request->query->all();
+        $params['category_id'] = $id;
+        $manager = $this->getManager();
+        $listStore = $manager->listStore($params);
+        $listStore = $this->getSerializer()->serialize($listStore, ['list_store_category']);
+        foreach ($listStore['data'] as $k=>$v){
+            $listStore['data'][$k]['is_follow'] = 1;
+        }
+        return $this->view($listStore);
+
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {

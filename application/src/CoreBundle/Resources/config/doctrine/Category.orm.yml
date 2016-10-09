@@ -2,10 +2,7 @@ CoreBundle\Entity\Category:
     type: entity
     table: null
     repositoryClass: CoreBundle\Repository\CategoryRepository
-    oneToMany:
-        stores:
-            targetEntity: Store
-            mappedBy: category
+
     id:
         id:
             type: integer
@@ -16,7 +13,7 @@ CoreBundle\Entity\Category:
         name:
             type: string
             length: 100
-        iconUrl:
+        icon_url:
             type: string
             length: 255
         createdAt:
