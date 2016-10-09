@@ -53,7 +53,13 @@ class DummyDataCommand extends ContainerAwareCommand
         $progress->start();
 
         /** @var AppUserDummy */
-        $this->getContainer()->get('pon.dummy.app_user')->generate();
+        for ($i = 0 ; $i < 20 ; $i++){
+//            $this->getContainer()->get('pon.dummy.app_user')->generate($i);
+            $this->getContainer()->get('pon.dummy.category')->generate($i);
+            $this->getContainer()->get('pon.dummy.store')->generate($i);
+//            $this->getContainer()->get('pon.dummy.app_user')->generate($i);
+        }
+
 
         $progress->finish();
     }
