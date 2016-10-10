@@ -5,7 +5,7 @@ namespace CoreBundle\DummyData;
 use CoreBundle\Entity\Category;
 use Faker\Factory;
 
-class CategorysDummy extends BaseDummy implements IDummy
+class CategoryDummy extends BaseDummy implements IDummy
 {
     /**
      * generate dummy data

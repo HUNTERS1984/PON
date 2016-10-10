@@ -14,16 +14,24 @@ class CouponDummy extends BaseDummy implements IDummy
     {
         $faker = Factory::create();
         $user = new Coupon();
-        $email = 'admin_'.$i.'@pon.dev';
+        $email = 'coupon_'.$i;
+
+        $storeId = ($i % 10) + 1;
+        $storeData = $this->storeManager->findOneById($storeId);
+
+
         $user
+
+            ->setTitle($email)
+            ->setDescription("")
+            ->setStartDate(new \DateTime())
+            ->setEndDate(new \DateTime())
+            ->setStatus(1)
+            ->setType(1)
+            ->setImageUrl($faker->imageUrl(640, 480, 'food'))
+            ->setSize(1)
+            ->setStore($storeData)
             ->setCreatedAt(new \DateTime())
-            ->setUsername($email)
-            ->setPlainPassword('admin')
-            ->setEmail($email)
-            ->setEnabled(true)
-            ->setAndroidPushKey($faker->md5)
-            ->setApplePushKey($faker->md5)
-            ->setTemporaryHash($faker->md5)
             ->setUpdatedAt(new \DateTime());
         $this->manager->dummy($user);
         return $user;

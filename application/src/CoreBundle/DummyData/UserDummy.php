@@ -2,10 +2,10 @@
 
 namespace CoreBundle\DummyData;
 
-use CoreBundle\Entity\Coupon;
+use CoreBundle\Entity\User;
 use Faker\Factory;
 
-class CouponDummy extends BaseDummy implements IDummy
+class UserDummy extends BaseDummy implements IDummy
 {
     /**
      * generate dummy data
@@ -13,17 +13,27 @@ class CouponDummy extends BaseDummy implements IDummy
     public function generate($i = 0)
     {
         $faker = Factory::create();
-        $user = new Coupon();
-        $email = 'admin_'.$i.'@pon.dev';
+        $user = new User();
+        $email = 'user_'.$i;
         $user
             ->setCreatedAt(new \DateTime())
-            ->setUsername($email)
-            ->setPlainPassword('admin')
+            ->setFullname($email)
             ->setEmail($email)
-            ->setEnabled(true)
-            ->setAndroidPushKey($faker->md5)
-            ->setApplePushKey($faker->md5)
+            ->setEmailCanonical($email)
+            ->setUsername($email)
+            ->setUsernameCanonical($email)
+            ->setPassword($faker->md5)
+            ->setSex(1)
+            ->setBirthday(new \DateTime())
+            ->setLocale("")
+            ->setCompany("")
+            ->setAddress("")
+            ->setTel("")
+            ->setImageUser("")
+
+            ->setRememberToken($faker->md5)
             ->setTemporaryHash($faker->md5)
+            ->setConfirmationToken($faker->md5)
             ->setUpdatedAt(new \DateTime());
         $this->manager->dummy($user);
         return $user;

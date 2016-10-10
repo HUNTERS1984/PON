@@ -3,6 +3,8 @@
 namespace CoreBundle\DummyData;
 
 use CoreBundle\Entity\Store;
+use CoreBundle\Manager\CategoryManager;
+use CoreBundle\Manager\AppUserManager;
 use Faker\Factory;
 
 class StoreDummy extends BaseDummy implements IDummy
@@ -14,9 +16,20 @@ class StoreDummy extends BaseDummy implements IDummy
     {
         $faker = Factory::create();
         $mod = new Store();
-        $name = 'admin_'.$i.'@pon.dev';
+        $name = 'store_'.$i;
+
+
+        $categoryId = ($i % 10) + 1;
+        $cateData = $this->categoryManager->findOneById($categoryId);
+
+
+        $userId = ($i % 10) + 1;
+        $userData = $this->userManager->findOneById($userId);
+
         $mod
             ->setName($name)
+            ->setCategory($cateData)
+            ->setUser($userData)
             ->setLatitude("")
             ->setLongtitude("")
             ->setCreatedAt(new \DateTime())
