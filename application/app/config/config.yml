@@ -4,6 +4,7 @@ imports:
     - { resource: services.yml }
     - { resource: rabbitmq.yml }
     - { resource: "@AdminBundle/Resources/config/services.yml" }
+    - { resource: "@CustomerBundle/Resources/config/services.yml" }
     - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@CoreBundle/Resources/config/services.yml" }
 

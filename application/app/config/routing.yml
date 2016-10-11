@@ -2,6 +2,10 @@ admin:
     resource: "@AdminBundle/Resources/config/routing.yml"
     prefix:   /admin
 
+customer:
+    resource: "@CustomerBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix:   /api

@@ -1,0 +1,40 @@
+{% extends "CustomerBundle:Layouts:layout.html.twig" %}
+
+{% block page_content %}
+    <div class="wrapp-sl-content">
+        <h2>Apply</h2>
+        <h3>無料トライアル申し込みフォーム</h3>
+    </div>
+    <!-- //wrapp-sl-content -->
+{% endblock %}
+
+{% block wrapp_contact %}
+    <div class="wrapp-contact">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="contact-content">
+                    <ul class="nav-tab">
+                        <li><a href="{{ path('customer_contact') }}">1. お客様情報の入力</a></li>
+                        <li><a href="{{ path('customer_contact_2') }}">2. 入力情報の確認</a></li>
+                        <li class="active"><a href="{{ path('customer_contact_3') }}">3. 仮申し込み完了</a></li>
+                    </ul>
+                    <div class="wrapp-success-contact">
+                        <h3>仮申し込み完了。</h3>
+						<span class="success-contact">
+							<center>
+								<img src="{{ asset('customer/images/check-contact.png') }}" alt="">
+							</center>
+						</span>
+                        <p>
+                            お申し込みは、まだ完了しておりません。 <br>
+                            入力いただいたメールアドレスに、本申し込みURLをお送りしておりますので、必ずご確認ください。
+                        </p>
+                        <center><div class="btn-success-contact"><a href="">トップページへ</a></div></center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp-contact -->
+{% endblock %}
+

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html {% block html_attributes %}class="no-js"{% endblock %}>
+<head>
+    {% block meta_tags %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+    {% endblock %}
+
+    <title>{% block title %}Home{% endblock %}</title>
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('customer/css/customer.css') }}"/>
+    {% endblock %}
+
+    <!-- Favicons -->
+    {% block favicons %}
+        <link rel="shortcut icon" href="{{ asset('customer/images/favicon.ico') }}">
+    {% endblock %}
+
+    {% block scripts_header %}
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+    {% endblock %}
+</head>
+
+<body {% block body_attributes %}class="nav-md"{% endblock %}>
+{% block body %}
+    <!-- wrapp_top  -->
+    {% block wrapp_top %}
+        {% include "CustomerBundle:Layouts/partials:_wrapp_top.html.twig" %}
+    {% endblock %}
+    <!-- /wrapp_top -->
+
+    <!-- nav_top  -->
+    {% block nav_top %}
+        {% include "CustomerBundle:Layouts/partials:_nav_top.html.twig" %}
+    {% endblock %}
+    <!-- /nav_top -->
+
+    <!-- page content -->
+    <div>
+        {% block page_content %}{% endblock %}
+    </div>
+    <!-- /page content -->
+
+    <!-- wrapp_line  -->
+    {% block wrapp_line %}
+        {% include "CustomerBundle:Layouts/partials:_wrapp_line.html.twig" %}
+    {% endblock %}
+    <!-- /wrapp_line -->
+
+    <!-- wrapp_contact  -->
+    {% block wrapp_contact %}
+        {% include "CustomerBundle:Layouts/partials:_wrapp_contact.html.twig" %}
+    {% endblock %}
+    <!-- /wrapp_contact -->
+
+    <!-- wrapp_footer  -->
+    {% block wrapp_footer %}
+        {% include "CustomerBundle:Layouts/partials:_wrapp_footer.html.twig" %}
+    {% endblock %}
+    <!-- /wrapp_footer -->
+
+    <!-- wrapp_copyright  -->
+    {% block wrapp_copyright %}
+        {% include "CustomerBundle:Layouts/partials:_wrapp_copyright.html.twig" %}
+    {% endblock %}
+    <!-- /wrapp_copyright -->
+
+    <script>
+        var resizefunc = [];
+    </script>
+
+    {% block scripts_footer %}
+        <script src="{{ asset('customer/js/customer.js') }}"></script>
+    {% endblock %}
+
+    {% block scripts_footer_inline %}{% endblock %}
+
+{% endblock %}
+</body>
+</html>
