@@ -74,7 +74,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 
         // Get List User Liked
         $listCouponIdLiked = [];
-
+        $listCouponIdCanUse = [];
         /**@var AppUser $appUser*/
         $appUser = $this->getUser();
         if ($appUser){
@@ -82,6 +82,9 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             if($userLoginId){
                 $likeListManager = $this->getLikeListManager();
                 $listCouponIdLiked = $likeListManager->listAllOfUser( $userLoginId );
+
+                $canUseListManager = $this->getUseListManager();
+                $listCouponIdCanUse = $canUseListManager->listAllOfUser( $userLoginId );
             }
         }
 
@@ -143,10 +146,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 $coupons[$k1]['image_url'] = $v1['image_url'];
                 $coupons[$k1]['expired_time'] = $v1['expired_time'];
                 $coupons[$k1]['is_like'] = in_array($v1['id'] , $listCouponIdLiked)?1:0;
-                $coupons[$k1]['can_use'] = 0;
-                if ($v1['status'] == 1) {
-                    $coupons[$k1]['can_use'] = 1;
-                }
+                $coupons[$k1]['can_use'] = in_array($v1['id'] , $listCouponIdCanUse)?1:0;
             }
             unset($listCoupon);
 
@@ -279,7 +279,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 
         // Get List User Liked
         $listCouponIdLiked = [];
-
+        $listCouponIdCanUse = [];
         /**@var AppUser $appUser*/
         $appUser = $this->getUser();
         if ($appUser){
@@ -287,6 +287,9 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             if($userLoginId){
                 $likeListManager = $this->getLikeListManager();
                 $listCouponIdLiked = $likeListManager->listAllOfUser( $userLoginId );
+
+                $canUseListManager = $this->getUseListManager();
+                $listCouponIdCanUse = $canUseListManager->listAllOfUser( $userLoginId );
             }
         }
 
@@ -347,10 +350,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             $coupons[$k]['image_url'] = $v['image_url'];
             $coupons[$k]['expired_time'] = $v['expired_time'];
             $coupons[$k]['is_like'] = in_array($v['id'] , $listCouponIdLiked)?1:0;
-            $coupons[$k]['can_use'] = 0;
-            if ($v['status'] == 1) {
-                $coupons[$k]['can_use'] = 1;
-            }
+            $coupons[$k]['can_use'] = in_array($v['id'] , $listCouponIdCanUse)?1:0;
         }
         unset($listCoupon['data']);
         $listCoupon['data']['id'] = $category['data']["0"]->getId();
@@ -603,6 +603,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 
         // Get List User Liked
         $listCouponIdLiked = [];
+        $listCouponIdCanUse = [];
 
         if ($appUser){
             $userLoginId = $appUser->getId();
@@ -613,6 +614,10 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             }
             $likeListManager = $this->getLikeListManager();
             $listCouponIdLiked = $likeListManager->listAllOfUser( $userLoginId );
+
+            $canUseListManager = $this->getUseListManager();
+            $listCouponIdCanUse = $canUseListManager->listAllOfUser( $userLoginId );
+
         }
 
 
@@ -631,10 +636,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 $listCoupon['data'][$k]['image_url'] = $coupon["image_url"];
                 $listCoupon['data'][$k]['expired_time'] = $coupon["expired_time"];
                 $listCoupon['data'][$k]['is_like'] = in_array($coupon['id'] , $listCouponIdLiked)?1:0;
-                $listCoupon['data'][$k]['can_use'] = 0;
-                if ($coupon["status"] == 1) {
-                    $listCoupon['data'][$k]['can_use'] = 1;
-                }
+                $listCoupon['data'][$k]['can_use'] = in_array($coupon['id'] , $listCouponIdCanUse)?1:0;
             }
         }
         return $this->view($listCoupon);
@@ -710,7 +712,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 
         // Get List User Liked
         $listCouponIdLiked = [];
-
+        $listCouponIdCanUse = [];
         if ($appUser){
             $userLoginId = $appUser->getId();
             $userLoginId = 1;
@@ -721,6 +723,9 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             }
             $likeListManager = $this->getLikeListManager();
             $listCouponIdLiked = $likeListManager->listAllOfUser( $userLoginId );
+
+            $canUseListManager = $this->getUseListManager();
+            $listCouponIdCanUse = $canUseListManager->listAllOfUser( $userLoginId );
         }
 
 
@@ -740,10 +745,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 $listCoupon['data'][$k]['image_url'] = $coupon["image_url"];
                 $listCoupon['data'][$k]['expired_time'] = $coupon["expired_time"];
                 $listCoupon['data'][$k]['is_like'] = in_array($coupon['id'] , $listCouponIdLiked)?1:0;
-                $listCoupon['data'][$k]['can_use'] = 0;
-                if ($coupon["status"] == 1) {
-                    $listCoupon['data'][$k]['can_use'] = 1;
-                }
+                $listCoupon['data'][$k]['can_use'] = in_array($coupon['id'] , $listCouponIdCanUse)?1:0;
             }
         }
         return $this->view($listCoupon);
