@@ -83,8 +83,6 @@ gulp.task('customer-styles', function () {
 gulp.task('customer-scripts', function () {
     gulp.src([
         dir.customer_path + '/js/jquery.min.js',
-        dir.customer_path + '/js/bootstrap.min.js',
-        dir.customer_path + '/js/icheck.min.js',
         dir.customer_path + '/js/custom.min.js'
     ])
         .pipe(concat('customer.js'))
