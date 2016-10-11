@@ -942,6 +942,7 @@ a.link-form-contact-2{
 	}
 	.wrapp-sl {
 	    min-height: 320px;
+		width:700px;
 	}
 	ul#menu {
 		position: static;
