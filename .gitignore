@@ -12,6 +12,7 @@ application/var/sessions/*
 /application/app/config/parameters.yml
 /application/vendor/*
 /application/web/backend/
+/application/web/customer/
 /application/npm-debug.log
 /.vagrant
 /vagrant/data

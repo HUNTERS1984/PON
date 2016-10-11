@@ -1,0 +1,43 @@
+customer_homepage:
+    path:     /
+    defaults: { _controller: CustomerBundle:Home:index }
+
+customer_about:
+    path:     /about
+    defaults: { _controller: CustomerBundle:About:index }
+
+customer_about_us:
+    path:     /about-us
+    defaults: { _controller: CustomerBundle:AboutUS:index }
+
+customer_faq:
+    path:     /faq
+    defaults: { _controller: CustomerBundle:FAQ:index }
+
+customer_flow:
+    path:     /flow
+    defaults: { _controller: CustomerBundle:Flow:index }
+
+customer_news:
+    path:     /news
+    defaults: { _controller: CustomerBundle:News:index }
+
+customer_metric:
+    path:     /metric
+    defaults: { _controller: CustomerBundle:Metric:index }
+
+customer_function:
+    path:     /function
+    defaults: { _controller: CustomerBundle:Function:index }
+
+customer_contact:
+    path:     /contact
+    defaults: { _controller: CustomerBundle:Contact:index }
+
+customer_contact_2:
+    path:     /contact-2
+    defaults: { _controller: CustomerBundle:Contact2:index }
+
+customer_contact_3:
+    path:     /contact-3
+    defaults: { _controller: CustomerBundle:Contact3:index }
