@@ -1,0 +1,101 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-3 col-xs-6">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">アクセス解析</span></li>
+            </ul>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="btn-group btn-group-justified">
+                <a href="#" class="btn btn-default btn_tab_breadcrumbs active" role="button">アクセス</a>
+                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">クーポン</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="btn_bread_right">
+                <a href="" class="btn_up"></a>
+                <a href="" class="btn_ques"></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_content %}
+    <!-- wrapp_analytics -->
+    <div class="wrapp_analytics">
+
+        <div class="wrapp_chart">
+            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        </div>
+
+        <div class="tab_top">
+            <div class="row">
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>ユーザー数</p>
+                        <h3>29,147</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>セッション</p>
+                        <h3>247,837</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>スクリーンビュー</p>
+                        <h3>1,002,719</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>離脱率</p>
+                        <h3>64.07%</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>平均セッション時間</p>
+                        <h3>00:01:48</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>新規セッション率</p>
+                        <h3>0.29%</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_analytics -->
+{% endblock %}
+
+ {% block scripts_footer_inline %}
+     <script type="text/javascript">
+         $(function () {
+             var options = {
+                 animationEnabled: true,
+                 data: [
+                     {
+                         type: "spline",
+                         dataPoints: [
+                             { x: 10, y: 10 },
+                             { x: 20, y: 12 },
+                             { x: 30, y: 8 },
+                             { x: 40, y: 14 },
+                             { x: 50, y: 6 },
+                             { x: 60, y: 24 },
+                             { x: 70, y: -4 },
+                             { x: 80, y: 10 }
+                         ]
+                     }
+                 ]
+             };
+             $("#chartContainer").CanvasJSChart(options);
+         });
+     </script>
+ {% endblock %}

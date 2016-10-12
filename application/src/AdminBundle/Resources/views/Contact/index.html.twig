@@ -1,0 +1,36 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">お問い合わせ</span></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_content %}
+    <!-- wrapp_contact -->
+    <div class="wrapp_contact">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="contact_content">
+                    <h2>お気軽にお問い合わせ下さい。</h2>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="何について" placeholder="何について">
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="5" placeholder="詳しくお聞かせください"></textarea>
+                        </div>
+                        <center><button type="submit" class="btn btn-contact">送信</button></center>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    <!-- /wrapp_contact -->
+{% endblock %}

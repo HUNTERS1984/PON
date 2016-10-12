@@ -2,13 +2,11 @@
 <html {% block html_attributes %}class="no-js"{% endblock %}>
 <head>
     {% block meta_tags %}
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     {% endblock %}
 
-    <title>{% block title %}PON dashboard{% endblock %}</title>
+    <title>{% block title %}PON{% endblock %}</title>
 
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('backend/css/admin.css') }}"/>
@@ -29,71 +27,36 @@
     {% endblock %}
 </head>
 
-<body {% block body_attributes %}class="nav-md"{% endblock %}>
+<body {% block body_attributes %}{% endblock %}>
 {% block body %}
-    <!-- Begin page -->
-    <div class="container body">
-        <div class="main_container">
-            <div class="col-md-3 left_col">
-                <div class="left_col scroll-view">
-                    <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title">
-                            <span class="logo-m"><img src="{{ asset('backend/images/logo.png') }}" alt=""> </span>
-                            <span class="logo-pc"><img src="{{ asset('backend/images/pon.png') }}" alt=""></span>
-                        </a>
-                    </div>
+    <!-- header -->
+    {% block breadcrumbs %}
+        {% include "AdminBundle:Layouts/partials:_header.html.twig" %}
+    {% endblock %}
+    <!-- /header -->
 
-                    <div class="clearfix"></div>
+    <!-- sidebar menu -->
+    {% block side_bar_left %}
+        {% include "AdminBundle:Layouts/partials:_side_bar_left.html.twig" %}
+    {% endblock %}
+    <!-- /sidebar menu -->
 
-                    <!-- menu profile quick info -->
-                    <div class="profile">
-                        <div class="profile_pic">
-                            <img src="{{ asset('backend/images/avatar.png') }}" alt="..." class="img-circle profile_img">
-                        </div>
-                        <div class="profile_info">
-                            <strong>ユーザーネーム</strong>
-                            <h2><i class="fa fa-circle"></i>オンライン</h2>
-                        </div>
-                    </div>
-                    <!-- /menu profile quick info -->
-
-                    <br />
-
-                    <!-- sidebar menu -->
-                    {% block side_bar_left %}
-                        {% include "AdminBundle:Layouts/partials:_side_bar_left.html.twig" %}
-                    {% endblock %}
-                    <!-- /sidebar menu -->
-                </div>
-            </div>
-
-            <!-- top navigation -->
-            <div class="top_nav">
-
-                <!-- nav_menu -->
-                {% block top_bar %}
-                    {% include "AdminBundle:Layouts/partials:_top_bar.html.twig" %}
-                {% endblock %}
-                <!-- /nav_menu
-
-                <!-- breadcrumbs -->
-                {% block breadcrumbs %}
-                    {% include "AdminBundle:Layouts/partials:_breadcrumbs.html.twig" %}
-                {% endblock %}
-                <!-- /breadcrumbs -->
-
-            </div>
-            <!-- /top navigation -->
-
-            <!-- page content -->
-            <div class="right_col" role="main">
-                {% block page_content %}{% endblock %}
-            </div>
-            <!-- /page content -->
+    <!-- page content -->
+    <div class="wrapper">
+        <!-- wrapper_breadcrumb -->
+        <div class="wrapp_breadcrumbs">
+        {% block breadcurm %}{% endblock %}
         </div>
-    </div>
-    <!-- END wrapper -->
+        <!-- /wrapper_breadcrumb -->
 
+        <!-- wrapper_content -->
+        <div class="wrapper_content">
+            {% block page_content %}{% endblock %}
+        </div>
+        <!-- /wrapper_content -->
+
+    </div>
+    <!-- /page content -->
     <script>
         var resizefunc = [];
     </script>

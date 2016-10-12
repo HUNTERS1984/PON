@@ -1,3 +1,39 @@
-admin_homepage:
+admin_management:
+    path:     /management
+    defaults: { _controller: AdminBundle:Management:index }
+
+admin_dashboard:
     path:     /
-    defaults: { _controller: AdminBundle:Approval:index }
+    defaults: { _controller: AdminBundle:Dashboard:index }
+
+admin_summary:
+    path:     /summary
+    defaults: { _controller: AdminBundle:Summary:index }
+
+admin_push:
+    path:     /push
+    defaults: { _controller: AdminBundle:Push:index }
+
+admin_analytic:
+    path:     /analytic
+    defaults: { _controller: AdminBundle:Analytic:index }
+
+admin_customer:
+    path:     /customer
+    defaults: { _controller: AdminBundle:Customer:index }
+
+admin_news:
+    path:     /news
+    defaults: { _controller: AdminBundle:News:index }
+
+admin_setting:
+    path:     /setting
+    defaults: { _controller: AdminBundle:Setting:index }
+
+admin_help:
+    path:     /help
+    defaults: { _controller: AdminBundle:Help:index }
+
+admin_contact:
+    path:     /contact
+    defaults: { _controller: AdminBundle:Contact:index }

@@ -1,22 +1,77 @@
-<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-    <div class="menu_section">
-        <h3>Menu</h3>
-        <ul class="nav side-menu">
-            <li><a href="" title="">TOP</a></li>
-            <li><a href="" title="">クーポン一覧</a> </li>
-            <li><a href="" title="">プッシュ通知</a></li>
-            <li><a href="" title="">アクセス解析</a></li>
-            <li class="active"><a href="" title="">承認管理</a></li>
-            <li><a href="" title="">顧客管理</a></li>
-            <li><a href="" title="">お知らせ・新着</a></li>
-        </ul>
-    </div>
-    <div class="menu_section">
-        <h3>Other</h3>
-        <ul class="nav side-menu">
-            <li><a href="" title="">アカウント設定</a></li>
-            <li><a href="" title="">ヘルプ</a> </li>
-            <li><a href="" title="">お問い合わせ</a></li>
-        </ul>
-    </div>
-</div>
+<nav class="vertical_nav">
+    <ul class="profile">
+        <li><img src="{{ asset('backend/images/avatar.png') }}" alt=""></li>
+        <li>
+            <strong>ユーザーネーム</strong>
+            <p><i class="fa fa-circle"></i> オンライン</p>
+        </li>
+    </ul>
+    <ul id="js-menu" class="menu">
+        <li class="menu--item">
+            <span class="menu--label--top">Menu</span>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_dashboard') }}" class="menu--link" title="Top">
+                <i class="menu--icon  fa fa-fw fa fa-star"></i>
+                <span class="menu--label">Top</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_summary') }}" class="menu--link" title="クーポン一覧">
+                <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
+                <span class="menu--label">クーポン一覧</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_push') }}" class="menu--link" title="プッシュ通知">
+                <i class="menu--icon  fa fa-fw fa fa-external-link-square"></i>
+                <span class="menu--label">プッシュ通知</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_analytic') }}" class="menu--link" title="アクセス解析">
+                <i class="menu--icon  fa fa-fw fa fa-bar-chart"></i>
+                <span class="menu--label">アクセス解析</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_management') }}" class="menu--link active" title="承認管理">
+                <i class="menu--icon  fa fa-fw fa fa-user-plus"></i>
+                <span class="menu--label">承認管理</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_customer') }}" class="menu--link" title="顧客管理">
+                <i class="menu--icon  fa fa-fw fa fa-user"></i>
+                <span class="menu--label">顧客管理</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_news') }}" class="menu--link" title="お知らせ・新着">
+                <i class="menu--icon  fa fa-fw fa fa-newspaper-o"></i>
+                <span class="menu--label">お知らせ・新着</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <span class="menu--label--top">Other</span>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_setting') }}" class="menu--link" title="アカウント設定">
+                <i class="menu--icon  fa fa-fw fa fa-cog"></i>
+                <span class="menu--label">アカウント設定</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_help') }}" class="menu--link" title="ヘルプ">
+                <i class="menu--icon  fa fa-fw fa fa-question-circle"></i>
+                <span class="menu--label">ヘルプ</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_contact') }}" class="menu--link" title="お問い合わせ">
+                <i class="menu--icon  fa fa-fw fa fa-comments"></i>
+                <span class="menu--label">お問い合わせ</span>
+            </a>
+        </li>
+    </ul>
+</nav>

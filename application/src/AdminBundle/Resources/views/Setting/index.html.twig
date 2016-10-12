@@ -1,0 +1,146 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">アカウント設定</span></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_content %}
+    <!-- wrapp_tab -->
+    <div class="wrapp_tab">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">アカウント情報</a>
+            </li>
+            <li role="presentation">
+                <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">ブランド情報</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="tab1">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row wrapp_avar_btn">
+                                <div class="col-md-4"><img src="{{ asset('backend/images/img_setting.jpg') }}" alt=""></div>
+                                <div class="col-md-8">
+                                    <div class="btn_setting_avatar">
+                                        <a href="" class="">アカウントイメージの変更</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-setting">
+                                <div class="form-group">
+                                    <label for="ユーザーネーム">ユーザーネーム</label>
+                                    <input type="text" class="form-control" id="ユーザーネーム" placeholder="ユーザーネーム">
+                                </div>
+                                <div class="form-group">
+                                    <label for="パスワード">パスワード</label>
+                                    <input type="password" class="form-control" id="パスワード" placeholder="パスワード">
+                                </div>
+                                <div class="form-group">
+                                    <label for="パスワード(確認)">パスワード(確認)</label>
+                                    <input type="password" class="form-control" id="パスワード(確認)" placeholder="パスワード(確認)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="事業形態">事業形態</label>
+                                    <select class="form-control">
+                                        <option>法人</option>
+                                        <option>Option one</option>
+                                        <option>Option two</option>
+                                        <option>Option three</option>
+                                        <option>Option four</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="事業カテゴリー">事業カテゴリー</label>
+                                    <select class="form-control">
+                                        <option>飲食</option>
+                                        <option>Option one</option>
+                                        <option>Option two</option>
+                                        <option>Option three</option>
+                                        <option>Option four</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <center><button type="submit" class="btn btn-setting">保存</button></center>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab2">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row wrapp_avar_btn">
+                                <div class="col-md-4"><img src="{{ asset('backend/images/img_setting_2.jpg') }}" alt=""></div>
+                                <div class="col-md-8">
+                                    <div class="btn_setting_avatar">
+                                        <a href="" class="">アカウントイメージの変更</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-setting">
+                                <div class="form-group">
+                                    <label for="ブランド名・店舗名">ブランド名・店舗名</label>
+                                    <input type="text" class="form-control" id="ブランド名・店舗名" placeholder="ブランド名・店舗名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="カテゴリー">カテゴリー</label>
+                                    <select class="form-control">
+                                        <option>グルメ</option>
+                                        <option>Option one</option>
+                                        <option>Option two</option>
+                                        <option>Option three</option>
+                                        <option>Option four</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="住所">住所</label>
+                                    <input type="text" class="form-control" id="住所" placeholder="東京都新宿区">
+                                </div>
+                                <div class="form-group">
+                                    <label for="電話番号">電話番号</label>
+                                    <input type="text" class="form-control" id="電話番号" placeholder="電話番号">
+                                </div>
+                                <div class="form-group">
+                                    <label for="電話番号">営業時間(例:AM10:00~PM21:00)</label>
+                                    <input type="text" class="form-control" id="電話番号" placeholder="電話番号">
+                                </div>
+                                <div class="form-group">
+                                    <label for="定休日">定休日</label>
+                                    <select class="form-control">
+                                        <option>土日</option>
+                                        <option>Option one</option>
+                                        <option>Option two</option>
+                                        <option>Option three</option>
+                                        <option>Option four</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="コメント・紹介文">コメント・紹介文</label>
+                                <textarea class="form-control" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <center><button type="submit" class="btn btn-setting">保存</button></center>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_tab -->
+{% endblock %}
