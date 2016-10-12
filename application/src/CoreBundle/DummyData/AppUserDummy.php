@@ -10,14 +10,14 @@ class AppUserDummy extends BaseDummy implements IDummy
     /**
      * generate dummy data
      */
-    public function generate()
+    public function generate($i = 0)
     {
         $faker = Factory::create();
         $user = new AppUser();
-        $email = 'admin@pon.dev';
+        $email = 'admin_'.$i.'@pon.dev';
         $user
             ->setCreatedAt(new \DateTime())
-            ->setUsername('admin@pon.dev')
+            ->setUsername($email)
             ->setPlainPassword('admin')
             ->setEmail($email)
             ->setEnabled(true)

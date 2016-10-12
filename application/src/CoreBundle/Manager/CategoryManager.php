@@ -20,6 +20,10 @@ class CategoryManager extends AbstractManager
         $this->pagination = $pagination;
     }
 
+    public function dummy(Category $category)
+    {
+        $this->save($category);
+    }
 
     /**
      * @param Category $category

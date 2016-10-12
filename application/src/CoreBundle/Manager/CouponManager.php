@@ -19,6 +19,10 @@ class CouponManager extends AbstractManager
     {
         $this->pagination = $pagination;
     }
+    public function dummy(Coupon $coupon)
+    {
+        $this->save($coupon);
+    }
 
     /**
      * @param Coupon $coupon

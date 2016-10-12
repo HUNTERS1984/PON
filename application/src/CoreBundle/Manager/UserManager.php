@@ -58,6 +58,11 @@ class UserManager extends AbstractManager
         return $this->saveUser($user);
     }
 
+    public function dummy(User $user)
+    {
+        $this->save($user);
+    }
+
     /**
      * List User
      * @param array $params
