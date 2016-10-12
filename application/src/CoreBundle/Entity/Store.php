@@ -11,11 +11,30 @@ class Store
      * @var integer
      */
     private $id;
+    /**
+     * @var string
+     */
+    private $title;
+
+    /**
+     * @var \DateTime
+     */
+    private $operationStartTime;
+
+    /**
+     * @var \DateTime
+     */
+    private $operationEndTime;
 
     /**
      * @var string
      */
-    private $name;
+    private $avatarUrl;
+
+    /**
+     * @var string
+     */
+    private $tel;
 
     /**
      * @var string
@@ -25,7 +44,27 @@ class Store
     /**
      * @var string
      */
-    private $longtitude;
+    private $longitude;
+
+    /**
+     * @var string
+     */
+    private $address;
+
+    /**
+     * @var string
+     */
+    private $closeDate;
+
+    /**
+     * @var integer
+     */
+    private $aveBill;
+
+    /**
+     * @var string
+     */
+    private $help_text;
 
     /**
      * @var \DateTime
@@ -45,6 +84,11 @@ class Store
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
+    private $followLists;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
     private $pushSettings;
 
     /**
@@ -58,6 +102,11 @@ class Store
     private $coupons;
 
     /**
+     * @var \CoreBundle\Entity\Category
+     */
+    private $category;
+
+    /**
      * @var \CoreBundle\Entity\User
      */
     private $user;
@@ -67,6 +116,7 @@ class Store
      */
     public function __construct()
     {
+        $this->followLists = new \Doctrine\Common\Collections\ArrayCollection();
         $this->pushSettings = new \Doctrine\Common\Collections\ArrayCollection();
         $this->news = new \Doctrine\Common\Collections\ArrayCollection();
         $this->coupons = new \Doctrine\Common\Collections\ArrayCollection();
@@ -83,27 +133,123 @@ class Store
     }
 
     /**
-     * Set name
+     * Set title
      *
-     * @param string $name
+     * @param string $title
      *
      * @return Store
      */
-    public function setName($name)
+    public function setTitle($title)
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get title
      *
      * @return string
      */
-    public function getName()
+    public function getTitle()
     {
-        return $this->name;
+        return $this->title;
+    }
+
+    /**
+     * Set operationStartTime
+     *
+     * @param \DateTime $operationStartTime
+     *
+     * @return Store
+     */
+    public function setOperationStartTime($operationStartTime)
+    {
+        $this->operationStartTime = $operationStartTime;
+
+        return $this;
+    }
+
+    /**
+     * Get operationStartTime
+     *
+     * @return \DateTime
+     */
+    public function getOperationStartTime()
+    {
+        return $this->operationStartTime;
+    }
+
+    /**
+     * Set operationEndTime
+     *
+     * @param \DateTime $operationEndTime
+     *
+     * @return Store
+     */
+    public function setOperationEndTime($operationEndTime)
+    {
+        $this->operationEndTime = $operationEndTime;
+
+        return $this;
+    }
+
+    /**
+     * Get operationEndTime
+     *
+     * @return \DateTime
+     */
+    public function getOperationEndTime()
+    {
+        return $this->operationEndTime;
+    }
+
+    /**
+     * Set avatarUrl
+     *
+     * @param string $avatarUrl
+     *
+     * @return Store
+     */
+    public function setAvatarUrl($avatarUrl)
+    {
+        $this->avatarUrl = $avatarUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get avatarUrl
+     *
+     * @return string
+     */
+    public function getAvatarUrl()
+    {
+        return $this->avatarUrl;
+    }
+
+    /**
+     * Set tel
+     *
+     * @param string $tel
+     *
+     * @return Store
+     */
+    public function setTel($tel)
+    {
+        $this->tel = $tel;
+
+        return $this;
+    }
+
+    /**
+     * Get tel
+     *
+     * @return string
+     */
+    public function getTel()
+    {
+        return $this->tel;
     }
 
     /**
@@ -131,27 +277,123 @@ class Store
     }
 
     /**
-     * Set longtitude
+     * Set longitude
      *
-     * @param string $longtitude
+     * @param string $longitude
      *
      * @return Store
      */
-    public function setLongtitude($longtitude)
+    public function setLongitude($longitude)
     {
-        $this->longtitude = $longtitude;
+        $this->longitude = $longitude;
 
         return $this;
     }
 
     /**
-     * Get longtitude
+     * Get longitude
      *
      * @return string
      */
-    public function getLongtitude()
+    public function getLongitude()
     {
-        return $this->longtitude;
+        return $this->longitude;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return Store
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set closeDate
+     *
+     * @param string $closeDate
+     *
+     * @return Store
+     */
+    public function setCloseDate($closeDate)
+    {
+        $this->closeDate = $closeDate;
+
+        return $this;
+    }
+
+    /**
+     * Get closeDate
+     *
+     * @return string
+     */
+    public function getCloseDate()
+    {
+        return $this->closeDate;
+    }
+
+    /**
+     * Set aveBill
+     *
+     * @param integer $aveBill
+     *
+     * @return Store
+     */
+    public function setAveBill($aveBill)
+    {
+        $this->aveBill = $aveBill;
+
+        return $this;
+    }
+
+    /**
+     * Get aveBill
+     *
+     * @return integer
+     */
+    public function getAveBill()
+    {
+        return $this->aveBill;
+    }
+
+    /**
+     * Set helpText
+     *
+     * @param string $helpText
+     *
+     * @return Store
+     */
+    public function setHelpText($helpText)
+    {
+        $this->help_text = $helpText;
+
+        return $this;
+    }
+
+    /**
+     * Get helpText
+     *
+     * @return string
+     */
+    public function getHelpText()
+    {
+        return $this->help_text;
     }
 
     /**
@@ -224,6 +466,40 @@ class Store
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+
+    /**
+     * Add followList
+     *
+     * @param \CoreBundle\Entity\FollowList $followList
+     *
+     * @return Store
+     */
+    public function addFollowList(\CoreBundle\Entity\FollowList $followList)
+    {
+        $this->followLists[] = $followList;
+
+        return $this;
+    }
+
+    /**
+     * Remove followList
+     *
+     * @param \CoreBundle\Entity\FollowList $followList
+     */
+    public function removeFollowList(\CoreBundle\Entity\FollowList $followList)
+    {
+        $this->followLists->removeElement($followList);
+    }
+
+    /**
+     * Get followLists
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFollowLists()
+    {
+        return $this->followLists;
     }
 
     /**
@@ -329,74 +605,6 @@ class Store
     }
 
     /**
-     * Set user
-     *
-     * @param \CoreBundle\Entity\User $user
-     *
-     * @return Store
-     */
-    public function setUser(\CoreBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \CoreBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $followLists;
-
-
-    /**
-     * Add followList
-     *
-     * @param \CoreBundle\Entity\FollowList $followList
-     *
-     * @return Store
-     */
-    public function addFollowList(\CoreBundle\Entity\FollowList $followList)
-    {
-        $this->followLists[] = $followList;
-
-        return $this;
-    }
-
-    /**
-     * Remove followList
-     *
-     * @param \CoreBundle\Entity\FollowList $followList
-     */
-    public function removeFollowList(\CoreBundle\Entity\FollowList $followList)
-    {
-        $this->followLists->removeElement($followList);
-    }
-
-    /**
-     * Get followLists
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getFollowLists()
-    {
-        return $this->followLists;
-    }
-    /**
-     * @var \CoreBundle\Entity\Category
-     */
-    private $category;
-
-
-    /**
      * Set category
      *
      * @param \CoreBundle\Entity\Category $category
@@ -418,5 +626,29 @@ class Store
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \CoreBundle\Entity\User $user
+     *
+     * @return Store
+     */
+    public function setUser(\CoreBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \CoreBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -35,15 +35,35 @@ CoreBundle\Entity\Store:
             generator:
                 strategy: AUTO
     fields:
-        name:
+        title:
             type: string
             length: 255
+        operationStartTime:
+            type: datetime
+        operationEndTime:
+            type: datetime
+        avatarUrl:
+            type: string
+            length: 255
+        tel:
+            type: string
+            length: 20
         latitude:
             type: string
             length: 20
-        longtitude:
+        longitude:
             type: string
             length: 20
+        address:
+            type: string
+            length: 255
+        closeDate:
+            type: string
+            length: 255
+        aveBill:
+            type: integer
+        help_text:
+            type: text
         createdAt:
             type: datetime
         updatedAt:

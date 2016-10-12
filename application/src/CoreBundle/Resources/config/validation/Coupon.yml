@@ -14,16 +14,11 @@ CoreBundle\Entity\Coupon:
                 max: 255
                 minMessage: coupon.title.min_message
                 maxMessage: coupon.title.max_message
-        startDate:
+        expiredTime:
             - NotBlank:
-                message: coupon.start_date.not_blank
+                message: coupon.expired_time.not_blank
             - Date:
                 message: coupon.start_date.date
-        endDate:
-            - NotBlank:
-                message: coupon.end_date.not_blank
-            - Date:
-                message: coupon.end_date.date
         status:
             - NotBlank:
                 message: coupon.status.not_blank
@@ -40,6 +35,6 @@ CoreBundle\Entity\Coupon:
             - Type:
                 type: integer
                 message: coupon.size.integer
-        couponType:
+        type:
             - NotBlank:
-                message: coupon.coupon_type.not_blank
+                message: coupon.type.not_blank

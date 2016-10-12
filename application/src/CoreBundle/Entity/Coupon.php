@@ -11,6 +11,30 @@ class Coupon
      * @var integer
      */
     private $id;
+    /**
+     * @var string
+     */
+    private $title;
+
+    /**
+     * @var \DateTime
+     */
+    private $expiredTime;
+
+    /**
+     * @var string
+     */
+    private $imageUrl;
+
+    /**
+     * @var boolean
+     */
+    private $needLogin;
+
+    /**
+     * @var string
+     */
+    private $code;
 
     /**
      * @var integer
@@ -20,32 +44,12 @@ class Coupon
     /**
      * @var string
      */
-    private $title;
-
-    /**
-     * @var string
-     */
     private $description;
-
-    /**
-     * @var \DateTime
-     */
-    private $startDate;
-
-    /**
-     * @var \DateTime
-     */
-    private $endDate;
 
     /**
      * @var integer
      */
     private $status;
-
-    /**
-     * @var string
-     */
-    private $imageUrl;
 
     /**
      * @var integer
@@ -108,30 +112,6 @@ class Coupon
     }
 
     /**
-     * Set type
-     *
-     * @param integer $type
-     *
-     * @return Coupon
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return integer
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Set title
      *
      * @param string $title
@@ -153,6 +133,126 @@ class Coupon
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set expiredTime
+     *
+     * @param \DateTime $expiredTime
+     *
+     * @return Coupon
+     */
+    public function setExpiredTime($expiredTime)
+    {
+        $this->expiredTime = $expiredTime;
+
+        return $this;
+    }
+
+    /**
+     * Get expiredTime
+     *
+     * @return \DateTime
+     */
+    public function getExpiredTime()
+    {
+        return $this->expiredTime;
+    }
+
+    /**
+     * Set imageUrl
+     *
+     * @param string $imageUrl
+     *
+     * @return Coupon
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get imageUrl
+     *
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * Set needLogin
+     *
+     * @param boolean $needLogin
+     *
+     * @return Coupon
+     */
+    public function setNeedLogin($needLogin)
+    {
+        $this->needLogin = $needLogin;
+
+        return $this;
+    }
+
+    /**
+     * Get needLogin
+     *
+     * @return boolean
+     */
+    public function getNeedLogin()
+    {
+        return $this->needLogin;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Coupon
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set type
+     *
+     * @param integer $type
+     *
+     * @return Coupon
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -180,54 +280,6 @@ class Coupon
     }
 
     /**
-     * Set startDate
-     *
-     * @param \DateTime $startDate
-     *
-     * @return Coupon
-     */
-    public function setStartDate($startDate)
-    {
-        $this->startDate = $startDate;
-
-        return $this;
-    }
-
-    /**
-     * Get startDate
-     *
-     * @return \DateTime
-     */
-    public function getStartDate()
-    {
-        return $this->startDate;
-    }
-
-    /**
-     * Set endDate
-     *
-     * @param \DateTime $endDate
-     *
-     * @return Coupon
-     */
-    public function setEndDate($endDate)
-    {
-        $this->endDate = $endDate;
-
-        return $this;
-    }
-
-    /**
-     * Get endDate
-     *
-     * @return \DateTime
-     */
-    public function getEndDate()
-    {
-        return $this->endDate;
-    }
-
-    /**
      * Set status
      *
      * @param integer $status
@@ -249,30 +301,6 @@ class Coupon
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Set imageUrl
-     *
-     * @param string $imageUrl
-     *
-     * @return Coupon
-     */
-    public function setImageUrl($imageUrl)
-    {
-        $this->imageUrl = $imageUrl;
-
-        return $this;
-    }
-
-    /**
-     * Get imageUrl
-     *
-     * @return string
-     */
-    public function getImageUrl()
-    {
-        return $this->imageUrl;
     }
 
     /**
@@ -438,7 +466,6 @@ class Coupon
     {
         return $this->likeLists;
     }
-    
 
     /**
      * Set store
