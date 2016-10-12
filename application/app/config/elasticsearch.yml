@@ -5,6 +5,43 @@ fos_elastica:
         app:
             index_name: '%elasticsearch_index%'
             types:
+                appUser:
+                    mappings:
+                        id: ~
+                        username: ~
+                        useLists:
+                            type: "nested"
+                            properties:
+                                coupons:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        title: ~
+                                        imageUrl: ~
+                        likeLists:
+                            type: "nested"
+                            properties:
+                                coupon:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        title: ~
+                                        imageUrl: ~
+                        followLists:
+                            type: "nested"
+                            properties:
+                                store:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        title: ~
+                                        avatarUrl: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\AppUser
+                        provider: ~
+                        listener: ~
+                        finder: ~
                 store:
                     mappings:
                         id: ~
@@ -19,6 +56,15 @@ fos_elastica:
                         closeDate: ~
                         aveBill: ~
                         help_text: ~
+                        followLists:
+                            type: "nested"
+                            properties:
+                                appUser:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        username: ~
+                                        email: ~
                         coupons:
                             type: nested
                             properties:
@@ -35,11 +81,6 @@ fos_elastica:
                                                 id: ~
                                                 username: ~
                                                 email: ~
-                                        coupon:
-                                            type: object
-                                            properties:
-                                                id: ~
-                                                title: ~
                                 likeLists:
                                     type: "nested"
                                     properties:
@@ -49,11 +90,6 @@ fos_elastica:
                                                 id: ~
                                                 username: ~
                                                 email: ~
-                                        coupon:
-                                            type: object
-                                            properties:
-                                                id: ~
-                                                title: ~
                         createdAt: ~
                         updatedAt: ~
                         deletedAt: ~
@@ -97,11 +133,6 @@ fos_elastica:
                                         id: ~
                                         username: ~
                                         email: ~
-                                coupon:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        title: ~
                         likeLists:
                             type: nested
                             properties:
@@ -111,11 +142,6 @@ fos_elastica:
                                         id: ~
                                         username: ~
                                         email: ~
-                                coupon:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        title: ~
                         createdAt: ~
                         updatedAt: ~
                         deletedAt: ~
