@@ -30,7 +30,7 @@ docker build -t pon/mysql $(pwd)/vagrant/docker/mysql
 
 docker run -d --name mysql --restart=always -ti -p 3306:3306 --volumes-from='app' pon/mysql bash
 
-docker run -d --name elasticsearch --restart=always -ti -p 9200:9200 -v $(pwd)/vagrant/data/elasticsearch:/usr/share/elasticsearch/data:rw,z  --user 1000:50 elasticsearch elasticsearch
+docker run -d --name elasticsearch --restart=always -ti -p 9200:9200 -v $(pwd)/vagrant/data/elasticsearch:/usr/share/elasticsearch/data:rw,z  --user 1000:50 elasticsearch:1.7.5 elasticsearch
 
 docker run -d --name rabbitmq --restart=always -ti -p 15672:15672 -p 5672:5672 -v $(pwd)/vagrant/data/rabbitmq:/var/lib/rabbitmq:rw,z  --user 1000:50 rabbitmq:3-management rabbitmq-server
 

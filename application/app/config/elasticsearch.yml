@@ -1,0 +1,127 @@
+fos_elastica:
+    clients:
+        default: { host: '%elasticsearch_host%', port: '%elasticsearch_port%' }
+    indexes:
+        app:
+            index_name: '%elasticsearch_index%'
+            types:
+                store:
+                    mappings:
+                        id: ~
+                        title: ~
+                        operationStartTime: ~
+                        operationEndTime: ~
+                        avatarUrl: ~
+                        tel: ~
+                        latitude: ~
+                        longitude: ~
+                        address: ~
+                        closeDate: ~
+                        aveBill: ~
+                        help_text: ~
+                        coupons:
+                            type: nested
+                            properties:
+                                id: ~
+                                title: ~
+                                imageUrl: ~
+                                type: ~
+                                useLists:
+                                    type: nested
+                                    properties:
+                                        appUser:
+                                            type: object
+                                            properties:
+                                                id: ~
+                                                username: ~
+                                                email: ~
+                                        coupon:
+                                            type: object
+                                            properties:
+                                                id: ~
+                                                title: ~
+                                likeLists:
+                                    type: "nested"
+                                    properties:
+                                        appUser:
+                                            type: object
+                                            properties:
+                                                id: ~
+                                                username: ~
+                                                email: ~
+                                        coupon:
+                                            type: object
+                                            properties:
+                                                id: ~
+                                                title: ~
+                        createdAt: ~
+                        updatedAt: ~
+                        deletedAt: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\Store
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                coupon:
+                    mappings:
+                        id: ~
+                        title: ~
+                        expiredTime: ~
+                        imageUrl: ~
+                        needLogin: ~
+                        code: ~
+                        type: ~
+                        description: ~
+                        status: ~
+                        size: ~
+                        store:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                                latitude: ~
+                                longitude: ~
+                                category:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        name: ~
+                                        iconUrl: ~
+                        useLists:
+                            type: nested
+                            properties:
+                                appUser:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        username: ~
+                                        email: ~
+                                coupon:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        title: ~
+                        likeLists:
+                            type: nested
+                            properties:
+                                appUser:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        username: ~
+                                        email: ~
+                                coupon:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        title: ~
+                        createdAt: ~
+                        updatedAt: ~
+                        deletedAt: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\Coupon
+                        provider: ~
+                        listener: ~
+                        finder: ~

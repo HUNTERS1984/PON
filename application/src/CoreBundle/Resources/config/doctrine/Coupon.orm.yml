@@ -35,24 +35,27 @@ CoreBundle\Entity\Coupon:
             generator:
                 strategy: AUTO
     fields:
-        type:
-            type: integer
         title:
             type: string
             length: 255
-        description:
-            type: text
-            nullable: TRUE
-        startDate:
-            type: date
-        endDate:
-            type: date
-        status:
-            type: integer
+        expiredTime:
+            type: datetime
         imageUrl:
             type: string
             length: 255
             nullable: TRUE
+        needLogin:
+            type: boolean
+        code:
+            type: string
+            length: 100
+        type:
+            type: integer
+        description:
+            type: text
+            nullable: TRUE
+        status:
+            type: integer
         size:
             type: integer
             nullable: TRUE

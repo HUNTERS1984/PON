@@ -17,6 +17,3 @@ CoreBundle\Entity\Category:
                 max: 255
                 minMessage: category.iconUrl.min_message
                 maxMessage: category.iconUrl.max_message
-        store:
-            - NotBlank:
-                message: category.store.not_blank

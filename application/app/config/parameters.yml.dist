@@ -31,3 +31,7 @@ parameters:
     twitter_consumer_key: 002neLhPbyLMt6rBP68wVVstN
     twitter_consumer_secret: u2Cp1LFDin1zeQXxqXdgQEddZP06wsEPMxotStnThe7OsBVK43
 
+    elasticsearch_host: '%elasticsearch.host%'
+    elasticsearch_port: 9200
+    elasticsearch_index: pon
+

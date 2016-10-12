@@ -18,6 +18,7 @@ class AppUserDummy extends BaseDummy implements IDummy
         $user
             ->setCreatedAt(new \DateTime())
             ->setUsername($email)
+            ->setName($faker->name)
             ->setPlainPassword('admin')
             ->setEmail($email)
             ->setEnabled(true)
