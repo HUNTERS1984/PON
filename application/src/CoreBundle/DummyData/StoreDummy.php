@@ -14,9 +14,9 @@ class StoreDummy extends BaseDummy implements IDummy
      */
     public function generate($i = 0)
     {
-        $faker = Factory::create();
+        $faker = Factory::create('ja_JP');
         $mod = new Store();
-        $name = 'store_'.$i;
+        $name = $faker->name;
 
 
         $categoryId = ($i % 10) + 1;
@@ -25,13 +25,16 @@ class StoreDummy extends BaseDummy implements IDummy
 
         $userId = ($i % 10) + 1;
         $userData = $this->userManager->findOneById($userId);
-
+        $lat = 10.785871;
+        $long = 106.6851;
+        $lat = $lat + $faker->randomFloat(null,-5,5);
+        $long = $long + $faker->randomFloat(null,-5,5);
         $mod
             ->setName($name)
             ->setCategory($cateData)
             ->setUser($userData)
-            ->setLatitude("")
-            ->setLongtitude("")
+            ->setLatitude($lat)
+            ->setLongtitude($long)
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
         $this->manager->dummy($mod);

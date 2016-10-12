@@ -12,9 +12,8 @@ class CouponDummy extends BaseDummy implements IDummy
      */
     public function generate($i = 0)
     {
-        $faker = Factory::create();
+        $faker = Factory::create('ja_JP');
         $user = new Coupon();
-        $email = 'coupon_'.$i;
 
         $storeId = ($i % 10) + 1;
         $storeData = $this->storeManager->findOneById($storeId);
@@ -22,7 +21,7 @@ class CouponDummy extends BaseDummy implements IDummy
 
         $user
 
-            ->setTitle($email)
+            ->setTitle($faker->name)
             ->setDescription("")
             ->setStartDate(new \DateTime())
             ->setEndDate(new \DateTime())

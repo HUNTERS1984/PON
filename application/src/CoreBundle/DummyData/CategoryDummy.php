@@ -12,9 +12,9 @@ class CategoryDummy extends BaseDummy implements IDummy
      */
     public function generate($i = 0)
     {
-        $faker = Factory::create();
+        $faker = Factory::create('ja_JP');
         $mod = new Category();
-        $name = 'Category_'.$i;
+        $name = $faker->name;
         $mod
             ->setCreatedAt(new \DateTime())
             ->setName($name)
