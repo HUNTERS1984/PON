@@ -11,43 +11,43 @@
             <span class="menu--label--top">Menu</span>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_dashboard') }}" class="menu--link" title="Top">
+            <a href="{{ path('admin_dashboard') }}" class="menu--link {% if active_menu|default('') == "dashboard" %}active{% endif %}" title="Top">
                 <i class="menu--icon  fa fa-fw fa fa-star"></i>
                 <span class="menu--label">Top</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_summary') }}" class="menu--link" title="クーポン一覧">
+            <a href="{{ path('admin_summary') }}" class="menu--link {% if active_menu|default('') == "summary" %}active{% endif %}" title="クーポン一覧">
                 <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
                 <span class="menu--label">クーポン一覧</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_push') }}" class="menu--link" title="プッシュ通知">
+            <a href="{{ path('admin_push') }}" class="menu--link {% if active_menu|default('') == "push" %}active{% endif %}" title="プッシュ通知">
                 <i class="menu--icon  fa fa-fw fa fa-external-link-square"></i>
                 <span class="menu--label">プッシュ通知</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_analytic') }}" class="menu--link" title="アクセス解析">
+            <a href="{{ path('admin_analytic') }}" class="menu--link {% if active_menu|default('') == "analytic" %}active{% endif %}" title="アクセス解析">
                 <i class="menu--icon  fa fa-fw fa fa-bar-chart"></i>
                 <span class="menu--label">アクセス解析</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_management') }}" class="menu--link active" title="承認管理">
+            <a href="{{ path('admin_management') }}" class="menu--link {% if active_menu|default('') == "management" %}active{% endif %}" title="承認管理">
                 <i class="menu--icon  fa fa-fw fa fa-user-plus"></i>
                 <span class="menu--label">承認管理</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_customer') }}" class="menu--link" title="顧客管理">
+            <a href="{{ path('admin_customer') }}" class="menu--link {% if active_menu|default('') == "customer" %}active{% endif %}" title="顧客管理">
                 <i class="menu--icon  fa fa-fw fa fa-user"></i>
                 <span class="menu--label">顧客管理</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_news') }}" class="menu--link" title="お知らせ・新着">
+            <a href="{{ path('admin_news') }}" class="menu--link {% if active_menu|default('') == "news" %}active{% endif %}" title="お知らせ・新着">
                 <i class="menu--icon  fa fa-fw fa fa-newspaper-o"></i>
                 <span class="menu--label">お知らせ・新着</span>
             </a>
@@ -56,19 +56,19 @@
             <span class="menu--label--top">Other</span>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_setting') }}" class="menu--link" title="アカウント設定">
+            <a href="{{ path('admin_setting') }}" class="menu--link {% if active_menu|default('') == "setting" %}active{% endif %}" title="アカウント設定">
                 <i class="menu--icon  fa fa-fw fa fa-cog"></i>
                 <span class="menu--label">アカウント設定</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_help') }}" class="menu--link" title="ヘルプ">
+            <a href="{{ path('admin_help') }}" class="menu--link {% if active_menu|default('') == "help" %}active{% endif %}" title="ヘルプ">
                 <i class="menu--icon  fa fa-fw fa fa-question-circle"></i>
                 <span class="menu--label">ヘルプ</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_contact') }}" class="menu--link" title="お問い合わせ">
+            <a href="{{ path('admin_contact') }}" class="menu--link {% if active_menu|default('') == "contact" %}active{% endif %}" title="お問い合わせ">
                 <i class="menu--icon  fa fa-fw fa fa-comments"></i>
                 <span class="menu--label">お問い合わせ</span>
             </a>
