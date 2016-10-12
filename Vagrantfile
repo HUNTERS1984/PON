@@ -68,7 +68,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     default.vm.provision "docker" do |es|
-      es.run "elasticsearch",
+      es.run "elasticsearch:1.7.5",
             name: "elasticsearch",
             cmd: "elasticsearch",
             args: "-ti -p 9200:9200 -v /var/www/vagrant/data/elasticsearch:/usr/share/elasticsearch/data:rw,z  --user 1000:50 "

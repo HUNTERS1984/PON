@@ -87,26 +87,24 @@ services:
         calls:
             - [setManager, ["@pon.manager.app_user"]]
     pon.dummy.user:
-            class: CoreBundle\DummyData\UserDummy
-            calls:
-                - [setManager, ["@pon.manager.user"]]
+        class: CoreBundle\DummyData\UserDummy
+        calls:
+            - [setManager, ["@pon.manager.user"]]
     pon.dummy.category:
-            class: CoreBundle\DummyData\CategoryDummy
-            calls:
-                - [setManager, ["@pon.manager.category"]]
+        class: CoreBundle\DummyData\CategoryDummy
+        calls:
+            - [setManager, ["@pon.manager.category"]]
     pon.dummy.store:
-            class: CoreBundle\DummyData\StoreDummy
-            calls:
-                - [setManager, ["@pon.manager.store"]]
-                - [setCategoryManager, ["@pon.manager.category"]]
-                - [setAppUserManager, ["@pon.manager.app_user"]]
-                - [setUserManager, ["@pon.manager.user"]]
+        class: CoreBundle\DummyData\StoreDummy
+        calls:
+            - [setManager, ["@pon.manager.store"]]
+            - [setCategoryManager, ["@pon.manager.category"]]
+            - [setUserManager, ["@pon.manager.user"]]
     pon.dummy.coupon:
-            class: CoreBundle\DummyData\CouponDummy
-            calls:
-                - [setManager, ["@pon.manager.coupon"]]
-                - [setStoreManager, ["@pon.manager.store"]]
-
+        class: CoreBundle\DummyData\CouponDummy
+        calls:
+            - [setManager, ["@pon.manager.coupon"]]
+            - [setStoreManager, ["@pon.manager.store"]]
 
     pon.exception.exception_handler:
         class: CoreBundle\Exception\ExceptionHandler

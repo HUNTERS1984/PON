@@ -3,10 +3,14 @@
 namespace CoreBundle\DummyData;
 
 use CoreBundle\Entity\Coupon;
+use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
 
 class CouponDummy extends BaseDummy implements IDummy
 {
+    /** @var StoreManager */
+    private $storeManager;
+
     /**
      * generate dummy data
      */
@@ -17,22 +21,33 @@ class CouponDummy extends BaseDummy implements IDummy
 
         $storeId = ($i % 10) + 1;
         $storeData = $this->storeManager->findOneById($storeId);
-
+        $expiredTime = new \DateTime();
+        $expiredTime->modify('+1 month');
 
         $user
-
             ->setTitle($faker->name)
-            ->setDescription("")
-            ->setStartDate(new \DateTime())
-            ->setEndDate(new \DateTime())
-            ->setStatus(1)
-            ->setType(1)
+            ->setExpiredTime($expiredTime)
             ->setImageUrl($faker->imageUrl(640, 480, 'food'))
-            ->setSize(1)
+            ->setNeedLogin($faker->randomElement([false,true]))
+            ->setCode($faker->ean13)
+            ->setType($faker->numberBetween(1,2))
+            ->setDescription($faker->paragraph(3))
+            ->setStatus($faker->numberBetween(0,1))
+            ->setSize($faker->numberBetween(1,100))
             ->setStore($storeData)
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
         $this->manager->dummy($user);
         return $user;
+    }
+
+    /**
+     * @param mixed $storeManager
+     * @return CouponDummy
+     */
+    public function setStoreManager($storeManager)
+    {
+        $this->storeManager = $storeManager;
+        return $this;
     }
 }
