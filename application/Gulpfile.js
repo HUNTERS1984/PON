@@ -43,8 +43,8 @@ gulp.task('admin-scripts', function () {
     gulp.src([
             dir.admin_path + '/js/jquery.min.js',
             dir.admin_path + '/js/bootstrap.min.js',
-            dir.admin_path + '/js/icheck.min.js',
-            dir.admin_path + '/js/custom.min.js'
+            dir.admin_path + '/js/vertical-responsive-menu.min.js',
+            dir.admin_path + '/js/jquery.canvasjs.min.js'
         ])
         .pipe(concat('admin.js'))
         .pipe(uglify())

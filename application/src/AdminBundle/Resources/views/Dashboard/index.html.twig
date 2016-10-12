@@ -1,172 +1,268 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
 
-{% block page_content %}
-    <!-- wrapp_search_btn -->
-    <div class="wrapp_search_btn">
-        <div class="row">
-            <div class="col-md-6">
-                <form class="form-horizontal">
-                    <input type="text" class="form-control has-feedback-left" id="inputSuccess2" placeholder="ユーザー名/ハッシュタグを入力してください">
-                    <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <ul class="btn_search">
-                    <li><a href="">選択したユーザーを承認</a></li>
-                    <li><a href="">すべてのユーザーを承認</a></li>
-                </ul>
-            </div>
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">TOP</span></li>
+            </ul>
         </div>
     </div>
-    <!-- /wrapp_search_btn -->
-
-    <!-- wrapp table -->
-    <div class="wrapp_table">
-        <div class="table-responsive">
-            <table class="table table-striped jambo_table bulk_action">
-
-                <thead>
-                <tr class="headings">
-                    <th>
-                        <input type="checkbox" id="check-all" class="flat">
-                    </th>
-                    <th class="column-title"></th>
-                    <th class="column-title text_left">ユーザーネーム</th>
-                    <th class="column-title text_left">投稿写真</th>
-                    <th class="column-title text_left">ハッシュタグ</th>
-                    <th class="column-title">ステータス</th>
-                    <th class="bulk-actions" colspan="6">
-                        <a class="antoo">一括操作 ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                    </th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr class="even pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=" "><a href="" class="del">未承認</a></td>
-                </tr>
-                <tr class="odd pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=""><span class="del">未承認</span></td>
-                </tr>
-                <tr class="even pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=" "><a href="" class="del">未承認</a></td>
-                </tr>
-                <tr class="odd pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=""><a href="" class="del">未承認</a></td>
-                </tr>
-                <tr class="even pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=" "><a href="" class="del">未承認</a></td>
-                </tr>
-                <tr class="odd pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=""><a href="" class="del">未承認</a></td>
-                </tr>
-                <tr class="even pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=" "><a href="" class="del">未承認</a></td>
-                </tr>
-                <tr class="odd pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=""><a href="" class="del">未承認</a></td>
-                </tr>
-                <tr class="even pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=" "><a href="" class="del">未承認</a></td>
-                </tr>
-                <tr class="odd pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=""><a href="" class="del">未承認</a></td>
-                </tr>
-                <tr class="even pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=" "><a href="" class="del">未承認</a></td>
-                </tr>
-                <tr class="odd pointer">
-                    <td class="a-center ">
-                        <input type="checkbox" class="flat" name="table_records">
-                    </td>
-                    <td class=""><img src="{{ asset('backend/images/img_table.png') }}" alt=""></td>
-                    <td class="text_left">ユーザーネーム</td>
-                    <td class="text_left"><a href="">写真を確認する</a></td>
-                    <td class="text_left">#hashtag #hashtag #hashtag</td>
-                    <td class=""><a href="" class="del">未承認</a></td>
-                </tr>
-                </tbody>
-
-            </table>
-        </div>
-    </div>
-    <!--/ wrapp table -->
 {% endblock %}
 
+{% block page_content %}
+    <!-- wrapp_top -->
+    <div class="wrapp_top">
+
+        <div class="span_title">最近発行したクーポン</div>
+
+        <!-- Modal -->
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content modal_coupon_top">
+                    <form>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">クーポンを編集</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="">
+                                <div class="col-md-12">
+                                    <div class="row wrapp_avar_btn">
+                                        <div class="col-md-3"><img src="{{ asset('backend/images/img_edit_coupon.jpg') }}" alt=""></div>
+                                        <div class="col-md-9">
+                                            <div class="btn_setting_avatar">
+                                                <a href="" class="">アカウントイメージの変更</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-setting">
+                                        <div class="form-group">
+                                            <label for="クーポンタイトル">クーポンタイトル</label>
+                                            <input type="text" class="form-control" id="クーポンタイトル" placeholder="クーポンタイトル">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="クーポンタイプ">クーポンタイプ</label>
+                                            <select class="form-control">
+                                                <option>ユーザー投稿型</option>
+                                                <option>Option one</option>
+                                                <option>Option two</option>
+                                                <option>Option three</option>
+                                                <option>Option four</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ハッシュタグ">ハッシュタグ</label>
+                                            <textarea class="form-control" rows="5">ハッシュタグ</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="説明文">説明文</label>
+                                            <textarea class="form-control" rows="5">説明文</textarea>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="期限">期限</label>
+                                                    <div class="select_day">
+                                                        <select class="form-control sum_year">
+                                                            <option>2016年</option>
+                                                            <option>2017年</option>
+                                                            <option>2018年</option>
+                                                            <option>2019年</option>
+                                                            <option>2020年</option>
+                                                        </select>
+                                                        <select class="form-control sum_month">
+                                                            <option>7月</option>
+                                                            <option>8月</option>
+                                                            <option>9月</option>
+                                                            <option>10月</option>
+                                                            <option>11月</option>
+                                                        </select>
+                                                        <select class="form-control sum_day">
+                                                            <option>31日</option>
+                                                            <option>30日</option>
+                                                            <option>29日</option>
+                                                            <option>28日</option>
+                                                            <option>27日</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="クーポンの利用動向の測定">クーポンの利用動向の測定</label>
+                                                    <select class="form-control">
+                                                        <option>測定する</option>
+                                                        <option>Option one</option>
+                                                        <option>Option two</option>
+                                                        <option>Option three</option>
+                                                        <option>Option four</option>
+                                                    </select>
+                                                    <span>発行されたQRコードデクーポンの利用動向を測定することができます。</span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="クーポンの承認">クーポンの承認</label>
+                                                    <select class="form-control">
+                                                        <option>自動承認</option>
+                                                        <option>Option one</option>
+                                                        <option>Option two</option>
+                                                        <option>Option three</option>
+                                                        <option>Option four</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="collapse" id="collapseExample">
+                                                    <div class="well_qr">
+                                                        <div class="col-md-12">
+                                                            <strong>QRコード出力</strong>
+                                                            <div class="form-group">
+                                                                <label for="出力するのは?">出力するのは?</label>
+                                                                <select class="form-control">
+                                                                    <option>お店のクーポンページ</option>
+                                                                    <option>Option one</option>
+                                                                    <option>Option two</option>
+                                                                    <option>Option three</option>
+                                                                    <option>Option four</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control link_web" id="" placeholder="https://www.example.com">
+                                                                <button type="submit" class="btn btn-default btn_link_web">コ ピ ー</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="wrapp_pr">
+                                                        <img src="{{ asset('backend/images/img_qr.jpg') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 btn_change_qr">
+                                                    <a class="btn btn-primary change_qr" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                        QRコードをダウンロード
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-change">変更</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- //Modal -->
+
+        <div class="category_top">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="content_category_top">
+                        <img src="{{ asset('backend/images/img_top.jpg') }}" class="img_top" alt="">
+                        <h3 class="h3_title">タイトルが入ります</h3>
+                        <p><a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue">ユーザー投稿型</a></p>
+                        <p><span class="red">期限: 2016.07.31</span></p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="content_category_top">
+                        <img src="{{ asset('backend/images/img_top.jpg') }}" class="img_top" alt="">
+                        <h3 class="h3_title">タイトルが入ります</h3>
+                        <p><a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue">ユーザー投稿型</a></p>
+                        <p><span class="red">期限: 2016.07.31</span></p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="content_category_top">
+                        <img src="{{ asset('backend/images/img_top.jpg') }}" class="img_top" alt="">
+                        <h3 class="h3_title">タイトルが入ります</h3>
+                        <p><a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue">ユーザー投稿型</a></p>
+                        <p><span class="red">期限: 2016.07.31</span></p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="content_category_top">
+                        <img src="{{ asset('backend/images/img_top.jpg') }}" class="img_top" alt="">
+                        <h3 class="h3_title">タイトルが入ります</h3>
+                        <p><a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue">ユーザー投稿型</a></p>
+                        <p><span class="red">期限: 2016.07.31</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="span_title">アクセス</div>
+        <div class="wrapp_chart">
+            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        </div>
+        <div class="tab_top">
+            <div class="row">
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>ユーザー数</p>
+                        <h3>29,147</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>セッション</p>
+                        <h3>247,837</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>スクリーンビュー</p>
+                        <h3>1,002,719</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>離脱率</p>
+                        <h3>64.07%</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>平均セッション時間</p>
+                        <h3>00:01:48</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="content_tab_top">
+                        <p>新規セッション率</p>
+                        <h3>0.29%</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_top -->
+{% endblock %}
+
+ {% block scripts_footer_inline %}
+     <script type="text/javascript">
+         $(function () {
+             var options = {
+                 animationEnabled: true,
+                 data: [
+                     {
+                         type: "spline",
+                         dataPoints: [
+                             { x: 10, y: 10 },
+                             { x: 20, y: 12 },
+                             { x: 30, y: 8 },
+                             { x: 40, y: 14 },
+                             { x: 50, y: 6 },
+                             { x: 60, y: 24 },
+                             { x: 70, y: -4 },
+                             { x: 80, y: 10 }
+                         ]
+                     }
+                 ]
+             };
+             $("#chartContainer").CanvasJSChart(options);
+         });
+     </script>
+ {% endblock %}

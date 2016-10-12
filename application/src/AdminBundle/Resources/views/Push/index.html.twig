@@ -1,0 +1,300 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-3 col-xs-6">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">プッシュ通知</span></li>
+                <li><span class="no_bre">12</span></li>
+            </ul>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="btn-group btn-group-justified">
+                <a href="#" class="btn btn-default btn_tab_breadcrumbs active" role="button">全て</a>
+                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">予約中</a>
+                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">定期配信</a>
+                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">配信済み</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="btn_bread_right">
+                <a href="" class="btn_ques"></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_content %}
+    <!-- wrapp_search_btn -->
+    <div class="wrapp_search_btn">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <form class="form-group">
+                    <input type="text" class="form-control has-feedback-left" id="" placeholder="ユーザー名/ハッシュタグを入力してください">
+                    <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
+                </form>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal_push" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <img src="{{ asset('backend/images/check_push.png') }}" alt="">
+                            <p>プッシュ通知を送信しました</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- drop push -->
+            <div class="col-md-12">
+                <a class="arrow_down collapsed" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <span>新しくプッシュ通知を配信</span>
+                </a>
+                <div class="collapse" id="collapseExample">
+                    <div class="down_con">
+                        <form action="">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="タイトル">タイトル</label>
+                                    <input type="text" class="form-control" id="タイトル" placeholder="タイトル">
+                                </div>
+                                <div class="form-group">
+                                    <label for="メッセージ">メッセージ</label>
+                                    <textarea class="form-control" rows="5">メッセージ</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="JSON">JSON</label>
+                                    <textarea class="form-control" rows="5">説明文</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="配信先のセグメント">配信先のセグメント</label>
+                                    <select class="form-control">
+                                        <option>お店から1キロ以内のユーザー</option>
+                                        <option>Option one</option>
+                                        <option>Option two</option>
+                                        <option>Option three</option>
+                                        <option>Option four</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <a href="" class="link_create"><i class="fa fa-plus" aria-hidden="true"></i> セグメントを作成する</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="配信時間指定">配信時間指定</label>
+                                            <select class="form-control">
+                                                <option>時間を指定して配信</option>
+                                                <option>Option one</option>
+                                                <option>Option two</option>
+                                                <option>Option three</option>
+                                                <option>Option four</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>2016年</option>
+                                                <option>Option one</option>
+                                                <option>Option two</option>
+                                                <option>Option three</option>
+                                                <option>Option four</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>07月</option>
+                                                <option>Option one</option>
+                                                <option>Option two</option>
+                                                <option>Option three</option>
+                                                <option>Option four</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>31日</option>
+                                                <option>Option one</option>
+                                                <option>Option two</option>
+                                                <option>Option three</option>
+                                                <option>Option four</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>午前</option>
+                                                <option>Option one</option>
+                                                <option>Option two</option>
+                                                <option>Option three</option>
+                                                <option>Option four</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>12時</option>
+                                                <option>Option one</option>
+                                                <option>Option two</option>
+                                                <option>Option three</option>
+                                                <option>Option four</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>24分</option>
+                                                <option>Option one</option>
+                                                <option>Option two</option>
+                                                <option>Option three</option>
+                                                <option>Option four</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="button_send">
+                                    <button type="button" class="btn btn-primary btn-send" data-toggle="modal" data-target="#myModal">
+                                        このプッシュ通知を配信
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- //drop push -->
+
+        </div>
+    </div>
+    <!-- //wrapp_search_btn -->
+
+    <!-- wrapp_push -->
+    <div class="wrapp_push">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content_push">
+                    <div class="top_push">
+                        <div class="left_push">
+                            <h2>タイトル</h2>
+                            <div class="des_deliver">
+                                <span class="des_push">配信先のセグメント</span>
+                                <span class="deliver_push">定期配信</span>
+                            </div>
+                        </div>
+                        <a href="" class="link_blue">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </div>
+                    <div class="bottom_push">
+                        <p>
+                            説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="content_push">
+                    <div class="top_push">
+                        <div class="left_push">
+                            <h2>タイトル</h2>
+                            <div class="des_deliver">
+                                <span class="des_push">配信先のセグメント</span>
+                                <span class="deliver_push">定期配信</span>
+                            </div>
+                        </div>
+                        <a href="" class="link_blue">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </div>
+                    <div class="bottom_push">
+                        <p>
+                            説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="content_push">
+                    <div class="top_push">
+                        <div class="left_push">
+                            <h2>タイトル</h2>
+                            <div class="des_deliver">
+                                <span class="des_push">配信先のセグメント</span>
+                                <span class="deliver_push">定期配信</span>
+                            </div>
+                        </div>
+                        <a href="" class="link_blue">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </div>
+                    <div class="bottom_push">
+                        <p>
+                            説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="content_push">
+                    <div class="top_push">
+                        <div class="left_push">
+                            <h2>タイトル</h2>
+                            <div class="des_deliver">
+                                <span class="des_push">配信先のセグメント</span>
+                                <span class="deliver_push">定期配信</span>
+                            </div>
+                        </div>
+                        <a href="" class="link_blue">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </div>
+                    <div class="bottom_push">
+                        <p>
+                            説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="content_push">
+                    <div class="top_push">
+                        <div class="left_push">
+                            <h2>タイトル</h2>
+                            <div class="des_deliver">
+                                <span class="des_push">配信先のセグメント</span>
+                                <span class="deliver_push">定期配信</span>
+                            </div>
+                        </div>
+                        <a href="" class="link_blue">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </div>
+                    <div class="bottom_push">
+                        <p>
+                            説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- wrapp_push -->
+
+{% endblock %}
+

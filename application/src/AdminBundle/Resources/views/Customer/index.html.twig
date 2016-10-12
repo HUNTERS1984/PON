@@ -1,0 +1,402 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-9 col-xs-6">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">顧客管理</span></li>
+                <li><span class="no_bre">12</span></li>
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <div class="btn_bread_right">
+                <a href="" class="btn_up"></a>
+                <a href="" class="btn_ques"></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_content %}
+    <!-- wrapp_search_btn -->
+    <div class="wrapp_search_btn">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <form class="form-group">
+                    <input type="text" class="form-control has-feedback-left" id="" placeholder="ユーザー名/ハッシュタグを入力してください">
+                    <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_search_btn -->
+
+    <!-- result_search -->
+    <div class="result_search">
+        <div class="row">
+            <div class="col-md-12">
+                <span>検索結果 2件</span>
+            </div>
+        </div>
+    </div>
+    <!-- //result_search -->
+
+    <!-- wrapp_table -->
+    <div class="wrapp_table">
+
+        <!-- poup user -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog photo_user" role="document">
+                <div class="modal-content mana_user">
+                    <div class="modal-body">
+                        <img src="{{ asset('backend/images/photo_user.jpg') }}" class="img-responsive" alt="">
+                        <div class="meta-footer">
+                            <span>#hashtag #hashtag #hashtag</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapp_btn_close_poup_photo">
+                    <button type="button" class="btn_mana_user" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                </div>
+            </div>
+        </div>
+        <!-- //poup user -->
+
+        <!--/ poup user 2 -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="col-xs-9">
+                            <div class="btn-group btn-group-justified">
+                                <a href="#" class="btn btn-default btn_tab_breadcrumbs active" role="button">基本情報</a>
+                                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">PON利用情報</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                    </div>
+                    <div class="modal-body us_poup">
+                        <div class="col-xs-3">
+                            <img src="{{ asset('backend/images/img_table_poup.jpg') }}" class="img-responsive" alt="">
+                        </div>
+                        <div class="col-xs-3 us_poup_left">
+                            <p>ユーザーID</p>
+                            <p>ユーザーネーム</p>
+                            <p>性別</p>
+                            <p>年代</p>
+                            <p>地域</p>
+                        </div>
+                        <div class="col-xs-6 us_poup_right">
+                            <p>12345678</p>
+                            <p>ハルク</p>
+                            <p>男性</p>
+                            <p>30代</p>
+                            <p>東京都</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ poup user 2 -->
+
+        <!-- table -->
+        <div class="table-responsive">
+            <table class="table management_01">
+                <thead>
+                <tr>
+                    <th>選択</th>
+                    <th></th>
+                    <th>ユーザーネーム</th>
+                    <th>ユーザーID</th>
+                    <th>性別</th>
+                    <th>年代</th>
+                    <th>地域</th>
+                    <th>最終ログイン</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-1" class="checkbox-custom" name="checkbox-1" type="checkbox">
+                            <label for="checkbox-1" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-2" class="checkbox-custom" name="checkbox-2" type="checkbox">
+                            <label for="checkbox-2" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-3" class="checkbox-custom" name="checkbox-3" type="checkbox">
+                            <label for="checkbox-3" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-4" class="checkbox-custom" name="checkbox-4" type="checkbox">
+                            <label for="checkbox-4" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-5" class="checkbox-custom" name="checkbox-5" type="checkbox">
+                            <label for="checkbox-5" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-6" class="checkbox-custom" name="checkbox-6" type="checkbox">
+                            <label for="checkbox-6" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-7" class="checkbox-custom" name="checkbox-7" type="checkbox">
+                            <label for="checkbox-7" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-8" class="checkbox-custom" name="checkbox-8" type="checkbox">
+                            <label for="checkbox-8" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-9" class="checkbox-custom" name="checkbox-9" type="checkbox">
+                            <label for="checkbox-9" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-10" class="checkbox-custom" name="checkbox-10" type="checkbox">
+                            <label for="checkbox-10" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-11" class="checkbox-custom" name="checkbox-11" type="checkbox">
+                            <label for="checkbox-11" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div>
+                            <input id="checkbox-12" class="checkbox-custom" name="checkbox-12" type="checkbox">
+                            <label for="checkbox-12" class="checkbox-custom-label"></label>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#myModal2">
+                            <img src="{{ asset('backend/images/img_table.png') }}" alt="">
+                        </a>
+                    </td>
+                    <td>ユーザーネーム</td>
+                    <td>12345678</td>
+                    <td>男性</td>
+                    <td>20代</td>
+                    <td>東京都</td>
+                    <td>
+                        <a href="" title="" class="blue_cus" data-toggle="modal" data-target="#myModal">
+                            2016.07.31.12:31
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- //table -->
+    </div>
+    <!-- //wrapp_table -->
+{% endblock %}

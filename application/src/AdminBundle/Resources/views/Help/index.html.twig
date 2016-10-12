@@ -1,0 +1,21 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">ヘルプ</span></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_content %}
+    <!-- wrapp_help -->
+    <div class="wrapp_help">
+        <p><img src="{{ asset('backend/images/icon_help.png') }}" alt=""></p>
+        <p><h2>コンテンツがありません。</h2></p>
+        <p class="text_help_bottom">何かお困りですか?詳しくはサポートチームまでお問い合わせ下さい。<a href="">pon_support-team.jp</a></p>
+    </div>
+    <!-- /wrapp_help -->
+{% endblock %}

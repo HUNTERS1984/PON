@@ -1,0 +1,279 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-3 col-xs-12">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">クーポン一覧</span></li>
+                <li><span class="no_bre">12</span></li>
+            </ul>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="btn-group btn-group-justified">
+                <a href="#" class="btn btn-default btn_tab_breadcrumbs active" role="button">全て</a>
+                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">未承認</a>
+                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">承認済み</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_content %}
+    <!-- wrapp_search_btn -->
+    <div class="wrapp_search_btn">
+        <div class="row">
+            <div class="col-md-6">
+                <form class="form-group">
+                    <input type="text" class="form-control has-feedback-left" id="" placeholder="ユーザー名/ハッシュタグを入力してください">
+                    <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_search_btn -->
+
+    <!-- Modal -->
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content modal_coupon">
+                <form>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">クーポンを編集</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="">
+                            <div class="col-md-12">
+                                <div class="row wrapp_avar_btn">
+                                    <div class="col-md-3"><img src="{{ asset('backend/images/img_edit_coupon.jpg') }}" alt=""></div>
+                                    <div class="col-md-9">
+                                        <div class="btn_setting_avatar">
+                                            <a href="" class="">アカウントイメージの変更</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-setting">
+                                    <div class="form-group">
+                                        <label for="クーポンタイトル">クーポンタイトル</label>
+                                        <input type="text" class="form-control" id="クーポンタイトル" placeholder="クーポンタイトル">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="クーポンタイプ">クーポンタイプ</label>
+                                        <select class="form-control">
+                                            <option>ユーザー投稿型</option>
+                                            <option>Option one</option>
+                                            <option>Option two</option>
+                                            <option>Option three</option>
+                                            <option>Option four</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ハッシュタグ">ハッシュタグ</label>
+                                        <textarea class="form-control" rows="5">ハッシュタグ</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="説明文">説明文</label>
+                                        <textarea class="form-control" rows="5">説明文</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="期限">期限</label>
+                                        <div class="select_day">
+                                            <select class="form-control sum_year">
+                                                <option>2016年</option>
+                                                <option>2017年</option>
+                                                <option>2018年</option>
+                                                <option>2019年</option>
+                                                <option>2020年</option>
+                                            </select>
+                                            <select class="form-control sum_month">
+                                                <option>7月</option>
+                                                <option>8月</option>
+                                                <option>9月</option>
+                                                <option>10月</option>
+                                                <option>11月</option>
+                                            </select>
+                                            <select class="form-control sum_day">
+                                                <option>31日</option>
+                                                <option>30日</option>
+                                                <option>29日</option>
+                                                <option>28日</option>
+                                                <option>27日</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-delete" data-dismiss="modal">削除</button>
+                        <button type="button" class="btn btn-primary btn-change">変更</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- //Modal -->
+
+    <!-- wrapp wrapp_summary -->
+    <div class="wrapp_summary">
+        <div class="media">
+            <div class="media-left">
+                <center><img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt=""></center>
+            </div>
+            <div class="media-body">
+                <div class="top-media">
+                    <h4 class="media-heading">クーポンタイトル</h4>
+                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="top-media">
+                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
+                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
+                </div>
+                <div class="top-media">
+                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
+                </div>
+                <div class="top-media">
+                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
+                </div>
+                <div class="top-media">
+            <span>
+              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
+            </span>
+                </div>
+            </div>
+        </div>
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt="">
+            </div>
+            <div class="media-body">
+                <div class="top-media">
+                    <h4 class="media-heading">クーポンタイトル</h4>
+                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="top-media">
+                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
+                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
+                </div>
+                <div class="top-media">
+                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
+                </div>
+                <div class="top-media">
+                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
+                </div>
+                <div class="top-media">
+            <span>
+              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
+            </span>
+                </div>
+            </div>
+        </div>
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt="">
+            </div>
+            <div class="media-body">
+                <div class="top-media">
+                    <h4 class="media-heading">クーポンタイトル</h4>
+                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="top-media">
+                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
+                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
+                </div>
+                <div class="top-media">
+                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
+                </div>
+                <div class="top-media">
+                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
+                </div>
+                <div class="top-media">
+            <span>
+              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
+            </span>
+                </div>
+            </div>
+        </div>
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt="">
+            </div>
+            <div class="media-body">
+                <div class="top-media">
+                    <h4 class="media-heading">クーポンタイトル</h4>
+                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="top-media">
+                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
+                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
+                </div>
+                <div class="top-media">
+                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
+                </div>
+                <div class="top-media">
+                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
+                </div>
+                <div class="top-media">
+            <span>
+              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
+            </span>
+                </div>
+            </div>
+        </div>
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt="">
+            </div>
+            <div class="media-body">
+                <div class="top-media">
+                    <h4 class="media-heading">クーポンタイトル</h4>
+                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="top-media">
+                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
+                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
+                </div>
+                <div class="top-media">
+                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
+                </div>
+                <div class="top-media">
+                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
+                </div>
+                <div class="top-media">
+            <span>
+              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
+            </span>
+                </div>
+            </div>
+        </div>
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt="">
+            </div>
+            <div class="media-body">
+                <div class="top-media">
+                    <h4 class="media-heading">クーポンタイトル</h4>
+                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="top-media">
+                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
+                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
+                </div>
+                <div class="top-media">
+                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
+                </div>
+                <div class="top-media">
+                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
+                </div>
+                <div class="top-media">
+            <span>
+              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
+            </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ wrapp wrapp_summary -->
+{% endblock %}
+
