@@ -14,113 +14,115 @@
             <div class="col-md-12">
                 <div class="contact-content">
                     <ul class="nav-tab">
-                        <li><a href="{{ path('customer_contact') }}">1. お客様情報の入力</a></li>
-                        <li class="active"><a href="{{ path('customer_contact_2') }}">2. 入力情報の確認</a></li>
-                        <li><a href="{{ path('customer_contact_3') }}">3. 仮申し込み完了</a></li>
+                        <li><a href="{{ path('customer_contact') }}" title="">1. お客様情報の入力</a></li>
+                        <li class="active"><a href="{{ path('customer_contact_2') }}" title="">2. 入力情報の確認</a></li>
+                        <li><a href="{{ path('customer_contact_3') }}" title="">3. 仮申し込み完了</a></li>
                     </ul>
                     <div class="wrapp-contact-2">
                         <form class="form-horizontal">
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">
-                                    申し込みプラン <span class="red-text">必須</span>
-                                </label>
-                                <div class="col-sm-8">
-                                    <div class="input-tb-contact">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <p>プランA</p>
-                                                    <strong>¥10.000</strong>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">店舗名 <span class="red-text">必須</span></label>
-                                <div class="col-sm-8">
-                                    <p>店舗名</p>
-                                    <p>フリガナ</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">店舗の業種 <span class="red-text">必須</span></label>
-                                <div class="col-sm-8">
-                                    <p>飲食</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">氏名 <span class="red-text">必須</span></label>
-                                <div class="col-sm-8">
-                                    <div class="row-contact">
-                                        <div class="col-md-6">
-                                            <p>山田</p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>太郎</p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>ヤマダ</p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>タロウ</p>
+                            <div class="bg_border">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">
+                                        申し込みプラン <span class="red-text">必須</span>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-tb-contact">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <p class="left_text">プランA</p>
+                                                        <p><strong>¥10.000</strong></p>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">郵便番号 <span class="red-text">必須</span></label>
-                                <div class="col-sm-8">
-                                    <p>123 - 4567</p>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">店舗名 <span class="red-text">必須</span></label>
+                                    <div class="col-sm-8">
+                                        <p class="left_text">店舗名</p>
+                                        <p class="left_text">フリガナ</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">都道府県 <span class="red-text">必須</span></label>
-                                <div class="col-sm-8">
-                                    <p>東京都</p>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">店舗の業種 <span class="red-text">必須</span></label>
+                                    <div class="col-sm-8">
+                                        <p class="left_text">飲食</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">市区町村 <span class="red-text">必須</span></label>
-                                <div class="col-sm-8">
-                                    <p>市区町村</p>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">氏名 <span class="red-text">必須</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="row-contact">
+                                            <div class="col-md-6">
+                                                <p class="left_text">山田</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="left_text">太郎</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="left_text">ヤマダ</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="left_text">タロウ</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">番地・ビル名 <span class="red-text">必須</span></label>
-                                <div class="col-sm-8">
-                                    <p>番地・ビル名</p>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">郵便番号 <span class="red-text">必須</span></label>
+                                    <div class="col-sm-8">
+                                        <p class="left_text">123 - 4567</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">連絡先電話番号 <span class="red-text">必須</span></label>
-                                <div class="col-sm-8">
-                                    <p>080 - 1234 - 5678</p>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">都道府県 <span class="red-text">必須</span></label>
+                                    <div class="col-sm-8">
+                                        <p class="left_text">東京都</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">連絡先メールアドレス <span class="red-text">必須</span></label>
-                                <div class="col-sm-8">
-                                    <p>example@example.com</p>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">市区町村 <span class="red-text">必須</span></label>
+                                    <div class="col-sm-8">
+                                        <p class="left_text">市区町村</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4">店舗のホームページURL <span class="red-text">必須</span></label>
-                                <div class="col-sm-8">
-                                    <p>http://www.example.com</p>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">番地・ビル名 <span class="red-text">必須</span></label>
+                                    <div class="col-sm-8">
+                                        <p class="left_text">番地・ビル名</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">連絡先電話番号 <span class="red-text">必須</span></label>
+                                    <div class="col-sm-8">
+                                        <p class="left_text">080 - 1234 - 5678</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">連絡先メールアドレス <span class="red-text">必須</span></label>
+                                    <div class="col-sm-8">
+                                        <p class="left_text">example@example.com</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4">店舗のホームページURL <span class="red-text">必須</span></label>
+                                    <div class="col-sm-8">
+                                        <p class="left_text">http://www.example.com</p>
+                                    </div>
                                 </div>
                         </form>
                     </div>
                     <div class="btn-contact-2">
                         <div class="col-md-6">
                             <div class="btn-contact-2-left">
-                                <a href="">お客様情報入力へ戻る</a>
+                                <a href="" title="">お客様情報入力へ戻る</a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="btn-contact-2-right">
-                                <a href="">この内容で申し込み</a>
+                                <a href="" title="">この内容で申し込み</a>
                             </div>
                         </div>
                     </div>

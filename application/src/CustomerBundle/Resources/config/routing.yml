@@ -22,9 +22,9 @@ customer_news:
     path:     /news
     defaults: { _controller: CustomerBundle:News:index }
 
-customer_metric:
-    path:     /metric
-    defaults: { _controller: CustomerBundle:Metric:index }
+customer_merric:
+    path:     /merric
+    defaults: { _controller: CustomerBundle:Merric:index }
 
 customer_function:
     path:     /function
