@@ -6,14 +6,14 @@
                 <label for="show-menu" class="show-menu"><img src="{{ asset('customer/images/icon-menu.png') }}" alt=""></label>
                 <input type="checkbox" id="show-menu" role="button">
                 <ul id="menu">
-                    <li><a href="{{ path('customer_homepage') }}">PONについ</a></li>
-                    <li><a href="{{ path('customer_about') }}">PONの機能</a></li>
-                    <li><a href="{{ path('customer_faq') }}">我々にしかできないこ</a></li>
-                    <li><a href="{{ path('customer_flow') }}">導入フロ</a></li>
-                    <li><a href="{{ path('customer_news') }}">導入事例</a></li>
-                    <li><a href="{{ path('customer_merric') }}">よくある質問</a></li>
-                    <li><a href="{{ path('customer_function') }}">お知らせ</a></li>
-                    <li><a href="{{ path('customer_contact') }}">運営会社</a></li>
+                    <li class="{% if active_menu|default('') == "homepage" %}active{% endif %}"><a href="{{ path('customer_homepage') }}">PONについ</a></li>
+                    <li class="{% if active_menu|default('') == "about" %}active{% endif %}"><a href="{{ path('customer_about') }}">PONの機能</a></li>
+                    <li class="{% if active_menu|default('') == "faq" %}active{% endif %}"><a href="{{ path('customer_faq') }}">我々にしかできないこ</a></li>
+                    <li class="{% if active_menu|default('') == "flow" %}active{% endif %}"><a href="{{ path('customer_flow') }}">導入フロ</a></li>
+                    <li class="{% if active_menu|default('') == "news" %}active{% endif %}"><a href="{{ path('customer_news') }}">導入事例</a></li>
+                    <li class="{% if active_menu|default('') == "merric" %}active{% endif %}"><a href="{{ path('customer_merric') }}">よくある質問</a></li>
+                    <li class="{% if active_menu|default('') == "function" %}active{% endif %}"><a href="{{ path('customer_function') }}">お知らせ</a></li>
+                    <li class="{% if active_menu|default('') == "contact" %}active{% endif %}"><a href="{{ path('customer_contact') }}">運営会社</a></li>
                 </ul>
             </div>
         </div>
