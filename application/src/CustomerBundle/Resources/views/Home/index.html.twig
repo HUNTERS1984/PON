@@ -2,15 +2,34 @@
 
 {% block page_content %}
     <div class="wrapp-sl">
-
+        <div class="container">
+            <div class="col-md-12">
+                <div class="content-sl-home">
+                    <div class="left">
+                        <h2 class="logo-text"><img src="{{ asset('customer/images/pon-sl.png') }}" alt=""></h2>
+                        <h3 class="text-sl-home">
+                            客さんとの出会いを作り、<br>
+                            楽しみと驚きを届ける「クーポンアプリ」
+                        </h3>
+                        <p class="text-sl-home">
+                            PONは、ユーザーが投稿したSNSのお写真をクーポンにして新規集客からリピーター<br>
+                            獲得が出来る国内初の特許取得済みクーポンアプリです。<br>
+                        </p>
+                        <a href="" title="" class="btn-sl-home">特許番号　特許第5778324号</a>
+                    </div>
+                </div>
+                <div class="right">
+                    <img src="{{ asset('customer/images/sl-phone.png') }}" class="img-responsive" alt="">
+                </div>
+            </div>
+        </div>
     </div>
-
     <div class="wrapp-metro">
         <div class="metro-link">
             <div class="col-md-2 col-xs-6">
                 <div class="row">
                     <div class="content-metro">
-                        <a href="">
+                        <a href="" title="">
                             <span class="icon-metro"><img src="{{ asset('customer/images/icon-metro-1.png') }}" alt=""></span>
                             <span class="text-metro">店舗集客を増やしたい</span>
                             <span class="devider-metro"><i class="glyphicon glyphicon-menu-down"></i></span>
@@ -21,7 +40,7 @@
             <div class="col-md-2 col-xs-6">
                 <div class="row">
                     <div class="content-metro">
-                        <a href="">
+                        <a href="" title="">
                             <span class="icon-metro"><img src="{{ asset('customer/images/icon-metro-2.png') }}" alt=""></span>
                             <span class="text-metro">通販商品を販促したい</span>
                             <span class="devider-metro"><i class="glyphicon glyphicon-menu-down"></i></span>
@@ -32,7 +51,7 @@
             <div class="col-md-2 col-xs-6">
                 <div class="row">
                     <div class="content-metro">
-                        <a href="">
+                        <a href="" title="">
                             <span class="icon-metro"><img src="{{ asset('customer/images/icon-metro-3.png') }}" alt=""></span>
                             <span class="text-metro">ホテル稼働率を高めたい</span>
                             <span class="devider-metro"><i class="glyphicon glyphicon-menu-down"></i></span>
@@ -43,7 +62,7 @@
             <div class="col-md-2 col-xs-6">
                 <div class="row">
                     <div class="content-metro">
-                        <a href="">
+                        <a href="" title="">
                             <span class="icon-metro"><img src="{{ asset('customer/images/icon-metro-4.png') }}" alt=""></span>
                             <span class="text-metro">リピーターを増やしたい</span>
                             <span class="devider-metro"><i class="glyphicon glyphicon-menu-down"></i></span>
@@ -54,7 +73,7 @@
             <div class="col-md-2 col-xs-6">
                 <div class="row">
                     <div class="content-metro">
-                        <a href="">
+                        <a href="" title="">
                             <span class="icon-metro"><img src="{{ asset('customer/images/icon-metro-5.png') }}" alt=""></span>
                             <span class="text-metro">SNSを最大限活用したい</span>
                             <span class="devider-metro"><i class="glyphicon glyphicon-menu-down"></i></span>
@@ -65,7 +84,7 @@
             <div class="col-md-2 col-xs-6">
                 <div class="row">
                     <div class="content-metro">
-                        <a href="">
+                        <a href="" title="">
                             <span class="icon-metro"><img src="{{ asset('customer/images/icon-metro-6.png') }}" alt=""></span>
                             <span class="text-metro">お店・商品の認知度を増やしたい</span>
                             <span class="devider-metro"><i class="glyphicon glyphicon-menu-down"></i></span>
@@ -90,9 +109,9 @@
                         <div class="col-md-6"><input type="text" class="form-control" placeholder="お名前"></div>
                         <div class="col-md-12"><input type="text" class="form-control" placeholder="メールアドレス"></div>
                         <div class="col-md-12">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-8"><button type="button" class="btn btn-info">お問い合わせ</button></div>
-                            <div class="col-md-2"></div>
+                            <center>
+                                <button type="button" class="btn btn-info">お問い合わせ</button>
+                            </center>
                         </div>
                     </form>
                 </div>
@@ -106,10 +125,10 @@
             <div class="col-md-12">
                 <div class="wrapp-img-home-content">
                     <h2>どんなサービスなのか?</h2>
-                    <img src="{{ asset('customer/images/banner-content-home.jpg') }}" title="" class="img-responsive" />
+                    <img src="{{ asset('customer/images/banner-content-home.jpg') }}" alt="" class="img-responsive" />
                     <h3>
                         PONは、ユーザーが日々SNSに投稿する写真で、 <br>
-                        「集客」と「接点」を作るアプリです。
+                        <span>「集客」</span>と<span>「接点」</span>を作るアプリです。
                     </h3>
                     <p>
                         今、Instargram・LINEなどのSNSで日本・世界で流通する「写真」の数は数え切れない
@@ -130,25 +149,27 @@
 
     <div class="wrapp-service">
         <div class="container">
-            <div class="col-md-12">
-                <h2>こんなメリットがあります。</h2>
-            </div>
-            <div class="col-md-4">
-                <div class="content-service">
-                    <span><img src="{{ asset('customer/images/img-service-1.png') }}"></span>
-                    <p>アプリ・Webサイト、<br>オフラインで使えます!</p>
+            <div class="service-content">
+                <div class="col-md-12">
+                    <center><h2>こんなメリットがあります。</h2></center>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="content-service">
-                    <span><img src="{{ asset('customer/images/img-service-2.png') }}"></span>
-                    <p>プッシュ通知での<br>集客も可能!</p>
+                <div class="col-md-4">
+                    <div class="content-service">
+                        <span><img src="{{ asset('customer/images/img-service-1.png') }}" alt=""></span>
+                        <p>アプリ・Webサイト、<br>オフラインで使えます!</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="content-service">
-                    <span><img src="{{ asset('customer/images/img-service-3.png') }}"></span>
-                    <p>自社クーポンアプリ<br>も作れる!</p>
+                <div class="col-md-4">
+                    <div class="content-service">
+                        <span><img src="{{ asset('customer/images/img-service-2.png') }}" alt=""></span>
+                        <p>プッシュ通知での<br>集客も可能!</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="content-service">
+                        <span><img src="{{ asset('customer/images/img-service-3.png') }}" alt=""></span>
+                        <p>自社クーポンアプリ<br>も作れる!</p>
+                    </div>
                 </div>
             </div>
         </div>
