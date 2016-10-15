@@ -6,15 +6,19 @@ CoreBundle\Entity\Store:
         followLists:
             targetEntity: FollowList
             mappedBy: store
+            cascade: ["all"]
         pushSettings:
             targetEntity: PushSetting
             mappedBy: store
+            cascade: ["all"]
         news:
             targetEntity: News
             mappedBy: store
+            cascade: ["all"]
         coupons:
             targetEntity: Coupon
             mappedBy: store
+            cascade: ["all"]
     manyToOne:
         category:
             targetEntity: Category

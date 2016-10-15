@@ -6,6 +6,7 @@ CoreBundle\Entity\Category:
         stores:
             targetEntity: Store
             mappedBy: category
+            cascade: ["all"]
     id:
         id:
             type: integer

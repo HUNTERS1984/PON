@@ -6,9 +6,11 @@ CoreBundle\Entity\Coupon:
         useLists:
             targetEntity: UseList
             mappedBy: coupon
+            cascade: ["all"]
         likeLists:
             targetEntity: LikeList
             mappedBy: coupon
+            cascade: ["all"]
     manyToMany:
         tags:
             targetEntity: Tag
