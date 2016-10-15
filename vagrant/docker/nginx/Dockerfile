@@ -2,19 +2,15 @@ FROM nginx
 
 ENV container=docker
 
-COPY nginx.conf /etc/nginx/conf.d/pon.conf
+# Install nginx and link access and error logs to stdout
+RUN mkdir -p /var/lib/nginx && chown -R nginx:www-data /var/lib/nginx && \
+    ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log
 
-ADD start.sh /start.sh
-RUN chmod a+x /start.sh
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./conf/* /etc/nginx/conf.d/
 
-RUN usermod -u 1000 www-data
-RUN usermod -G staff www-data
-
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-
+# Expose HTTP/HTTPS ports
 EXPOSE 80 443
 
-WORKDIR /var/www/pon
-
-ENTRYPOINT ["/start.sh"]
-CMD ["/bin/bash"]
+ENTRYPOINT ["/usr/sbin/nginx"]

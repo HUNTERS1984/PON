@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker exec -it phpfpm npm $1 $2
+docker exec -it pon-php-fpm npm $1 $2
