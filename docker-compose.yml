@@ -1,0 +1,65 @@
+###############################################################################
+#                          EveryStay project                                  #
+###############################################################################
+version: "2"
+services:
+  pon-db:
+    image: mariadb:latest
+    container_name: pon-db
+    restart: on-failure:3
+    volumes:
+      - ./vagrant/data/mysql:/var/lib/mysql
+    env_file:
+      - ./vagrant/app.env
+    ports:
+      - "3306:3306"
+
+  pon-webserver:
+    build: ./vagrant/docker/nginx
+    container_name: pon-webserver
+    restart: on-failure:3
+    volumes:
+      - ./vagrant/data/logs/nginx:/var/log/nginx
+    volumes_from:
+      - pon-php-fpm
+    ports:
+      - "80:80"
+      - "443:443"
+
+  pon-elasticsearch:
+    image: elasticsearch:1.7.5
+    container_name: pon-elasticsearch
+    restart: on-failure:3
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./vagrant/data/elasticsearch:/usr/share/elasticsearch/data
+
+  pon-rabbitmq:
+    build: ./vagrant/docker/rabbitmq
+    container_name: pon-rabbitmq
+    restart: on-failure:3
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - ./vagrant/data/rabbitmq/mnesia:/var/lib/rabbitmq/mnesia
+    env_file:
+      - ./vagrant/app.env
+
+  pon-php-fpm:
+    build: ./vagrant/docker/phpfpm
+    container_name: pon-php-fpm
+    restart: on-failure:3
+    ports:
+      - "9000:9000"
+    links:
+        - pon-rabbitmq
+    volumes:
+      - ./application:/var/www/application
+      - ./vagrant/docker/phpfpm/supervisord.conf:/etc/supervisor/conf.d/pon.conf
+      - ./vagrant/data/logs/supervisor:/var/log/supervisor
+      - ./vagrant/data/logs/app:/var/www/application/var/logs
+      - ./vagrant/app.env:/etc/supervisor/conf.d/app.env
+    env_file:
+      - ./vagrant/app.env

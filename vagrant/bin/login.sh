@@ -1,3 +1,2 @@
 #!/bin/bash
-docker restart phpfpm
-docker exec -it phpfpm bash
+docker exec -it pon-php-fpm bash
