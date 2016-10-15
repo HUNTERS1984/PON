@@ -56,6 +56,12 @@ fos_elastica:
                         closeDate: ~
                         aveBill: ~
                         help_text: ~
+                        user:
+                            type: object
+                            properties:
+                                id: ~
+                                username: ~
+                                email: ~
                         followLists:
                             type: "nested"
                             properties:
@@ -118,6 +124,12 @@ fos_elastica:
                                 title: ~
                                 latitude: ~
                                 longitude: ~
+                                user:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        username: ~
+                                        email: ~
                                 category:
                                     type: object
                                     properties:

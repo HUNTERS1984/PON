@@ -17,14 +17,14 @@ class CouponDummy extends BaseDummy implements IDummy
     public function generate($i = 0)
     {
         $faker = Factory::create('ja_JP');
-        $user = new Coupon();
+        $coupon = new Coupon();
 
         $storeId = ($i % 10) + 1;
         $storeData = $this->storeManager->findOneById($storeId);
         $expiredTime = new \DateTime();
         $expiredTime->modify('+1 month');
 
-        $user
+        $coupon
             ->setTitle($faker->name)
             ->setExpiredTime($expiredTime)
             ->setImageUrl($faker->imageUrl(640, 480, 'food'))
@@ -37,8 +37,8 @@ class CouponDummy extends BaseDummy implements IDummy
             ->setStore($storeData)
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
-        $this->manager->dummy($user);
-        return $user;
+        $this->manager->dummy($coupon);
+        return $coupon;
     }
 
     /**

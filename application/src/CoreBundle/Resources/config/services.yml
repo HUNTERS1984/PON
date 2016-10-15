@@ -90,6 +90,11 @@ services:
         class: CoreBundle\DummyData\UserDummy
         calls:
             - [setManager, ["@pon.manager.user"]]
+    pon.dummy.use_list:
+        class: CoreBundle\DummyData\UseCouponDummy
+        calls:
+            - [setManager, ["@pon.manager.coupon"]]
+            - [setAppUserManager, ["@pon.manager.app_user"]]
     pon.dummy.category:
         class: CoreBundle\DummyData\CategoryDummy
         calls:
