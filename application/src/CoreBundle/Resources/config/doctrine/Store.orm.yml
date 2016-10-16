@@ -66,7 +66,7 @@ CoreBundle\Entity\Store:
             length: 255
         aveBill:
             type: integer
-        help_text:
+        helpText:
             type: text
         createdAt:
             type: datetime

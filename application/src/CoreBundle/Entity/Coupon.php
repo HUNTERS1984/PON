@@ -42,6 +42,11 @@ class Coupon
     private $type;
 
     /**
+     * @var array
+     */
+    private $couponType;
+
+    /**
      * @var string
      */
     private $description;
@@ -90,6 +95,16 @@ class Coupon
      * @var \Doctrine\Common\Collections\Collection
      */
     private $tags;
+
+    /**
+     * @var boolean
+     */
+    private $like;
+
+    /**
+     * @var boolean
+     */
+    private $canUse;
 
     /**
      * Constructor
@@ -523,5 +538,59 @@ class Coupon
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * @param boolean $like
+     * @return Coupon
+     */
+    public function setLike($like)
+    {
+        $this->like = $like;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isLike()
+    {
+        return $this->like;
+    }
+
+    /**
+     * @param array $couponType
+     * @return Coupon
+     */
+    public function setCouponType($couponType)
+    {
+        $this->couponType = $couponType;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCouponType()
+    {
+        return $this->couponType;
+    }
+
+    /**
+     * @param boolean $canUse
+     * @return Coupon
+     */
+    public function setCanUse($canUse)
+    {
+        $this->canUse = $canUse;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCanUse()
+    {
+        return $this->canUse;
     }
 }

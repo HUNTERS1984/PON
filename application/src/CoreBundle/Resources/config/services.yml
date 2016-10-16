@@ -37,6 +37,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Store"]
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
+            - [setStoreFinder, ["@fos_elastica.finder.app.store"]]
     pon.manager.user:
         class: CoreBundle\Manager\UserManager
         factory_service:  doctrine
@@ -60,6 +61,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Coupon"]
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
+            - [setCouponFinder, ["@fos_elastica.finder.app.coupon"]]
 
     pon.manager.post:
         class: CoreBundle\Manager\PostManager
@@ -134,3 +136,13 @@ services:
             - "@old_sound_rabbit_mq.connection.default"
             - expire_offer
             - delay
+
+    pon.listener.serialize:
+        class: CoreBundle\EventListener\SerializeListener
+        calls:
+            - [setSecurityContext, ["@security.token_storage"]]
+            - [setStoreManager, ["@pon.manager.store"]]
+            - [setCouponManager, ["@pon.manager.coupon"]]
+            - [setCouponTypes, ["%coupon_types%"]]
+        tags:
+            - { name: jms_serializer.event_subscriber}

@@ -20,17 +20,30 @@ class Pagination
         // No need to manually get get the result ($query->getResult())
         $currentPage = ceil($offset/$limit) + 1;
         $paginator = $this->paginate($query, $currentPage, $limit);
+        $data = $paginator->getIterator()->getArrayCopy();
+        $total = $paginator->count();
+        return $this->response($data, $total, $limit, $offset);
+    }
 
+    /**
+     * @param $data
+     * @param $total
+     * @param $limit
+     * @param $offset
+     * @return array
+     */
+    public function response($data, $total, $limit, $offset)
+    {
+        $currentPage = ceil($offset/$limit) + 1;
         $pagination = [
             'limit' => $limit,
             'offset' => $offset,
-            'item_total' => $paginator->count(),
-            'page_total' => ceil($paginator->count()/$limit),
+            'item_total' => $total,
+            'page_total' => ceil($total/$limit),
             'current_page' => $currentPage
         ];
-
         return [
-            'data' =>  $paginator->getIterator()->getArrayCopy(),
+            'data' =>  $data,
             'pagination' => $pagination
         ];
     }

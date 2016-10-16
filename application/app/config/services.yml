@@ -6,6 +6,10 @@ parameters:
        app_id: '%facebook_client_id%'
        app_secret: '%facebook_client_secret%'
 
+   coupon_types:
+      1: SNS
+      2: Store
+
 services:
   translation.loader.po:
     class: Symfony\Component\Translation\Loader\PoFileLoader

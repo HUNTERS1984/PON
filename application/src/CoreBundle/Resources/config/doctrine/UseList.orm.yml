@@ -22,4 +22,6 @@ CoreBundle\Entity\UseList:
             generator:
                 strategy: AUTO
     fields:
+        status:
+            type: integer
     lifecycleCallbacks: {  }

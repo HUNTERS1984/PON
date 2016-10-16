@@ -22,6 +22,11 @@ class UseList
      */
     private $appUser;
 
+    /**
+     * @var integer
+    */
+    private $status;
+
 
     /**
      * Get id
@@ -79,5 +84,23 @@ class UseList
     public function getAppUser()
     {
         return $this->appUser;
+    }
+
+    /**
+     * @param mixed $status
+     * @return UseList
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

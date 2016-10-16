@@ -64,7 +64,7 @@ class Store
     /**
      * @var string
      */
-    private $help_text;
+    private $helpText;
 
     /**
      * @var \DateTime
@@ -110,6 +110,16 @@ class Store
      * @var \CoreBundle\Entity\User
      */
     private $user;
+
+    /**
+     * @var string
+    */
+    private $location;
+
+    /**
+     * @var boolean
+    */
+    private $follow;
 
     /**
      * Constructor
@@ -381,7 +391,7 @@ class Store
      */
     public function setHelpText($helpText)
     {
-        $this->help_text = $helpText;
+        $this->helpText = $helpText;
 
         return $this;
     }
@@ -393,7 +403,7 @@ class Store
      */
     public function getHelpText()
     {
-        return $this->help_text;
+        return $this->helpText;
     }
 
     /**
@@ -650,5 +660,41 @@ class Store
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocation()
+    {
+        return $this->latitude.','.$this->longitude;
+    }
+
+    /**
+     * @param string $location
+     * @return Store
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+        return $this;
+    }
+
+    /**
+     * @param boolean $follow
+     * @return Store
+     */
+    public function setFollow($follow)
+    {
+        $this->follow = $follow;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isFollow()
+    {
+        return $this->follow;
     }
 }
