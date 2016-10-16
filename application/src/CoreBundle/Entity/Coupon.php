@@ -107,6 +107,11 @@ class Coupon
     private $canUse;
 
     /**
+     * @var array
+     */
+    private $couponPhotoUrls;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -592,5 +597,62 @@ class Coupon
     public function isCanUse()
     {
         return $this->canUse;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $couponPhotos;
+
+
+    /**
+     * Add couponPhoto
+     *
+     * @param \CoreBundle\Entity\CouponPhoto $couponPhoto
+     *
+     * @return Coupon
+     */
+    public function addCouponPhoto(\CoreBundle\Entity\CouponPhoto $couponPhoto)
+    {
+        $this->couponPhotos[] = $couponPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Remove couponPhoto
+     *
+     * @param \CoreBundle\Entity\CouponPhoto $couponPhoto
+     */
+    public function removeCouponPhoto(\CoreBundle\Entity\CouponPhoto $couponPhoto)
+    {
+        $this->couponPhotos->removeElement($couponPhoto);
+    }
+
+    /**
+     * Get couponPhotos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCouponPhotos()
+    {
+        return $this->couponPhotos;
+    }
+
+    /**
+     * @param array $couponPhotoUrls
+     * @return Coupon
+     */
+    public function setCouponPhotoUrls($couponPhotoUrls)
+    {
+        $this->couponPhotoUrls = $couponPhotoUrls;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCouponPhotoUrls()
+    {
+        return $this->couponPhotoUrls;
     }
 }

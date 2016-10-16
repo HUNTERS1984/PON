@@ -19,16 +19,22 @@ CoreBundle\Entity\Store:
             targetEntity: Coupon
             mappedBy: store
             cascade: ["all"]
+        storePhotos:
+            targetEntity: StorePhoto
+            mappedBy: store
+            cascade: ["all"]
     manyToOne:
         category:
             targetEntity: Category
             inversedBy: stores
+            cascade: ["all"]
             joinColumn:
                 name: category_id
                 referencedColumnName: id
         user:
             targetEntity: User
             inversedBy: stores
+            cascade: ["all"]
             joinColumn:
                 name: user_id
                 referencedColumnName: id

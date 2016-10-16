@@ -27,6 +27,10 @@ CoreBundle\Entity\Coupon:
         canUse:
             expose: true
             groups: [view, store_coupon]
+        couponPhotoUrls:
+            expose: true
+            groups: [view, store_coupon]
+            serialized_name: coupon_photo_url
         couponType:
             expose : true
             groups: [view, store_coupon]

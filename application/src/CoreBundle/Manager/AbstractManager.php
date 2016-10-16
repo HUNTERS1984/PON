@@ -99,7 +99,7 @@ abstract class AbstractManager
      * @param bool $andFlush
      * @return EntityInterface
      */
-    protected function save($entity, $andFlush = true)
+    public function save($entity, $andFlush = true)
     {
         $this->objectManager->persist($entity);
         if (true === $andFlush) {

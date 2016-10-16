@@ -43,9 +43,10 @@ CoreBundle\Entity\Store:
         helpText:
             expose: true
             groups: [view,list]
-        shopPhotoUrl:
+        storePhotoUrls:
             expose: true
-            groups: [view,list]
+            groups: [view, list]
+            serialized_name: shop_photo_url
         category:
             expose: true
             groups: [view,list]

@@ -2,7 +2,9 @@
 
 namespace CoreBundle\DummyData;
 
+use CoreBundle\Entity\Photo;
 use CoreBundle\Entity\Store;
+use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Manager\CategoryManager;
 use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\UserManager;
@@ -63,7 +65,24 @@ class StoreDummy extends BaseDummy implements IDummy
             ->setUser($user)
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
-        $this->manager->dummy($store);
+
+        /** @var Store $store*/
+        $store = $this->manager->save($store);
+        for($i=0; $i< 5; $i++) {
+            $photo = new Photo();
+            $photo
+                ->setImageUrl($faker->imageUrl(640, 480, 'food'))
+                ->setCreatedAt(new \DateTime())
+                ->setUpdatedAt(new \DateTime());
+
+            $storePhoto = new StorePhoto();
+            $storePhoto
+                ->setPhoto($photo)
+                ->setStore($store);
+            $store->addStorePhoto($storePhoto);
+        }
+
+        $store = $this->manager->save($store);
         return $store;
     }
 

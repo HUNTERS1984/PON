@@ -122,6 +122,11 @@ class Store
     private $follow;
 
     /**
+     * @var array
+    */
+    private $storePhotoUrls;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -696,5 +701,62 @@ class Store
     public function isFollow()
     {
         return $this->follow;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $storePhotos;
+
+
+    /**
+     * Add storePhoto
+     *
+     * @param \CoreBundle\Entity\StorePhoto $storePhoto
+     *
+     * @return Store
+     */
+    public function addStorePhoto(\CoreBundle\Entity\StorePhoto $storePhoto)
+    {
+        $this->storePhotos[] = $storePhoto;
+
+        return $this;
+    }
+
+    /**
+     * Remove storePhoto
+     *
+     * @param \CoreBundle\Entity\StorePhoto $storePhoto
+     */
+    public function removeStorePhoto(\CoreBundle\Entity\StorePhoto $storePhoto)
+    {
+        $this->storePhotos->removeElement($storePhoto);
+    }
+
+    /**
+     * Get storePhotos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStorePhotos()
+    {
+        return $this->storePhotos;
+    }
+
+    /**
+     * @param mixed $storePhotoUrls
+     * @return Store
+     */
+    public function setStorePhotoUrls($storePhotoUrls)
+    {
+        $this->storePhotoUrls = $storePhotoUrls;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStorePhotoUrls()
+    {
+        return $this->storePhotoUrls;
     }
 }

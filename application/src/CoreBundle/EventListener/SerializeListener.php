@@ -4,7 +4,9 @@ namespace CoreBundle\EventListener;
 
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Coupon;
+use CoreBundle\Entity\CouponPhoto;
 use CoreBundle\Entity\Store;
+use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\StoreManager;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
@@ -71,6 +73,7 @@ class SerializeListener implements EventSubscriberInterface
     public function preStoreSerialize(Store $store)
     {
         $this->setFollow($store);
+        $this->setStorePhoto($store);
     }
 
     /**
@@ -81,8 +84,34 @@ class SerializeListener implements EventSubscriberInterface
         $this->setLike($coupon);
         $this->setCouponType($coupon);
         $this->setCanUse($coupon);
+        $this->setCouponPhoto($coupon);
     }
 
+    /**
+     * @param Store $store
+     */
+    public function setStorePhoto(Store $store)
+    {
+        $photoUrls = array_map(function (StorePhoto $storePhoto) {
+            return $storePhoto->getPhoto()->getImageUrl();
+        }, $store->getStorePhotos()->toArray());
+        $store->setStorePhotoUrls($photoUrls);
+    }
+
+    /**
+     * @param Coupon $coupon
+     */
+    public function setCouponPhoto(Coupon $coupon)
+    {
+        $photoUrls = array_map(function (CouponPhoto $couponPhoto) {
+            return $couponPhoto->getPhoto()->getImageUrl();
+        }, $coupon->getCouponPhotos()->toArray());
+        $coupon->setCouponPhotoUrls($photoUrls);
+    }
+
+    /**
+     * @param Coupon $coupon
+     */
     public function setCanUse(Coupon $coupon)
     {
         if (!$user = $this->getUser()) {
@@ -94,6 +123,9 @@ class SerializeListener implements EventSubscriberInterface
         $coupon->setCanUse($isCanUse);
     }
 
+    /**
+     * @param Coupon $coupon
+     */
     public function setCouponType(Coupon $coupon)
     {
         $type = $coupon->getType();

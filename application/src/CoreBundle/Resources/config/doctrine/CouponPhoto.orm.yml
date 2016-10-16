@@ -1,21 +1,21 @@
-CoreBundle\Entity\UseList:
+CoreBundle\Entity\CouponPhoto:
     type: entity
     table: null
-    repositoryClass: CoreBundle\Repository\UseListRepository
+    repositoryClass: CoreBundle\Repository\CouponPhotoRepository
     manyToOne:
         coupon:
             targetEntity: Coupon
-            inversedBy: useLists
+            inversedBy: couponPhotos
             cascade: ["all"]
             joinColumn:
                 name: coupon_id
                 referencedColumnName: id
-        appUser:
-            targetEntity: AppUser
-            inversedBy: useLists
+        photo:
+            targetEntity: Photo
+            inversedBy: couponPhotos
             cascade: ["all"]
             joinColumn:
-                name: app_user_id
+                name: photo_id
                 referencedColumnName: id
     id:
         id:
@@ -24,6 +24,4 @@ CoreBundle\Entity\UseList:
             generator:
                 strategy: AUTO
     fields:
-        status:
-            type: integer
     lifecycleCallbacks: {  }
