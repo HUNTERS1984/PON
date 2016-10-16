@@ -8,6 +8,7 @@ use CoreBundle\Manager\CategoryManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -481,6 +482,38 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             'current_page' => 1
         ]));
 
+    }
+
+    /**
+     * search coupon
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to search coupon",
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *     },
+     *  parameters={
+     *      {"name"="query", "dataType"="string", "required"=false, "description"="query string"},
+     *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
+     *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"}
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   }
+     * )
+     * @Get("/search/coupons")
+     * @View(serializerGroups={"list_coupon","list_coupon_store"}, serializerEnableMaxDepthChecks=true)
+     * @return Response
+     */
+    public function getSearchingCouponAction(Request $request)
+    {
+        $params = $request->query->all();
+        $result = $this->getManager()->search($params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
     }
 
     /**

@@ -3,10 +3,10 @@ CoreBundle\Entity\Store:
     properties:
         id:
             expose : true
-            groups: [view, list]
+            groups: [view, list,list_coupon_store]
         title:
             expose : true
-            groups: [view,list]
+            groups: [view,list,list_coupon_store]
         operationStartTime:
             expose: true
             groups: [view,list]
@@ -49,7 +49,7 @@ CoreBundle\Entity\Store:
             serialized_name: shop_photo_url
         category:
             expose: true
-            groups: [view,list]
+            groups: [view,list,list_coupon_store]
         coupons:
             expose: true
             groups: [view,list]

@@ -222,7 +222,7 @@ class Coupon
      *
      * @return boolean
      */
-    public function getNeedLogin()
+    public function isNeedLogin()
     {
         return $this->needLogin;
     }
