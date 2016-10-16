@@ -3,19 +3,56 @@ CoreBundle\Entity\Store:
     properties:
         id:
             expose : true
-            groups: [view, view_coupon_type]
-        name:
+            groups: [view, list]
+        title:
             expose : true
-            groups: [view,create_store,view_coupon_type]
+            groups: [view,list]
+        operationStartTime:
+            expose: true
+            groups: [view,list]
+            type: DateTime<'H:i'>
+        operationEndTime:
+            expose: true
+            groups: [view,list]
+            type: DateTime<'H:i'>
+        avatarUrl:
+             expose: true
+             groups: [view,list]
+        follow:
+            expose: true
+            groups: [view,list]
+            serialized_name: is_follow
         latitude:
             expose: true
-            groups: [view,create_store,view_coupon_type]
-        longtitude:
+            groups: [view,list]
+        longitude:
             expose: true
-            groups: [view,create_store,view_coupon_type]
-        storeType:
-            expose: false
-            groups: [view,view_coupon_type]
+            groups: [view,list]
+        tel:
+            expose: true
+            groups: [view,list]
+        address:
+            expose: true
+            groups: [view,list]
+        closeDate:
+            expose: true
+            groups: [view,list]
+        aveBill:
+            expose: true
+            groups: [view,list]
+        helpText:
+            expose: true
+            groups: [view,list]
+        storePhotoUrls:
+            expose: true
+            groups: [view, list]
+            serialized_name: shop_photo_url
+        category:
+            expose: true
+            groups: [view,list]
+        coupons:
+            expose: true
+            groups: [view,list]
         user:
             expose: true
             groups: [view]

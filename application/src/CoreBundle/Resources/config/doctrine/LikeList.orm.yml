@@ -6,6 +6,7 @@ CoreBundle\Entity\LikeList:
         coupon:
             targetEntity: Coupon
             inversedBy: likeLists
+            cascade: ["all"]
             joinColumn:
                 name: coupon_id
                 referencedColumnName: id

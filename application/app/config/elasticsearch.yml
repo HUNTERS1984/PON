@@ -12,12 +12,13 @@ fos_elastica:
                         useLists:
                             type: "nested"
                             properties:
-                                coupons:
+                                coupon:
                                     type: object
                                     properties:
                                         id: ~
                                         title: ~
                                         imageUrl: ~
+                                status: ~
                         likeLists:
                             type: "nested"
                             properties:
@@ -50,12 +51,27 @@ fos_elastica:
                         operationEndTime: ~
                         avatarUrl: ~
                         tel: ~
+                        location: {type: geo_point}
                         latitude: ~
                         longitude: ~
                         address: ~
                         closeDate: ~
                         aveBill: ~
                         help_text: ~
+                        storePhotos:
+                            type: "nested"
+                            properties:
+                                photo:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        imageUrl: ~
+                        category:
+                            type: object
+                            properties:
+                                id: ~
+                                name: ~
+                                iconUrl: ~
                         user:
                             type: object
                             properties:
@@ -78,6 +94,14 @@ fos_elastica:
                                 title: ~
                                 imageUrl: ~
                                 type: ~
+                                couponPhotos:
+                                    type: "nested"
+                                    properties:
+                                        photo:
+                                            type: object
+                                            properties:
+                                                id: ~
+                                                imageUrl: ~
                                 useLists:
                                     type: nested
                                     properties:
@@ -87,6 +111,7 @@ fos_elastica:
                                                 id: ~
                                                 username: ~
                                                 email: ~
+                                        status: ~
                                 likeLists:
                                     type: "nested"
                                     properties:
@@ -117,13 +142,30 @@ fos_elastica:
                         description: ~
                         status: ~
                         size: ~
+                        couponPhotos:
+                            type: "nested"
+                            properties:
+                                photo:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        imageUrl: ~
                         store:
                             type: object
                             properties:
                                 id: ~
                                 title: ~
+                                location: {type: geo_point}
                                 latitude: ~
                                 longitude: ~
+                                storePhotos:
+                                    type: "nested"
+                                    properties:
+                                        photo:
+                                            type: object
+                                            properties:
+                                                id: ~
+                                                imageUrl: ~
                                 user:
                                     type: object
                                     properties:
@@ -145,6 +187,7 @@ fos_elastica:
                                         id: ~
                                         username: ~
                                         email: ~
+                                status: ~
                         likeLists:
                             type: nested
                             properties:

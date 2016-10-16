@@ -6,6 +6,7 @@ CoreBundle\Entity\FollowList:
         store:
             targetEntity: Store
             inversedBy: followLists
+            cascade: ["all"]
             joinColumn:
                 name: store_id
                 referencedColumnName: id

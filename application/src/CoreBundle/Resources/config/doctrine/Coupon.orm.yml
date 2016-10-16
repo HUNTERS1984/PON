@@ -11,6 +11,10 @@ CoreBundle\Entity\Coupon:
             targetEntity: LikeList
             mappedBy: coupon
             cascade: ["all"]
+        couponPhotos:
+            targetEntity: CouponPhoto
+            mappedBy: coupon
+            cascade: ["all"]
     manyToMany:
         tags:
             targetEntity: Tag
@@ -27,6 +31,7 @@ CoreBundle\Entity\Coupon:
         store:
             targetEntity: Store
             inversedBy: coupons
+            cascade: ["all"]
             joinColumn:
                 name: store_id
                 referencedColumnName: id

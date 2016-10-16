@@ -3,6 +3,8 @@
 namespace CoreBundle\DummyData;
 
 use CoreBundle\Entity\Coupon;
+use CoreBundle\Entity\CouponPhoto;
+use CoreBundle\Entity\Photo;
 use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
 
@@ -24,6 +26,17 @@ class CouponDummy extends BaseDummy implements IDummy
         $expiredTime = new \DateTime();
         $expiredTime->modify('+1 month');
 
+
+        $description = '説明が入ります説明が入ります説明が入ります説明が入り
+ます説明が入ります説明が入ります説明が入ります説明が
+入ります説明が入ります説明が入ります説明が入ります説
+明が入ります説明が入ります説明が入ります説明が入りま
+す説明が入ります..説明が入ります説明が入ります説明が
+入ります説明が入ります説明が入ります説明が入ります説
+明が入ります説明が入ります..説明が入ります説明が入り
+ます説明が入ります説明が入ります説明が入ります説明が
+入ります説明が入ります説明が入ります';
+
         $coupon
             ->setTitle($faker->name)
             ->setExpiredTime($expiredTime)
@@ -31,13 +44,31 @@ class CouponDummy extends BaseDummy implements IDummy
             ->setNeedLogin($faker->randomElement([false,true]))
             ->setCode($faker->ean13)
             ->setType($faker->numberBetween(1,2))
-            ->setDescription($faker->paragraph(3))
+            ->setDescription($description)
             ->setStatus($faker->numberBetween(0,1))
             ->setSize($faker->numberBetween(1,100))
             ->setStore($storeData)
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
-        $this->manager->dummy($coupon);
+        /** @var Coupon $coupon*/
+        $coupon = $this->manager->save($coupon);
+
+
+        for($i=0; $i< 5; $i++) {
+            $photo = new Photo();
+            $photo
+                ->setImageUrl($faker->imageUrl(640, 480, 'food'))
+                ->setCreatedAt(new \DateTime())
+                ->setUpdatedAt(new \DateTime());
+
+            $couponPhoto = new CouponPhoto();
+            $couponPhoto
+                ->setPhoto($photo)
+                ->setCoupon($coupon);
+            $coupon->addCouponPhoto($couponPhoto);
+        }
+
+        $coupon = $this->manager->save($coupon);
         return $coupon;
     }
 

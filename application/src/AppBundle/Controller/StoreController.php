@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\User;
 use CoreBundle\Form\Type\StoreType;
@@ -11,6 +12,7 @@ use CoreBundle\Manager\UserManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -162,7 +164,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *         }
      *     },
      *  parameters={
-     *      {"name"="lattitude", "dataType"="string", "required"=false, "description"="lattitude of user"},
+     *      {"name"="latitude", "dataType"="string", "required"=false, "description"="latitude of user"},
      *      {"name"="longitude", "dataType"="string", "required"=false, "description"="longitude of user"},
      *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
      *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
@@ -218,7 +220,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *         }
      *     },
      *  parameters={
-     *      {"name"="lattitude", "dataType"="string", "required"=false, "description"="lattitude of user"},
+     *      {"name"="latitude", "dataType"="string", "required"=false, "description"="latitude of user"},
      *      {"name"="longitude", "dataType"="string", "required"=false, "description"="longitude of user"},
      *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
      *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
@@ -395,9 +397,9 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *  description="This api is used to list coupon",
      *  requirements={
      *      {
-     *          "name"="lattitude",
+     *          "name"="latitude",
      *          "dataType"="string",
-     *          "description"="lattitude of app"
+     *          "description"="latitude of app"
      *      },
      *     {
      *          "name"="longitude",
@@ -420,11 +422,19 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *     401="Returned when the user is not authorized"
      *   }
      * )
-     * @Get("/map/{lattitude}/{longitude}/shops")
+     * @Get("/map/{latitude}/{longitude}/shops")
+     * @View(serializerGroups={"list","store_category","store_coupon"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
-    public function getShopCouponByMapAction($lattitude, $longitude, Request $request)
+    public function getShopCouponByMapAction($latitude, $longitude, Request $request)
     {
+        $params = $request->query->all();
+        $params['latitude'] = $latitude;
+        $params['longitude'] = $longitude;
+
+        $result = $this->getManager()->filterShopByMap($params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [];
@@ -450,7 +460,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 'avatar_url' => $faker->imageUrl(640, 480, 'food'),
                 'is_follow' => $faker->randomElement([0, 1]),
                 'tel' => $faker->phoneNumber,
-                'lattitude' => (string)$arrayGeo[$i][0],
+                'latitude' => (string)$arrayGeo[$i][0],
                 'longitude' => (string)$arrayGeo[$i][1],
                 'address' => $faker->address,
                 'close_date' => "Saturday and Sunday",

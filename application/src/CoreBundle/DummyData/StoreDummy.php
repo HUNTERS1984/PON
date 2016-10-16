@@ -2,7 +2,9 @@
 
 namespace CoreBundle\DummyData;
 
+use CoreBundle\Entity\Photo;
 use CoreBundle\Entity\Store;
+use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Manager\CategoryManager;
 use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\UserManager;
@@ -30,8 +32,21 @@ class StoreDummy extends BaseDummy implements IDummy
         $user = $this->userManager->findOneById($userId);
         $lat = 10.785871;
         $long = 106.6851;
-        $lat = $lat + $faker->randomFloat(null,-5,5);
-        $long = $long + $faker->randomFloat(null,-5,5);
+        $arrayGeo = [
+            [10.785871, 106.6851],
+            [10.784338, 106.684574],
+            [10.788322, 106.685196],
+            [10.786783, 106.683758],
+            [10.785076, 106.682965],
+            [10.785919, 106.686226],
+            [10.839665, 106.779503],
+            [10.839812, 106.780339],
+            [10.840795, 106.778982],
+            [10.840592, 106.777550],
+        ];
+        $location = $faker->numberBetween(0,9);
+        $lat = $arrayGeo[$location][0];
+        $long = $arrayGeo[$location][1];
         $startTime = new \DateTime('2000-12-31 08:00');
         $endTime = new \DateTime('2000-12-31 23:00');
         $store
@@ -50,7 +65,24 @@ class StoreDummy extends BaseDummy implements IDummy
             ->setUser($user)
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
-        $this->manager->dummy($store);
+
+        /** @var Store $store*/
+        $store = $this->manager->save($store);
+        for($i=0; $i< 5; $i++) {
+            $photo = new Photo();
+            $photo
+                ->setImageUrl($faker->imageUrl(640, 480, 'food'))
+                ->setCreatedAt(new \DateTime())
+                ->setUpdatedAt(new \DateTime());
+
+            $storePhoto = new StorePhoto();
+            $storePhoto
+                ->setPhoto($photo)
+                ->setStore($store);
+            $store->addStorePhoto($storePhoto);
+        }
+
+        $store = $this->manager->save($store);
         return $store;
     }
 

@@ -1,0 +1,31 @@
+CoreBundle\Entity\Photo:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\PhotoRepository
+    oneToMany:
+        couponPhotos:
+            targetEntity: CouponPhoto
+            mappedBy: photo
+            cascade: ["all"]
+        storePhotos:
+            targetEntity: StorePhoto
+            mappedBy: photo
+            cascade: ["all"]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        imageUrl:
+            type: string
+            length: 255
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+        deletedAt:
+            type: datetime
+            nullable: TRUE
+    lifecycleCallbacks: {  }

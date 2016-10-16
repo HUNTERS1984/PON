@@ -3,29 +3,23 @@
 namespace CoreBundle\Entity;
 
 /**
- * UseList
+ * CouponPhoto
  */
-class UseList
+class CouponPhoto
 {
     /**
      * @var integer
      */
     private $id;
-
     /**
      * @var \CoreBundle\Entity\Coupon
      */
     private $coupon;
 
     /**
-     * @var \CoreBundle\Entity\AppUser
+     * @var \CoreBundle\Entity\Photo
      */
-    private $appUser;
-
-    /**
-     * @var integer
-    */
-    private $status;
+    private $photo;
 
 
     /**
@@ -43,7 +37,7 @@ class UseList
      *
      * @param \CoreBundle\Entity\Coupon $coupon
      *
-     * @return UseList
+     * @return CouponPhoto
      */
     public function setCoupon(\CoreBundle\Entity\Coupon $coupon = null)
     {
@@ -63,44 +57,26 @@ class UseList
     }
 
     /**
-     * Set appUser
+     * Set photo
      *
-     * @param \CoreBundle\Entity\AppUser $appUser
+     * @param \CoreBundle\Entity\Photo $photo
      *
-     * @return UseList
+     * @return CouponPhoto
      */
-    public function setAppUser(\CoreBundle\Entity\AppUser $appUser = null)
+    public function setPhoto(\CoreBundle\Entity\Photo $photo = null)
     {
-        $this->appUser = $appUser;
+        $this->photo = $photo;
 
         return $this;
     }
 
     /**
-     * Get appUser
+     * Get photo
      *
-     * @return \CoreBundle\Entity\AppUser
+     * @return \CoreBundle\Entity\Photo
      */
-    public function getAppUser()
+    public function getPhoto()
     {
-        return $this->appUser;
-    }
-
-    /**
-     * @param mixed $status
-     * @return UseList
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getStatus()
-    {
-        return $this->status;
+        return $this->photo;
     }
 }
