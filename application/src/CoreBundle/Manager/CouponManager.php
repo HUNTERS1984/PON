@@ -5,7 +5,10 @@ namespace CoreBundle\Manager;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Paginator\Pagination;
+use Elastica\Filter\Missing;
 use Elastica\Query\BoolQuery;
+use Elastica\Query\MatchAll;
+use Elastica\Query\MultiMatch;
 use Elastica\Query\Nested;
 use Elastica\Query\Term;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
@@ -122,6 +125,39 @@ class CouponManager extends AbstractManager
         }
 
         return true;
+    }
+
+    /**
+     * Search 
+     * @param $params
+     * @return array
+     */
+    public function search($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $mainQuery = new \Elastica\Query;
+        $boolQuery = new BoolQuery();
+        if(!empty($queryString)){
+            $multiMatchQuery = new MultiMatch();
+            $multiMatchQuery->setFields(['title^9','store.title^2','store.category.name']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery->addMust($multiMatchQuery);
+        }else{
+            $boolQuery->addMust(new MatchAll());
+        }
+        $mainQuery->setPostFilter(new Missing('deletedAt'));
+
+        $mainQuery->setQuery($boolQuery);
+        $pagination = $this->couponFinder->createPaginatorAdapter($mainQuery);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results= $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**

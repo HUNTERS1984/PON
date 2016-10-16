@@ -114,6 +114,11 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setCanUse(Coupon $coupon)
     {
+        if(!$coupon->isNeedLogin()) {
+            $coupon->setCanUse(true);
+            return;
+        }
+
         if (!$user = $this->getUser()) {
             $coupon->setCanUse(false);
             return;

@@ -14,7 +14,12 @@ security:
         oauth_token:                                   # Everyone can access the access token URL.
             pattern: ^/oauth/v2/token
             security: false
-
+        api_search_coupons:
+            security: true
+            pattern: ^/api/v1/search/coupons   # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true
         api_map_shop_coupons:
             security: true
             pattern: ^/api/v1/map   # All URLs are protected
