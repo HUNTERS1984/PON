@@ -45,7 +45,7 @@ class CouponDummy extends BaseDummy implements IDummy
             ->setCode($faker->ean13)
             ->setType($faker->numberBetween(1,2))
             ->setDescription($description)
-            ->setStatus($faker->numberBetween(0,1))
+            ->setStatus($faker->numberBetween(0,1,2))
             ->setSize($faker->numberBetween(1,100))
             ->setStore($storeData)
             ->setCreatedAt(new \DateTime())
