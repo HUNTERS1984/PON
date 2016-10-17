@@ -4,6 +4,7 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Coupon;
+use CoreBundle\Entity\LikeList;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query\BoolQuery;
@@ -17,7 +18,7 @@ class CouponManager extends AbstractManager
 {
     /**
      * @var Pagination
-    */
+     */
     protected $pagination;
 
     /**
@@ -27,11 +28,12 @@ class CouponManager extends AbstractManager
 
     /**
      * @var Pagination $pagination
-    */
+     */
     public function setPagination(Pagination $pagination)
     {
         $this->pagination = $pagination;
     }
+
     public function dummy(Coupon $coupon)
     {
         $this->save($coupon);
@@ -80,8 +82,8 @@ class CouponManager extends AbstractManager
      */
     public function isLike(AppUser $user, Coupon $coupon)
     {
-        $couponQuery = new Term(['id'=> $coupon->getId()]);
-        $userQuery = new Term(['likeLists.appUser.id'=> $user->getId()]);
+        $couponQuery = new Term(['id' => $coupon->getId()]);
+        $userQuery = new Term(['likeLists.appUser.id' => $user->getId()]);
         $nestedQuery = new Nested();
         $nestedQuery->setPath("likeLists");
         $nestedQuery->setQuery($userQuery);
@@ -90,7 +92,7 @@ class CouponManager extends AbstractManager
             ->addMust($couponQuery)
             ->addMust($nestedQuery);
         $store = $this->couponFinder->find($query);
-        if(!$store) {
+        if (!$store) {
             return false;
         }
 
@@ -106,9 +108,9 @@ class CouponManager extends AbstractManager
      */
     public function isCanUse(AppUser $user, Coupon $coupon)
     {
-        $couponQuery = new Term(['id'=> $coupon->getId()]);
-        $userQuery = new Term(['useLists.appUser.id'=> $user->getId()]);
-        $statusQuery = new Term(['useLists.status'=> 1]);
+        $couponQuery = new Term(['id' => $coupon->getId()]);
+        $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
+        $statusQuery = new Term(['useLists.status' => 1]);
         $nestedQuery = new Nested();
         $mainQuery = new BoolQuery();
         $mainQuery->addMust($userQuery);
@@ -120,7 +122,7 @@ class CouponManager extends AbstractManager
             ->addMust($couponQuery)
             ->addMust($nestedQuery);
         $store = $this->couponFinder->find($query);
-        if(!$store) {
+        if (!$store) {
             return false;
         }
 
@@ -128,7 +130,7 @@ class CouponManager extends AbstractManager
     }
 
     /**
-     * Search 
+     * Search
      * @param $params
      * @return array
      */
@@ -140,14 +142,14 @@ class CouponManager extends AbstractManager
 
         $mainQuery = new \Elastica\Query;
         $boolQuery = new BoolQuery();
-        if(!empty($queryString)){
+        if (!empty($queryString)) {
             $multiMatchQuery = new MultiMatch();
-            $multiMatchQuery->setFields(['title^9','store.title^2','store.category.name']);
+            $multiMatchQuery->setFields(['title^9', 'store.title^2', 'store.category.name']);
             $multiMatchQuery->setType('cross_fields');
             $multiMatchQuery->setAnalyzer('standard');
             $multiMatchQuery->setQuery($queryString);
             $boolQuery->addMust($multiMatchQuery);
-        }else{
+        } else {
             $boolQuery->addMust(new MatchAll());
         }
         $mainQuery->setPostFilter(new Missing('deletedAt'));
@@ -155,9 +157,43 @@ class CouponManager extends AbstractManager
         $mainQuery->setQuery($boolQuery);
         $pagination = $this->couponFinder->createPaginatorAdapter($mainQuery);
         $transformedPartialResults = $pagination->getResults($offset, $limit);
-        $results= $transformedPartialResults->toArray();
+        $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function getCouponFavorite(AppUser $appUser, $params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $mainQuery = new \Elastica\Query;
+
+        $userQuery = new Term(['likeLists.appUser.id' => $appUser->getId()]);
+        $nestedQuery = new Nested();
+        $nestedQuery->setPath("likeLists");
+        $nestedQuery->setQuery($userQuery);
+
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust($nestedQuery);
+
+        $mainQuery->setPostFilter(new Missing('deletedAt'));
+        $mainQuery->setQuery($boolQuery);
+
+        $pagination = $this->couponFinder->createPaginatorAdapter($mainQuery);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function likeCoupon(AppUser $appUser, Coupon $coupon)
+    {
+        $likeCoupon = new LikeList();
+        $likeCoupon->setCoupon($coupon);
+        $likeCoupon->setAppUser($appUser);
+        $coupon->addLikeList($likeCoupon);
+        return $this->saveCoupon($coupon);
     }
 
     /**
@@ -172,18 +208,18 @@ class CouponManager extends AbstractManager
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
 
         $conditions = [];
-        if(isset($params['title'])) {
+        if (isset($params['title'])) {
             $conditions = [
                 'title' => [
                     'type' => 'like',
-                    'value' => "%".$params['title']."%"
+                    'value' => "%" . $params['title'] . "%"
                 ]
             ];
         }
 
         $conditions['deletedAt'] = [
             'type' => 'is',
-            'value' =>  'NULL'
+            'value' => 'NULL'
         ];
 
         $orderBy = ['createdAt' => 'DESC'];
