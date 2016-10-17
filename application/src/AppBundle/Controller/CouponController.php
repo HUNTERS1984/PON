@@ -299,7 +299,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'close_date' => "Saturday and Sunday",
                 'ave_bill' => $faker->numberBetween(100, 200),
                 'category' => [
-                    'id' => $faker->randomElement([true, false]),
+                    'id' => $faker->randomElement([1, 2]),
                     'name' => $faker->name,
                     'icon_url' => $faker->imageUrl(46, 46, 'food')
                 ]
@@ -407,13 +407,13 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'id' => $faker->numberBetween(1, 200),
                         'title' => $faker->company,
                         'category' => [
-                            'id' => $faker->randomElement([true, false]),
+                            'id' => $faker->randomElement([1, 2]),
                             'name' => $faker->name,
                             'icon_url' => $faker->imageUrl(46, 46, 'food')
                         ]
                     ],
                     'coupon_type' => [
-                        'id' => $faker->randomElement([true, false]),
+                        'id' => $faker->randomElement([1, 2]),
                         'name' => $faker->name,
                         'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
@@ -471,13 +471,13 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                         'id' => $faker->numberBetween(1, 200),
                         'title' => $faker->company,
                         'category' => [
-                            'id' => $faker->randomElement([true, false]),
+                            'id' => $faker->randomElement([1, 2]),
                             'name' => $faker->name,
                             'icon_url' => $faker->imageUrl(46, 46, 'food')
                         ]
                     ],
                     'coupon_type' => [
-                        'id' => $faker->randomElement([true, false]),
+                        'id' => $faker->randomElement([1, 2]),
                         'name' => $faker->name,
                         'icon_url' => $faker->imageUrl(46, 46, 'food')
                     ],
