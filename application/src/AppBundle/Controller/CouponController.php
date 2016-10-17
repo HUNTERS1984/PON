@@ -40,7 +40,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *         }
      *     },
      *  parameters={
-     *      {"name"="lattitude", "dataType"="string", "required"=false, "description"="lattitude of user"},
+     *      {"name"="latitude", "dataType"="string", "required"=false, "description"="latitude of user"},
      *      {"name"="longitude", "dataType"="string", "required"=false, "description"="longitude of user"},
      *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
      *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"}
@@ -169,7 +169,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *         }
      *     },
      *  parameters={
-     *     {"name"="lattitude", "dataType"="string", "required"=false, "description"="lattitude of user"},
+     *     {"name"="latitude", "dataType"="string", "required"=false, "description"="latitude of user"},
      *      {"name"="longitude", "dataType"="string", "required"=false, "description"="longitude of user"},
      *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
      *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"}
@@ -284,7 +284,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'avatar_url' => $faker->imageUrl(640, 480, 'food'),
                 'is_follow' => $faker->randomElement([0, 1]),
                 'tel' => $faker->phoneNumber,
-                'lattitude' => '35.911594',
+                'latitude' => '35.911594',
                 'longitude' => '137.746582',
                 'address' => $faker->address,
                 'close_date' => "Saturday and Sunday",
