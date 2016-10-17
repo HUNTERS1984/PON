@@ -66,6 +66,8 @@ CoreBundle\Entity\Coupon:
         size:
             type: integer
             nullable: TRUE
+        impression:
+            type: integer
         createdAt:
             type: datetime
         updatedAt:

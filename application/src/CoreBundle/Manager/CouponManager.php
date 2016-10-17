@@ -7,7 +7,9 @@ use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\LikeList;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
+use Elastica\Query;
 use Elastica\Query\BoolQuery;
+use Elastica\Query\Match;
 use Elastica\Query\MatchAll;
 use Elastica\Query\MultiMatch;
 use Elastica\Query\Nested;
@@ -80,8 +82,11 @@ class CouponManager extends AbstractManager
      * @param Coupon $coupon
      * @return bool
      */
-    public function isLike(AppUser $user, Coupon $coupon)
+    public function isLike(AppUser $user = null, Coupon $coupon)
     {
+        if (!$user) {
+            return false;
+        }
         $couponQuery = new Term(['id' => $coupon->getId()]);
         $userQuery = new Term(['likeLists.appUser.id' => $user->getId()]);
         $nestedQuery = new Nested();
@@ -106,8 +111,15 @@ class CouponManager extends AbstractManager
      * @param Coupon $coupon
      * @return bool
      */
-    public function isCanUse(AppUser $user, Coupon $coupon)
+    public function isCanUse(AppUser $user = null, Coupon $coupon)
     {
+        if(!$coupon->isNeedLogin()) {
+            return true;
+        }
+
+        if (!$user) {
+            return false;
+        }
         $couponQuery = new Term(['id' => $coupon->getId()]);
         $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
         $statusQuery = new Term(['useLists.status' => 1]);
@@ -160,6 +172,39 @@ class CouponManager extends AbstractManager
         $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * get coupon
+     *
+     * @param $id
+     * @return null | Coupon
+     */
+    public function getCoupon($id)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Term(['id'=> ['value' => $id]]));
+        $result = $this->couponFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
+     * get similar coupon
+     *
+     * @param Coupon $coupon
+     * @return array
+     */
+    public function getSimilarCoupon(Coupon $coupon)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMustNot(new Term(['id' => ['value' => $coupon->getId()]]));
+        $boolQuery->addMust(new Term(['type' => ['value' => $coupon->getType()]]));
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults(0, 4);
+        return $transformedPartialResults->toArray();
     }
 
     public function getCouponFavorite(AppUser $appUser, $params)
@@ -237,6 +282,14 @@ class CouponManager extends AbstractManager
     {
         $this->couponFinder = $couponFinder;
         return $this;
+    }
+
+    /**
+     * @return TransformedFinder
+     */
+    public function getCouponFinder()
+    {
+        return $this->couponFinder;
     }
 
 }

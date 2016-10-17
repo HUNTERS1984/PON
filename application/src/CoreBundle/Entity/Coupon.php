@@ -112,6 +112,16 @@ class Coupon
     private $couponPhotoUrls;
 
     /**
+     * @var integer
+    */
+    private $impression;
+
+    /**
+     * @var array
+    */
+    private $similarCoupons;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -654,5 +664,41 @@ class Coupon
     public function getCouponPhotoUrls()
     {
         return $this->couponPhotoUrls;
+    }
+
+    /**
+     * @param mixed $impression
+     * @return Coupon
+     */
+    public function setImpression($impression)
+    {
+        $this->impression = $impression;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImpression()
+    {
+        return $this->impression;
+    }
+
+    /**
+     * @param array $similarCoupons
+     * @return Coupon
+     */
+    public function setSimilarCoupons($similarCoupons)
+    {
+        $this->similarCoupons = $similarCoupons;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSimilarCoupons()
+    {
+        return $this->similarCoupons;
     }
 }

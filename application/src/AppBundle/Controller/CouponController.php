@@ -243,10 +243,20 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *     401="Returned when the user is not authorized"
      *   }
      * )
+     * @View(serializerGroups={"view_coupon","list_coupon_store"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getAction($id)
     {
+        $coupon = $this->getManager()->getCoupon($id);
+        if (!$coupon) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        return $this->view(BaseResponse::getData($coupon));
+
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $couponPhotoUrl = [];
@@ -563,7 +573,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function postLikeCouponAction($id, Request $request)
     {
         $user = $this->getUser();
-        $coupon = $this->getManager()->findOneById($id);
+        $coupon = $this->getManager()->getCoupon($id);
         if (!$coupon) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_found'
