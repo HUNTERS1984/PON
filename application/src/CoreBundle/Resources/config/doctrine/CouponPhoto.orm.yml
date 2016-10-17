@@ -1,0 +1,27 @@
+CoreBundle\Entity\CouponPhoto:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\CouponPhotoRepository
+    manyToOne:
+        coupon:
+            targetEntity: Coupon
+            inversedBy: couponPhotos
+            cascade: ["all"]
+            joinColumn:
+                name: coupon_id
+                referencedColumnName: id
+        photo:
+            targetEntity: Photo
+            inversedBy: couponPhotos
+            cascade: ["all"]
+            joinColumn:
+                name: photo_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+    lifecycleCallbacks: {  }

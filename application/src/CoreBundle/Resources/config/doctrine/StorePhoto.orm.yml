@@ -1,0 +1,27 @@
+CoreBundle\Entity\StorePhoto:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\StorePhotoRepository
+    manyToOne:
+        store:
+            targetEntity: Store
+            inversedBy: storePhotos
+            cascade: ["all"]
+            joinColumn:
+                name: store_id
+                referencedColumnName: id
+        photo:
+            targetEntity: Photo
+            inversedBy: storePhotos
+            cascade: ["all"]
+            joinColumn:
+                name: photo_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+    lifecycleCallbacks: {  }
