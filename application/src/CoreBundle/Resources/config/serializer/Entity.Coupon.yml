@@ -3,43 +3,50 @@ CoreBundle\Entity\Coupon:
     properties:
         id:
             expose : true
-            groups: [list_coupon,view,store_coupon]
+            groups: [list_coupon,view_coupon,store_coupon]
         title:
             expose: true
-            groups: [list_coupon,view,store_coupon]
+            groups: [list_coupon,view_coupon,store_coupon]
         imageUrl:
             expose: true
-            groups: [list_coupon,view, store_coupon]
+            groups: [list_coupon,view_coupon, store_coupon]
         description:
             expose: true
-            groups: [list_coupon,view]
+            groups: [list_coupon,view_coupon]
         expiredTime:
             expose: true
-            groups: [list_coupon,view, store_coupon]
+            groups: [list_coupon,view_coupon, store_coupon]
         like:
             expose: true
-            groups: [list_coupon,view, store_coupon]
+            groups: [list_coupon,view_coupon, store_coupon]
             serialized_name: is_like
+        code:
+            expose: true
+            groups: [view_coupon]
         store:
             expose: true
-            groups: [list_coupon]
+            groups: [list_coupon,view_coupon]
             serialized_name: shop
         needLogin:
             expose: true
-            groups: [list_coupon,view, store_coupon]
+            groups: [list_coupon,view_coupon, store_coupon]
         canUse:
             expose: true
-            groups: [list_coupon,view, store_coupon]
+            groups: [list_coupon,view_coupon, store_coupon]
         couponPhotoUrls:
             expose: true
-            groups: [list_coupon,view, store_coupon]
+            groups: [list_coupon,view_coupon, store_coupon]
             serialized_name: coupon_photo_url
         couponType:
             expose : true
-            groups: [list_coupon,view, store_coupon]
+            groups: [list_coupon,view_coupon, store_coupon]
+        similarCoupons:
+            expose : true
+            groups: [view_coupon]
+            type: array
         createdAt:
             expose: true
-            groups: [list_coupon,view]
+            groups: [list_coupon,view_coupon]
         updatedAt:
             expose: true
-            groups: [list_coupon,view]
+            groups: [list_coupon,view_coupon]

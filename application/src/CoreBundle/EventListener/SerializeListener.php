@@ -85,6 +85,7 @@ class SerializeListener implements EventSubscriberInterface
         $this->setCouponType($coupon);
         $this->setCanUse($coupon);
         $this->setCouponPhoto($coupon);
+        $this->setSimilarCoupon($coupon);
     }
 
     /**
@@ -112,18 +113,35 @@ class SerializeListener implements EventSubscriberInterface
     /**
      * @param Coupon $coupon
      */
-    public function setCanUse(Coupon $coupon)
+    public function setSimilarCoupon(Coupon $coupon)
     {
-        if(!$coupon->isNeedLogin()) {
-            $coupon->setCanUse(true);
-            return;
-        }
+        $coupons = $this->couponManager->getSimilarCoupon($coupon);
+        $user = $this->getUser();
+        $similarCoupons = array_map(function (Coupon $coupon) use ($user){
+            $isLike = $this->couponManager->isLike($user, $coupon);
+            $isCanUse = $this->couponManager->isCanUse($user, $coupon);
+            $type = $coupon->getType();
+            $couponType = ['id' => $type, 'name' => $this->couponTypes[$type]];
+            return [
+                'id' => $coupon->getId(),
+                'title' => $coupon->getTitle(),
+                'image_url' => $coupon->getImageUrl(),
+                'expired_time' => $coupon->getExpiredTime(),
+                'is_like' => $isLike,
+                'need_login' => $coupon->isNeedLogin(),
+                'can_use' => $isCanUse,
+                'coupon_type' => $couponType
+            ];
+        }, $coupons);
+        $coupon->setSimilarCoupons($similarCoupons);
+    }
 
-        if (!$user = $this->getUser()) {
-            $coupon->setCanUse(false);
-            return;
-        }
-
+    /**
+     * @param Coupon $coupon
+     */
+    public function setCanUse(Coupon &$coupon)
+    {
+        $user = $this->getUser();
         $isCanUse = $this->couponManager->isCanUse($user, $coupon);
         $coupon->setCanUse($isCanUse);
     }
@@ -131,7 +149,7 @@ class SerializeListener implements EventSubscriberInterface
     /**
      * @param Coupon $coupon
      */
-    public function setCouponType(Coupon $coupon)
+    public function setCouponType(Coupon &$coupon)
     {
         $type = $coupon->getType();
         $coupon->setCouponType(['id' => $type, 'name' => $this->couponTypes[$type]]);
@@ -140,13 +158,9 @@ class SerializeListener implements EventSubscriberInterface
     /**
      * @param Coupon $coupon
      */
-    public function setLike(Coupon $coupon)
+    public function setLike(Coupon &$coupon)
     {
-        if (!$user = $this->getUser()) {
-            $coupon->setLike(false);
-            return;
-        }
-
+        $user = $this->getUser();
         $isLike = $this->couponManager->isLike($user, $coupon);
         $coupon->setLike($isLike);
     }
