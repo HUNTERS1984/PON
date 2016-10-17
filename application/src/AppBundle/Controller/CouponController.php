@@ -265,6 +265,15 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ));
         }
 
+        $description = '説明が入ります説明が入ります説明が入ります説明が入り
+ます説明が入ります説明が入ります説明が入ります説明が
+入ります説明が入ります説明が入ります説明が入ります説
+明が入ります説明が入ります説明が入ります説明が入りま
+す説明が入ります..説明が入ります説明が入ります説明が
+入ります説明が入ります説明が入ります説明が入ります説
+明が入ります説明が入ります..説明が入ります説明が入り
+ます説明が入ります説明が入ります説明が入ります説明が
+入ります説明が入ります説明が入ります';
 
         $data = [
             'id' => (int)$id,
@@ -275,7 +284,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             'need_login' => $needLogin,
             'can_use' => $canUse,
             'code' => $faker->ean13,
-            'description' => $faker->paragraph(6),
+            'description' => $description,
             'shop' => [
                 'id' => $faker->numberBetween(1, 200),
                 'title' => $faker->company,
