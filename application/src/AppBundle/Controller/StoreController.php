@@ -64,7 +64,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
             'avatar_url' => $faker->imageUrl(640, 480, 'food'),
             'is_follow' => $faker->randomElement([0, 1]),
             'tel' => $faker->phoneNumber,
-            'lattitude' => '35.911594',
+            'latitude' => '35.911594',
             'longitude' => '137.746582',
             'address' => $faker->address,
             'close_date' => "Saturday and Sunday",
