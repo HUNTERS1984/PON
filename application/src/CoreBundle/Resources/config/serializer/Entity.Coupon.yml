@@ -16,7 +16,6 @@ CoreBundle\Entity\Coupon:
         expiredTime:
             expose: true
             groups: [list_coupon,view, store_coupon]
-            type: DateTime<'Y-m-d'>
         like:
             expose: true
             groups: [list_coupon,view, store_coupon]
