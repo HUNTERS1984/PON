@@ -62,7 +62,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
             'operation_start_time' =>  '08:00',
             'operation_end_time' => '23:00',
             'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-            'is_follow' => $faker->randomElement([0, 1]),
+            'is_follow' => $faker->randomElement([true, false]),
             'tel' => $faker->phoneNumber,
             'latitude' => '35.911594',
             'longitude' => '137.746582',
@@ -87,8 +87,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'title' => $faker->name,
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([0, 1]),
-                    'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                    'is_like' => $faker->randomElement([true, false]),
+                    'need_login' => $needLogin = $faker->randomElement([true, false]),
                     'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                     'coupon_type' => [
                         'id' => $faker->randomElement([1, 2]),
@@ -100,8 +100,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'title' => $faker->name,
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([0, 1]),
-                    'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                    'is_like' => $faker->randomElement([true, false]),
+                    'need_login' => $needLogin = $faker->randomElement([true, false]),
                     'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                     'coupon_type' => [
                         'id' => $faker->randomElement([1, 2]),
@@ -113,8 +113,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'title' => $faker->name,
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([0, 1]),
-                    'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                    'is_like' => $faker->randomElement([true, false]),
+                    'need_login' => $needLogin = $faker->randomElement([true, false]),
                     'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                     'coupon_type' => [
                         'id' => $faker->randomElement([1, 2]),
@@ -126,8 +126,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'title' => $faker->name,
                     'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([0, 1]),
-                    'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                    'is_like' => $faker->randomElement([true, false]),
+                    'need_login' => $needLogin = $faker->randomElement([true, false]),
                     'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                     'coupon_type' => [
                         'id' => $faker->randomElement([1, 2]),
@@ -187,7 +187,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'id' => $i+1,
                     'title' => $faker->company,
                     'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                    'is_follow' => $faker->randomElement([0, 1]),
+                    'is_follow' => $faker->randomElement([true, false]),
                 ];
         }
         return $this->view(BaseResponse::getData($data, [
@@ -243,7 +243,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'id' => $i+1,
                     'title' => $faker->company,
                     'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                    'is_follow' => $faker->randomElement([0, 1]),
+                    'is_follow' => $faker->randomElement([true, false]),
                 ];
         }
         return $this->view(BaseResponse::getData($data, [
@@ -297,7 +297,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                     'id' => $i+1,
                     'title' => $faker->company,
                     'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                    'is_follow' => $faker->randomElement([0, 1]),
+                    'is_follow' => $faker->randomElement([true, false]),
                 ];
         }
         return $this->view(BaseResponse::getData($data, [
@@ -458,7 +458,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 'operation_start_time' =>  '08:00',
                 'operation_end_time' => '23:00',
                 'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                'is_follow' => $faker->randomElement([0, 1]),
+                'is_follow' => $faker->randomElement([true, false]),
                 'tel' => $faker->phoneNumber,
                 'latitude' => (string)$arrayGeo[$i][0],
                 'longitude' => (string)$arrayGeo[$i][1],
@@ -483,8 +483,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'title' => $faker->name,
                         'image_url' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([0, 1]),
-                        'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                        'is_like' => $faker->randomElement([true, false]),
+                        'need_login' => $needLogin = $faker->randomElement([true, false]),
                         'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                         'coupon_type' => [
                             'id' => $faker->randomElement([1, 2]),
@@ -496,8 +496,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'title' => $faker->name,
                         'image_url' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([0, 1]),
-                        'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                        'is_like' => $faker->randomElement([true, false]),
+                        'need_login' => $needLogin = $faker->randomElement([true, false]),
                         'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                         'coupon_type' => [
                             'id' => $faker->randomElement([1, 2]),
@@ -509,8 +509,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'title' => $faker->name,
                         'image_url' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([0, 1]),
-                        'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                        'is_like' => $faker->randomElement([true, false]),
+                        'need_login' => $needLogin = $faker->randomElement([true, false]),
                         'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                         'coupon_type' => [
                             'id' => $faker->randomElement([1, 2]),
@@ -522,8 +522,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                         'title' => $faker->name,
                         'image_url' => $faker->imageUrl(640, 480, 'food'),
                         'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([0, 1]),
-                        'need_login' => $needLogin = $faker->randomElement([0, 1]),
+                        'is_like' => $faker->randomElement([true, false]),
+                        'need_login' => $needLogin = $faker->randomElement([true, false]),
                         'can_use' => (!$needLogin) || ($needLogin && $user)  ? 1 : 0,
                         'coupon_type' => [
                             'id' => $faker->randomElement([1, 2]),
