@@ -15,6 +15,10 @@ CoreBundle\Entity\Coupon:
             targetEntity: CouponPhoto
             mappedBy: coupon
             cascade: ["all"]
+        couponUserPhotos:
+            targetEntity: CouponUserPhoto
+            mappedBy: coupon
+            cascade: ["all"]
     manyToMany:
         tags:
             targetEntity: Tag

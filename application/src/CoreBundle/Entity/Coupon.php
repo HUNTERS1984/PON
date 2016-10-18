@@ -112,6 +112,11 @@ class Coupon
     private $couponPhotoUrls;
 
     /**
+     * @var array
+     */
+    private $couponUserPhotoUrls;
+
+    /**
      * @var integer
     */
     private $impression;
@@ -667,6 +672,24 @@ class Coupon
     }
 
     /**
+     * @return array
+     */
+    public function getCouponUserPhotoUrls()
+    {
+        return $this->couponUserPhotoUrls;
+    }
+
+    /**
+     * @param array $couponUserPhotoUrls
+     * @return Coupon
+     */
+    public function setCouponUserPhotoUrls($couponUserPhotoUrls)
+    {
+        $this->couponUserPhotoUrls = $couponUserPhotoUrls;
+        return $this;
+    }
+
+    /**
      * @param mixed $impression
      * @return Coupon
      */
@@ -700,5 +723,54 @@ class Coupon
     public function getSimilarCoupons()
     {
         return $this->similarCoupons;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $couponUserPhotos;
+
+
+    /**
+     * Get needLogin
+     *
+     * @return boolean
+     */
+    public function getNeedLogin()
+    {
+        return $this->needLogin;
+    }
+
+    /**
+     * Add couponUserPhoto
+     *
+     * @param \CoreBundle\Entity\CouponUserPhoto $couponUserPhoto
+     *
+     * @return Coupon
+     */
+    public function addCouponUserPhoto(\CoreBundle\Entity\CouponUserPhoto $couponUserPhoto)
+    {
+        $this->couponUserPhotos[] = $couponUserPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Remove couponUserPhoto
+     *
+     * @param \CoreBundle\Entity\CouponUserPhoto $couponUserPhoto
+     */
+    public function removeCouponUserPhoto(\CoreBundle\Entity\CouponUserPhoto $couponUserPhoto)
+    {
+        $this->couponUserPhotos->removeElement($couponUserPhoto);
+    }
+
+    /**
+     * Get couponUserPhotos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCouponUserPhotos()
+    {
+        return $this->couponUserPhotos;
     }
 }

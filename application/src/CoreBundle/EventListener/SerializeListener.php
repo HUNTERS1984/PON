@@ -5,6 +5,7 @@ namespace CoreBundle\EventListener;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\CouponPhoto;
+use CoreBundle\Entity\CouponUserPhoto;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Manager\CouponManager;
@@ -85,6 +86,7 @@ class SerializeListener implements EventSubscriberInterface
         $this->setCouponType($coupon);
         $this->setCanUse($coupon);
         $this->setCouponPhoto($coupon);
+        $this->setCouponUserPhoto($coupon);
         $this->setSimilarCoupon($coupon);
     }
 
@@ -108,6 +110,17 @@ class SerializeListener implements EventSubscriberInterface
             return $couponPhoto->getPhoto()->getImageUrl();
         }, $coupon->getCouponPhotos()->toArray());
         $coupon->setCouponPhotoUrls($photoUrls);
+    }
+
+    /**
+     * @param Coupon $coupon
+     */
+    public function setCouponUserPhoto(Coupon $coupon)
+    {
+        $photoUrls = array_map(function (CouponUserPhoto $couponUserPhoto) {
+            return $couponUserPhoto->getPhoto()->getImageUrl();
+        }, $coupon->getCouponUserPhotos()->toArray());
+        $coupon->setCouponUserPhotoUrls($photoUrls);
     }
 
     /**

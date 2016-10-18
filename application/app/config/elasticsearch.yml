@@ -94,6 +94,14 @@ fos_elastica:
                                 title: ~
                                 imageUrl: ~
                                 type: ~
+                                couponUserPhotos:
+                                    type: "nested"
+                                    properties:
+                                        photo:
+                                            type: object
+                                            properties:
+                                                id: ~
+                                                imageUrl: ~
                                 couponPhotos:
                                     type: "nested"
                                     properties:
@@ -142,6 +150,14 @@ fos_elastica:
                         description: ~
                         status: ~
                         size: ~
+                        couponUserPhotos:
+                            type: "nested"
+                            properties:
+                                photo:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        imageUrl: ~
                         couponPhotos:
                             type: "nested"
                             properties:

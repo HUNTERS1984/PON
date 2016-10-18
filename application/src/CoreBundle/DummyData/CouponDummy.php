@@ -4,6 +4,7 @@ namespace CoreBundle\DummyData;
 
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\CouponPhoto;
+use CoreBundle\Entity\CouponUserPhoto;
 use CoreBundle\Entity\Photo;
 use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
@@ -45,6 +46,7 @@ class CouponDummy extends BaseDummy implements IDummy
             ->setCode($faker->ean13)
             ->setType($faker->numberBetween(1,2))
             ->setDescription($description)
+            ->setImpression(0)
             ->setStatus($faker->numberBetween(0,1,2))
             ->setSize($faker->numberBetween(1,100))
             ->setStore($storeData)
@@ -66,6 +68,11 @@ class CouponDummy extends BaseDummy implements IDummy
                 ->setPhoto($photo)
                 ->setCoupon($coupon);
             $coupon->addCouponPhoto($couponPhoto);
+            $couponUserPhoto = new CouponUserPhoto();
+            $couponUserPhoto
+                ->setPhoto($photo)
+                ->setCoupon($coupon);
+            $coupon->addCouponUserPhoto($couponUserPhoto);
         }
 
         $coupon = $this->manager->save($coupon);
