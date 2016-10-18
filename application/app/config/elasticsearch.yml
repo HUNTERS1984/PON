@@ -94,6 +94,8 @@ fos_elastica:
                                 title: ~
                                 imageUrl: ~
                                 type: ~
+                                impression:
+                                    type: integer
                                 couponUserPhotos:
                                     type: "nested"
                                     properties:
@@ -145,6 +147,7 @@ fos_elastica:
                         expiredTime: ~
                         imageUrl: ~
                         needLogin: ~
+                        impression: ~
                         code: ~
                         type: ~
                         description: ~
@@ -219,6 +222,67 @@ fos_elastica:
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\Coupon
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                category:
+                    mappings:
+                        id: ~
+                        name: ~
+                        iconUrl: ~
+                        coupons:
+                            type: nested
+                            properties:
+                                id: ~
+                                title: ~
+                                expiredTime: ~
+                                imageUrl: ~
+                                needLogin: ~
+                                impression: ~
+                                code: ~
+                                type: ~
+                                description: ~
+                                status: ~
+                                size: ~
+                                couponPhotos:
+                                    type: "nested"
+                                    properties:
+                                        photo:
+                                            type: object
+                                            properties:
+                                                id: ~
+                                                imageUrl: ~
+                        stores:
+                            type: "nested"
+                            properties:
+                                id: ~
+                                title: ~
+                                coupons:
+                                    type: nested
+                                    properties:
+                                        id: ~
+                                        title: ~
+                                        imageUrl: ~
+                                        expiredTime: ~
+                                        type: ~
+                                        needLogin: ~
+                                        impression:
+                                            type: integer
+                                        createdAt: ~
+                                        updatedAt: ~
+                                        deletedAt: ~
+                                        likeLists:
+                                            type: "nested"
+                                            properties:
+                                                appUser:
+                                                    type: object
+                                                    properties:
+                                                        id: ~
+                                                        username: ~
+                                                        email: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\Category
                         provider: ~
                         listener: ~
                         finder: ~

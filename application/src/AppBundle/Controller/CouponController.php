@@ -83,7 +83,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
         return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
 
-
+        $result = $this->getManager()->getFeaturedCoupon($type, $params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 
 
         $faker = Factory::create('ja_JP');
@@ -315,6 +316,10 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'coupon.not_found'
             ));
         }
+
+        $coupon->setImpression($coupon->getImpression()+1);
+
+        $coupon = $this->getManager()->saveCoupon($coupon);
 
         return $this->view(BaseResponse::getData($coupon));
 
@@ -648,7 +653,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         $isLike = $this->getManager()->isLike($user, $coupon);
-        
         if(!$isLike) {
             $coupon = $this->getManager()->likeCoupon($user, $coupon);
             if(!$coupon) {
@@ -724,7 +728,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * @return CategoryManager
      */
-    public function getCouponTypeManager()
+    public function getCategoryManager()
     {
         return $this->get('pon.manager.category');
     }

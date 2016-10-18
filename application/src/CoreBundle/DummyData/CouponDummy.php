@@ -45,6 +45,7 @@ class CouponDummy extends BaseDummy implements IDummy
             ->setNeedLogin($faker->randomElement([false,true]))
             ->setCode($faker->ean13)
             ->setType($faker->numberBetween(1,2))
+            ->setImpression(0)
             ->setDescription($description)
             ->setImpression(0)
             ->setStatus($faker->numberBetween(0,1,2))

@@ -3,6 +3,7 @@
 namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\LikeList;
 use CoreBundle\Entity\UseList;
@@ -30,6 +31,11 @@ class CouponManager extends AbstractManager
      * @var TransformedFinder $couponFinder
      */
     protected $couponFinder;
+
+    /**
+     * @var TransformedFinder $couponFinder
+     */
+    protected $categoryFinder;
 
     /**
      * @var Pagination $pagination
@@ -64,6 +70,109 @@ class CouponManager extends AbstractManager
     {
         $coupon->setUpdatedAt(new \DateTime());
         return $this->save($coupon);
+    }
+
+    public function getCouponsByCategory(Category $category)
+    {
+        $conditions = [
+            'store.category.id' => [
+                'type' => '=',
+                'value' => $category->getId()
+            ]
+        ];
+
+        $conditions['deletedAt'] = [
+            'type' => 'is',
+            'value' => 'NULL'
+        ];
+
+        $orderBy = ['impression' => 'DESC'];
+
+        $query = $this->getQuery($conditions, $orderBy);
+        $result = $this->pagination->render($query,0,4);
+        var_dump($result);die();
+
+        return $this->pagination->render($query);
+    }
+
+    public function getFeaturedCoupon($type, $params)
+    {
+        switch ($type)
+        {
+            case 2:
+                return $this->getNewestCoupon($params);
+            case 3:
+                return $this->getNearestCoupon($params);
+            case 4:
+                return $this->getApprovedCoupon($params);
+            default:
+                return $this->getPopularCoupon($params);
+        }
+    }
+
+    public function getApprovedCoupon($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $mainQuery = new \Elastica\Query;
+
+
+
+        $pagination = $this->categoryFinder->createPaginatorAdapter($mainQuery);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function getNearestCoupon($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $mainQuery = new \Elastica\Query;
+
+
+        $pagination = $this->categoryFinder->createPaginatorAdapter($mainQuery);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function getNewestCoupon($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $mainQuery = new \Elastica\Query;
+
+
+
+        $pagination = $this->categoryFinder->createPaginatorAdapter($mainQuery);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function getPopularCoupon($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $mainQuery = new \Elastica\Query;
+
+
+        $mainQuery->addSort(['category.stores.coupons.impression' => ['order' => 'desc']]);
+
+
+        $pagination = $this->categoryFinder->createPaginatorAdapter($mainQuery);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**
@@ -385,6 +494,24 @@ class CouponManager extends AbstractManager
     public function getCouponFinder()
     {
         return $this->couponFinder;
+    }
+
+    /**
+     * @param TransformedFinder $categoryFinder
+     * @return CouponManager
+     */
+    public function setCategoryFinder($categoryFinder)
+    {
+        $this->categoryFinder = $categoryFinder;
+        return $this;
+    }
+
+    /**
+     * @return TransformedFinder
+     */
+    public function getCategoryFinder()
+    {
+        return $this->categoryFinder;
     }
 
 }

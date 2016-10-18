@@ -62,6 +62,7 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setCouponFinder, ["@fos_elastica.finder.app.coupon"]]
+            - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
 
     pon.manager.post:
         class: CoreBundle\Manager\PostManager
@@ -146,3 +147,11 @@ services:
             - [setCouponTypes, ["%coupon_types%"]]
         tags:
             - { name: jms_serializer.event_subscriber}
+
+    pon.listener.elastica.coupon:
+        class: CoreBundle\EventListener\ElasticaCouponListener
+        calls:
+            - [setObjectPersisterCoupon, ["@fos_elastica.object_persister.app.coupon"]]
+            - [setObjectPersisterCategory, ["@fos_elastica.object_persister.app.category"]]
+        tags:
+            - { name: doctrine.event_subscriber}
