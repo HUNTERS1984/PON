@@ -11,6 +11,10 @@ CoreBundle\Entity\Photo:
             targetEntity: StorePhoto
             mappedBy: photo
             cascade: ["all"]
+        couponUserPhotos:
+            targetEntity: CouponUserPhoto
+            mappedBy: photo
+            cascade: ["all"]
     id:
         id:
             type: integer

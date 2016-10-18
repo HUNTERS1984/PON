@@ -224,5 +224,43 @@ class Photo
     {
         return $this->storePhotos;
     }
-}
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $couponUserPhotos;
 
+
+    /**
+     * Add couponUserPhoto
+     *
+     * @param \CoreBundle\Entity\CouponUserPhoto $couponUserPhoto
+     *
+     * @return Photo
+     */
+    public function addCouponUserPhoto(\CoreBundle\Entity\CouponUserPhoto $couponUserPhoto)
+    {
+        $this->couponUserPhotos[] = $couponUserPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Remove couponUserPhoto
+     *
+     * @param \CoreBundle\Entity\CouponUserPhoto $couponUserPhoto
+     */
+    public function removeCouponUserPhoto(\CoreBundle\Entity\CouponUserPhoto $couponUserPhoto)
+    {
+        $this->couponUserPhotos->removeElement($couponUserPhoto);
+    }
+
+    /**
+     * Get couponUserPhotos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCouponUserPhotos()
+    {
+        return $this->couponUserPhotos;
+    }
+}
