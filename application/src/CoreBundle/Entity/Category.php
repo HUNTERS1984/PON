@@ -43,11 +43,17 @@ class Category
     private $stores;
 
     /**
+     * @var\Doctrine\Common\Collections\Collection
+    */
+    private $coupons;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->stores = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->coupons =  new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -212,5 +218,53 @@ class Category
     public function getStores()
     {
         return $this->stores;
+    }
+
+    /**
+     * Add Coupon
+     *
+     * @param \CoreBundle\Entity\Coupon $coupon
+     *
+     * @return Category
+     */
+    public function addCoupon(\CoreBundle\Entity\Coupon $coupon)
+    {
+        $this->coupons[] = $coupon;
+
+        return $this;
+    }
+
+    /**
+     * set coupons
+     *
+     * @param \CoreBundle\Entity\Coupon $coupon
+     *
+     * @return Category
+     */
+    public function setCoupons($coupons)
+    {
+        $this->coupons = $coupons;
+
+        return $this;
+    }
+
+    /**
+     * Remove coupon
+     *
+     * @param \CoreBundle\Entity\Coupon $coupon
+     */
+    public function removeCoupon(\CoreBundle\Entity\Coupon $coupon)
+    {
+        $this->coupons->removeElement($coupon);
+    }
+
+    /**
+     * Get coupons
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCoupons()
+    {
+        return $this->coupons;
     }
 }

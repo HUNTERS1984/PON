@@ -6,7 +6,9 @@ use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\LikeList;
+use CoreBundle\Entity\Store;
 use CoreBundle\Paginator\Pagination;
+use Doctrine\ORM\QueryBuilder;
 use Elastica\Filter\Missing;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
@@ -71,25 +73,21 @@ class CouponManager extends AbstractManager
 
     public function getCouponsByCategory(Category $category)
     {
-        $conditions = [
-            'store.category.id' => [
-                'type' => '=',
-                'value' => $category->getId()
-            ]
-        ];
+        /** @var QueryBuilder $qb*/
+        $qb =  $this->repository
+            ->createQueryBuilder('p');
 
-        $conditions['deletedAt'] = [
-            'type' => 'is',
-            'value' => 'NULL'
-        ];
+        $qb->innerJoin(Store::class, 's', 'WITH', 's.id = p.store')
+            ->innerJoin(Category::class, 'c', 'WITH', 'c.id = s.category')
+            ->andWhere("c.id = ?0")
+            ->andWhere("p.deletedAt is NULL")
+            ->setParameter(0, $category->getId());
 
-        $orderBy = ['impression' => 'DESC'];
+        $qb->addOrderBy("p.impression", 'DESC');
 
-        $query = $this->getQuery($conditions, $orderBy);
-        $result = $this->pagination->render($query,0,4);
-        var_dump($result);die();
-
-        return $this->pagination->render($query);
+        $query = $qb->getQuery();
+        $result = $this->pagination->render($query, 4, 0);
+        return $result['data'];
     }
 
     public function getFeaturedCoupon($type, $params)
