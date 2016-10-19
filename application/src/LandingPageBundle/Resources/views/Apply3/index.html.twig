@@ -1,0 +1,59 @@
+{% extends "LandingPageBundle:Layouts:layout.html.twig" %}
+{% block title %}お申し込み{% endblock %}
+{% set active_menu = 'apply_3' %}
+
+{% block scripts_header %}
+{% endblock %}
+
+{% block wrapp_header %}
+
+{% endblock %}
+
+{% block wrapp_sql %}
+
+{% endblock %}
+{% block page_content %}
+    <div id="wrapp_apply">
+        <div class="container">
+
+            <div class="bg_apply">
+                <div class="content_apply">
+                    <h1>お申し込み</h1>
+                    <div class="content_sub_apply">
+                        <ul class="nav_apply">
+                            <li><a href="{{ path("lp_apply") }}"><span>１.お客様情報の入力</span></a></li>
+                            <li><a href="{{ path("lp_apply_2") }}"><span>2.入力情報の確認</span></a></li>
+                            <li class="active"><a href="{{ path("lp_apply_3") }}"><span>3.仮申し込み完了</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- //bg_apply -->
+
+            <form class="form-horizontal">
+                <div class="form_apply_3">
+                    <div class="content_apply_3">
+                        <h2>仮申し込み完了。</h2>
+                        <div class="img_apply_finish">
+                            <img src="{{ asset('landing/images/arrow_apply_finish.png') }}" alt="">
+                        </div>
+                        <div class="text_apply_finish">
+                            お申し込みは、まだ完了しておりません。 <br>
+                            入力いただいたメールアドレスに、本申し込みURLをお送りしておりますので、必ずご確認ください。
+                        </div>
+                        <center>
+                            <a href="{{ path("lp_apply_3") }}" class="btn_apply">トップページへ</a>
+                        </center>
+                    </div>
+                </div>
+            </form>
+            <!-- //form_apply -->
+
+        </div>
+    </div>
+    <!-- //wrapp_apply -->
+{% endblock %}
+
+{% block scripts_footer %}
+
+{% endblock %}

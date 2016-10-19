@@ -1,0 +1,391 @@
+{% extends "LandingPageBundle:Layouts:layout.html.twig" %}
+{% block title %}お申し込み{% endblock %}
+{% set active_menu = 'homepage' %}
+{% block page_content %}
+    <div class="wrapp_hand">
+        <div class="content_hand">
+            <div class="icon_hand"><img src="{{ asset('landing/images/hand.png') }}" alt=""></div>
+            <h2>登録はカンタン５分！(要審査）</h2>
+            <p>
+                弊社の所定のフローにて審査を行います。結果により登録をお断りする場合が御座います。ご了承の上ご登録をご検討ください。またお断りさせて頂いた理由につきましてはお答えできませんのでご容赦ください。
+            </p>
+        </div>
+    </div>
+    <!-- //wrapp_hand -->
+
+    <div class="wrapp_ques">
+        <div class="content_ques">
+            <h2>こんなお悩みありませんか？</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="img_ques"><img src="{{ asset('landing/images/ques_01.png') }}" alt=""></p>
+                    <p class="text_ques">宣伝・集客にさける予算が無い..</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="img_ques"><img src="{{ asset('landing/images/ques_02.png') }}" alt=""></p>
+                    <p class="text_ques">SNSはじめたけど、イマイチ効果が見られない..</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="img_ques"><img src="{{ asset('landing/images/ques_03.png') }}" alt=""></p>
+                    <p class="text_ques">新規顧客・リードを獲得できない..</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_ques -->
+
+    <div class="wrapp_photo">
+        <div class="content_photo">
+            <h2>PONを今すぐはじめよう！</h2>
+            <p class="img_photo"><img src="{{ asset('landing/images/photo.png') }}" class="img-responsive" alt=""></p>
+            <h3>PONは、SNS×写真で《お店の集客》《お客様との接点》を作るアプリです。</h3>
+            <p class="text_photo">
+                今、Instargram・LINEなどのSNSで日本・世界で流通する写真の枚数は数え切れないほどの数となっております。また日本のスマホユーザーは世界でも一番、写真を撮影し保存している枚数が多いと言われております。 <br><br>
+
+                我々はここに着目し、ユーザーが所有する写真やSNSで投稿した写真をお店の新規集客やリピーター獲得につながるユーザーが創るクーポンとして実現出来ないかと思案しました。こが実現することによりお店とユーザーのコミュニケーションの密度もまし、さらにユーザーのお店への愛着も増していきます。また友人や知人が紹介したSNSで拡散される情報・写真ということでユーザーは一般的な口コミ以上に好意的に捉えてくれ来店や購入につながると確信しております。 <br><br>
+
+                1年の構想と特許取得を経て、アプリリースに辿り着きました。将来的には中国を筆頭としてアジア圏。及び、アメリカなどの欧米諸国の訪日観光客向けの多言語も視野に入れております。ぜひ皆さまの、ご商売の一助となれれば幸いです。
+            </p>
+        </div>
+    </div>
+    <!-- //wrapp_photo -->
+
+    <div class="wrapp_service">
+        <div class="content_service">
+            <h2>PONの9つのメリット</h2>
+            <div class="category_service">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p class="icon_service">
+                            <img src="{{ asset('landing/images/icon_service_01.png') }}" alt="">
+                        </p>
+                        <p class="title_service once_line">登録・月額無料！</p>
+                        <p class="text_service">
+                            まずは、お試し感覚で始めてみて下さい。 <br>
+                            登録費用も月額費用も一切かかりません。
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="icon_service">
+                            <img src="{{ asset('landing/images/icon_service_02.png') }}" alt="">
+                        </p>
+                        <p class="title_service two_line">
+                            アプリ・Webサイト、 <br>
+                            オフラインで使えます！
+                        </p>
+                        <p class="text_service">
+                            登録に必要な情報は、最低限の情報 のみなので、すぐに始めることができます。
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="icon_service">
+                            <img src="{{ asset('landing/images/icon_service_03.png') }}" alt="">
+                        </p>
+                        <p class="title_service once_line">登録はカンタン５分</p>
+                        <p class="text_service">
+                            登録に必要な情報は、最低限の情報 <br>
+                            のみなので、すぐに始めることができます。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="category_service">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p class="icon_service">
+                            <img src="{{ asset('landing/images/icon_service_04.png') }}" alt="">
+                        </p>
+                        <p class="title_service two_line">
+                            自社サイト・SNSとの <br>
+                            連携も可能！
+                        </p>
+                        <p class="text_service">
+                            登録に必要な情報は、最低限の情報 <br>
+                            のみなので、すぐに始めることができます。
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="icon_service">
+                            <img src="{{ asset('landing/images/icon_service_05.png') }}" alt="">
+                        </p>
+                        <p class="title_service two_line">
+                            運用は１人で手軽に <br>
+                            スタートできます！
+                        </p>
+                        <p class="text_service">
+                            複雑な設定もなく、使いやすい管理画面なの<br>で１人で容易に運用することができます。
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="icon_service">
+                            <img src="{{ asset('landing/images/icon_service_06.png') }}" alt="">
+                        </p>
+                        <p class="title_service once_line">プッシュ通知での集客も可能！</p>
+                        <p class="text_service">
+                            御社の潜在的なファンを「プッシュ通知」で<br>効率的に再帰させることができます。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="category_service">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p class="icon_service">
+                            <img src="{{ asset('landing/images/icon_service_07.png') }}" alt="">
+                        </p>
+                        <p class="title_service once_line">
+                            自社クーポンアプリも作れる！
+                        </p>
+                        <p class="text_service">
+                            PONではなく自社アプリとしてクーポンを<br>発行したい場合は、御社独自のアプリを開発<br>
+                            することも可能です。
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="icon_service">
+                            <img src="{{ asset('landing/images/icon_service_08.png') }}" alt="">
+                        </p>
+                        <p class="title_service two_line">
+                            QRコードでユーザーに <br>
+                            アプローチできる！
+                        </p>
+                        <p class="text_service">
+                            ユーザーにストレスなくクーポンを <br>
+                            利用してもらうための「QRコード」 <br>
+                            を用意しています。
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="icon_service">
+                            <img src="{{ asset('landing/images/icon_service_09.png') }}" alt="">
+                        </p>
+                        <p class="title_service two_line">
+                            オウンドメディアも <br>
+                            作ることが可能！
+                        </p>
+                        <p class="text_service">
+                            クーポンで集まった写真から、御社のブラン<br>ディングサイトやオウンドメディアを構築 <br>
+                            することも可能です。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_service -->
+
+    <div class="wrapp_btn">
+        <div class="content_btn">
+            <h2>まずは、トライアルからはじめて、PONを体感してみてください。</h2>
+            <p class="text_btn">登録はサクッと５分で完了します。</p>
+            <p><a href="{{ path("lp_apply") }}" class="btn_index">無料トライアル</a></p>
+        </div>
+    </div>
+    <!-- //wrapp_btn -->
+
+    <div class="wrapp_step">
+        <div class="content_step">
+            <h2>ご利用の流れ</h2>
+            <div class="main_step">
+                <div class="col-md-5"><p class="text_step_left">STEP1</p></div>
+                <div class="col-md-7"><p class="text_step_right">登録審査</p></div>
+            </div>
+            <div class="arrow_step"><img src="{{ asset('landing/images/arrow.png') }}" alt=""></div>
+            <div class="main_step">
+                <div class="col-md-5"><p class="text_step_left">STEP2</p></div>
+                <div class="col-md-7"><p class="text_step_right">登録審査</p></div>
+            </div>
+            <div class="arrow_step"><img src="{{ asset('landing/images/arrow.png') }}" alt=""></div>
+            <div class="main_step">
+                <div class="col-md-5"><p class="text_step_left">STEP3</p></div>
+                <div class="col-md-7"><p class="text_step_right">ヒアリング</p></div>
+            </div>
+            <div class="arrow_step"><img src="{{ asset('landing/images/arrow.png') }}" alt=""></div>
+            <div class="main_step">
+                <div class="col-md-5"><p class="text_step_left">STEP4</p></div>
+                <div class="col-md-7"><p class="text_step_right">ご契約</p></div>
+            </div>
+            <div class="arrow_step"><img src="{{ asset('landing/images/arrow.png') }}" alt=""></div>
+            <div class="main_step">
+                <div class="col-md-5"><p class="text_step_left">STEP5</p></div>
+                <div class="col-md-7"><p class="text_step_right">サービス利用開始</p></div>
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_step -->
+
+    <div class="wrapp_q">
+        <div class="content_q">
+            <ul class="nav_q">
+                <li>
+                    <div class="col-md-2 col-xs-2">
+                        <span class="icon_q">Q</span>
+                    </div>
+                    <div class="col-md-10 col-xs-10">
+                                    <span class="text_q">
+                                        テキストが入りますテキストが入りますテキストが入りますテキストが入ります
+                                    </span>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-md-2 col-xs-2">
+                        <span class="icon_q">Q</span>
+                    </div>
+                    <div class="col-md-10 col-xs-10">
+                                    <span class="text_q">
+                                        テキストが入りますテキストが入りますテキストが入りますテキストが入ります
+                                    </span>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-md-2 col-xs-2">
+                        <span class="icon_q">Q</span>
+                    </div>
+                    <div class="col-md-10 col-xs-10">
+                                    <span class="text_q">
+                                        テキストが入りますテキストが入りますテキストが入りますテキストが入ります
+                                    </span>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-md-2 col-xs-2">
+                        <span class="icon_q">Q</span>
+                    </div>
+                    <div class="col-md-10 col-xs-10">
+                                    <span class="text_q">
+                                        テキストが入りますテキストが入りますテキストが入りますテキストが入ります
+                                    </span>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-md-2 col-xs-2">
+                        <span class="icon_q">Q</span>
+                    </div>
+                    <div class="col-md-10 col-xs-10">
+                                    <span class="text_q">
+                                        テキストが入りますテキストが入りますテキストが入りますテキストが入ります
+                                    </span>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-md-2 col-xs-2">
+                        <span class="icon_q">Q</span>
+                    </div>
+                    <div class="col-md-10 col-xs-10">
+                                    <span class="text_q">
+                                        テキストが入りますテキストが入りますテキストが入りますテキストが入ります
+                                    </span>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-md-2 col-xs-2">
+                        <span class="icon_q">Q</span>
+                    </div>
+                    <div class="col-md-10 col-xs-10">
+                                    <span class="text_q">
+                                        テキストが入りますテキストが入りますテキストが入りますテキストが入ります
+                                    </span>
+                        <div class="sub_content_q">
+                                        <span>
+                                            テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります
+                                        </span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-md-2 col-xs-2">
+                        <span class="icon_q">Q</span>
+                    </div>
+                    <div class="col-md-10 col-xs-10">
+                                    <span class="text_q">
+                                        テキストが入りますテキストが入りますテキストが入りますテキストが入ります
+                                    </span>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-md-2 col-xs-2">
+                        <span class="icon_q">Q</span>
+                    </div>
+                    <div class="col-md-10 col-xs-10">
+                                    <span class="text_q">
+                                        テキストが入りますテキストが入りますテキストが入りますテキストが入ります
+                                    </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- //wrapp_q -->
+
+    <div class="wrapp_btn">
+        <div class="content_btn">
+            <h2>まずは、トライアルからはじめて、PONを体感してみてください。</h2>
+            <p class="text_btn">登録はサクッと５分で完了します。</p>
+            <p><a href="{{ path("lp_apply") }}" class="btn_index">無料トライアル</a></p>
+        </div>
+    </div>
+    <!-- //wrapp_btn -->
+
+    <div class="wrapp_address_map">
+        <div class="address">
+            <div class="logo_address">
+                <a href="http://hunters.co.jp/" target="_blank">
+                    <img src="{{ asset('landing/images/logo_address.png') }}" alt="">
+                </a>
+            </div>
+            <div class="tb-home">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th width="41%">社名</th>
+                        <td width="59%">HUNTERS株式会社</td>
+                    </tr>
+                    <tr>
+                        <th>設立</th>
+                        <td>2014年2月10日</td>
+                    </tr>
+                    <tr>
+                        <th>英文社名</th>
+                        <td>HUNTERS Co., Ltd.</td>
+                    </tr>
+                    <tr>
+                        <th>代表取締役</th>
+                        <td>藤吉 良</td>
+                    </tr>
+                    <tr>
+                        <th>資本金</th>
+                        <td>999万円</td>
+                    </tr>
+                    <tr>
+                        <th>株主構成</th>
+                        <td>藤吉 良　100％</td>
+                    </tr>
+                    <tr>
+                        <th>本社</th>
+                        <td>
+                            〒135-0063   東京都江東区有明3-7-26  <br>
+                            有明フロンティアビル9階
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>E - mail</th>
+                        <td>info@hunters.co.jp</td>
+                    </tr>
+                    <tr>
+                        <th>事業内容</th>
+                        <td>
+                            スマートフォンサイト・アプリ制作・開発事業・ <br>
+                            スマートフォンメディア広告事業
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="map">
+            <center><img src="{{ asset('landing/images/map.jpg') }}" class="img-responsive" alt=""></center>
+        </div>
+    </div>
+    <!-- //wrapp_address_map -->
+{% endblock %}
+

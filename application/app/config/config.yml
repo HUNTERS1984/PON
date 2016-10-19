@@ -6,6 +6,7 @@ imports:
     - { resource: elasticsearch.yml }
     - { resource: "@AdminBundle/Resources/config/services.yml" }
     - { resource: "@CustomerBundle/Resources/config/services.yml" }
+    - { resource: "@LandingPageBundle/Resources/config/services.yml" }
     - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@CoreBundle/Resources/config/services.yml" }
 
