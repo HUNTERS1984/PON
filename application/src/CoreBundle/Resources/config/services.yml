@@ -155,3 +155,10 @@ services:
             - [setObjectPersisterCategory, ["@fos_elastica.object_persister.app.category"]]
         tags:
             - { name: doctrine.event_subscriber}
+
+    pon.listener.custom.property.coupon:
+        class: CoreBundle\EventListener\ElasticaCustomCouponListener
+        calls:
+            - [setCouponManager, ["@pon.manager.coupon"]]
+        tags:
+            - { name: kernel.event_subscriber }
