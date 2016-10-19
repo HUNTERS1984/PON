@@ -1,0 +1,222 @@
+{% extends "LandingPageBundle:Layouts:layout.html.twig" %}
+{% block title %}お申し込み{% endblock %}
+{% set active_menu = 'apply' %}
+
+{% block scripts_header %}
+{% endblock %}
+
+{% block wrapp_header %}
+
+{% endblock %}
+
+{% block wrapp_sql %}
+
+{% endblock %}
+
+{% block page_content %}
+    <div id="wrapp_apply">
+        <div class="container">
+
+            <div class="bg_apply">
+                <div class="content_apply">
+                    <h1>お申し込み</h1>
+                    <div class="content_sub_apply">
+                        <ul class="nav_apply">
+                            <li class="active"><a href="{{ path("lp_apply") }}"><span>１.お客様情報の入力</span></a></li>
+                            <li><a href="{{ path("lp_apply_2") }}"><span>2.入力情報の確認</span></a></li>
+                            <li><a href="{{ path("lp_apply_3") }}"><span>3.仮申し込み完了</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- //bg_apply -->
+
+            <div class="form_apply">
+                <form class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            申し込みプラン <span class="red-text">必須</span> <br><br>
+                            <a href="" class="link-label" title="">各プランの詳細はこちら</a>
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="radio">
+                                <ul class="nav_ra">
+                                    <li>
+                                        <input id="ra_a" type="radio" name="gender" checked value="">
+                                        <label for="ra_a">プランA</label> <br>
+                                        <div class="money">¥10.000</div>
+                                    </li>
+                                    <li>
+                                        <input id="ra_b" type="radio" name="gender" value="female">
+                                        <label for="ra_b">プランB</label> <br>
+                                        <div class="money">¥40.000</div>
+                                    </li>
+                                    <li>
+                                        <input id="ra_c" type="radio" name="gender" value="female">
+                                        <label for="ra_c">プランC</label> <br>
+                                        <div class="money">¥100.000</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            店舗名 <span class="red-text">必須</span>
+                        </label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control input-contact" id="" placeholder="店舗名">
+                            <input type="text" class="form-control input-contact" id="" placeholder="フリガナ">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            店舗の業種 <span class="red-text">必須</span>
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="select-arrow">
+                                <select>
+                                    <option value="">選択してください</option>
+                                    <option value="">選択してください</option>
+                                    <option value="">選択してください</option>
+                                    <option value="">選択してください</option>
+                                    <option value="">選択してください</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            氏名 <span class="red-text">必須</span>
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="row-contact">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control input-contact" id="" placeholder="山田">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control input-contact" id="" placeholder="太郎">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control input-contact" id="" placeholder="ヤマダ">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control input-contact" id="" placeholder="タロウ">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            郵便番号 <span class="red-text">必須</span>
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="row-contact">
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control input-contact" id="" placeholder="123">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control input-contact" id="" placeholder="4567">
+                                </div>
+                                <div class="col-md-8"></div>
+                                <div class="col-md-12">
+                                    <a href="" class="link-label" title="">郵便番号から住所を自動入力</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label  class="col-sm-5">
+                            都道府県 <span class="red-text">必須</span>
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="select-arrow">
+                                <select>
+                                    <option value="">選択してください</option>
+                                    <option value="">選択してください</option>
+                                    <option value="">選択してください</option>
+                                    <option value="">選択してください</option>
+                                    <option value="">選択してください</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            市区町村 <span class="red-text">必須</span>
+                        </label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control input-contact" id="" placeholder="市区町村">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            番地・ビル名 <span class="red-text">必須</span>
+                        </label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control input-contact" id="" placeholder="番地・ビル名">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            連絡先電話番号 <span class="red-text">必須</span>
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="row-contact">
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control input-contact" id="" placeholder="080">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control input-contact" id="" placeholder="1234">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control input-contact" id="" placeholder="5678">
+                                </div>
+                                <div class="col-md-6"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            連絡先メールアドレス <span class="red-text">必須</span>
+                        </label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control input-contact" id="" placeholder="example@example.com">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            店舗のホームページURL <span class="red-text">必須</span>
+                        </label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control input-contact" id="" placeholder="http://www.example.com">
+                        </div>
+                    </div>
+
+                    <center>
+                        <a href="{{ path("lp_apply_2") }}" class="btn_apply">入力情報の確認へ</a>
+                    </center>
+
+                </form>
+            </div>
+            <!-- //form_apply -->
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts_footer %}
+
+{% endblock %}
+

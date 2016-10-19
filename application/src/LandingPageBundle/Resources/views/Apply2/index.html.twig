@@ -1,0 +1,182 @@
+{% extends "LandingPageBundle:Layouts:layout.html.twig" %}
+{% block title %}お申し込み{% endblock %}
+{% set active_menu = 'apply_2' %}
+
+{% block scripts_header %}
+{% endblock %}
+
+{% block wrapp_header %}
+
+{% endblock %}
+
+{% block wrapp_sql %}
+
+{% endblock %}
+
+{% block page_content %}
+    <div id="wrapp_apply">
+        <div class="container">
+
+            <div class="bg_apply">
+                <div class="content_apply">
+                    <h1>お申し込み</h1>
+                    <div class="content_sub_apply">
+                        <ul class="nav_apply">
+                            <li><a href="{{ path("lp_apply") }}"><span>１.お客様情報の入力</span></a></li>
+                            <li class="active"><a href="{{ path("lp_apply_2") }}"><span>2.入力情報の確認</span></a></li>
+                            <li><a href="{{ path("lp_apply_3") }}"><span>3.仮申し込み完了</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- //bg_apply -->
+
+            <form class="form-horizontal">
+                <div class="form_apply_2">
+                    <div class="content_apply_2">
+
+                        <div class="form-group">
+                            <label class="col-sm-5">
+                                申し込みプラン <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <ul class="nav_ra">
+                                    <li>
+                                        <p><label for="ra_a">プランA</label></p>
+                                        <p><div class="money">¥10.000</div></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5">
+                                店舗名 <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <span class="text_left">店舗名</span> <br><br>
+                                <span class="text_left">フリガナ</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5">
+                                店舗の業種 <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <span class="text_left">飲食</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5">
+                                氏名 <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <div class="row-contact">
+                                    <div class="col-md-6">
+                                        <span class="text_left">山田</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="text_left">太郎</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="text_left">ヤマダ</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="text_left">タロウ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5">
+                                郵便番号 <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <div class="row-contact">
+                                    <div class="col-md-12">
+                                        <span class="text_left">123 - 4567</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label  class="col-sm-5">
+                                都道府県 <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <span class="text_left">東京都</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5">
+                                市区町村 <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <span class="text_left">市区町村</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5">
+                                番地・ビル名 <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <span class="text_left">番地・ビル名</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5">
+                                連絡先電話番号 <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <div class="row-contact">
+                                    <div class="col-md-12">
+                                        <span class="text_left">080 - 1234 - 5678</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5">
+                                連絡先メールアドレス <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <span class="text_left">example@example.com</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5">
+                                店舗のホームページURL <span class="red-text">必須</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <span class="text_left">http://www.example.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <center>
+                    <div class="wrapp_btn_apply_2">
+                        <a href="{{ path("lp_apply") }}" class="btn_apply_none">お客様情報入力へ戻る</a>
+                        <a href="{{ path("lp_apply_3") }}" class="btn_apply_2">入力情報の確認へ</a>
+                    </div>
+                </center>
+            </form>
+            <!-- //form_apply -->
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts_footer %}
+
+{% endblock %}
+
+

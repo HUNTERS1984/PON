@@ -13,6 +13,7 @@ application/var/sessions/*
 /application/vendor/*
 /application/web/backend/
 /application/web/customer/
+/application/web/landing/
 /application/npm-debug.log
 /.vagrant
 /vagrant/data

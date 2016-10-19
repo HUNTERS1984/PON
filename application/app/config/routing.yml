@@ -6,6 +6,10 @@ customer:
     resource: "@CustomerBundle/Resources/config/routing.yml"
     prefix:   /
 
+landing_page:
+    resource: "@LandingPageBundle/Resources/config/routing.yml"
+    prefix:   /lp
+
 app:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix:   /api

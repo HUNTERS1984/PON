@@ -12,6 +12,8 @@ var dir = {
     admin_dist: './web/backend/',
     customer_path: './src/CustomerBundle/Resources/public/',
     customer_dist: './web/customer/',
+    lp_path: './src/LandingPageBundle/Resources/public/',
+    lp_dist: './web/landing/',
     app_dist: './web/',
     bower: './bower_components/'
 };
@@ -97,8 +99,59 @@ gulp.task('customer-images', function () {
 });
 
 
+///LANDING PAGE
 
-gulp.task('default', ['admin','customer']);
+//LANDING PAGE fonts
+gulp.task('lp-fonts', function () {
+    gulp.src([
+        dir.lp_path + 'fonts/**',
+    ]).pipe(gulp.dest(dir.lp_dist + 'fonts'));
+});
+
+
+// LANDING PAGE-STYLES
+gulp.task('lp-styles', function () {
+    gulp.src([
+        //dir.bower + 'bootstrap/dist/css/bootstrap.min.css',
+        dir.lp_path + '/css/**'
+    ])
+        .pipe(sourcemaps.init())
+        .pipe(gulpif(/[.]less/, less()))
+        .pipe(sourcemaps.write())
+        .pipe(concat('landing.css'))
+        .pipe(gulp.dest(dir.lp_dist + 'css'));
+});
+
+
+// LANDING PAGE-SCRIPTS
+gulp.task('lp-scripts', function () {
+    gulp.src([
+        dir.lp_path + '/js/main.js'
+    ])
+        .pipe(concat('landing.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest(dir.lp_dist + 'js'));
+});
+
+gulp.task('lp-head-scripts', function () {
+    gulp.src([
+        dir.lp_path + '/js/jquery.min.js',
+        dir.lp_path + '/js/modernizr.js'
+    ])
+        .pipe(concat('landing_head.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest(dir.lp_dist + 'js'));
+});
+
+gulp.task('lp-images', function () {
+    gulp.src([
+        dir.lp_path + 'images/**'
+    ]).pipe(gulp.dest(dir.lp_dist + 'images'));
+});
+
+
+
+gulp.task('default', ['admin','customer','lp']);
 
 gulp.task('admin', [
     'admin-fonts',
@@ -112,4 +165,12 @@ gulp.task('customer', [
     'customer-styles',
     'customer-scripts',
     'customer-images',
+]);
+
+gulp.task('lp', [
+    'lp-fonts',
+    'lp-styles',
+    'lp-head-scripts',
+    'lp-scripts',
+    'lp-images',
 ]);

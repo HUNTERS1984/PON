@@ -1,0 +1,15 @@
+lp_homepage:
+    path:     /
+    defaults: { _controller: LandingPageBundle:Home:index }
+
+lp_apply:
+    path:     /apply
+    defaults: { _controller: LandingPageBundle:Apply:index }
+
+lp_apply_2:
+    path:     /apply-2
+    defaults: { _controller: LandingPageBundle:Apply2:index }
+
+lp_apply_3:
+    path:     /apply-3
+    defaults: { _controller: LandingPageBundle:Apply3:index }
