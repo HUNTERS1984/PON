@@ -165,8 +165,12 @@ class StoreManager extends AbstractManager
 //        $nestedQuery->setQuery($userQuery);
 
 
+        $nestedQuery = new Nested();
+        $nestedQuery->setPath("followLists");
+        $nestedQuery->setQuery($userQuery);
+
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust($userQuery);
+        $boolQuery->addMust($nestedQuery);
 
         $mainQuery->setPostFilter(new Missing('deletedAt'));
         $mainQuery->setQuery($boolQuery);
@@ -199,7 +203,8 @@ class StoreManager extends AbstractManager
             $categoryQuery = new Query\Term(['category.id'=> $categoryId]);
             $boolQuery = new BoolQuery();
             $boolQuery->addMust($categoryQuery);
-            $query->setQuery($boolQuery); 
+            $query->setQuery($boolQuery);
+            $query->addMust($categoryQuery);
         }
         $pagination = $this->storeFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults($offset, $limit);

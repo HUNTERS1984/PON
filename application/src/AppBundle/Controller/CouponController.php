@@ -97,6 +97,35 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         $result = $this->getManager()->getFeaturedCoupon($type, $params, $user);
 
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+/*
+        switch ($type) {
+            case 1:
+                /* popular */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
+                break;
+            case 2:
+                /* newest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
+                break;
+            case 3:
+                /* nearest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
+                break;
+            case 4:
+                /* approved */
+                $user = $this->getUser();
+                $store = $this->getManager()->isCanUse($user , $params);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ));
+        }
+        return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
+*/
 
 
         $faker = Factory::create('ja_JP');
@@ -276,6 +305,36 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         $result = $this->getManager()->getFullFeaturedCoupon($type, $categoryObject, $params, $user);
 
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+/*
+        switch ($type) {
+            case 1:
+                /* popular */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
+                break;
+            case 2:
+                /* newest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
+                break;
+            case 3:
+                /* nearest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
+                break;
+            case 4:
+                /* approved */
+                $user = $this->getUser();
+                $store = $this->getManager()->isCanUse($user , $params);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ));
+        }
+        return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
+
+*/
 
         $faker = Factory::create('ja_JP');
         $user = $this->getUser();
