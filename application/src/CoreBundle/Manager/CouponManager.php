@@ -10,6 +10,8 @@ use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
+use Elastica\Filter\Exists;
+use Elastica\Filter\GeoDistance;
 use Elastica\Query\Match;
 use Elastica\Query\MatchAll;
 use Elastica\Query\MultiMatch;
@@ -326,6 +328,37 @@ class CouponManager extends AbstractManager
             $categoryQuery = new Query\Term(['category.id'=> $categoryId]);
             $query->addMust($categoryQuery);
         }
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results= $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * Filter Coupon By Map
+     *
+     * @param array $params
+     *
+     * @return array
+     */
+    public function filterCouponByMap($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $distance = new GeoDistance(
+            'store.location',
+            [
+                'lat' => $params['latitude'],
+                'lon' => $params['longitude']
+            ],
+            '1km'
+        );
+        $query = new \Elastica\Query;
+        $all = new Query\MatchAll();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Query\Filtered($all, $distance));
         $pagination = $this->storeFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults($offset, $limit);
         $results= $transformedPartialResults->toArray();

@@ -69,8 +69,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 break;
             case 3:
                 /* nearest */
-                $sortArgs = array('createdAt' => array('order' => 'desc'));
-                $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
+                $store = $this->getManager()->filterCouponByMap($params);
                 break;
             case 4:
                 /* approved */
@@ -230,8 +229,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 break;
             case 3:
                 /* nearest */
-                $sortArgs = array('createdAt' => array('order' => 'desc'));
-                $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
+                $store = $this->getManager()->filterCouponByMap($params);
                 break;
             case 4:
                 /* approved */
