@@ -4,6 +4,7 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Store;
+use CoreBundle\Entity\FollowList;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Exists;
 use Elastica\Filter\GeoDistance;
@@ -74,6 +75,21 @@ class StoreManager extends AbstractManager
     }
 
     /**
+     * get store
+     *
+     * @param $id
+     * @return null | Store
+     */
+    public function getStore($id)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Term(['id'=> ['value' => $id]]));
+        $result = $this->storeFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
      * Filter Shop By Map
      *
      * @param array $params
@@ -127,8 +143,32 @@ class StoreManager extends AbstractManager
         if(!$store) {
             return false;
         }
-
         return true;
+    }
+
+    public function getFollowShop(AppUser $appUser, $params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $mainQuery = new \Elastica\Query;
+
+        $userQuery = new Term(['followLists.appUser.id' => $appUser->getId()]);
+        $nestedQuery = new Nested();
+        $nestedQuery->setPath("followLists");
+        $nestedQuery->setQuery($userQuery);
+
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust($nestedQuery);
+
+        $mainQuery->setPostFilter(new Missing('deletedAt'));
+        $mainQuery->setQuery($boolQuery);
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($mainQuery);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**
@@ -137,31 +177,34 @@ class StoreManager extends AbstractManager
      *
      * @return array
      */
-    public function listStore($params)
+    public function listStore($params , $categoryId = 0 ,  array $sortArgs)
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
 
-        $conditions = [];
-        if (isset($params['name'])) {
-            $conditions = [
-                'name' => [
-                    'type' => 'like',
-                    'value' => "%" . $params['name'] . "%"
-                ]
-            ];
+        $query = new \Elastica\Query;
+        $query->setPostFilter(new Missing('deletedAt'));
+        if(!empty($sortArgs)){
+            $query->setSort($sortArgs);
         }
+        if($categoryId > 0){
+            $categoryQuery = new Query\Term(['category.id'=> $categoryId]);
+            $query->addMust($categoryQuery);
+        }
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results= $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
 
-        $conditions['deletedAt'] = [
-            'type' => 'is',
-            'value' => 'NULL'
-        ];
-
-        $orderBy = ['createdAt' => 'DESC'];
-
-        $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
-
-        return $this->pagination->render($query, $limit, $offset);
+    public function followShop(AppUser $appUser, Store $shop)
+    {
+        $followShop = new FollowList();
+        $followShop->setStore($shop);
+        $followShop->setAppUser($appUser);
+        $shop->addFollowList($followShop);
+        return $this->saveStore($shop);
     }
 
     /**

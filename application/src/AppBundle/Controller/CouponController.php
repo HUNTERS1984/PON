@@ -55,6 +55,38 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getFeaturedCouponAction($type, Request $request)
     {
+        $params = $request->query->all();
+        switch ($type) {
+            case 1:
+                /* popular */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
+                break;
+            case 2:
+                /* newest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
+                break;
+            case 3:
+                /* nearest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
+                break;
+            case 4:
+                /* approved */
+                $user = $this->getUser();
+                $store = $this->getManager()->isCanUse($user , $params);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ));
+        }
+        return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
+
+
+
+
         $faker = Factory::create('ja_JP');
         $user = $this->getUser();
         $data = [];
@@ -184,6 +216,36 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getCouponsByFeaturedAndCategoryAction($type, $category, Request $request)
     {
+        $params = $request->query->all();
+        switch ($type) {
+            case 1:
+                /* popular */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
+                break;
+            case 2:
+                /* newest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
+                break;
+            case 3:
+                /* nearest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
+                break;
+            case 4:
+                /* approved */
+                $user = $this->getUser();
+                $store = $this->getManager()->isCanUse($user , $params);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ));
+        }
+        return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
+
+
         $faker = Factory::create('ja_JP');
         $user = $this->getUser();
         $data = [
@@ -470,6 +532,12 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getUsedCouponAction(Request $request)
     {
+
+        $user = $this->getUser();
+        $params = $request->query->all();
+        $result = $this->getManager()->getCouponUsed($user, $params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [];
@@ -625,6 +693,24 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function postUseCouponAction($id, Request $request)
     {
+        $user = $this->getUser();
+        $coupon = $this->getManager()->getCoupon($id);
+        if (!$coupon) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        $isLike = $this->getManager()->isUsed($user, $coupon);
+
+        if(!$isLike) {
+            $coupon = $this->getManager()->usedCoupon($user, $coupon);
+            if(!$coupon) {
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'coupon.like.not_success'
+                ));
+            }
+        }
         return $this->view(BaseResponse::getData([]), 200);
     }
 

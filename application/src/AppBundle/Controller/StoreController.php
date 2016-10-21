@@ -54,6 +54,16 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getAction($id)
     {
+        $store = $this->getManager()->getStore($id);
+        if (!$store) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'store.not_found'
+            ));
+        }
+
+        return $this->view(BaseResponse::getData($store));
+
+
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [
@@ -179,6 +189,35 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAndTypeAction($type, $category, Request $request)
     {
+        $params = $request->query->all();
+        switch ($type) {
+            case 1:
+                /* popular */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listStore($params , $category , $sortArgs);
+                break;
+            case 2:
+                /* newest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listStore($params , $category , $sortArgs);
+                break;
+            case 3:
+                /* nearest */
+                $store = $this->getManager()->filterShopByMap($params);
+                break;
+            case 4:
+                /* approved */
+                $user = $this->getUser();
+                $store = $this->getManager()->getFollowShop($user ,$params);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ));
+        }
+        return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -235,6 +274,36 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAction($type, Request $request)
     {
+
+        $params = $request->query->all();
+        switch ($type) {
+            case 1:
+                /* popular */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listStore($params , 0 , $sortArgs);
+                break;
+            case 2:
+                /* newest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listStore($params , 0 , $sortArgs);
+                break;
+            case 3:
+                /* nearest */
+                $store = $this->getManager()->filterShopByMap($params);
+                break;
+            case 4:
+                /* approved */
+                $user = $this->getUser();
+                $store = $this->getManager()->getFollowShop($user , $params);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ));
+        }
+        return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -335,6 +404,11 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getFollowShopAction(Request $request)
     {
+        $user = $this->getUser();
+        $params = $request->query->all();
+        $result = $this->getManager()->getFollowShop($user, $params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -387,6 +461,25 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function postFollowShopAction($id, Request $request)
     {
+        $user = $this->getUser();
+        $shop = $this->getManager()->getStore($id);
+        if (!$shop) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'store.not_found'
+            ));
+        }
+
+        $isFollow = $this->getManager()->isFollow($user, $shop);
+
+        if(!$isFollow) {
+            $shop = $this->getManager()->followShop($user, $shop);
+            if(!$shop) {
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.follow.not_success'
+                ));
+            }
+        }
+
         return $this->view(BaseResponse::getData([]), 200);
     }
 
