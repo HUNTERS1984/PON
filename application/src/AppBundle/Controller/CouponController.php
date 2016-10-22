@@ -215,6 +215,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getCouponsByFeaturedAndCategoryAction($type, $category, Request $request)
     {
+
         $params = $request->query->all();
         switch ($type) {
             case 1:

@@ -11,6 +11,9 @@ use Elastica\Filter\GeoDistance;
 use Elastica\Filter\MatchAll;
 use Elastica\Filter\Missing;
 use Elastica\Query;
+use Elastica\Query\Term;
+use Elastica\Query\Nested;
+use Elastica\Query\BoolQuery;
 use Elastica\QueryBuilder\DSL\Filter;
 use Elastica\Test\Filter\MissingTest;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
@@ -82,10 +85,13 @@ class StoreManager extends AbstractManager
      */
     public function getStore($id)
     {
+
+
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
         $query->setQuery(new Term(['id'=> ['value' => $id]]));
         $result = $this->storeFinder->find($query);
+
         return !empty($result) ? $result[0] : null;
     }
 
@@ -132,13 +138,13 @@ class StoreManager extends AbstractManager
     {
         $storeQuery = new Query\Term(['id'=> $store->getId()]);
         $userQuery = new Query\Term(['followLists.appUser.id'=> $user->getId()]);
-        $nestedQuery = new Query\Nested();
-        $nestedQuery->setPath("followLists");
-        $nestedQuery->setQuery($userQuery);
+//        $nestedQuery = new Query\Nested();
+//        $nestedQuery->setPath("followLists");
+//        $nestedQuery->setQuery($userQuery);
         $query = new Query\BoolQuery();
         $query
             ->addMust($storeQuery)
-            ->addMust($nestedQuery);
+            ->addMust($userQuery);
         $store = $this->storeFinder->find($query);
         if(!$store) {
             return false;
@@ -154,12 +160,13 @@ class StoreManager extends AbstractManager
         $mainQuery = new \Elastica\Query;
 
         $userQuery = new Term(['followLists.appUser.id' => $appUser->getId()]);
-        $nestedQuery = new Nested();
-        $nestedQuery->setPath("followLists");
-        $nestedQuery->setQuery($userQuery);
+//        $nestedQuery = new Nested();
+//        $nestedQuery->setPath("followLists");
+//        $nestedQuery->setQuery($userQuery);
+
 
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust($nestedQuery);
+        $boolQuery->addMust($userQuery);
 
         $mainQuery->setPostFilter(new Missing('deletedAt'));
         $mainQuery->setQuery($boolQuery);
@@ -168,6 +175,7 @@ class StoreManager extends AbstractManager
         $transformedPartialResults = $pagination->getResults($offset, $limit);
         $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
+
         return $this->pagination->response($results, $total, $limit, $offset);
     }
 
@@ -189,7 +197,9 @@ class StoreManager extends AbstractManager
         }
         if($categoryId > 0){
             $categoryQuery = new Query\Term(['category.id'=> $categoryId]);
-            $query->addMust($categoryQuery);
+            $boolQuery = new BoolQuery();
+            $boolQuery->addMust($categoryQuery);
+            $query->setQuery($boolQuery); 
         }
         $pagination = $this->storeFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults($offset, $limit);

@@ -189,6 +189,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAndTypeAction($type, $category, Request $request)
     {
+
         $params = $request->query->all();
         switch ($type) {
             case 1:

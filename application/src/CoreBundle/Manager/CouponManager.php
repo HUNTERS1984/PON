@@ -15,8 +15,8 @@ use Elastica\Filter\GeoDistance;
 use Elastica\Query\Match;
 use Elastica\Query\MatchAll;
 use Elastica\Query\MultiMatch;
-use Elastica\Query\Nested;
 use Elastica\Query\Term;
+use Elastica\Query\Nested;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 class CouponManager extends AbstractManager
@@ -92,13 +92,13 @@ class CouponManager extends AbstractManager
         }
         $couponQuery = new Term(['id' => $coupon->getId()]);
         $userQuery = new Term(['likeLists.appUser.id' => $user->getId()]);
-        $nestedQuery = new Nested();
-        $nestedQuery->setPath("likeLists");
-        $nestedQuery->setQuery($userQuery);
+//        $nestedQuery = new Nested();
+//        $nestedQuery->setPath("likeLists");
+//        $nestedQuery->setQuery($userQuery);
         $query = new BoolQuery();
         $query
             ->addMust($couponQuery)
-            ->addMust($nestedQuery);
+            ->addMust($userQuery);
         $store = $this->couponFinder->find($query);
         if (!$store) {
             return false;
@@ -121,13 +121,13 @@ class CouponManager extends AbstractManager
         }
         $couponQuery = new Term(['id' => $coupon->getId()]);
         $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
-        $nestedQuery = new Nested();
-        $nestedQuery->setPath("useLists");
-        $nestedQuery->setQuery($userQuery);
+//        $nestedQuery = new Nested();
+//        $nestedQuery->setPath("useLists");
+//        $nestedQuery->setQuery($userQuery);
         $query = new BoolQuery();
         $query
             ->addMust($couponQuery)
-            ->addMust($nestedQuery);
+            ->addMust($userQuery);
         $store = $this->couponFinder->find($query);
         if (!$store) {
             return false;
@@ -155,16 +155,17 @@ class CouponManager extends AbstractManager
         $couponQuery = new Term(['id' => $coupon->getId()]);
         $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
         $statusQuery = new Term(['useLists.status' => 1]);
-        $nestedQuery = new Nested();
         $mainQuery = new BoolQuery();
         $mainQuery->addMust($userQuery);
         $mainQuery->addMust($statusQuery);
-        $nestedQuery->setPath("useLists");
-        $nestedQuery->setQuery($mainQuery);
+
+//        $nestedQuery = new Nested();
+//        $nestedQuery->setPath("useLists");
+//        $nestedQuery->setQuery($mainQuery);
         $query = new BoolQuery();
         $query
             ->addMust($couponQuery)
-            ->addMust($nestedQuery);
+            ->addMust($mainQuery);
         $store = $this->couponFinder->find($query);
         if (!$store) {
             return false;
@@ -247,12 +248,12 @@ class CouponManager extends AbstractManager
         $mainQuery = new \Elastica\Query;
 
         $userQuery = new Term(['likeLists.appUser.id' => $appUser->getId()]);
-        $nestedQuery = new Nested();
-        $nestedQuery->setPath("likeLists");
-        $nestedQuery->setQuery($userQuery);
+//        $nestedQuery = new Nested();
+//        $nestedQuery->setPath("likeLists");
+//        $nestedQuery->setQuery($userQuery);
 
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust($nestedQuery);
+        $boolQuery->addMust($userQuery);
 
         $mainQuery->setPostFilter(new Missing('deletedAt'));
         $mainQuery->setQuery($boolQuery);
@@ -272,12 +273,12 @@ class CouponManager extends AbstractManager
         $mainQuery = new \Elastica\Query;
 
         $userQuery = new Term(['useLists.appUser.id' => $appUser->getId()]);
-        $nestedQuery = new Nested();
-        $nestedQuery->setPath("useLists");
-        $nestedQuery->setQuery($userQuery);
+//        $nestedQuery = new Nested();
+//        $nestedQuery->setPath("useLists");
+//        $nestedQuery->setQuery($userQuery);
 
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust($nestedQuery);
+        $boolQuery->addMust($userQuery);
 
         $mainQuery->setPostFilter(new Missing('deletedAt'));
         $mainQuery->setQuery($boolQuery);
@@ -326,9 +327,11 @@ class CouponManager extends AbstractManager
         }
         if($categoryId > 0){
             $categoryQuery = new Query\Term(['category.id'=> $categoryId]);
-            $query->addMust($categoryQuery);
-        }
-        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+            $boolQuery = new BoolQuery();
+            $boolQuery->addMust($categoryQuery);
+            $query->setQuery($boolQuery);
+        } 
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults($offset, $limit);
         $results= $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
@@ -359,7 +362,7 @@ class CouponManager extends AbstractManager
         $all = new Query\MatchAll();
         $query->setPostFilter(new Missing('deletedAt'));
         $query->setQuery(new Query\Filtered($all, $distance));
-        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults($offset, $limit);
         $results= $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
