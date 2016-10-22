@@ -531,13 +531,13 @@ class CouponManager extends AbstractManager
         }
         $couponQuery = new Term(['id' => $coupon->getId()]);
         $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
-        $nestedQuery = new Nested();
-        $nestedQuery->setPath("useLists");
-        $nestedQuery->setQuery($userQuery);
+//        $nestedQuery = new Nested();
+//        $nestedQuery->setPath("useLists");
+//        $nestedQuery->setQuery($userQuery);
         $query = new BoolQuery();
         $query
             ->addMust($couponQuery)
-            ->addMust($nestedQuery);
+            ->addMust($userQuery);
         $store = $this->couponFinder->find($query);
         if (!$store) {
             return false;
@@ -708,12 +708,12 @@ class CouponManager extends AbstractManager
         $mainQuery = new \Elastica\Query;
 
         $userQuery = new Term(['useLists.appUser.id' => $appUser->getId()]);
-        $nestedQuery = new Nested();
-        $nestedQuery->setPath("useLists");
-        $nestedQuery->setQuery($userQuery);
+//        $nestedQuery = new Nested();
+//        $nestedQuery->setPath("useLists");
+//        $nestedQuery->setQuery($userQuery);
 
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust($nestedQuery);
+        $boolQuery->addMust($userQuery);
 
         $mainQuery->setPostFilter(new Missing('deletedAt'));
         $mainQuery->setQuery($boolQuery);

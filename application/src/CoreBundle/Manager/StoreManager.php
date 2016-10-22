@@ -170,7 +170,7 @@ class StoreManager extends AbstractManager
         $nestedQuery->setQuery($userQuery);
 
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust($nestedQuery);
+        $boolQuery->addMust($userQuery);
 
         $mainQuery->setPostFilter(new Missing('deletedAt'));
         $mainQuery->setQuery($boolQuery);
