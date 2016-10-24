@@ -64,6 +64,7 @@ services:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setCouponFinder, ["@fos_elastica.finder.app.coupon"]]
             - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
+            - [setCategoryManager, ["@pon.manager.category"]]
 
     pon.manager.photo:
         class: CoreBundle\Manager\PhotoManager
