@@ -10,6 +10,7 @@ use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Put;
+use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -43,6 +44,7 @@ class CategoryController extends FOSRestController implements ClassResourceInter
      *   }
      * )
      * @Get("/categories")
+     * @View(serializerGroups={"list_category"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getCategoriesAction(Request $request)
