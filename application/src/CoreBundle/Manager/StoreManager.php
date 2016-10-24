@@ -183,6 +183,36 @@ class StoreManager extends AbstractManager
         return $this->pagination->response($results, $total, $limit, $offset);
     }
 
+
+
+    /**
+     * get shop follow category
+     *
+     * @param Category $category
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return array
+     */
+    public function getShopByCategory(Category $category, $params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Term(['category.id' => ['value' => $category->getId()]]));
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+
+
     /**
      * List Store
      * @param array $params
