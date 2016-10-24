@@ -51,10 +51,23 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *   }
      * )
      * @Get("/featured/{type}/coupons")
+     * @View(serializerGroups={"featured_coupon"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getFeaturedCouponAction($type, Request $request)
     {
+        $params = $request->query->all();
+        if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_blank.latitude_longitude'
+            ));
+        }
+
+        $user = $this->getUser();
+
+        $result = $this->getManager()->getFeaturedCoupon($type, $params, $user);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $faker = Factory::create('ja_JP');
         $user = $this->getUser();
         $data = [];
@@ -254,6 +267,10 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                 'coupon.not_found'
             ));
         }
+
+        $coupon->setImpression($coupon->getImpression()+1);
+
+        $coupon = $this->getManager()->saveCoupon($coupon);
 
         return $this->view(BaseResponse::getData($coupon));
 
@@ -581,7 +598,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         $isLike = $this->getManager()->isLike($user, $coupon);
-        
         if(!$isLike) {
             $coupon = $this->getManager()->likeCoupon($user, $coupon);
             if(!$coupon) {
@@ -639,7 +655,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * @return CategoryManager
      */
-    public function getCouponTypeManager()
+    public function getCategoryManager()
     {
         return $this->get('pon.manager.category');
     }

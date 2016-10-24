@@ -62,6 +62,13 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setCouponFinder, ["@fos_elastica.finder.app.coupon"]]
+            - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
+
+    pon.manager.photo:
+        class: CoreBundle\Manager\PhotoManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Photo"]
 
     pon.manager.post:
         class: CoreBundle\Manager\PostManager
@@ -107,11 +114,14 @@ services:
             - [setManager, ["@pon.manager.store"]]
             - [setCategoryManager, ["@pon.manager.category"]]
             - [setUserManager, ["@pon.manager.user"]]
+            - [setPhotoManager, ["@pon.manager.photo"]]
+
     pon.dummy.coupon:
         class: CoreBundle\DummyData\CouponDummy
         calls:
             - [setManager, ["@pon.manager.coupon"]]
             - [setStoreManager, ["@pon.manager.store"]]
+            - [setPhotoManager, ["@pon.manager.photo"]]
 
     pon.exception.exception_handler:
         class: CoreBundle\Exception\ExceptionHandler
@@ -146,3 +156,18 @@ services:
             - [setCouponTypes, ["%coupon_types%"]]
         tags:
             - { name: jms_serializer.event_subscriber}
+
+    pon.listener.elastica.coupon:
+        class: CoreBundle\EventListener\ElasticaCouponListener
+        calls:
+            - [setObjectPersisterCoupon, ["@fos_elastica.object_persister.app.coupon"]]
+            - [setObjectPersisterCategory, ["@fos_elastica.object_persister.app.category"]]
+        tags:
+            - { name: doctrine.event_subscriber}
+
+    pon.listener.custom.property.coupon:
+        class: CoreBundle\EventListener\ElasticaCustomCouponListener
+        calls:
+            - [setCouponManager, ["@pon.manager.coupon"]]
+        tags:
+            - { name: kernel.event_subscriber }

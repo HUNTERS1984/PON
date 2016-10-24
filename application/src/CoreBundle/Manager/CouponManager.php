@@ -3,9 +3,14 @@
 namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\LikeList;
+use CoreBundle\Entity\Store;
+use CoreBundle\Entity\UseList;
 use CoreBundle\Paginator\Pagination;
+use Doctrine\ORM\QueryBuilder;
+use Elastica\Filter\GeoDistance;
 use Elastica\Filter\Missing;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
@@ -27,6 +32,11 @@ class CouponManager extends AbstractManager
      * @var TransformedFinder $couponFinder
      */
     protected $couponFinder;
+
+    /**
+     * @var TransformedFinder $couponFinder
+     */
+    protected $categoryFinder;
 
     /**
      * @var Pagination $pagination
@@ -61,6 +71,245 @@ class CouponManager extends AbstractManager
     {
         $coupon->setUpdatedAt(new \DateTime());
         return $this->save($coupon);
+    }
+
+    /**
+     * getPopularCouponsByCategory
+     *
+     * @param Category $category
+     * @return array
+     */
+    public function getPopularCouponsByCategory(Category $category)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Term(['store.category.id'=> ['value' => $category->getId()]]));
+        $query->addSort(['impression' => ['order' => 'desc']]);
+        $result = $this->couponFinder->find($query, 4);
+        return $result;
+    }
+
+    /**
+     * getNewestCouponsByCategory
+     *
+     * @param Category $category
+     * @return array
+     */
+    public function getNewestCouponsByCategory(Category $category)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust(new Term(['store.category.id'=> ['value' => $category->getId()]]));
+        $query->setQuery($boolQuery);
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+        $result = $this->couponFinder->find($query, 4);
+
+        return $result;
+    }
+
+    /**
+     * getNearestCouponsByCategory
+     *
+     * @param Category $category
+     * @param $latitude
+     * @param $longitude
+     * @return array
+     */
+    public function getNearestCouponsByCategory(Category $category, $latitude, $longitude)
+    {
+        $distance = new GeoDistance(
+            'store.location',
+            [
+                'lat' => $latitude,
+                'lon' => $longitude
+            ],
+            '1km'
+        );
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $mainQuery = new Query\Filtered(new Term(['store.category.id'=> ['value' => $category->getId()]]), $distance);
+        $query->setQuery($mainQuery);
+        $result = $this->couponFinder->find($query, 4);
+
+        return $result;
+    }
+
+    /**
+     * getApprovedCouponsByCategory
+     *
+     * @param Category $category
+     * @param AppUser|null $user
+     * @return array
+     */
+    public function getApprovedCouponsByCategory(Category $category, AppUser $user = null)
+    {
+        if(!$user) {
+            return [];
+        }
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+
+        $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
+        $statusQuery = new Term(['useLists.status' => 1]);
+
+        $nestedQuery = new Nested();
+        $subQuery = new BoolQuery();
+        $subQuery->addMust($userQuery);
+        $subQuery->addMust($statusQuery);
+        $nestedQuery->setPath("useLists");
+        $nestedQuery->setQuery($subQuery);
+
+        $mainQuery = new BoolQuery();
+        $mainQuery
+            ->addMust($nestedQuery)
+            ->addMust(new Term(['store.category.id'=> ['value' => $category->getId()]]));
+
+        $query->setQuery($mainQuery);
+        $result = $this->couponFinder->find($query, 4);
+
+        return $result;
+    }
+
+    /**
+     * getFeaturedCoupon
+     *
+     * @param $type
+     * @param $params
+     * @param AppUser|null $user
+     * @return array
+     */
+    public function getFeaturedCoupon($type, $params, AppUser $user = null)
+    {
+        switch ($type)
+        {
+            case 2:
+                return $this->getNewestCoupon($params);
+            case 3:
+                return $this->getNearestCoupon($params);
+            case 4:
+                return $this->getApprovedCoupon($params, $user);
+            default:
+                return $this->getPopularCoupon($params);
+        }
+    }
+
+    /**
+     * getApprovedCoupon
+     *
+     * @param $params
+     * @param AppUser|null $user
+     * @return array
+     */
+    public function getApprovedCoupon($params, AppUser $user = null)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+
+        $categories = $this->getCategories($limit, $offset);
+
+        foreach($categories['data'] as $key => $item) {
+            /** @var Category $category */
+            $category = $item;
+            $coupons = $this->getApprovedCouponsByCategory($category, $user);
+            $category->setCoupons($coupons);
+            $categories['data'][$key] = $category;
+        }
+        return $categories;
+    }
+
+    /**
+     * getNearestCoupon
+     *
+     * @param $params
+     * @return array
+     */
+    public function getNearestCoupon($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $latitude = $params['latitude'];
+        $longitude = $params['longitude'];
+
+        $categories = $this->getCategories($limit, $offset);
+
+        foreach($categories['data'] as $key => $item) {
+            /** @var Category $category */
+            $category = $item;
+            $coupons = $this->getNearestCouponsByCategory($category, $latitude, $longitude);
+            $category->setCoupons($coupons);
+            $categories['data'][$key] = $category;
+        }
+        return $categories;
+    }
+
+    /**
+     * getNewestCoupon
+     *
+     * @param $params
+     * @return array
+     */
+    public function getNewestCoupon($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+
+        $categories = $this->getCategories($limit, $offset);
+
+        foreach($categories['data'] as $key => $item) {
+            /** @var Category $category */
+            $category = $item;
+            $coupons = $this->getNewestCouponsByCategory($category);
+            $category->setCoupons($coupons);
+            $categories['data'][$key] = $category;
+        }
+        return $categories;
+    }
+
+
+    /**
+     * Get Categories
+     *
+     * @return array
+     */
+    public function getCategories($limit, $offset)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['name' => ['order' => 'asc']]);
+
+        $pagination = $this->categoryFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * getPopularCoupon
+     *
+     * @param $params
+     * @return array
+     */
+    public function getPopularCoupon($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+
+        $categories = $this->getCategories($limit, $offset);
+        foreach($categories['data'] as $key => $item) {
+            /** @var Category $category */
+            $category = $item;
+            $coupons = $this->getPopularCouponsByCategory($category);
+            $category->setCoupons($coupons);
+            $categories['data'][$key] = $category;
+        }
+        return $categories;
     }
 
     /**
@@ -290,6 +539,24 @@ class CouponManager extends AbstractManager
     public function getCouponFinder()
     {
         return $this->couponFinder;
+    }
+
+    /**
+     * @param TransformedFinder $categoryFinder
+     * @return CouponManager
+     */
+    public function setCategoryFinder($categoryFinder)
+    {
+        $this->categoryFinder = $categoryFinder;
+        return $this;
+    }
+
+    /**
+     * @return TransformedFinder
+     */
+    public function getCategoryFinder()
+    {
+        return $this->categoryFinder;
     }
 
 }

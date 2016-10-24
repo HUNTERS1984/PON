@@ -47,8 +47,10 @@ fos_elastica:
                     mappings:
                         id: ~
                         title: ~
-                        operationStartTime: ~
-                        operationEndTime: ~
+                        operationStartTime:
+                            type: date
+                        operationEndTime:
+                            type: date
                         avatarUrl: ~
                         tel: ~
                         location: {type: geo_point}
@@ -94,6 +96,8 @@ fos_elastica:
                                 title: ~
                                 imageUrl: ~
                                 type: ~
+                                impression:
+                                    type: integer
                                 couponUserPhotos:
                                     type: "nested"
                                     properties:
@@ -129,9 +133,12 @@ fos_elastica:
                                                 id: ~
                                                 username: ~
                                                 email: ~
-                        createdAt: ~
-                        updatedAt: ~
-                        deletedAt: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        deletedAt:
+                            type: date
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\Store
@@ -142,9 +149,11 @@ fos_elastica:
                     mappings:
                         id: ~
                         title: ~
-                        expiredTime: ~
+                        expiredTime:
+                            type: date
                         imageUrl: ~
                         needLogin: ~
+                        impression: ~
                         code: ~
                         type: ~
                         description: ~
@@ -213,12 +222,26 @@ fos_elastica:
                                         id: ~
                                         username: ~
                                         email: ~
-                        createdAt: ~
-                        updatedAt: ~
-                        deletedAt: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        deletedAt:
+                            type: date
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\Coupon
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                category:
+                    mappings:
+                        id: ~
+                        name: ~
+                        iconUrl: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\Category
                         provider: ~
                         listener: ~
                         finder: ~
