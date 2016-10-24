@@ -6,6 +6,7 @@ use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\CouponPhoto;
 use CoreBundle\Entity\CouponUserPhoto;
 use CoreBundle\Entity\Photo;
+use CoreBundle\Manager\PhotoManager;
 use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
 
@@ -13,6 +14,9 @@ class CouponDummy extends BaseDummy implements IDummy
 {
     /** @var StoreManager */
     private $storeManager;
+    
+    /** @var PhotoManager $photoManager */
+    private $photoManager;
 
     /**
      * generate dummy data
@@ -22,7 +26,7 @@ class CouponDummy extends BaseDummy implements IDummy
         $faker = Factory::create('ja_JP');
         $coupon = new Coupon();
 
-        $storeId = ($i % 10) + 1;
+        $storeId = $faker->numberBetween(1,10);
         $storeData = $this->storeManager->findOneById($storeId);
         $expiredTime = new \DateTime();
         $expiredTime->modify('+1 month');
@@ -53,26 +57,24 @@ class CouponDummy extends BaseDummy implements IDummy
             ->setStore($storeData)
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
-        /** @var Coupon $coupon*/
-        $coupon = $this->manager->save($coupon);
-
 
         for($i=0; $i< 5; $i++) {
             $photo = new Photo();
             $photo
-                ->setImageUrl($faker->imageUrl(640, 480, 'food'))
-                ->setCreatedAt(new \DateTime())
-                ->setUpdatedAt(new \DateTime());
+                ->setImageUrl($faker->imageUrl(640, 480, 'food'));
+            $photo = $this->photoManager->createPhoto($photo);
 
             $couponPhoto = new CouponPhoto();
             $couponPhoto
                 ->setPhoto($photo)
                 ->setCoupon($coupon);
-            $coupon->addCouponPhoto($couponPhoto);
+
             $couponUserPhoto = new CouponUserPhoto();
             $couponUserPhoto
                 ->setPhoto($photo)
                 ->setCoupon($coupon);
+
+            $coupon->addCouponPhoto($couponPhoto);
             $coupon->addCouponUserPhoto($couponUserPhoto);
         }
 
@@ -87,6 +89,16 @@ class CouponDummy extends BaseDummy implements IDummy
     public function setStoreManager($storeManager)
     {
         $this->storeManager = $storeManager;
+        return $this;
+    }
+
+    /**
+     * @param PhotoManager $photoManager
+     * @return CouponDummy
+     */
+    public function setPhotoManager($photoManager)
+    {
+        $this->photoManager = $photoManager;
         return $this;
     }
 }
