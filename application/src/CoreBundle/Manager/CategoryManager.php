@@ -4,6 +4,10 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\Category;
 use CoreBundle\Paginator\Pagination;
+use Elastica\Filter\Missing;
+use Elastica\Query;
+use Elastica\Query\Term;
+use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 class CategoryManager extends AbstractManager
 {
@@ -11,6 +15,11 @@ class CategoryManager extends AbstractManager
      * @var Pagination
     */
     protected $pagination;
+
+    /**
+     * @var TransformedFinder $categoryFinder
+     */
+    protected $categoryFinder;
 
     /**
      * @var Pagination $pagination
@@ -60,6 +69,21 @@ class CategoryManager extends AbstractManager
     }
 
     /**
+     * get coupon
+     *
+     * @param $id
+     * @return null | Category
+     */
+    public function getCategory($id)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Term(['id'=> ['value' => $id]]));
+        $result = $this->categoryFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
      * List Category
      * @param array $params
      *
@@ -90,6 +114,16 @@ class CategoryManager extends AbstractManager
         $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
 
         return $this->pagination->render($query, $limit, $offset);
+    }
+
+    /**
+     * @param TransformedFinder $categoryFinder
+     * @return CategoryManager
+     */
+    public function setCategoryFinder($categoryFinder)
+    {
+        $this->categoryFinder = $categoryFinder;
+        return $this;
     }
 
 }

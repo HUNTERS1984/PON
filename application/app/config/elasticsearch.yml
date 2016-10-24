@@ -239,6 +239,38 @@ fos_elastica:
                         id: ~
                         name: ~
                         iconUrl: ~
+                        stores:
+                            type: "nested"
+                            properties:
+                                id: ~
+                                title: ~
+                                coupons:
+                                    type: nested
+                                    properties:
+                                        id: ~
+                                        title: ~
+                                        imageUrl: ~
+                                        expiredTime:
+                                            type: date
+                                        type: ~
+                                        needLogin: ~
+                                        impression:
+                                            type: integer
+                                        createdAt:
+                                            type: date
+                                        updatedAt:
+                                            type: date
+                                        deletedAt:
+                                            type: date
+                                        likeLists:
+                                            type: "nested"
+                                            properties:
+                                                appUser:
+                                                    type: object
+                                                    properties:
+                                                        id: ~
+                                                        username: ~
+                                                        email: ~
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\Category

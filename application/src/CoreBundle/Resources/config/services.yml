@@ -53,6 +53,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Category"]
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
+            - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
 
     pon.manager.coupon:
         class: CoreBundle\Manager\CouponManager
