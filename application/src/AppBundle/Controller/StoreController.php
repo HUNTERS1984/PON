@@ -359,6 +359,21 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getShopByCouponTypeAction($id, Request $request)
     {
+        $params = $request->query->all();
+        if(!$categoryObject = $this->getCategoryManager()->getCategory($id)) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+        $result = $this->getManager()->getShopByCategory($categoryObject, $params);
+
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
+
+
+
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -660,6 +675,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     public function getUserManager()
     {
         return $this->get('pon.manager.user');
+    }
+
+    /**
+     * @return CategoryManager
+     */
+    public function getCategoryManager()
+    {
+        return $this->get('pon.manager.category');
     }
 
     /**

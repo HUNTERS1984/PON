@@ -57,32 +57,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getFeaturedCouponAction($type, Request $request)
     {
         $params = $request->query->all();
-        switch ($type) {
-            case 1:
-                /* popular */
-                $sortArgs = array('createdAt' => array('order' => 'desc'));
-                $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
-                break;
-            case 2:
-                /* newest */
-                $sortArgs = array('createdAt' => array('order' => 'desc'));
-                $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
-                break;
-            case 3:
-                /* nearest */
-                $store = $this->getManager()->filterCouponByMap($params);
-                break;
-            case 4:
-                /* approved */
-                $user = $this->getUser();
-                $store = $this->getManager()->isCanUse($user , $params);
-                break;
-            default:
-                return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                    'store.not_found'
-                ));
-        }
-        return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
 
         $result = $this->getManager()->getFeaturedCoupon($type, $params);
 
@@ -100,22 +74,18 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 /*
         switch ($type) {
             case 1:
-                /* popular */
                 $sortArgs = array('createdAt' => array('order' => 'desc'));
                 $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
                 break;
             case 2:
-                /* newest */
                 $sortArgs = array('createdAt' => array('order' => 'desc'));
                 $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
                 break;
             case 3:
-                /* nearest */
                 $sortArgs = array('createdAt' => array('order' => 'desc'));
                 $store = $this->getManager()->listCoupon($params , 0 , $sortArgs);
                 break;
             case 4:
-                /* approved */
                 $user = $this->getUser();
                 $store = $this->getManager()->isCanUse($user , $params);
                 break;
@@ -124,6 +94,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
                     'store.not_found'
                 ));
         }
+
         return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
 */
 
@@ -259,33 +230,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getCouponsByFeaturedAndCategoryAction($type, $category, Request $request)
     {
 
-        $params = $request->query->all();
-        switch ($type) {
-            case 1:
-                /* popular */
-                $sortArgs = array('createdAt' => array('order' => 'desc'));
-                $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
-                break;
-            case 2:
-                /* newest */
-                $sortArgs = array('createdAt' => array('order' => 'desc'));
-                $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
-                break;
-            case 3:
-                /* nearest */
-                $store = $this->getManager()->filterCouponByMap($params);
-                break;
-            case 4:
-                /* approved */
-                $user = $this->getUser();
-                $store = $this->getManager()->isCanUse($user , $params);
-                break;
-            default:
-                return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                    'store.not_found'
-                ));
-        }
-        return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
+
 
         $params = $request->query->all();
 
@@ -308,22 +253,18 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 /*
         switch ($type) {
             case 1:
-                /* popular */
                 $sortArgs = array('createdAt' => array('order' => 'desc'));
                 $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
                 break;
             case 2:
-                /* newest */
                 $sortArgs = array('createdAt' => array('order' => 'desc'));
                 $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
                 break;
             case 3:
-                /* nearest */
                 $sortArgs = array('createdAt' => array('order' => 'desc'));
                 $store = $this->getManager()->listCoupon($params , $category , $sortArgs);
                 break;
             case 4:
-                /* approved */
                 $user = $this->getUser();
                 $store = $this->getManager()->isCanUse($user , $params);
                 break;
