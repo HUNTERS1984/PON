@@ -42,6 +42,11 @@ class CouponManager extends AbstractManager
     protected $categoryFinder;
 
     /**
+     * @var CategoryManager $categoryManager
+    */
+    protected $categoryManager;
+
+    /**
      * @var Pagination $pagination
      */
     public function setPagination(Pagination $pagination)
@@ -430,15 +435,9 @@ class CouponManager extends AbstractManager
      */
     public function getCategories($limit, $offset)
     {
-        $query = new Query();
-        $query->setPostFilter(new Missing('deletedAt'));
-        $query->addSort(['name' => ['order' => 'asc']]);
-
-        $pagination = $this->categoryFinder->createPaginatorAdapter($query);
-        $transformedPartialResults = $pagination->getResults($offset, $limit);
-        $results = $transformedPartialResults->toArray();
-        $total = $transformedPartialResults->getTotalHits();
-        return $this->pagination->response($results, $total, $limit, $offset);
+        $params['page_size'] = $limit;
+        $params['page_index'] = $offset;
+        return $this->categoryManager->getCategories($params);
     }
 
     /**
@@ -801,6 +800,16 @@ class CouponManager extends AbstractManager
     public function getCategoryFinder()
     {
         return $this->categoryFinder;
+    }
+
+    /**
+     * @param CategoryManager $categoryManager
+     * @return CouponManager
+     */
+    public function setCategoryManager($categoryManager)
+    {
+        $this->categoryManager = $categoryManager;
+        return $this;
     }
 
 }
