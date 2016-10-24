@@ -9,13 +9,3 @@ parameters:
    coupon_types:
       1: SNS
       2: Store
-
-services:
-  translation.loader.po:
-    class: Symfony\Component\Translation\Loader\PoFileLoader
-    tags:
-      - { name: translation.loader, alias: po }
-  translation.loader.mo:
-    class: Symfony\Component\Translation\Loader\MoFileLoader
-    tags:
-      - { name: translation.loader, alias: mo }

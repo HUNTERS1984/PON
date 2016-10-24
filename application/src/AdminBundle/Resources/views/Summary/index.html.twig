@@ -2,6 +2,8 @@
 {% block title %}Summary{% endblock %}
 {% set active_menu = 'summary' %}
 
+{% set count = pagination.item_total %}
+
 {% block breadcurm %}
     <div class="row">
         <div class="col-md-3 col-xs-12">
@@ -119,162 +121,41 @@
 
     <!-- wrapp wrapp_summary -->
     <div class="wrapp_summary">
-        <div class="media">
-            <div class="media-left">
-                <center><img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt=""></center>
+        {% if count == 0 %}
+            <div class="media">
+                No Records.
             </div>
-            <div class="media-body">
-                <div class="top-media">
-                    <h4 class="media-heading">クーポンタイトル</h4>
-                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
+        {% else %}
+            {% for coupon in coupons %}
+                <div class="media">
+                    <div class="media-left">
+                        {#<center><img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt=""></center>#}
+                        <center><img width="171px" height="172px" class="media-object" src="{{ coupon.imageUrl }}" alt=""></center>
+                    </div>
+                    <div class="media-body">
+                        <div class="top-media">
+                            <h4 class="media-heading">{{ coupon.title }}</h4>
+                            <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
+                        </div>
+                        <div class="top-media">
+                            <span class="left"><a href="" class="link-id">{{ coupon_types[coupon.type] }}</a> ID: {{ coupon.type }}</span>
+                            <span class="right"><span class="color-red">期限:{{ coupon.expiredTime|date("Y.m.d") }}</span></span>
+                        </div>
+                        <div class="top-media">
+                            <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
+                        </div>
+                        <div class="top-media">
+                            <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
+                        </div>
+                        <div class="top-media">
+                            <span>
+                              {{ coupon.description }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
-                <div class="top-media">
-                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
-                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
-                </div>
-                <div class="top-media">
-                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
-                </div>
-                <div class="top-media">
-                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
-                </div>
-                <div class="top-media">
-            <span>
-              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
-            </span>
-                </div>
-            </div>
-        </div>
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt="">
-            </div>
-            <div class="media-body">
-                <div class="top-media">
-                    <h4 class="media-heading">クーポンタイトル</h4>
-                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
-                </div>
-                <div class="top-media">
-                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
-                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
-                </div>
-                <div class="top-media">
-                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
-                </div>
-                <div class="top-media">
-                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
-                </div>
-                <div class="top-media">
-            <span>
-              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
-            </span>
-                </div>
-            </div>
-        </div>
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt="">
-            </div>
-            <div class="media-body">
-                <div class="top-media">
-                    <h4 class="media-heading">クーポンタイトル</h4>
-                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
-                </div>
-                <div class="top-media">
-                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
-                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
-                </div>
-                <div class="top-media">
-                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
-                </div>
-                <div class="top-media">
-                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
-                </div>
-                <div class="top-media">
-            <span>
-              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
-            </span>
-                </div>
-            </div>
-        </div>
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt="">
-            </div>
-            <div class="media-body">
-                <div class="top-media">
-                    <h4 class="media-heading">クーポンタイトル</h4>
-                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
-                </div>
-                <div class="top-media">
-                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
-                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
-                </div>
-                <div class="top-media">
-                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
-                </div>
-                <div class="top-media">
-                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
-                </div>
-                <div class="top-media">
-            <span>
-              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
-            </span>
-                </div>
-            </div>
-        </div>
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt="">
-            </div>
-            <div class="media-body">
-                <div class="top-media">
-                    <h4 class="media-heading">クーポンタイトル</h4>
-                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
-                </div>
-                <div class="top-media">
-                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
-                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
-                </div>
-                <div class="top-media">
-                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
-                </div>
-                <div class="top-media">
-                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
-                </div>
-                <div class="top-media">
-            <span>
-              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
-            </span>
-                </div>
-            </div>
-        </div>
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt="">
-            </div>
-            <div class="media-body">
-                <div class="top-media">
-                    <h4 class="media-heading">クーポンタイトル</h4>
-                    <a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon"><i class="fa fa-pencil"></i></a>
-                </div>
-                <div class="top-media">
-                    <span class="left"><a href="" class="link-id">ユーザー投稿型</a> ID: 123456</span>
-                    <span class="right"><span class="color-red">期限:2016.07.31</span></span>
-                </div>
-                <div class="top-media">
-                    <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
-                </div>
-                <div class="top-media">
-                    <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
-                </div>
-                <div class="top-media">
-            <span>
-              説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります説明が入ります
-            </span>
-                </div>
-            </div>
-        </div>
+            {% endfor %}
+        {% endif %}
     </div>
     <ul class="pagination">
         <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>

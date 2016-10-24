@@ -9,6 +9,7 @@ use CoreBundle\Entity\LikeList;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\UseList;
 use CoreBundle\Paginator\Pagination;
+use CoreBundle\Utils\StringGenerator;
 use Doctrine\ORM\QueryBuilder;
 use Elastica\Filter\GeoDistance;
 use Elastica\Filter\Missing;
@@ -633,26 +634,15 @@ class CouponManager extends AbstractManager
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
 
-        $conditions = [];
-        if (isset($params['title'])) {
-            $conditions = [
-                'title' => [
-                    'type' => 'like',
-                    'value' => "%" . $params['title'] . "%"
-                ]
-            ];
-        }
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
 
-        $conditions['deletedAt'] = [
-            'type' => 'is',
-            'value' => 'NULL'
-        ];
-
-        $orderBy = ['createdAt' => 'DESC'];
-
-        $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
-
-        return $this->pagination->render($query, $limit, $offset);
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**
