@@ -359,11 +359,7 @@ class CouponManager extends AbstractManager
      */
     public function getApprovedCoupon($params, AppUser $user = null)
     {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-
-
-        $categories = $this->getCategories($limit, $offset);
+        $categories = $this->getCategories($params);
 
         foreach ($categories['data'] as $key => $item) {
             /** @var Category $category */
@@ -383,12 +379,10 @@ class CouponManager extends AbstractManager
      */
     public function getNearestCoupon($params)
     {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
         $latitude = $params['latitude'];
         $longitude = $params['longitude'];
 
-        $categories = $this->getCategories($limit, $offset);
+        $categories = $this->getCategories($params);
 
         foreach ($categories['data'] as $key => $item) {
             /** @var Category $category */
@@ -408,11 +402,7 @@ class CouponManager extends AbstractManager
      */
     public function getNewestCoupon($params)
     {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-
-
-        $categories = $this->getCategories($limit, $offset);
+        $categories = $this->getCategories($params);
 
         foreach ($categories['data'] as $key => $item) {
             /** @var Category $category */
@@ -427,13 +417,11 @@ class CouponManager extends AbstractManager
 
     /**
      * Get Categories
-     *
+     * @param array $params
      * @return array
      */
-    public function getCategories($limit, $offset)
+    public function getCategories($params)
     {
-        $params['page_size'] = $limit;
-        $params['page_index'] = $offset;
         return $this->categoryManager->getCategories($params);
     }
 
@@ -445,11 +433,7 @@ class CouponManager extends AbstractManager
      */
     public function getPopularCoupon($params)
     {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-
-
-        $categories = $this->getCategories($limit, $offset);
+        $categories = $this->getCategories($params);
         foreach ($categories['data'] as $key => $item) {
             /** @var Category $category */
             $category = $item;
