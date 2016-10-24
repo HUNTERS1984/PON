@@ -64,6 +64,12 @@ services:
             - [setCouponFinder, ["@fos_elastica.finder.app.coupon"]]
             - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
 
+    pon.manager.photo:
+        class: CoreBundle\Manager\PhotoManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Photo"]
+
     pon.manager.post:
         class: CoreBundle\Manager\PostManager
         factory_service:  doctrine
@@ -108,11 +114,14 @@ services:
             - [setManager, ["@pon.manager.store"]]
             - [setCategoryManager, ["@pon.manager.category"]]
             - [setUserManager, ["@pon.manager.user"]]
+            - [setPhotoManager, ["@pon.manager.photo"]]
+
     pon.dummy.coupon:
         class: CoreBundle\DummyData\CouponDummy
         calls:
             - [setManager, ["@pon.manager.coupon"]]
             - [setStoreManager, ["@pon.manager.store"]]
+            - [setPhotoManager, ["@pon.manager.photo"]]
 
     pon.exception.exception_handler:
         class: CoreBundle\Exception\ExceptionHandler

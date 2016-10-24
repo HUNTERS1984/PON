@@ -2,6 +2,7 @@
 
 namespace CoreBundle\EventListener;
 
+use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Manager\CouponManager;
@@ -15,20 +16,38 @@ class ElasticaCustomCouponListener implements EventSubscriberInterface
     */
     private $couponManager;
 
+    /**
+     * @var $securityContext
+     */
+    private $securityContext;
+
+    /**
+     * getUser
+     *
+     * @return null|AppUser
+     */
+    public function getUser()
+    {
+        if (null === $token = $this->securityContext->getToken()) {
+            return;
+        }
+
+        if (!is_object($user = $token->getUser())) {
+            return;
+        }
+
+        return $user;
+    }
+
     public function addCustomProperty(TransformEvent $event)
     {
         $object = $event->getObject();
-
-        if($object instanceof Category) {
-            $coupons = $this->getCouponManager()->getCouponsByCategory($object);
-            $object->setCoupons($coupons);
-        }
     }
 
     public static function getSubscribedEvents()
     {
         return array(
-            TransformEvent::PRE_TRANSFORM => 'addCustomProperty',
+            //TransformEvent::PRE_TRANSFORM => 'addCustomProperty',
         );
     }
 
@@ -48,6 +67,16 @@ class ElasticaCustomCouponListener implements EventSubscriberInterface
     public function getCouponManager()
     {
         return $this->couponManager;
+    }
+
+    /**
+     * @param mixed $securityContext
+     * @return SerializeListener
+     */
+    public function setSecurityContext($securityContext)
+    {
+        $this->securityContext = $securityContext;
+        return $this;
     }
 
 }

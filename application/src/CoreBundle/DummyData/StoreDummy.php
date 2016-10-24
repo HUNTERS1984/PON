@@ -7,6 +7,7 @@ use CoreBundle\Entity\Store;
 use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Manager\CategoryManager;
 use CoreBundle\Manager\AppUserManager;
+use CoreBundle\Manager\PhotoManager;
 use CoreBundle\Manager\UserManager;
 use Faker\Factory;
 
@@ -18,17 +19,20 @@ class StoreDummy extends BaseDummy implements IDummy
     /** @var CategoryManager $categoryManager */
     private $categoryManager;
 
+    /** @var PhotoManager $photoManager */
+    private $photoManager;
+
     /**
      * generate dummy data
      */
-    public function generate($i = 0)
+    public function generate()
     {
         $faker = Factory::create('ja_JP');
         $store = new Store();
         $name = $faker->name;
-        $categoryId = ($i % 10) + 1;
+        $categoryId = $faker->numberBetween(1, 5);
         $category = $this->categoryManager->findOneById($categoryId);
-        $userId = ($i % 10) + 1;
+        $userId = $faker->numberBetween(1, 10);
         $user = $this->userManager->findOneById($userId);
         $lat = 10.785871;
         $long = 106.6851;
@@ -74,9 +78,8 @@ class StoreDummy extends BaseDummy implements IDummy
         for($i=0; $i< 5; $i++) {
             $photo = new Photo();
             $photo
-                ->setImageUrl($faker->imageUrl(640, 480, 'food'))
-                ->setCreatedAt(new \DateTime())
-                ->setUpdatedAt(new \DateTime());
+                ->setImageUrl($faker->imageUrl(640, 480, 'food'));
+            $photo = $this->photoManager->createPhoto($photo);
 
             $storePhoto = new StorePhoto();
             $storePhoto
@@ -106,6 +109,16 @@ class StoreDummy extends BaseDummy implements IDummy
     public function setCategoryManager($categoryManager)
     {
         $this->categoryManager = $categoryManager;
+        return $this;
+    }
+
+    /**
+     * @param PhotoManager $photoManager
+     * @return StoreDummy
+     */
+    public function setPhotoManager($photoManager)
+    {
+        $this->photoManager = $photoManager;
         return $this;
     }
 }

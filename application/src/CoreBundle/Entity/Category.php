@@ -221,7 +221,7 @@ class Category
     }
 
     /**
-     * Add Coupon
+     * Add Popular Coupon
      *
      * @param \CoreBundle\Entity\Coupon $coupon
      *
@@ -237,7 +237,7 @@ class Category
     /**
      * set coupons
      *
-     * @param \CoreBundle\Entity\Coupon $coupon
+     * @param ArrayCollection $coupons
      *
      * @return Category
      */
