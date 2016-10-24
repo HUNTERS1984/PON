@@ -84,6 +84,28 @@ class CategoryManager extends AbstractManager
     }
 
     /**
+     * Get Categories
+     * @param array $params
+     * 
+     * @return array
+     */
+    public function getCategories($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['name' => ['order' => 'asc']]);
+
+        $pagination = $this->categoryFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
      * List Category
      * @param array $params
      *
