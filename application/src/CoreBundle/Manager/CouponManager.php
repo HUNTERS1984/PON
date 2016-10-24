@@ -86,10 +86,33 @@ class CouponManager extends AbstractManager
     {
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
-        $query->setQuery(new Term(['store.category.id'=> ['value' => $category->getId()]]));
+        $query->setQuery(new Term(['store.category.id' => ['value' => $category->getId()]]));
         $query->addSort(['impression' => ['order' => 'desc']]);
         $result = $this->couponFinder->find($query, 4);
         return $result;
+    }
+
+    /**
+     * getFullPopularCouponsByCategory
+     *
+     * @param Category $category
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return array
+     */
+    public function getFullPopularCouponsByCategory(Category $category, $offset, $limit)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Term(['store.category.id' => ['value' => $category->getId()]]));
+        $query->addSort(['impression' => ['order' => 'desc']]);
+
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**
@@ -103,12 +126,36 @@ class CouponManager extends AbstractManager
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust(new Term(['store.category.id'=> ['value' => $category->getId()]]));
+        $boolQuery->addMust(new Term(['store.category.id' => ['value' => $category->getId()]]));
         $query->setQuery($boolQuery);
         $query->addSort(['createdAt' => ['order' => 'desc']]);
         $result = $this->couponFinder->find($query, 4);
 
         return $result;
+    }
+
+    /**
+     * getFullNewestCouponsByCategory
+     *
+     * @param Category $category
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
+    public function getFullNewestCouponsByCategory(Category $category, $offset, $limit)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust(new Term(['store.category.id' => ['value' => $category->getId()]]));
+        $query->setQuery($boolQuery);
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**
@@ -132,12 +179,46 @@ class CouponManager extends AbstractManager
 
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
-        $mainQuery = new Query\Filtered(new Term(['store.category.id'=> ['value' => $category->getId()]]), $distance);
+        $mainQuery = new Query\Filtered(new Term(['store.category.id' => ['value' => $category->getId()]]), $distance);
         $query->setQuery($mainQuery);
         $result = $this->couponFinder->find($query, 4);
 
         return $result;
     }
+
+    /**
+     * getNearestCouponsByCategory
+     *
+     * @param Category $category
+     * @param $latitude
+     * @param $longitude
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
+    public function getFullNearestCouponsByCategory(Category $category, $latitude, $longitude, $offset, $limit)
+    {
+        $distance = new GeoDistance(
+            'store.location',
+            [
+                'lat' => $latitude,
+                'lon' => $longitude
+            ],
+            '1km'
+        );
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $mainQuery = new Query\Filtered(new Term(['store.category.id' => ['value' => $category->getId()]]), $distance);
+        $query->setQuery($mainQuery);
+
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
 
     /**
      * getApprovedCouponsByCategory
@@ -148,7 +229,7 @@ class CouponManager extends AbstractManager
      */
     public function getApprovedCouponsByCategory(Category $category, AppUser $user = null)
     {
-        if(!$user) {
+        if (!$user) {
             return [];
         }
 
@@ -168,12 +249,54 @@ class CouponManager extends AbstractManager
         $mainQuery = new BoolQuery();
         $mainQuery
             ->addMust($nestedQuery)
-            ->addMust(new Term(['store.category.id'=> ['value' => $category->getId()]]));
+            ->addMust(new Term(['store.category.id' => ['value' => $category->getId()]]));
 
         $query->setQuery($mainQuery);
         $result = $this->couponFinder->find($query, 4);
 
         return $result;
+    }
+
+    /**
+     * getFullApprovedCouponsByCategory
+     *
+     * @param Category $category
+     * @param AppUser|null $user
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
+    public function getFullApprovedCouponsByCategory(Category $category, AppUser $user = null,  $offset, $limit)
+    {
+        if (!$user) {
+            return [];
+        }
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+
+        $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
+        $statusQuery = new Term(['useLists.status' => 1]);
+
+        $nestedQuery = new Nested();
+        $subQuery = new BoolQuery();
+        $subQuery->addMust($userQuery);
+        $subQuery->addMust($statusQuery);
+        $nestedQuery->setPath("useLists");
+        $nestedQuery->setQuery($subQuery);
+
+        $mainQuery = new BoolQuery();
+        $mainQuery
+            ->addMust($nestedQuery)
+            ->addMust(new Term(['store.category.id' => ['value' => $category->getId()]]));
+
+        $query->setQuery($mainQuery);
+
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**
@@ -186,8 +309,7 @@ class CouponManager extends AbstractManager
      */
     public function getFeaturedCoupon($type, $params, AppUser $user = null)
     {
-        switch ($type)
-        {
+        switch ($type) {
             case 2:
                 return $this->getNewestCoupon($params);
             case 3:
@@ -196,6 +318,33 @@ class CouponManager extends AbstractManager
                 return $this->getApprovedCoupon($params, $user);
             default:
                 return $this->getPopularCoupon($params);
+        }
+    }
+
+    /**
+     * getFullFeaturedCoupon
+     *
+     * @param $type
+     * @param $params
+     * @param Category $category
+     * @param AppUser|null $user
+     * @return array
+     */
+    public function getFullFeaturedCoupon($type, Category $category, $params, AppUser $user = null)
+    {
+
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        switch ($type) {
+            case 2:
+                return $this->getFullNewestCouponsByCategory($category, $offset, $limit);
+            case 3:
+                return $this->getFullNearestCouponsByCategory($category, $params['latitude'], $params['longitude'], $offset, $limit);
+            case 4:
+                return $this->getFullApprovedCouponsByCategory($category, $user, $offset, $limit);
+            default:
+                return $this->getFullPopularCouponsByCategory($category, $offset, $limit);
         }
     }
 
@@ -214,7 +363,7 @@ class CouponManager extends AbstractManager
 
         $categories = $this->getCategories($limit, $offset);
 
-        foreach($categories['data'] as $key => $item) {
+        foreach ($categories['data'] as $key => $item) {
             /** @var Category $category */
             $category = $item;
             $coupons = $this->getApprovedCouponsByCategory($category, $user);
@@ -239,7 +388,7 @@ class CouponManager extends AbstractManager
 
         $categories = $this->getCategories($limit, $offset);
 
-        foreach($categories['data'] as $key => $item) {
+        foreach ($categories['data'] as $key => $item) {
             /** @var Category $category */
             $category = $item;
             $coupons = $this->getNearestCouponsByCategory($category, $latitude, $longitude);
@@ -263,7 +412,7 @@ class CouponManager extends AbstractManager
 
         $categories = $this->getCategories($limit, $offset);
 
-        foreach($categories['data'] as $key => $item) {
+        foreach ($categories['data'] as $key => $item) {
             /** @var Category $category */
             $category = $item;
             $coupons = $this->getNewestCouponsByCategory($category);
@@ -305,7 +454,7 @@ class CouponManager extends AbstractManager
 
 
         $categories = $this->getCategories($limit, $offset);
-        foreach($categories['data'] as $key => $item) {
+        foreach ($categories['data'] as $key => $item) {
             /** @var Category $category */
             $category = $item;
             $coupons = $this->getPopularCouponsByCategory($category);
@@ -394,7 +543,7 @@ class CouponManager extends AbstractManager
      */
     public function isCanUse(AppUser $user = null, Coupon $coupon)
     {
-        if(!$coupon->isNeedLogin()) {
+        if (!$coupon->isNeedLogin()) {
             return true;
         }
 
@@ -466,7 +615,7 @@ class CouponManager extends AbstractManager
     {
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
-        $query->setQuery(new Term(['id'=> ['value' => $id]]));
+        $query->setQuery(new Term(['id' => ['value' => $id]]));
         $result = $this->couponFinder->find($query);
         return !empty($result) ? $result[0] : null;
     }

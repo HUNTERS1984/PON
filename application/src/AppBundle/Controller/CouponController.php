@@ -224,6 +224,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *   }
      * )
      * @Get("/featured/{type}/category/{category}/coupons")
+     * @View(serializerGroups={"featured_coupon"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getCouponsByFeaturedAndCategoryAction($type, $category, Request $request)
@@ -257,6 +258,24 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
         return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
 
+        $params = $request->query->all();
+
+        if(!$categoryObject = $this->getCategoryManager()->getCategory($category)) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_blank.latitude_longitude'
+            ));
+        }
+
+        $user = $this->getUser();
+        $result = $this->getManager()->getFullFeaturedCoupon($type, $categoryObject, $params, $user);
+
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 
         $faker = Factory::create('ja_JP');
         $user = $this->getUser();
