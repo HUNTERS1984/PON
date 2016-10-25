@@ -1,0 +1,19 @@
+{% set route = app.request.attributes.get('_route') %}
+{% if params is defined %}
+    {% set parameters =  params %}
+{% else %}
+    {% set parameters =  { page_index: 1} %}
+{% endif %}
+
+{% set parameters = parameters|merge({ 'page_index': pagination.current_page }) %}
+
+{% if pagination.page_total > 1 %}
+    <ul class="pagination">
+        <li class="{% if pagination.is_first_page == true %}disabled{% endif %}"><a href="{{ pon_paginate_path(route, pagination.previous_page, parameters) }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+        {% for page in pagination.pages %}
+            <li class="{% if page == pagination.current_page %}active{% endif %}"><a href="{{ pon_paginate_path(route, page, parameters) }}">{{ page }} {% if page == pagination.current_page %}<span class="sr-only">(current)</span>{% endif %}</a></li>
+        {% endfor %}
+        <li class="{% if pagination.is_last_page == true %}disabled{% endif %}"><a href="{{ pon_paginate_path(route, pagination.next_page, parameters) }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+
+    </ul>
+{% endif %}

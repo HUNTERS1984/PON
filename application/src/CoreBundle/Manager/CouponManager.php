@@ -9,6 +9,7 @@ use CoreBundle\Entity\LikeList;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\UseList;
 use CoreBundle\Paginator\Pagination;
+use CoreBundle\Utils\StringGenerator;
 use Doctrine\ORM\QueryBuilder;
 use Elastica\Filter\GeoDistance;
 use Elastica\Filter\Missing;
@@ -537,7 +538,7 @@ class CouponManager extends AbstractManager
         $boolQuery = new BoolQuery();
         if (!empty($queryString)) {
             $multiMatchQuery = new MultiMatch();
-            $multiMatchQuery->setFields(['title^9', 'store.title^2', 'store.category.name']);
+            $multiMatchQuery->setFields(['title^9', 'store.title^2', 'store.category.name', 'store.address']);
             $multiMatchQuery->setType('cross_fields');
             $multiMatchQuery->setAnalyzer('standard');
             $multiMatchQuery->setQuery($queryString);
@@ -632,27 +633,38 @@ class CouponManager extends AbstractManager
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
 
-        $conditions = [];
-        if (isset($params['title'])) {
-            $conditions = [
-                'title' => [
-                    'type' => 'like',
-                    'value' => "%" . $params['title'] . "%"
-                ]
-            ];
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+
+
+        $boolQuery = new BoolQuery();
+        if (!empty($queryString)) {
+            $multiMatchQuery = new MultiMatch();
+            $multiMatchQuery->setFields(['title^9', 'store.title^2', 'store.category.name', 'store.address']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery->addMust($multiMatchQuery);
+        } else {
+            $boolQuery->addMust(new MatchAll());
         }
 
-        $conditions['deletedAt'] = [
-            'type' => 'is',
-            'value' => 'NULL'
-        ];
+        if(isset($params['status']) && in_array($params['status'], ["1","0"])) {
+            $status = $params["status"] == 1;
+            $boolQuery->addMust(new Term(['status' => ['value' => $status]]));
+        }
 
-        $orderBy = ['createdAt' => 'DESC'];
+        $query->setQuery($boolQuery);
 
-        $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
-
-        return $this->pagination->render($query, $limit, $offset);
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**

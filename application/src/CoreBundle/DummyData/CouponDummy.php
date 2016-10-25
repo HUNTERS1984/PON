@@ -52,11 +52,9 @@ class CouponDummy extends BaseDummy implements IDummy
             ->setImpression(0)
             ->setDescription($description)
             ->setImpression(0)
-            ->setStatus($faker->numberBetween(0,1,2))
+            ->setStatus($faker->randomElement([true, false]))
             ->setSize($faker->numberBetween(1,100))
-            ->setStore($storeData)
-            ->setCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setStore($storeData);
 
         for($i=0; $i< 5; $i++) {
             $photo = new Photo();
@@ -78,7 +76,7 @@ class CouponDummy extends BaseDummy implements IDummy
             $coupon->addCouponUserPhoto($couponUserPhoto);
         }
 
-        $coupon = $this->manager->save($coupon);
+        $coupon = $this->manager->createCoupon($coupon);
         return $coupon;
     }
 
