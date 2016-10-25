@@ -10,8 +10,8 @@ class SummaryController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $params = $request->request->all();
-
+        $params = $request->query->all();
+        $params['query'] = isset($params['query']) ? $params['query'] : '';
         $result = $this->getManager()->listCoupon($params);
 
         return $this->render(
@@ -19,6 +19,7 @@ class SummaryController extends Controller
             [
                 'coupons' => $result['data'],
                 'pagination' =>  $result['pagination'],
+                'params' => $params
             ]);
     }
 

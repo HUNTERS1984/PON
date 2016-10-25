@@ -4,19 +4,29 @@
 
 {% set count = pagination.item_total %}
 
+{% if params.status is defined %}
+    {% set status = params.status %}
+{% else %}
+    {% set status = null %}
+{% endif %}
+
+{% set params_emptyapproved = params|merge({ 'status': null, 'page_index': 1 }) %}
+{% set params_approved = params|merge({ 'status': true, 'page_index': 1 }) %}
+{% set params_unapproved = params|merge({ 'status': false, 'page_index': 1 }) %}
+
 {% block breadcurm %}
     <div class="row">
         <div class="col-md-3 col-xs-12">
             <ul class="breadcrumbs_left">
                 <li><span class="text_bre">クーポン一覧</span></li>
-                <li><span class="no_bre">12</span></li>
+                <li><span class="no_bre">{{ count }}</span></li>
             </ul>
         </div>
         <div class="col-md-6 col-xs-12">
             <div class="btn-group btn-group-justified">
-                <a href="#" class="btn btn-default btn_tab_breadcrumbs active" role="button">全て</a>
-                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">未承認</a>
-                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">承認済み</a>
+                <a href="{{ path("admin_summary", params_emptyapproved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is  empty %}active{% endif %}" role="button">全て</a>
+                <a href="{{ path("admin_summary", params_approved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 1%}active{% endif %}" role="button">未承認</a>
+                <a href="{{ path("admin_summary", params_unapproved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 0%}active{% endif %}" role="button">承認済み</a>
             </div>
         </div>
     </div>
@@ -25,14 +35,22 @@
 {% block page_content %}
     <!-- wrapp_search_btn -->
     <div class="wrapp_search_btn">
+        <form method="GET" action="{{ path('admin_summary') }}">
         <div class="row">
             <div class="col-md-6">
                 <form class="form-group">
-                    <input type="text" class="form-control has-feedback-left" id="" placeholder="ユーザー名/ハッシュタグを入力してください">
+                    <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="ユーザー名/ハッシュタグを入力してください">
                     <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
                 </form>
             </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary btn-sm">
+                    <i class="fa fa-search"></i>
+                    Search
+                </button>
+            </div>
         </div>
+        </form>
     </div>
     <!-- //wrapp_search_btn -->
 
@@ -121,7 +139,7 @@
 
     <!-- wrapp wrapp_summary -->
     <div class="wrapp_summary">
-        {% if count == 0 %}
+        {% if pagination.page_total == 0 %}
             <div class="media">
                 No Records.
             </div>
@@ -157,14 +175,7 @@
             {% endfor %}
         {% endif %}
     </div>
-    <ul class="pagination">
-        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">2</a></li> <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-    </ul>
+    {% include 'AdminBundle:Pager:pagination.html.twig' with {pagination: pagination, route: path(app.request.attributes.get('_route')) } %}
     <!--/ wrapp wrapp_summary -->
 {% endblock %}
 

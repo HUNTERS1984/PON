@@ -52,7 +52,7 @@ class CouponDummy extends BaseDummy implements IDummy
             ->setImpression(0)
             ->setDescription($description)
             ->setImpression(0)
-            ->setStatus($faker->numberBetween(0,1,2))
+            ->setStatus($faker->randomElement([true, false]))
             ->setSize($faker->numberBetween(1,100))
             ->setStore($storeData);
 
