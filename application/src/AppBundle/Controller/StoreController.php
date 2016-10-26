@@ -191,6 +191,23 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     {
 
         $params = $request->query->all();
+        if(!$categoryObject = $this->getCategoryManager()->getCategory($category)) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+        if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_blank.latitude_longitude'
+            ));
+        }
+        $user = $this->getUser();
+        $result = $this->getManager()->getFullFeaturedShop($type, $categoryObject, $params, $user);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
+
+
+        $params = $request->query->all();
         switch ($type) {
             case 1:
                 /* popular */
@@ -275,6 +292,23 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAction($type, Request $request)
     {
+
+        $params = $request->query->all();
+
+        $result = $this->getManager()->getFeaturedCoupon($type, $params);
+
+        if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'store.not_blank.latitude_longitude'
+            ));
+        }
+
+        $user = $this->getUser();
+
+        $result = $this->getManager()->getFeaturedCoupon($type, $params, $user);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
+
 
         $params = $request->query->all();
         switch ($type) {

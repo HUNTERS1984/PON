@@ -57,9 +57,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getFeaturedCouponAction($type, Request $request)
     {
         $params = $request->query->all();
-
-        $result = $this->getManager()->getFeaturedCoupon($type, $params);
-
         if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_blank.latitude_longitude'
@@ -229,26 +226,19 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getCouponsByFeaturedAndCategoryAction($type, $category, Request $request)
     {
-
-
-
         $params = $request->query->all();
-
         if(!$categoryObject = $this->getCategoryManager()->getCategory($category)) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_found'
             ));
         }
-
         if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_blank.latitude_longitude'
             ));
         }
-
         $user = $this->getUser();
         $result = $this->getManager()->getFullFeaturedCoupon($type, $categoryObject, $params, $user);
-
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 /*
         switch ($type) {
