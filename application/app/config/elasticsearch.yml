@@ -37,6 +37,7 @@ fos_elastica:
                                         id: ~
                                         title: ~
                                         avatarUrl: ~
+                                        address: ~
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\AppUser
@@ -60,6 +61,7 @@ fos_elastica:
                         closeDate: ~
                         aveBill: ~
                         help_text: ~
+                        address: ~
                         storePhotos:
                             type: "nested"
                             properties:
@@ -157,7 +159,8 @@ fos_elastica:
                         code: ~
                         type: ~
                         description: ~
-                        status: ~
+                        status:
+                            type: boolean
                         size: ~
                         couponUserPhotos:
                             type: "nested"
@@ -183,6 +186,7 @@ fos_elastica:
                                 location: {type: geo_point}
                                 latitude: ~
                                 longitude: ~
+                                address: ~
                                 storePhotos:
                                     type: "nested"
                                     properties:
@@ -244,6 +248,7 @@ fos_elastica:
                             properties:
                                 id: ~
                                 title: ~
+                                address: ~
                                 coupons:
                                     type: nested
                                     properties:
