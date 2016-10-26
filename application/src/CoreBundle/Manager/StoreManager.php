@@ -210,9 +210,7 @@ class StoreManager extends AbstractManager
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset);
     }
-
-
-
+ 
     /**
      * List Store
      * @param array $params
@@ -250,6 +248,379 @@ class StoreManager extends AbstractManager
         $followShop->setAppUser($appUser);
         $shop->addFollowList($followShop);
         return $this->saveStore($shop);
+    }
+
+
+
+    /**
+     * getPopularShopByCategory
+     *
+     * @param Category $category
+     * @return array
+     */
+    public function getPopularShopByCategory(Category $category)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Term(['category.id' => ['value' => $category->getId()]]));
+        $query->addSort(['coupons.impression' => ['order' => 'desc']]);
+        $result = $this->storeFinder->find($query, 4);
+        return $result;
+    }
+
+    /**
+     * getFullPopularShopByCategory
+     *
+     * @param Category $category
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return array
+     */
+    public function getFullPopularShopByCategory(Category $category, $offset, $limit)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Term(['category.id' => ['value' => $category->getId()]]));
+        $query->addSort(['coupons.impression' => ['order' => 'desc']]);
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * getNewestShopByCategory
+     *
+     * @param Category $category
+     * @return array
+     */
+    public function getNewestShopByCategory(Category $category)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust(new Term(['category.id' => ['value' => $category->getId()]]));
+        $query->setQuery($boolQuery);
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+        $result = $this->storeFinder->find($query, 4);
+
+        return $result;
+    }
+
+    /**
+     * getFullNewestShopByCategory
+     *
+     * @param Category $category
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
+    public function getFullNewestShopByCategory(Category $category, $offset, $limit)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust(new Term(['category.id' => ['value' => $category->getId()]]));
+        $query->setQuery($boolQuery);
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * getNearestShopByCategory
+     *
+     * @param Category $category
+     * @param $latitude
+     * @param $longitude
+     * @return array
+     */
+    public function getNearestShopByCategory(Category $category, $latitude, $longitude)
+    {
+        $distance = new GeoDistance(
+            'location',
+            [
+                'lat' => $latitude,
+                'lon' => $longitude
+            ],
+            '1km'
+        );
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $mainQuery = new Query\Filtered(new Term(['category.id' => ['value' => $category->getId()]]), $distance);
+        $query->setQuery($mainQuery);
+        $result = $this->storeFinder->find($query, 4);
+
+        return $result;
+    }
+
+    /**
+     * getNearestShopByCategory
+     *
+     * @param Category $category
+     * @param $latitude
+     * @param $longitude
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
+    public function getFullNearestShopByCategory(Category $category, $latitude, $longitude, $offset, $limit)
+    {
+        $distance = new GeoDistance(
+            'location',
+            [
+                'lat' => $latitude,
+                'lon' => $longitude
+            ],
+            '1km'
+        );
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $mainQuery = new Query\Filtered(new Term(['category.id' => ['value' => $category->getId()]]), $distance);
+        $query->setQuery($mainQuery);
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+
+    /**
+     * getApprovedShopByCategory
+     *
+     * @param Category $category
+     * @param AppUser|null $user
+     * @return array
+     */
+    public function getApprovedShopByCategory(Category $category, AppUser $user = null)
+    {
+        if (!$user) {
+            return [];
+        }
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+
+        $userQuery = new Term(['coupons.useLists.appUser.id' => $user->getId()]);
+        $statusQuery = new Term(['coupons.useLists.status' => 1]);
+
+        $nestedQuery = new Nested();
+        $subQuery = new BoolQuery();
+        $subQuery->addMust($userQuery);
+        $subQuery->addMust($statusQuery);
+        $nestedQuery->setPath("coupons.useLists");
+        $nestedQuery->setQuery($subQuery);
+
+        $mainQuery = new BoolQuery();
+        $mainQuery
+            ->addMust($nestedQuery)
+            ->addMust(new Term(['category.id' => ['value' => $category->getId()]]));
+
+        $query->setQuery($mainQuery);
+        $result = $this->storeFinder->find($query, 4);
+
+        return $result;
+    }
+
+    /**
+     * getFullApprovedShopByCategory
+     *
+     * @param Category $category
+     * @param AppUser|null $user
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
+    public function getFullApprovedShopByCategory(Category $category, AppUser $user = null,  $offset, $limit)
+    {
+        if (!$user) {
+            return [];
+        }
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+
+        $userQuery = new Term(['coupons.useLists.appUser.id' => $user->getId()]);
+        $statusQuery = new Term(['coupons.useLists.status' => 1]);
+
+        $nestedQuery = new Nested();
+        $subQuery = new BoolQuery();
+        $subQuery->addMust($userQuery);
+        $subQuery->addMust($statusQuery);
+        $nestedQuery->setPath("coupons.useLists");
+        $nestedQuery->setQuery($subQuery);
+
+        $mainQuery = new BoolQuery();
+        $mainQuery
+            ->addMust($nestedQuery)
+            ->addMust(new Term(['category.id' => ['value' => $category->getId()]]));
+
+        $query->setQuery($mainQuery);
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * getFeaturedShop
+     *
+     * @param $type
+     * @param $params
+     * @param AppUser|null $user
+     * @return array
+     */
+    public function getFeaturedShop($type, $params, AppUser $user = null)
+    {
+        switch ($type) {
+            case 2:
+                return $this->getNewestShop($params);
+            case 3:
+                return $this->getNearestShop($params);
+            case 4:
+                return $this->getApprovedShop($params, $user);
+            default:
+                return $this->getPopularShop($params);
+        }
+    }
+
+    /**
+     * getFullFeaturedShop
+     *
+     * @param $type
+     * @param $params
+     * @param Category $category
+     * @param AppUser|null $user
+     * @return array
+     */
+    public function getFullFeaturedShop($type, Category $category, $params, AppUser $user = null)
+    {
+
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        switch ($type) {
+            case 2:
+                return $this->getFullNewestShopByCategory($category, $offset, $limit);
+            case 3:
+                return $this->getFullNearestShopByCategory($category, $params['latitude'], $params['longitude'], $offset, $limit);
+            case 4:
+                return $this->getFullApprovedShopByCategory($category, $user, $offset, $limit);
+            default:
+                return $this->getFullPopularShopByCategory($category, $offset, $limit);
+        }
+    }
+
+
+    /**
+     * getApprovedShop
+     *
+     * @param $params
+     * @param AppUser|null $user
+     * @return array
+     */
+    public function getApprovedShop($params, AppUser $user = null)
+    {
+        $categories = $this->getCategories($params);
+
+        foreach ($categories['data'] as $key => $item) {
+            /** @var Category $category */
+            $category = $item;
+            $coupons = $this->getApprovedShopByCategory($category, $user);
+            $category->setCoupons($coupons);
+            $categories['data'][$key] = $category;
+        }
+        return $categories;
+    }
+
+    /**
+     * getNearestShop
+     *
+     * @param $params
+     * @return array
+     */
+    public function getNearestShop($params)
+    {
+        $latitude = $params['latitude'];
+        $longitude = $params['longitude'];
+
+        $categories = $this->getCategories($params);
+
+        foreach ($categories['data'] as $key => $item) {
+            /** @var Category $category */
+            $category = $item;
+            $coupons = $this->getNearestShopByCategory($category, $latitude, $longitude);
+            $category->setCoupons($coupons);
+            $categories['data'][$key] = $category;
+        }
+        return $categories;
+    }
+
+    /**
+     * getNewestShop
+     *
+     * @param $params
+     * @return array
+     */
+    public function getNewestShop($params)
+    {
+        $categories = $this->getCategories($params);
+
+        foreach ($categories['data'] as $key => $item) {
+            /** @var Category $category */
+            $category = $item;
+            $coupons = $this->getNewestShopByCategory($category);
+            $category->setCoupons($coupons);
+            $categories['data'][$key] = $category;
+        }
+        return $categories;
+    }
+
+    /**
+     * getPopularShop
+     *
+     * @param $params
+     * @return array
+     */
+    public function getPopularShop($params)
+    {
+        $categories = $this->getCategories($params);
+        foreach ($categories['data'] as $key => $item) {
+            /** @var Category $category */
+            $category = $item;
+            $coupons = $this->getPopularShopByCategory($category);
+            $category->setCoupons($coupons);
+            $categories['data'][$key] = $category;
+        }
+        return $categories;
+    }
+
+
+
+
+
+
+    /**
+     * Get Categories
+     * @param array $params
+     * @return array
+     */
+    public function getCategories($params)
+    {
+        return $this->categoryManager->getCategories($params);
     }
 
     /**
