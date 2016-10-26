@@ -6,20 +6,20 @@ use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\LikeList;
-use CoreBundle\Entity\UseList;
 use CoreBundle\Entity\Store;
+use CoreBundle\Entity\UseList;
 use CoreBundle\Paginator\Pagination;
+use CoreBundle\Utils\StringGenerator;
 use Doctrine\ORM\QueryBuilder;
 use Elastica\Filter\GeoDistance;
 use Elastica\Filter\Missing;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
-use Elastica\Filter\Exists;
 use Elastica\Query\Match;
 use Elastica\Query\MatchAll;
 use Elastica\Query\MultiMatch;
-use Elastica\Query\Term;
 use Elastica\Query\Nested;
+use Elastica\Query\Term;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 class CouponManager extends AbstractManager
@@ -41,7 +41,7 @@ class CouponManager extends AbstractManager
 
     /**
      * @var CategoryManager $categoryManager
-    */
+     */
     protected $categoryManager;
 
     /**
@@ -471,13 +471,13 @@ class CouponManager extends AbstractManager
         }
         $couponQuery = new Term(['id' => $coupon->getId()]);
         $userQuery = new Term(['likeLists.appUser.id' => $user->getId()]);
-//        $nestedQuery = new Nested();
-//        $nestedQuery->setPath("likeLists");
-//        $nestedQuery->setQuery($userQuery);
+        $nestedQuery = new Nested();
+        $nestedQuery->setPath("likeLists");
+        $nestedQuery->setQuery($userQuery);
         $query = new BoolQuery();
         $query
             ->addMust($couponQuery)
-            ->addMust($userQuery);
+            ->addMust($nestedQuery);
         $store = $this->couponFinder->find($query);
         if (!$store) {
             return false;
@@ -485,37 +485,6 @@ class CouponManager extends AbstractManager
 
         return true;
     }
-
-    /**
-     * is used
-     *
-     * @param AppUser $user
-     * @param Coupon $coupon
-     * @return bool
-     */
-    public function isUsed(AppUser $user = null, Coupon $coupon)
-    {
-        if (!$user) {
-            return false;
-        }
-        $couponQuery = new Term(['id' => $coupon->getId()]);
-        $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
-//        $nestedQuery = new Nested();
-//        $nestedQuery->setPath("useLists");
-//        $nestedQuery->setQuery($userQuery);
-        $query = new BoolQuery();
-        $query
-            ->addMust($couponQuery)
-            ->addMust($userQuery);
-        $store = $this->couponFinder->find($query);
-        if (!$store) {
-            return false;
-        }
-
-        return true;
-    }
-
-
 
     /**
      * is can use
@@ -536,17 +505,16 @@ class CouponManager extends AbstractManager
         $couponQuery = new Term(['id' => $coupon->getId()]);
         $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
         $statusQuery = new Term(['useLists.status' => 1]);
+        $nestedQuery = new Nested();
         $mainQuery = new BoolQuery();
         $mainQuery->addMust($userQuery);
         $mainQuery->addMust($statusQuery);
-
-//        $nestedQuery = new Nested();
-//        $nestedQuery->setPath("useLists");
-//        $nestedQuery->setQuery($mainQuery);
+        $nestedQuery->setPath("useLists");
+        $nestedQuery->setQuery($mainQuery);
         $query = new BoolQuery();
         $query
             ->addMust($couponQuery)
-            ->addMust($mainQuery);
+            ->addMust($nestedQuery);
         $store = $this->couponFinder->find($query);
         if (!$store) {
             return false;
@@ -570,7 +538,7 @@ class CouponManager extends AbstractManager
         $boolQuery = new BoolQuery();
         if (!empty($queryString)) {
             $multiMatchQuery = new MultiMatch();
-            $multiMatchQuery->setFields(['title^9', 'store.title^2', 'store.category.name']);
+            $multiMatchQuery->setFields(['title^9', 'store.title^2', 'store.category.name', 'store.address']);
             $multiMatchQuery->setType('cross_fields');
             $multiMatchQuery->setAnalyzer('standard');
             $multiMatchQuery->setQuery($queryString);
@@ -629,37 +597,12 @@ class CouponManager extends AbstractManager
         $mainQuery = new \Elastica\Query;
 
         $userQuery = new Term(['likeLists.appUser.id' => $appUser->getId()]);
-//        $nestedQuery = new Nested();
-//        $nestedQuery->setPath("likeLists");
-//        $nestedQuery->setQuery($userQuery);
+        $nestedQuery = new Nested();
+        $nestedQuery->setPath("likeLists");
+        $nestedQuery->setQuery($userQuery);
 
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust($userQuery);
-
-        $mainQuery->setPostFilter(new Missing('deletedAt'));
-        $mainQuery->setQuery($boolQuery);
-
-        $pagination = $this->couponFinder->createPaginatorAdapter($mainQuery);
-        $transformedPartialResults = $pagination->getResults($offset, $limit);
-        $results = $transformedPartialResults->toArray();
-        $total = $transformedPartialResults->getTotalHits();
-        return $this->pagination->response($results, $total, $limit, $offset);
-    }
-
-    public function getCouponUsed(AppUser $appUser, $params)
-    {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-
-        $mainQuery = new \Elastica\Query;
-
-        $userQuery = new Term(['useLists.appUser.id' => $appUser->getId()]);
-//        $nestedQuery = new Nested();
-//        $nestedQuery->setPath("useLists");
-//        $nestedQuery->setQuery($userQuery);
-
-        $boolQuery = new BoolQuery();
-        $boolQuery->addMust($userQuery);
+        $boolQuery->addMust($nestedQuery);
 
         $mainQuery->setPostFilter(new Missing('deletedAt'));
         $mainQuery->setQuery($boolQuery);
@@ -680,84 +623,46 @@ class CouponManager extends AbstractManager
         return $this->saveCoupon($coupon);
     }
 
-    public function usedCoupon(AppUser $appUser, Coupon $coupon)
-    {
-        $usedCoupon = new UseList();
-        $usedCoupon->setCoupon($coupon);
-        $usedCoupon->setAppUser($appUser);
-        $usedCoupon->setStatus(0);
-        $coupon->addUseList($usedCoupon);
-        return $this->saveCoupon($coupon);
-    }
-
     /**
      * List Coupon
      * @param array $params
      *
      * @return array
      */
-    public function listCoupon($params ,$categoryId = 0 ,  array $sortArgs)
+    public function listCoupon($params)
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
 
-        $query = new \Elastica\Query;
+        $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
-        if(!empty($sortArgs)){
-            $query->setSort($sortArgs);
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+
+
+        $boolQuery = new BoolQuery();
+        if (!empty($queryString)) {
+            $multiMatchQuery = new MultiMatch();
+            $multiMatchQuery->setFields(['title^9', 'store.title^2', 'store.category.name', 'store.address']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery->addMust($multiMatchQuery);
+        } else {
+            $boolQuery->addMust(new MatchAll());
         }
-        if($categoryId > 0){
-            $categoryQuery = new Query\Term(['category.id'=> $categoryId]);
-            $boolQuery = new BoolQuery();
-            $boolQuery->addMust($categoryQuery);
-            $query->setQuery($boolQuery);
-        } 
+
+        if(isset($params['status']) && in_array($params['status'], ["1","0"])) {
+            $status = $params["status"] == 1;
+            $boolQuery->addMust(new Term(['status' => ['value' => $status]]));
+        }
+
+        $query->setQuery($boolQuery);
+
         $pagination = $this->couponFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults($offset, $limit);
-        $results= $transformedPartialResults->toArray();
-        $total = $transformedPartialResults->getTotalHits();
-        return $this->pagination->response($results, $total, $limit, $offset);
-    }
-
-    /**
-     * Filter Coupon By Map
-     *
-     * @param array $params
-     *
-     * @return array
-     */
-    public function filterCouponByMap($params)
-    {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-
-        $distance = new GeoDistance(
-            'store.location',
-            [
-                'lat' => $params['latitude'],
-                'lon' => $params['longitude']
-            ],
-            '1km'
-        );
-        $query = new \Elastica\Query;
-        $all = new Query\MatchAll();
-        $query->setPostFilter(new Missing('deletedAt'));
-        $query->setQuery(new Query\Filtered($all, $distance));
-        $pagination = $this->couponFinder->createPaginatorAdapter($query);
-
-        $query = new \Elastica\Query;
-        $query->setPostFilter(new Missing('deletedAt'));
-        if(!empty($sortArgs)){
-            $query->setSort($sortArgs);
-        }
-        if($categoryId > 0){
-            $categoryQuery = new Query\Term(['category.id'=> $categoryId]);
-            $query->addMust($categoryQuery);
-        }
-        $pagination = $this->storeFinder->createPaginatorAdapter($query);
-
-        $transformedPartialResults = $pagination->getResults($offset, $limit);
-        $results= $transformedPartialResults->toArray();
+        $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset);
     }
