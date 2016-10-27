@@ -791,4 +791,33 @@ class Coupon
     {
         return $this->link;
     }
+    /**
+     * @var string
+     */
+    private $hashTag;
+
+
+    /**
+     * Set hashTag
+     *
+     * @param string $hashTag
+     *
+     * @return Coupon
+     */
+    public function setHashTag($hashTag)
+    {
+        $this->hashTag = $hashTag;
+
+        return $this;
+    }
+
+    /**
+     * Get hashTag
+     *
+     * @return string
+     */
+    public function getHashTag()
+    {
+        return $this->hashTag;
+    }
 }

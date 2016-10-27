@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9f5caad08ef02455d14d840e2c9689ff",
-    "content-hash": "a032a0c28bd45c6a543bc490726828c3",
+    "hash": "fb727045e181b11764c5a3145f49cefc",
+    "content-hash": "23fea966d01f4e830577c84ab5ff3839",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -1303,6 +1303,51 @@
                 "fixtures"
             ],
             "time": "2016-04-29 12:21:54"
+        },
+        {
+            "name": "ikwattro/faker-extra",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ikwattro/faker-extra.git",
+                "reference": "8be598079d81371c01690728d28a9548423e2a32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ikwattro/faker-extra/zipball/8be598079d81371c01690728d28a9548423e2a32",
+                "reference": "8be598079d81371c01690728d28a9548423e2a32",
+                "shasum": ""
+            },
+            "require": {
+                "fzaninotto/faker": "~1.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ikwattro\\FakerExtra\\": "src/FakerExtra"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christophe Willemsen",
+                    "email": "chris@neoxygen.io"
+                }
+            ],
+            "description": "Extra providers for the Faker library",
+            "keywords": [
+                "faker",
+                "generation",
+                "provider",
+                "random"
+            ],
+            "time": "2015-12-19 12:45:22"
         },
         {
             "name": "incenteev/composer-parameter-handler",

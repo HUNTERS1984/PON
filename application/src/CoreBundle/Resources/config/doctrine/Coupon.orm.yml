@@ -57,6 +57,8 @@ CoreBundle\Entity\Coupon:
             nullable: TRUE
         needLogin:
             type: boolean
+        hashTag:
+            type: text
         type:
             type: integer
         description:

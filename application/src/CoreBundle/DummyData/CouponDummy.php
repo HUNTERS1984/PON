@@ -9,6 +9,7 @@ use CoreBundle\Entity\Photo;
 use CoreBundle\Manager\PhotoManager;
 use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
+use Ikwattro\FakerExtra\Provider\Hashtag;
 
 class CouponDummy extends BaseDummy implements IDummy
 {
@@ -24,7 +25,7 @@ class CouponDummy extends BaseDummy implements IDummy
     public function generate($i = 0)
     {
         $faker = Factory::create('ja_JP');
-        $coupon = new Coupon();
+        $faker->addProvider(new Hashtag($faker));
 
         $storeId = $faker->numberBetween(1,10);
         $storeData = $this->storeManager->findOneById($storeId);
@@ -42,6 +43,7 @@ class CouponDummy extends BaseDummy implements IDummy
 ます説明が入ります説明が入ります説明が入ります説明が
 入ります説明が入ります説明が入ります';
 
+        $coupon = new Coupon();
         $coupon
             ->setTitle($faker->name)
             ->setExpiredTime($expiredTime)
@@ -51,6 +53,7 @@ class CouponDummy extends BaseDummy implements IDummy
             ->setImpression(0)
             ->setDescription($description)
             ->setImpression(0)
+            ->setHashTag($faker->hashtag(5, true))
             ->setStatus($faker->randomElement([true, false]))
             ->setSize($faker->numberBetween(1,100))
             ->setStore($storeData);

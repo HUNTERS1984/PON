@@ -1,0 +1,83 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#frmSummary").submit(function(e){
+
+            e.preventDefault();
+            var formSerialize = $(this).serialize();
+            $.post("{{ path("admin_summary_edit",{id: coupon.id}) }}", formSerialize, function(response){
+                //your callback here
+                alert(response);
+
+            },'JSON');
+        });
+
+    });
+
+</script>
+{% form_theme form with ['AdminBundle:Form:fields.html.twig', _self] %}
+
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content modal_coupon">
+        {{ form_start(form, {'id': 'frmSummary'}) }}
+        {{ form_errors(form) }}
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">クーポンを編集</h4>
+        </div>
+        <div class="modal-body">
+            <div class="">
+                <div class="col-md-12">
+                    <div class="row wrapp_avar_btn">
+                        <div class="col-md-3"><img src="{{ asset('backend/images/img_edit_coupon.jpg') }}" alt=""></div>
+                        <div class="col-md-9">
+                            <div class="btn_setting_avatar">
+                                <a href="" class="">アカウントイメージの変更</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-setting">
+                        {{ form_row(form.title) }}
+                        {{ form_row(form.type) }}
+                        {{ form_row(form.hashTag) }}
+                        <div class="form-group">
+                            <label for="説明文">説明文</label>
+                            <textarea class="form-control" rows="5">説明文</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="期限">期限</label>
+                            <div class="select_day">
+                                <select class="form-control sum_year">
+                                    <option>2016年</option>
+                                    <option>2017年</option>
+                                    <option>2018年</option>
+                                    <option>2019年</option>
+                                    <option>2020年</option>
+                                </select>
+                                <select class="form-control sum_month">
+                                    <option>7月</option>
+                                    <option>8月</option>
+                                    <option>9月</option>
+                                    <option>10月</option>
+                                    <option>11月</option>
+                                </select>
+                                <select class="form-control sum_day">
+                                    <option>31日</option>
+                                    <option>30日</option>
+                                    <option>29日</option>
+                                    <option>28日</option>
+                                    <option>27日</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-delete" data-dismiss="modal">削除</button>
+            <button type="submit" class="btn btn-primary btn-change">変更</button>
+        </div>
+        {{ form_end(form) }}
+
+    </div>
+</div>

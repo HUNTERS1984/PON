@@ -103,6 +103,7 @@ fos_elastica:
                         impression: ~
                         type: ~
                         description: ~
+                        hashTag: ~
                         status:
                             type: boolean
                         size: ~
