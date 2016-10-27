@@ -4,6 +4,8 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Store;
+use CoreBundle\Entity\Category;
+
 use CoreBundle\Entity\FollowList;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Exists;
@@ -29,6 +31,16 @@ class StoreManager extends AbstractManager
      * @var TransformedFinder $storeFinder
      */
     protected $storeFinder;
+
+    /**
+     * @var TransformedFinder $couponFinder
+     */
+    protected $categoryFinder;
+
+    /**
+     * @var CategoryManager $categoryManager
+     */
+    protected $categoryManager;
 
     /**
      * @var Pagination $pagination
@@ -138,13 +150,13 @@ class StoreManager extends AbstractManager
     {
         $storeQuery = new Query\Term(['id'=> $store->getId()]);
         $userQuery = new Query\Term(['followLists.appUser.id'=> $user->getId()]);
-//        $nestedQuery = new Query\Nested();
-//        $nestedQuery->setPath("followLists");
-//        $nestedQuery->setQuery($userQuery);
+        $nestedQuery = new Query\Nested();
+        $nestedQuery->setPath("followLists");
+        $nestedQuery->setQuery($userQuery);
         $query = new Query\BoolQuery();
         $query
             ->addMust($storeQuery)
-            ->addMust($userQuery);
+            ->addMust($nestedQuery);
         $store = $this->storeFinder->find($query);
         if(!$store) {
             return false;
@@ -160,17 +172,12 @@ class StoreManager extends AbstractManager
         $mainQuery = new \Elastica\Query;
 
         $userQuery = new Term(['followLists.appUser.id' => $appUser->getId()]);
-//        $nestedQuery = new Nested();
-//        $nestedQuery->setPath("followLists");
-//        $nestedQuery->setQuery($userQuery);
-
-
         $nestedQuery = new Nested();
         $nestedQuery->setPath("followLists");
         $nestedQuery->setQuery($userQuery);
 
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust($userQuery);
+        $boolQuery->addMust($nestedQuery);
 
         $mainQuery->setPostFilter(new Missing('deletedAt'));
         $mainQuery->setQuery($boolQuery);
@@ -609,10 +616,6 @@ class StoreManager extends AbstractManager
     }
 
 
-
-
-
-
     /**
      * Get Categories
      * @param array $params
@@ -621,6 +624,27 @@ class StoreManager extends AbstractManager
     public function getCategories($params)
     {
         return $this->categoryManager->getCategories($params);
+    }
+
+
+    /**
+     * @param CategoryManager $categoryManager
+     * @return CouponManager
+     */
+    public function setCategoryManager($categoryManager)
+    {
+        $this->categoryManager = $categoryManager;
+        return $this;
+    }
+
+    /**
+     * @param TransformedFinder $categoryFinder
+     * @return CouponManager
+     */
+    public function setCategoryFinder($categoryFinder)
+    {
+        $this->categoryFinder = $categoryFinder;
+        return $this;
     }
 
     /**

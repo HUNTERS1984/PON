@@ -295,7 +295,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
         $params = $request->query->all();
 
-        $result = $this->getManager()->getFeaturedCoupon($type, $params);
+        $result = $this->getManager()->getFeaturedShop($type, $params);
 
         if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
@@ -305,7 +305,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
         $user = $this->getUser();
 
-        $result = $this->getManager()->getFeaturedCoupon($type, $params, $user);
+        $result = $this->getManager()->getFeaturedShop($type, $params, $user);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 
 

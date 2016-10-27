@@ -487,6 +487,41 @@ class CouponManager extends AbstractManager
     }
 
     /**
+     * is use
+     *
+     * @param AppUser $user
+     * @param Coupon $coupon
+     * @return bool
+     */
+    public function isUsed(AppUser $user = null, Coupon $coupon)
+    {
+        if (!$coupon->isNeedLogin()) {
+            return true;
+        }
+
+        if (!$user) {
+            return false;
+        }
+        $couponQuery = new Term(['id' => $coupon->getId()]);
+        $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
+        $nestedQuery = new Nested();
+        $mainQuery = new BoolQuery();
+        $mainQuery->addMust($userQuery);
+        $nestedQuery->setPath("useLists");
+        $nestedQuery->setQuery($mainQuery);
+        $query = new BoolQuery();
+        $query
+            ->addMust($couponQuery)
+            ->addMust($nestedQuery);
+        $store = $this->couponFinder->find($query);
+        if (!$store) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * is can use
      *
      * @param AppUser $user
@@ -612,6 +647,41 @@ class CouponManager extends AbstractManager
         $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function getCouponUsed(AppUser $appUser, $params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $mainQuery = new \Elastica\Query;
+
+        $userQuery = new Term(['useLists.appUser.id' => $appUser->getId()]);
+        $nestedQuery = new Nested();
+        $nestedQuery->setPath("useLists");
+        $nestedQuery->setQuery($userQuery);
+
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust($nestedQuery);
+
+        $mainQuery->setPostFilter(new Missing('deletedAt'));
+        $mainQuery->setQuery($boolQuery);
+
+        $pagination = $this->couponFinder->createPaginatorAdapter($mainQuery);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function usedCoupon(AppUser $appUser, Coupon $coupon)
+    {
+        $usedCoupon = new UseList();
+        $usedCoupon->setCoupon($coupon);
+        $usedCoupon->setAppUser($appUser);
+        $usedCoupon->setStatus(0);
+        $coupon->addUseList($usedCoupon);
+        return $this->saveCoupon($coupon);
     }
 
     public function likeCoupon(AppUser $appUser, Coupon $coupon)
