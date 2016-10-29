@@ -47,7 +47,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/shops/{id}")
      * @return Response
@@ -172,7 +173,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/featured/{type}/shops/{category}")
      * @return Response
@@ -228,7 +230,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/featured/{type}/shops")
      * @return Response
@@ -282,7 +285,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/category/{id}/shops")
      * @return Response
@@ -328,7 +332,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/follow/shops")
      * @return Response
@@ -379,7 +384,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *     401="Returned when the user is not authorized",
      *     400 = "Returned when the API has invalid input",
      *     404 = "Returned when the The App User is not found"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      *
      * @Post("/follow/shops/{id}", name="follow_shop")
@@ -420,7 +426,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/map/{latitude}/{longitude}/shops")
      * @View(serializerGroups={"list","store_category","store_coupon"}, serializerEnableMaxDepthChecks=true)

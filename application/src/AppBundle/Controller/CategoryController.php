@@ -41,7 +41,8 @@ class CategoryController extends FOSRestController implements ClassResourceInter
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized",
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/categories")
      * @View(serializerGroups={"list_category"}, serializerEnableMaxDepthChecks=true)
@@ -90,7 +91,8 @@ class CategoryController extends FOSRestController implements ClassResourceInter
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized",
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/categories/shop")
      * @return Response

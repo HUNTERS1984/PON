@@ -2,6 +2,7 @@
 
 namespace CoreBundle\DummyData;
 
+use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Photo;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\StorePhoto;
@@ -13,8 +14,8 @@ use Faker\Factory;
 
 class StoreDummy extends BaseDummy implements IDummy
 {
-    /** @var UserManager $userManager */
-    private $userManager;
+    /** @var AppUserManager $appUserManager */
+    private $appUserManager;
 
     /** @var CategoryManager $categoryManager */
     private $categoryManager;
@@ -32,10 +33,10 @@ class StoreDummy extends BaseDummy implements IDummy
         $name = $faker->name;
         $categoryId = $faker->numberBetween(1, 5);
         $category = $this->categoryManager->findOneById($categoryId);
-        $userId = $faker->numberBetween(1, 10);
-        $user = $this->userManager->findOneById($userId);
-        $lat = 10.785871;
-        $long = 106.6851;
+        $userId = $faker->numberBetween(5, 10);
+        /**@var AppUser $user */
+        $user = $this->appUserManager->findOneById($userId);
+        
         $arrayGeo = [
             [10.785871, 106.6851],
             [21.030355, 105.832855],
@@ -69,7 +70,7 @@ class StoreDummy extends BaseDummy implements IDummy
             ->setAveBill($faker->numberBetween(1,100))
             ->setHelpText($faker->paragraph(3))
             ->setCategory($category)
-            ->setUser($user)
+            ->setAppUser($user)
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
 
@@ -93,12 +94,12 @@ class StoreDummy extends BaseDummy implements IDummy
     }
 
     /**
-     * @param mixed $userManager
+     * @param mixed $appUserManager
      * @return StoreDummy
      */
-    public function setUserManager($userManager)
+    public function setAppUserManager($appUserManager)
     {
-        $this->userManager = $userManager;
+        $this->appUserManager = $appUserManager;
         return $this;
     }
 

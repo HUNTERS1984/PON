@@ -38,13 +38,6 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setStoreFinder, ["@fos_elastica.finder.app.store"]]
-    pon.manager.user:
-        class: CoreBundle\Manager\UserManager
-        factory_service:  doctrine
-        factory_method:   getEntityManager
-        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\User"]
-        calls:
-            - [setPagination, ["@pon.paginator.pagination"]]
 
     pon.manager.category:
         class: CoreBundle\Manager\CategoryManager
@@ -97,10 +90,7 @@ services:
         class: CoreBundle\DummyData\AppUserDummy
         calls:
             - [setManager, ["@pon.manager.app_user"]]
-    pon.dummy.user:
-        class: CoreBundle\DummyData\UserDummy
-        calls:
-            - [setManager, ["@pon.manager.user"]]
+
     pon.dummy.use_list:
         class: CoreBundle\DummyData\UseCouponDummy
         calls:
@@ -115,7 +105,7 @@ services:
         calls:
             - [setManager, ["@pon.manager.store"]]
             - [setCategoryManager, ["@pon.manager.category"]]
-            - [setUserManager, ["@pon.manager.user"]]
+            - [setAppUserManager, ["@pon.manager.app_user"]]
             - [setPhotoManager, ["@pon.manager.photo"]]
 
     pon.dummy.coupon:

@@ -31,12 +31,12 @@ CoreBundle\Entity\Store:
             joinColumn:
                 name: category_id
                 referencedColumnName: id
-        user:
-            targetEntity: User
+        appUser:
+            targetEntity: AppUser
             inversedBy: stores
             cascade: ["all"]
             joinColumn:
-                name: user_id
+                name: app_user_id
                 referencedColumnName: id
     id:
         id:

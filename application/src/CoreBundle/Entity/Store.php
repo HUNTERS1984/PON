@@ -107,11 +107,6 @@ class Store
     private $category;
 
     /**
-     * @var \CoreBundle\Entity\User
-     */
-    private $user;
-
-    /**
      * @var string
     */
     private $location;
@@ -644,30 +639,6 @@ class Store
     }
 
     /**
-     * Set user
-     *
-     * @param \CoreBundle\Entity\User $user
-     *
-     * @return Store
-     */
-    public function setUser(\CoreBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \CoreBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
      * @return mixed
      */
     public function getLocation()
@@ -758,5 +729,34 @@ class Store
     public function getStorePhotoUrls()
     {
         return $this->storePhotoUrls;
+    }
+    /**
+     * @var \CoreBundle\Entity\AppUser
+     */
+    private $appUser;
+
+
+    /**
+     * Set appUser
+     *
+     * @param \CoreBundle\Entity\AppUser $appUser
+     *
+     * @return Store
+     */
+    public function setAppUser(\CoreBundle\Entity\AppUser $appUser = null)
+    {
+        $this->appUser = $appUser;
+
+        return $this;
+    }
+
+    /**
+     * Get appUser
+     *
+     * @return \CoreBundle\Entity\AppUser
+     */
+    public function getAppUser()
+    {
+        return $this->appUser;
     }
 }

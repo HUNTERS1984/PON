@@ -5,8 +5,9 @@ security:
         Symfony\Component\Security\Core\User\User: plaintext
         FOS\UserBundle\Model\UserInterface: sha512
     role_hierarchy:
-        ROLE_OWNER:  ROLE_USER
-        ROLE_ADMIN:       ROLE_OWNER
+        ROLE_APP:  ROLE_USER
+        ROLE_CLIENT:  ROLE_APP
+        ROLE_ADMIN:       ROLE_CLIENT
         ROLE_SUPER_ADMIN: ROLE_ADMIN
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
@@ -138,4 +139,4 @@ security:
     access_control:
         admin_area:
             path: ^/admin
-            role: ROLE_USER
+            role: ROLE_CLIENT
