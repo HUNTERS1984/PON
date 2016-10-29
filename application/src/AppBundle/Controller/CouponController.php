@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use CoreBundle\Utils\Response as BaseResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 class CouponController extends FOSRestController implements ClassResourceInterface
@@ -48,7 +49,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/featured/{type}/coupons")
      * @View(serializerGroups={"featured_coupon"}, serializerEnableMaxDepthChecks=true)
@@ -190,7 +192,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/featured/{type}/category/{category}/coupons")
      * @View(serializerGroups={"featured_coupon"}, serializerEnableMaxDepthChecks=true)
@@ -274,7 +277,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @View(serializerGroups={"view_coupon","list_coupon_store"}, serializerEnableMaxDepthChecks=true)
      * @return Response
@@ -430,7 +434,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/favorite/coupons")
      * @View(serializerGroups={"list_coupon","list_coupon_store"}, serializerEnableMaxDepthChecks=true)
@@ -500,7 +505,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/used/coupons")
      * @return Response
@@ -565,7 +571,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @Get("/search/coupons")
      * @View(serializerGroups={"list_coupon","list_coupon_store"}, serializerEnableMaxDepthChecks=true)
@@ -601,7 +608,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *     401="Returned when the user is not authorized",
      *     400 = "Returned when the API has invalid input",
      *     404 = "Returned when the The App User is not found"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      *
      * @Post("/like/coupons/{id}", name="like_coupon")
@@ -653,7 +661,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *     401="Returned when the user is not authorized",
      *     400 = "Returned when the API has invalid input",
      *     404 = "Returned when the The App User is not found"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      *
      * @Post("/use/coupons/{id}", name="use_coupon")
@@ -663,6 +672,200 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
         return $this->view(BaseResponse::getData([]), 200);
     }
+
+    /**
+     * Get List Request Coupon
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to list request coupon",
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *     },
+     *  parameters={
+     *      {"name"="page_size", "dataType"="integer", "required"=false, "description"="page size to return"},
+     *      {"name"="page_index", "dataType"="integer", "required"=false, "description"="page index to return"},
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   },
+     *   views = { "client"}
+     * )
+     * @Get("/request/coupons")
+     * @Security("is_granted('ROLE_CLIENT')")
+     * @return Response
+     */
+    public function getRequestCouponAction(Request $request)
+    {
+        $user = $this->getUser();
+        $faker = Factory::create('ja_JP');
+        $data = [];
+        for ($i = 0; $i < 20; $i++) {
+            $data[] =
+                [
+                    'id' => $i + 1,
+                    'title' => $faker->name,
+                    'image_url' => $faker->imageUrl(640, 480, 'food'),
+                    'expired_time' => new \DateTime(),
+                    'is_like' => $faker->randomElement([true, false]),
+                    'need_login' => $needLogin = $faker->randomElement([true, false]),
+                    'can_use' => (!$needLogin) || ($needLogin && $user) ? true : false,
+                    'shop' => [
+                        'id' => $faker->numberBetween(1, 200),
+                        'title' => $faker->company,
+                        'category' => [
+                            'id' => $faker->randomElement([1, 2]),
+                            'name' => $faker->name,
+                            'icon_url' => $faker->imageUrl(46, 46, 'food')
+                        ]
+                    ],
+                    'coupon_type' => [
+                        'id' => $faker->randomElement([1, 2]),
+                        'name' => $faker->name,
+                        'icon_url' => $faker->imageUrl(46, 46, 'food')
+                    ],
+                    'users' => [
+                        [
+                            'username' => $faker->userName
+                        ]
+                    ]
+                ];
+        }
+        return $this->view(BaseResponse::getData($data, [
+            'limit' => 20,
+            'offset' => 0,
+            'item_total' => 20,
+            'page_total' => 1,
+            'current_page' => 1
+        ]));
+
+    }
+
+    /**
+     * Accept Coupon
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to accept coupon",
+     *  requirements={
+     *      {
+     *          "name"="id",
+     *          "dataType"="string",
+     *          "description"="id of coupon"
+     *      },
+     *     {
+     *          "name"="username",
+     *          "dataType"="string",
+     *          "description"="username of app user"
+     *      }
+     *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   },
+     *   views = { "client"}
+     * )
+     *
+     * @Post("/accept/coupons/{id}/user/{username}", name="like_coupon")
+     * @Security("is_granted('ROLE_CLIENT')")
+     * @return Response
+     */
+    public function postAcceptCouponAction($id, $username, Request $request)
+    {
+        return $this->view(BaseResponse::getData([]), 200);
+
+        $appUser = $this->getUser();
+        $coupon = $this->getManager()->getCoupon($id);
+        if (!$coupon) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        $isLike = $this->getManager()->isLike($user, $coupon);
+        if(!$isLike) {
+            $coupon = $this->getManager()->likeCoupon($user, $coupon);
+            if(!$coupon) {
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'coupon.like.not_success'
+                ));
+            }
+        }
+
+        return $this->view(BaseResponse::getData([]), 200);
+    }
+
+    /**
+     * Decline Coupon
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to decline coupon",
+     *  requirements={
+     *      {
+     *          "name"="id",
+     *          "dataType"="string",
+     *          "description"="id of coupon"
+     *      },
+     *     {
+     *          "name"="username",
+     *          "dataType"="string",
+     *          "description"="username of app user"
+     *      }
+     *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   },
+     *   views = { "client"}
+     * )
+     *
+     * @Post("/decline/coupons/{id}/user/{username}", name="like_coupon")
+     * @Security("is_granted('ROLE_CLIENT')")
+     * @return Response
+     */
+    public function postDeclineCouponAction($id, $username, Request $request)
+    {
+        return $this->view(BaseResponse::getData([]), 200);
+
+        $appUser = $this->getUser();
+        $coupon = $this->getManager()->getCoupon($id);
+        if (!$coupon) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        $isLike = $this->getManager()->isLike($user, $coupon);
+        if(!$isLike) {
+            $coupon = $this->getManager()->likeCoupon($user, $coupon);
+            if(!$coupon) {
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'coupon.like.not_success'
+                ));
+            }
+        }
+
+        return $this->view(BaseResponse::getData([]), 200);
+    }
+
 
     /**
      * @return CouponManager

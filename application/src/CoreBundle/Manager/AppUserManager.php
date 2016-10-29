@@ -100,6 +100,7 @@ class AppUserManager extends AbstractManager
             $appUser = new AppUser();
             $appUser->setUsername($facebookUser->getId());
             $appUser->setFacebookId($facebookUser->getId());
+            $appUser->setRoles(['ROLE_APP']);
             $appUser->setEmail($facebookUser->getId().'@facebook.com');
         }
         $appUser->setName($facebookUser->getName());
@@ -138,6 +139,7 @@ class AppUserManager extends AbstractManager
             $appUser = new AppUser();
             $appUser->setTwitterId($twitter->id);
             $appUser->setUsername($twitter->id);
+            $appUser->setRoles(['ROLE_APP']);
             $appUser->setEmail($twitter->id.'@twitter.com');
         }
         $appUser->setName($twitter->name);

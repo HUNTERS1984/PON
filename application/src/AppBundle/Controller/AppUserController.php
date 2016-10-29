@@ -52,7 +52,8 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *  statusCodes = {
      *     201 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
      * @Post("/signup", name="app_signup")
@@ -61,11 +62,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     public function postSingUpAction(Request $request)
     {
         $data = $request->request->all();
-        $data['plainPassword'] = $data['password'];
-        $form = $this->createForm(AppUserType::class, new AppUser());
-        $form->submit($data);
-        /**@var AppUser $appUser*/
-        $appUser = $form->getData();
+        $appUser = new AppUser();
+        $appUser->setRoles(['ROLE_APP']);
+        $appUser->setUsername($data['username']);
+        $appUser->setPlainPassword($data['password']);
+        $appUser->setEmail($data['email']);
         $appUser->setPassword($data['password']);
         if($error = $this->get('pon.exception.exception_handler')->validate($appUser)) {
             return $this->view($error);
@@ -75,7 +76,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
 
         try {
             $request->request->set('username', $appUser->getUsername());
-            $request->request->set('password', $data['plainPassword']);
+            $request->request->set('password', $data['password']);
             $request->request->set('client_id',$this->getParameter('client_id'));
             $request->request->set('client_secret',$this->getParameter('client_secret'));
             $request->request->set('grant_type',$this->getParameter('grant_type'));
@@ -112,7 +113,8 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *  statusCodes = {
      *     201 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *  views = { "app", "client"}
      * )
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
      * @Post("/signin", name="app_signin")
@@ -164,7 +166,8 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *  statusCodes = {
      *     201 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
      * @Post("/facebook/signin", name="app_facebook_signin")
@@ -231,7 +234,8 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *  statusCodes = {
      *     201 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app"}
      * )
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
      * @Post("/twitter/signin", name="app_twitter_signin")
@@ -320,7 +324,8 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *     401="Returned when the user is not authorized",
      *     400 = "Returned when the API has invalid input",
      *     404 = "Returned when the The App User is not found"
-     *   }
+     *   },
+     *   views = { "app", "client"}
      * )
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
      * @Post("/profile", name="update_profile")
@@ -375,7 +380,8 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *  views = { "app", "client"}
      * )
      * @Get("/signout", name="sign_out")
      * @return Response
@@ -411,7 +417,8 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app", "client"}
      * )
      * @Get("/authorized", name="authorized")
      * @return Response
@@ -435,7 +442,8 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *  statusCodes = {
      *     200 = "Returned when successful",
      *     401="Returned when the user is not authorized"
-     *   }
+     *   },
+     *   views = { "app", "client"}
      * )
      * @Get("/profile", name="authorized")
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)

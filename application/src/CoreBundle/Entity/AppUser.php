@@ -31,11 +31,6 @@ class AppUser extends BaseUser
     /**
      * @var string
      */
-    private $role;
-
-    /**
-     * @var string
-     */
     private $facebookId;
 
     /**
@@ -140,30 +135,6 @@ class AppUser extends BaseUser
     public function getApplePushKey()
     {
         return $this->applePushKey;
-    }
-
-    /**
-     * Set role
-     *
-     * @param string $role
-     *
-     * @return AppUser
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * Get role
-     *
-     * @return string
-     */
-    public function getRole()
-    {
-        return $this->role;
     }
 
     /**
@@ -775,5 +746,131 @@ class AppUser extends BaseUser
     public function getTwitterId()
     {
         return $this->twitterId;
+    }
+    /**
+     * @var string
+     */
+    private $locale;
+
+    /**
+     * @var string
+     */
+    private $company;
+
+    /**
+     * @var string
+     */
+    private $tel;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $stores;
+
+
+    /**
+     * Set locale
+     *
+     * @param string $locale
+     *
+     * @return AppUser
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * Get locale
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Set company
+     *
+     * @param string $company
+     *
+     * @return AppUser
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * Get company
+     *
+     * @return string
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * Set tel
+     *
+     * @param string $tel
+     *
+     * @return AppUser
+     */
+    public function setTel($tel)
+    {
+        $this->tel = $tel;
+
+        return $this;
+    }
+
+    /**
+     * Get tel
+     *
+     * @return string
+     */
+    public function getTel()
+    {
+        return $this->tel;
+    }
+
+    /**
+     * Add store
+     *
+     * @param \CoreBundle\Entity\Store $store
+     *
+     * @return AppUser
+     */
+    public function addStore(\CoreBundle\Entity\Store $store)
+    {
+        $this->stores[] = $store;
+
+        return $this;
+    }
+
+    /**
+     * Remove store
+     *
+     * @param \CoreBundle\Entity\Store $store
+     */
+    public function removeStore(\CoreBundle\Entity\Store $store)
+    {
+        $this->stores->removeElement($store);
+    }
+
+    /**
+     * Get stores
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStores()
+    {
+        return $this->stores;
     }
 }

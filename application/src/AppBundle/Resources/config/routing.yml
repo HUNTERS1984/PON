@@ -1,9 +1,3 @@
-app_user:
-    prefix: /v1
-    type: rest
-    resource: AppBundle\Controller\UserController
-    name_prefix: api_user
-
 app_app_user:
     prefix: /v1
     type: rest

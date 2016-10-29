@@ -9,6 +9,7 @@ fos_elastica:
                     mappings:
                         id: ~
                         username: ~
+                        roles: ~
                         useLists:
                             type: "nested"
                             properties:
@@ -76,7 +77,7 @@ fos_elastica:
                                 id: ~
                                 name: ~
                                 iconUrl: ~
-                        user:
+                        appUser:
                             type: object
                             properties:
                                 id: ~
@@ -195,7 +196,7 @@ fos_elastica:
                                             properties:
                                                 id: ~
                                                 imageUrl: ~
-                                user:
+                                appUser:
                                     type: object
                                     properties:
                                         id: ~

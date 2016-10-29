@@ -22,6 +22,10 @@ CoreBundle\Entity\AppUser:
             targetEntity: FollowList
             mappedBy: appUser
             cascade: ["all"]
+        stores:
+            targetEntity: Store
+            mappedBy: appUser
+            cascade: ["all"]
     id:
         id:
             type: integer
@@ -41,10 +45,6 @@ CoreBundle\Entity\AppUser:
             type: string
             length: 255
             nullable: TRUE
-        role:
-            type: string
-            length: 60
-            nullable: TRUE
         name:
             type: string
             length: 100
@@ -55,6 +55,18 @@ CoreBundle\Entity\AppUser:
         address:
             type: string
             length: 255
+            nullable: TRUE
+        locale:
+            type: string
+            length: 5
+            nullable: TRUE
+        company:
+            type: string
+            length: 255
+            nullable: TRUE
+        tel:
+            type: string
+            length: 20
             nullable: TRUE
         avatarUrl:
             type: string
