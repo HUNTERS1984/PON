@@ -38,6 +38,9 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setStoreFinder, ["@fos_elastica.finder.app.store"]]
+            - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
+            - [setCategoryManager, ["@pon.manager.category"]]
+
 
     pon.manager.category:
         class: CoreBundle\Manager\CategoryManager

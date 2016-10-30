@@ -55,6 +55,16 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getAction($id)
     {
+        $store = $this->getManager()->getStore($id);
+        if (!$store) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'store.not_found'
+            ));
+        }
+
+        return $this->view(BaseResponse::getData($store));
+
+
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [
@@ -181,6 +191,53 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAndTypeAction($type, $category, Request $request)
     {
+
+        $params = $request->query->all();
+        if(!$categoryObject = $this->getCategoryManager()->getCategory($category)) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+        if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_blank.latitude_longitude'
+            ));
+        }
+        $user = $this->getUser();
+        $result = $this->getManager()->getFullFeaturedShop($type, $categoryObject, $params, $user);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
+
+
+        $params = $request->query->all();
+        switch ($type) {
+            case 1:
+                /* popular */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listStore($params , $category , $sortArgs);
+                break;
+            case 2:
+                /* newest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listStore($params , $category , $sortArgs);
+                break;
+            case 3:
+                /* nearest */
+                $store = $this->getManager()->filterShopByMap($params);
+                break;
+            case 4:
+                /* approved */
+                $user = $this->getUser();
+                $store = $this->getManager()->getFollowShop($user ,$params);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ));
+        }
+        return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -238,6 +295,53 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getByFeaturedAction($type, Request $request)
     {
+
+        $params = $request->query->all();
+
+        $result = $this->getManager()->getFeaturedShop($type, $params);
+
+        if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'store.not_blank.latitude_longitude'
+            ));
+        }
+
+        $user = $this->getUser();
+
+        $result = $this->getManager()->getFeaturedShop($type, $params, $user);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
+
+
+        $params = $request->query->all();
+        switch ($type) {
+            case 1:
+                /* popular */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listStore($params , 0 , $sortArgs);
+                break;
+            case 2:
+                /* newest */
+                $sortArgs = array('createdAt' => array('order' => 'desc'));
+                $store = $this->getManager()->listStore($params , 0 , $sortArgs);
+                break;
+            case 3:
+                /* nearest */
+                $store = $this->getManager()->filterShopByMap($params);
+                break;
+            case 4:
+                /* approved */
+                $user = $this->getUser();
+                $store = $this->getManager()->getFollowShop($user , $params);
+                break;
+            default:
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.not_found'
+                ));
+        }
+        return $this->view(BaseResponse::getData($store['data'], $store['pagination']));
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -293,6 +397,21 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getShopByCouponTypeAction($id, Request $request)
     {
+        $params = $request->query->all();
+        if(!$categoryObject = $this->getCategoryManager()->getCategory($id)) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+        $result = $this->getManager()->getShopByCategory($categoryObject, $params);
+
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
+
+
+
+
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -340,6 +459,11 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function getFollowShopAction(Request $request)
     {
+        $user = $this->getUser();
+        $params = $request->query->all();
+        $result = $this->getManager()->getFollowShop($user, $params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -393,6 +517,25 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function postFollowShopAction($id, Request $request)
     {
+        $user = $this->getUser();
+        $shop = $this->getManager()->getStore($id);
+        if (!$shop) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'store.not_found'
+            ));
+        }
+
+        $isFollow = $this->getManager()->isFollow($user, $shop);
+
+        if(!$isFollow) {
+            $shop = $this->getManager()->followShop($user, $shop);
+            if(!$shop) {
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.follow.not_success'
+                ));
+            }
+        }
+
         return $this->view(BaseResponse::getData([]), 200);
     }
 
@@ -573,6 +716,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     public function getUserManager()
     {
         return $this->get('pon.manager.user');
+    }
+
+    /**
+     * @return CategoryManager
+     */
+    public function getCategoryManager()
+    {
+        return $this->get('pon.manager.category');
     }
 
     /**

@@ -513,6 +513,12 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getUsedCouponAction(Request $request)
     {
+
+        $user = $this->getUser();
+        $params = $request->query->all();
+        $result = $this->getManager()->getCouponUsed($user, $params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [];
