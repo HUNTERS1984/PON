@@ -83,6 +83,10 @@
 
     {% block scripts_footer_inline %}{% endblock %}
 
+    {% block scripts_ga %}
+        <script src="{{ asset('customer/js/ga.js') }}"></script>
+    {% endblock %}
+
 {% endblock %}
 </body>
 </html>
