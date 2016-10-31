@@ -106,11 +106,11 @@
                             <span class="right"><span class="color-red">期限:{{ coupon.expiredTime|date("Y.m.d") }}</span></span>
                         </div>
                         <div class="top-media">
-                            <span class="left">#hashtag  #hashtag  #hashtag  #hashtag</span>
+                            <span class="left">{{ coupon.hashtag|replace({',': ' '}) }}</span>
                         </div>
-                        <div class="top-media">
-                            <span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>
-                        </div>
+                        {#<div class="top-media">#}
+                            {#<span class="left">測定ON 自動承認 <a href="" class="link-id-bottom">QRコードを見る</a></span>#}
+                        {#</div>#}
                         <div class="top-media">
                             <span>
                               {{ coupon.description }}

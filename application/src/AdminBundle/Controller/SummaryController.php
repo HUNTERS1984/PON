@@ -35,7 +35,19 @@ class SummaryController extends Controller
 
         $form = $this->createForm(CouponType::class, $coupon)->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if($request->isXmlHttpRequest() && !$form->isValid()) {
+            echo 'abc';die();
+            return $this->render(
+                'AdminBundle:Summary:base_edit.html.twig',
+                [
+                    'form' => $form->createView()
+                ]
+            );
+        }
+
+        if ($request->isXmlHttpRequest() && $form->isValid()) {
+            $coupon = $form->getData();
+            var_dump($coupon);
             return new Response(json_encode(array('status'=>'success')));
         }
 

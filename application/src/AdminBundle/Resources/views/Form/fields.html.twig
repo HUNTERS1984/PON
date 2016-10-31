@@ -6,4 +6,18 @@
             {{ form_errors(form) }}
         </div>
     </div>
-{%- endblock %}
+{% endblock %}
+
+{% block date_widget %}
+    {% spaceless %}
+        {% if widget == 'single_text' %}
+            {{ block('field_widget') }}
+        {% else %}
+            <div class="select_day">
+                {{  form_widget(form.year, {'attr': {'class': 'form-control sum_year'}}) }}
+                {{  form_widget(form.month, {'attr': {'class': 'form-control sum_month'}}) }}
+                {{  form_widget(form.day, {'attr': {'class': 'form-control sum_day'}}) }}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock date_widget %}

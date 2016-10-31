@@ -6,6 +6,8 @@ namespace AdminBundle\Form\Type;
 use CoreBundle\Entity\Coupon;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -56,6 +58,21 @@ class CouponType extends AbstractType
                     'rows' => '5',
                     'class' => 'form-control',
                     'placeholder' => 'ハッシュタグ'
+                ],
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => '説明文',
+                'attr' => [
+                    'rows' => '5',
+                    'class' => 'form-control',
+                    'placeholder' => '説明文'
+                ],
+            ])
+            ->add('expiredTime', DateType::class, [
+                'label' => '期限',
+                'format' => 'y-M-d',
+                'attr' => [
+                    'class' => 'select_day',
                 ],
             ]);
     }
