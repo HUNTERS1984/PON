@@ -200,6 +200,21 @@ class Category
         return $this;
     }
 
+
+    /**
+     * set store
+     *
+     * @param ArrayCollection $store
+     *
+     * @return Category
+     */
+    public function setStores($store)
+    {
+        $this->stores = $store;
+
+        return $this;
+    }
+
     /**
      * Remove store
      *

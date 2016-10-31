@@ -7,6 +7,9 @@ use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query;
 use Elastica\Query\Term;
+use Elastica\Aggregation\Nested;
+
+
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 class CategoryManager extends AbstractManager
@@ -104,6 +107,39 @@ class CategoryManager extends AbstractManager
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset);
     }
+
+    /**
+     * Get Categories Include Shop
+     * @param array $params
+     *
+     * @return array
+     */
+    public function getCategoriesIncludeShop($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+//        $query->addAggregation(new Nested('shop_count' , 'stores'));
+        $query->addSort(['name' => ['order' => 'asc']]);
+
+        $pagination = $this->categoryFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+
+
+        $resultsFn = array();
+        foreach ($results as $k => $v){
+            $resultsFn[$k]['id'] = $v->getId();
+            $resultsFn[$k]['name'] = $v->getName();
+            $resultsFn[$k]['icon_url'] = $v->getIconUrl();
+            $resultsFn[$k]['shop_count'] = count($v->getStores());
+        }
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($resultsFn, $total, $limit, $offset);
+    }
+
 
     /**
      * List Category

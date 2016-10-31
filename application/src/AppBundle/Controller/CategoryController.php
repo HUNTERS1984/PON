@@ -97,6 +97,13 @@ class CategoryController extends FOSRestController implements ClassResourceInter
      */
     public function getCategoriesIncludeShopAction(Request $request)
     {
+        $params = $request->query->all();
+        $result = $this->getManager()->getCategoriesIncludeShop($params);
+
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
+
+
         $faker = Factory::create('ja_JP');
 
         for ($i = 0; $i < 20; $i++) {
