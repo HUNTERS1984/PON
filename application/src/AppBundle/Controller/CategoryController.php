@@ -27,7 +27,7 @@ class CategoryController extends FOSRestController implements ClassResourceInter
      * Get List Category
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list Category",
+     *  description="This api is used to list Category (DONE)",
      *  headers={
      *         {
      *             "name"="Authorization",

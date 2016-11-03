@@ -26,7 +26,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * Get List Featured Category
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list coupon",
+     *  description="This api is used to list coupon (DONE)",
      *  requirements={
      *      {
      *          "name"="type",
@@ -164,7 +164,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * Get List Featured Coupons By Category
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list coupon",
+     *  description="This api is used to list coupon (DONE)",
      *  requirements={
      *      {
      *          "name"="type",
@@ -259,7 +259,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * View Detail Coupon
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to view coupon",
+     *  description="This api is used to view coupon (DONE)",
      *  requirements={
      *      {
      *          "name"="id",
@@ -420,7 +420,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * Get List Favorite Coupon
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list coupon",
+     *  description="This api is used to list coupon (DONE)",
      *  headers={
      *         {
      *             "name"="Authorization",
@@ -491,7 +491,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * Get List Used Coupon
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list coupon",
+     *  description="This api is used to list coupon (DONE)",
      *  headers={
      *         {
      *             "name"="Authorization",
@@ -563,7 +563,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * search coupon
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to search coupon",
+     *  description="This api is used to search coupon (DONE)",
      *  headers={
      *         {
      *             "name"="Authorization",
@@ -596,7 +596,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * Like Coupon
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to like coupon",
+     *  description="This api is used to like coupon (DONE)",
      *  requirements={
      *      {
      *          "name"="id",

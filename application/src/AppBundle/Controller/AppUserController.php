@@ -31,7 +31,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * SignUp
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to signup",
+     *  description="This api is used to signup (DONE)",
      *  requirements={
      *      {
      *          "name"="username",
@@ -97,7 +97,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * SignIn
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to sigin",
+     *  description="This api is used to sigin (DONE)",
      *  requirements={
      *      {
      *          "name"="username",
@@ -155,7 +155,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * Facebook SignIn
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to signin",
+     *  description="This api is used to signin (DONE)",
      *  requirements={
      *      {
      *          "name"="facebook_access_token",
@@ -218,7 +218,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * Twitter SignIn
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to signin",
+     *  description="This api is used to signin (DONE)",
      *  requirements={
      *      {
      *          "name"="twitter_access_token",
@@ -287,7 +287,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * Update Profile
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to update app user",
+     *  description="This api is used to update app user (DONE)",
      *  requirements={
      *      {
      *          "name"="name",
@@ -370,7 +370,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * SignOut
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to signout",
+     *  description="This api is used to signout (DONE)",
      *     headers={
      *         {
      *             "name"="Authorization",
@@ -407,7 +407,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * Check Valid Token
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to signout",
+     *  description="This api is used to signout (DONE)",
      *     headers={
      *         {
      *             "name"="Authorization",
@@ -432,7 +432,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * Check Profile
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to get profile",
+     *  description="This api is used to get profile (DONE)",
      *     headers={
      *         {
      *             "name"="Authorization",

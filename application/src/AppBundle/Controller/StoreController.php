@@ -400,7 +400,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      * Get Shop Coupons By Map
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list coupon",
+     *  description="This api is used to list coupon (DONE)",
      *  requirements={
      *      {
      *          "name"="latitude",
