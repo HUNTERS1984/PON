@@ -17,3 +17,19 @@ yes |   cp -rf $(pwd)/vagrant/bin/queue.sh /usr/local/bin/queue &&  chmod a+x /u
 docker-compose up -d --build
 
 /usr/local/bin/queue
+
+/usr/local/bin/composer install --no-interaction
+
+/usr/local/bin/console doctrine:schema:drop --force
+
+/usr/local/bin/console doctrine:schema:update --force
+
+/usr/local/bin/console fos:elastica:reset
+
+/usr/local/bin/console dummy:data
+
+/usr/local/bin/npm install
+
+/usr/local/bin/bower install
+
+/usr/local/bin/gulp

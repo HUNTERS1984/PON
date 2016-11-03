@@ -445,7 +445,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
         $user = $this->getUser();
         $params = $request->query->all();
-        $result = $this->getManager()->getCouponFavorite($user, $params);
+        $result = $this->getManager()->getFavoriteCoupons($user, $params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 
 
@@ -509,10 +509,17 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *   views = { "app"}
      * )
      * @Get("/used/coupons")
+     * @View(serializerGroups={"list_coupon","list_coupon_store"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getUsedCouponAction(Request $request)
     {
+
+        $user = $this->getUser();
+        $params = $request->query->all();
+        $result = $this->getManager()->getUsedCoupons($user, $params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [];

@@ -24,7 +24,8 @@ class UseCouponDummy extends BaseDummy implements IDummy
         $useCoupon = new UseList();
         $useCoupon->setAppUser($appUser);
         $useCoupon->setCoupon($coupon);
-        $useCoupon->setStatus(0);
+        $status = random_int(0,4);
+        $useCoupon->setStatus($status);
         $coupon->addUseList($useCoupon);
         $this->manager->saveCoupon($coupon);
         return $coupon;

@@ -589,7 +589,7 @@ class CouponManager extends AbstractManager
         return $transformedPartialResults->toArray();
     }
 
-    public function getCouponFavorite(AppUser $appUser, $params)
+    public function getFavoriteCoupons(AppUser $appUser, $params)
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
@@ -600,6 +600,36 @@ class CouponManager extends AbstractManager
         $nestedQuery = new Nested();
         $nestedQuery->setPath("likeLists");
         $nestedQuery->setQuery($userQuery);
+
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust($nestedQuery);
+
+        $mainQuery->setPostFilter(new Missing('deletedAt'));
+        $mainQuery->setQuery($boolQuery);
+
+        $pagination = $this->couponFinder->createPaginatorAdapter($mainQuery);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function getUsedCoupons(AppUser $appUser, $params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $mainQuery = new \Elastica\Query;
+        $childQuery = new BoolQuery();
+        $userQuery = new Term(['useLists.appUser.id' => $appUser->getId()]);
+        $statusQuery = new Term(['useLists.status' => 4]);
+
+        $childQuery->addMust($userQuery);
+        $childQuery->addMust($statusQuery);
+
+        $nestedQuery = new Nested();
+        $nestedQuery->setPath("useLists");
+        $nestedQuery->setQuery($childQuery);
 
         $boolQuery = new BoolQuery();
         $boolQuery->addMust($nestedQuery);
