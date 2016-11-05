@@ -759,4 +759,33 @@ class Store
     {
         return $this->appUser;
     }
+    /**
+     * @var integer
+     */
+    private $impression;
+
+
+    /**
+     * Set impression
+     *
+     * @param integer $impression
+     *
+     * @return Store
+     */
+    public function setImpression($impression)
+    {
+        $this->impression = $impression;
+
+        return $this;
+    }
+
+    /**
+     * Get impression
+     *
+     * @return integer
+     */
+    public function getImpression()
+    {
+        return $this->impression;
+    }
 }

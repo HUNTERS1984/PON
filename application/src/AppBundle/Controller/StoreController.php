@@ -6,6 +6,7 @@ use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\User;
 use CoreBundle\Form\Type\StoreType;
+use CoreBundle\Manager\CategoryManager;
 use CoreBundle\Manager\StoreManager;
 use CoreBundle\Manager\StoreTypeManager;
 use CoreBundle\Manager\UserManager;
@@ -145,12 +146,12 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      * Get List Feature Shop Follow Featured And Category
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list shop",
+     *  description="This api is used to list shop  (DONE)",
      *  requirements={
      *      {
      *          "name"="type",
      *          "dataType"="integer",
-     *          "description"="featured type (1,2,3,4)"
+     *          "description"="featured type (1,2,3)"
      *      },
      *     {
      *          "name"="category",
@@ -177,10 +178,31 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *   views = { "app"}
      * )
      * @Get("/featured/{type}/shops/{category}")
+     * @View(serializerGroups={"store_featured"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getByFeaturedAndTypeAction($type, $category, Request $request)
     {
+        $params = $request->query->all();
+        if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_blank.latitude_longitude'
+            ));
+        }
+
+        $category = $this->getCategoryManager()->getCategory($category);
+
+        if(!$category) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'category.not_found'
+            ));
+        }
+
+        $user = $this->getUser();
+
+        $result = $this->getManager()->getFeaturedStore($type, $params, $category);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -207,12 +229,12 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      * Get List Feature Shop Follow Featured
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list shop",
+     *  description="This api is used to list shop (DONE)",
      *  requirements={
      *      {
      *          "name"="type",
      *          "dataType"="integer",
-     *          "description"="featured type (1,2,3,4)"
+     *          "description"="featured type (1,2,3)"
      *      }
      *  },
      *  headers={
@@ -234,10 +256,23 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *   views = { "app"}
      * )
      * @Get("/featured/{type}/shops")
+     * @View(serializerGroups={"store_featured"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getByFeaturedAction($type, Request $request)
     {
+        $params = $request->query->all();
+        if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_blank.latitude_longitude'
+            ));
+        }
+
+        $user = $this->getUser();
+
+        $result = $this->getManager()->getFeaturedStore($type, $params, $user);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -565,6 +600,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     public function getStoreTypeManager()
     {
         return $this->get('pon.manager.store_type');
+    }
+
+    /**
+     * @return CategoryManager
+     */
+    public function getCategoryManager()
+    {
+        return $this->get('pon.manager.category');
     }
 
     /**

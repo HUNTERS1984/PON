@@ -3,6 +3,7 @@
 namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Store;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Exists;
@@ -47,7 +48,8 @@ class StoreManager extends AbstractManager
     public function createStore(Store $store)
     {
         $store->setCreatedAt(new \DateTime());
-        $this->saveStore($store);
+        $store->setImpression(0);
+        return $this->saveStore($store);
     }
 
     /**
@@ -129,6 +131,121 @@ class StoreManager extends AbstractManager
         }
 
         return true;
+    }
+
+    /**
+     * getFeaturedStore
+     *
+     * @param $type
+     * @param $params
+     * @param Category|null $category
+     * @return array
+     */
+    public function getFeaturedStore($type, $params, Category $category = null)
+    {
+        switch ($type) {
+            case 2:
+                return $this->getNewestStore($params, $category);
+            case 3:
+                return $this->getNearestStore($params, $category);
+            default:
+                return $this->getPopularStore($params, $category);
+        }
+    }
+    /**
+     * getNearestStore
+     *
+     * @param $params
+     * @param Category|null $category
+     * @return array
+     */
+    public function getNearestStore($params, Category $category = null)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $latitude = $params['latitude'];
+        $longitude = $params['longitude'];
+
+        $distance = new GeoDistance(
+            'location',
+            [
+                'lat' => $latitude,
+                'lon' => $longitude
+            ],
+            '1km'
+        );
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $mainQuery = new Query\Filtered(null, $distance);
+        $boolQuery = new Query\BoolQuery();
+        $boolQuery->addMust($mainQuery);
+        if($category) {
+            $boolQuery->addMust(new Query\Term(['category.id' => ['value' => $category->getId()]]));
+        }
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * getNewestStore
+     *
+     * @param $params
+     * @param Category|null $category
+     *
+     * @return array
+     */
+    public function getNewestStore($params, Category $category = null)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+        if($category) {
+            $query->setQuery(new Query\Term(['category.id' => ['value' => $category->getId()]]));
+        }
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+
+    }
+
+    /**
+     * getPopularStore
+     *
+     * @param $params
+     * @param Category|null $category
+     *
+     * @return array
+     */
+    public function getPopularStore($params, Category $category = null)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['impression' => ['order' => 'desc']]);
+
+        if($category) {
+            $query->setQuery(new Query\Term(['category.id' => ['value' => $category->getId()]]));
+        }
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**
