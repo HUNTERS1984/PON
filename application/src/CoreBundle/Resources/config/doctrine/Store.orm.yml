@@ -55,6 +55,8 @@ CoreBundle\Entity\Store:
         avatarUrl:
             type: string
             length: 255
+        impression:
+            type: integer
         tel:
             type: string
             length: 20

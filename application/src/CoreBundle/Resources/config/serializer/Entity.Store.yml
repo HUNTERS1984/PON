@@ -3,10 +3,10 @@ CoreBundle\Entity\Store:
     properties:
         id:
             expose : true
-            groups: [view,view_coupon, list,list_coupon_store]
+            groups: [store_featured,view,view_coupon, list,list_coupon_store]
         title:
             expose : true
-            groups: [view,view_coupon,list,list_coupon_store]
+            groups: [store_featured,view,view_coupon,list,list_coupon_store]
         operationStartTime:
             expose: true
             groups: [view,view_coupon,list]
@@ -17,10 +17,10 @@ CoreBundle\Entity\Store:
             type: DateTime<'H:i'>
         avatarUrl:
              expose: true
-             groups: [view,view_coupon,list]
+             groups: [store_featured,view,view_coupon,list]
         follow:
             expose: true
-            groups: [view,view_coupon,list]
+            groups: [store_featured,view,view_coupon,list]
             serialized_name: is_follow
         latitude:
             expose: true
@@ -31,6 +31,9 @@ CoreBundle\Entity\Store:
         tel:
             expose: true
             groups: [view,view_coupon,list]
+        impression:
+            expose: true
+            groups: [view,list]
         address:
             expose: true
             groups: [view,view_coupon,list]

@@ -56,6 +56,7 @@ fos_elastica:
                         avatarUrl: ~
                         tel: ~
                         location: {type: geo_point}
+                        impression: ~
                         latitude: ~
                         longitude: ~
                         address: ~
@@ -188,6 +189,7 @@ fos_elastica:
                                 latitude: ~
                                 longitude: ~
                                 address: ~
+                                impression: ~
                                 storePhotos:
                                     type: "nested"
                                     properties:

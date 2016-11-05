@@ -70,12 +70,10 @@ class StoreDummy extends BaseDummy implements IDummy
             ->setAveBill($faker->numberBetween(1,100))
             ->setHelpText($faker->paragraph(3))
             ->setCategory($category)
-            ->setAppUser($user)
-            ->setCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setAppUser($user);
 
         /** @var Store $store*/
-        $store = $this->manager->save($store);
+        $store = $this->manager->createStore($store);
         for($i=0; $i< 5; $i++) {
             $photo = new Photo();
             $photo
@@ -89,7 +87,7 @@ class StoreDummy extends BaseDummy implements IDummy
             $store->addStorePhoto($storePhoto);
         }
 
-        $store = $this->manager->save($store);
+        $store = $this->manager->saveStore($store);
         return $store;
     }
 
