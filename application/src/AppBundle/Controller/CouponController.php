@@ -645,40 +645,40 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         return $this->view(BaseResponse::getData([]), 200);
     }
 
-    /**
-     * Use Coupon
-     * @ApiDoc(
-     *  resource=true,
-     *  description="This api is used to like coupon",
-     *  requirements={
-     *      {
-     *          "name"="id",
-     *          "dataType"="string",
-     *          "description"="id of coupon"
-     *      }
-     *  },
-     *  headers={
-     *         {
-     *             "name"="Authorization",
-     *             "description"="Bearer [token key]"
-     *         }
-     *  },
-     *  statusCodes = {
-     *     200 = "Returned when successful",
-     *     401="Returned when the user is not authorized",
-     *     400 = "Returned when the API has invalid input",
-     *     404 = "Returned when the The App User is not found"
-     *   },
-     *   views = { "app"}
-     * )
-     *
-     * @Post("/use/coupons/{id}", name="use_coupon")
-     * @return Response
-     */
-    public function postUseCouponAction($id, Request $request)
-    {
-        return $this->view(BaseResponse::getData([]), 200);
-    }
+//    /**
+//     * Use Coupon
+//     * @ApiDoc(
+//     *  resource=true,
+//     *  description="This api is used to like coupon",
+//     *  requirements={
+//     *      {
+//     *          "name"="id",
+//     *          "dataType"="string",
+//     *          "description"="id of coupon"
+//     *      }
+//     *  },
+//     *  headers={
+//     *         {
+//     *             "name"="Authorization",
+//     *             "description"="Bearer [token key]"
+//     *         }
+//     *  },
+//     *  statusCodes = {
+//     *     200 = "Returned when successful",
+//     *     401="Returned when the user is not authorized",
+//     *     400 = "Returned when the API has invalid input",
+//     *     404 = "Returned when the The App User is not found"
+//     *   },
+//     *   views = { "app"}
+//     * )
+//     *
+//     * @Post("/use/coupons/{id}", name="use_coupon")
+//     * @return Response
+//     */
+//    public function postUseCouponAction($id, Request $request)
+//    {
+//        return $this->view(BaseResponse::getData([]), 200);
+//    }
 
     /**
      * Get List Request Coupon
