@@ -77,7 +77,7 @@ class CategoryController extends FOSRestController implements ClassResourceInter
      * Get List Category Include shop total
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list category",
+     *  description="This api is used to list category (DONE)",
      *  headers={
      *         {
      *             "name"="Authorization",
@@ -95,10 +95,15 @@ class CategoryController extends FOSRestController implements ClassResourceInter
      *   views = { "app"}
      * )
      * @Get("/categories/shop")
+     * @View(serializerGroups={"list_category_count"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getCategoriesIncludeShopAction(Request $request)
     {
+        $params = $request->query->all();
+        $result = $this->getManager()->getCategories($params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $faker = Factory::create('ja_JP');
 
         for ($i = 0; $i < 20; $i++) {

@@ -48,6 +48,11 @@ class Category
     private $coupons;
 
     /**
+     * @var int
+     */
+    private $shopCount;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -266,5 +271,25 @@ class Category
     public function getCoupons()
     {
         return $this->coupons;
+    }
+
+
+
+    /**
+     * @param int $shopCount
+     * @return Store
+     */
+    public function setShopCount($shopCount)
+    {
+        $this->shopCount = $shopCount;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShopCount()
+    {
+        return $this->shopCount;
     }
 }

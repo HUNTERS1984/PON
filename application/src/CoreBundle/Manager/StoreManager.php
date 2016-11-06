@@ -149,6 +149,25 @@ class StoreManager extends AbstractManager
         return true;
     }
 
+    /**
+     * get shop count
+     *
+     * @param Category $category
+     * @return integer
+     */
+    public function getShopCount(Category $category)
+    {
+        $categoryQuery = new Query\Term(['category.id'=> $category->getId()]);
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery($categoryQuery);
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults(0, 10);
+        $total = $transformedPartialResults->getTotalHits();
+        return $total;
+    }
+
     public function followStore(AppUser $appUser, Store $store)
     {
         $followStore = new FollowList();

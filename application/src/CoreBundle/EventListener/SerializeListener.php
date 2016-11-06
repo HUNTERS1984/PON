@@ -3,6 +3,7 @@
 namespace CoreBundle\EventListener;
 
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\CouponPhoto;
 use CoreBundle\Entity\CouponUserPhoto;
@@ -48,6 +49,10 @@ class SerializeListener implements EventSubscriberInterface
         if ($object instanceof Coupon) {
             $this->preCouponSerialize($object);
         }
+
+        if($object instanceof Category) {
+            $this->preCategorySerialize($object);
+        }
     }
 
     /**
@@ -75,6 +80,23 @@ class SerializeListener implements EventSubscriberInterface
     {
         $this->setFollow($store);
         $this->setStorePhoto($store);
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function preCategorySerialize(Category $category)
+    {
+        $this->setShopCount($category);
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setShopCount(Category &$category)
+    {
+        $shopCount = $this->storeManager->getShopCount($category);
+        $category->setShopCount($shopCount);
     }
 
     /**
