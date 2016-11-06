@@ -762,10 +762,21 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * )
      * @Get("/request/coupons/{code}")
      * @Security("is_granted('ROLE_CLIENT')")
+     * @View(serializerGroups={"use_list"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
-    public function getRequestCouponDetailAction($code, Request $request)
+    public function getRequestCouponDetailAction($code)
     {
+        $data = $this->getManager()->getRequestCouponDetail($code);
+
+        if (!$data) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        return $this->view(BaseResponse::getData($data));
+
         $faker = Factory::create('ja_JP');
         $data = [
             'title' => $faker->name,
