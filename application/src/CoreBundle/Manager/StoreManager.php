@@ -76,6 +76,21 @@ class StoreManager extends AbstractManager
     }
 
     /**
+     * get store
+     *
+     * @param $id
+     * @return null | Store
+     */
+    public function getStore($id)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Query\Term(['id' => ['value' => $id]]));
+        $result = $this->storeFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
      * Filter Shop By Map
      *
      * @param array $params

@@ -30,7 +30,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      * View Shop Detail
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to view shop detail",
+     *  description="This api is used to view shop detail (DONE)",
      *  requirements={
      *      {
      *          "name"="id",
@@ -52,10 +52,24 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *   views = { "app"}
      * )
      * @Get("/shops/{id}")
+     * @View(serializerGroups={"list","store_category","store_coupon"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getAction($id)
     {
+        $store = $this->getManager()->getStore($id);
+        if (!$store) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'store.not_found'
+            ));
+        }
+
+        $store->setImpression($store->getImpression()+1);
+
+        $store = $this->getManager()->saveStore($store);
+
+        return $this->view(BaseResponse::getData($store));
+
         $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [
