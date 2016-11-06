@@ -707,37 +707,16 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function getRequestCouponAction(Request $request)
     {
-        $user = $this->getUser();
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
             $data[] =
                 [
-                    'id' => $i + 1,
                     'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'need_login' => $needLogin = $faker->randomElement([true, false]),
-                    'can_use' => (!$needLogin) || ($needLogin && $user) ? true : false,
-                    'shop' => [
-                        'id' => $faker->numberBetween(1, 200),
-                        'title' => $faker->company,
-                        'category' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(46, 46, 'food')
-                        ]
-                    ],
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(46, 46, 'food')
-                    ],
-                    'users' => [
-                        [
-                            'username' => $faker->userName
-                        ]
+                    'code' => $faker->ean13,
+                    'user' => [
+                        'username' => $faker->userName,
+                        'name' => $faker->name
                     ]
                 ];
         }
@@ -748,7 +727,54 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             'page_total' => 1,
             'current_page' => 1
         ]));
+    }
 
+    /**
+     * Get Request Coupon detail
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This api is used to get request coupon detail",
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *     },
+     *      requirements={
+     *      {
+     *          "name"="code",
+     *          "dataType"="string",
+     *          "description"="QR code of coupon"
+     *      }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   },
+     *   views = { "client"}
+     * )
+     * @Get("/request/coupons/{code}")
+     * @Security("is_granted('ROLE_CLIENT')")
+     * @return Response
+     */
+    public function getRequestCouponDetailAction($code, Request $request)
+    {
+        $faker = Factory::create('ja_JP');
+        $data = [
+            'title' => $faker->name,
+            'code' => $code,
+            'user' => [
+                'username' => $faker->userName,
+                'name' => $faker->name
+            ]
+        ];
+        return $this->view(BaseResponse::getData($data, [
+            'limit' => 20,
+            'offset' => 0,
+            'item_total' => 20,
+            'page_total' => 1,
+            'current_page' => 1
+        ]));
     }
 
     /**
@@ -758,14 +784,9 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *  description="This api is used to accept coupon",
      *  requirements={
      *      {
-     *          "name"="id",
+     *          "name"="code",
      *          "dataType"="string",
-     *          "description"="id of coupon"
-     *      },
-     *     {
-     *          "name"="username",
-     *          "dataType"="string",
-     *          "description"="username of app user"
+     *          "description"="QR code of coupon"
      *      }
      *  },
      *  headers={
@@ -783,11 +804,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *   views = { "client"}
      * )
      *
-     * @Post("/accept/coupons/{id}/user/{username}", name="like_coupon")
+     * @Post("/accept/coupons/{code}", name="like_coupon")
      * @Security("is_granted('ROLE_CLIENT')")
      * @return Response
      */
-    public function postAcceptCouponAction($id, $username, Request $request)
+    public function postAcceptCouponAction($code, Request $request)
     {
         return $this->view(BaseResponse::getData([]), 200);
 
@@ -819,14 +840,9 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *  description="This api is used to decline coupon",
      *  requirements={
      *      {
-     *          "name"="id",
+     *          "name"="code",
      *          "dataType"="string",
-     *          "description"="id of coupon"
-     *      },
-     *     {
-     *          "name"="username",
-     *          "dataType"="string",
-     *          "description"="username of app user"
+     *          "description"="QR code of coupon"
      *      }
      *  },
      *  headers={
@@ -844,11 +860,11 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      *   views = { "client"}
      * )
      *
-     * @Post("/decline/coupons/{id}/user/{username}", name="like_coupon")
+     * @Post("/decline/coupons/{code}", name="like_coupon")
      * @Security("is_granted('ROLE_CLIENT')")
      * @return Response
      */
-    public function postDeclineCouponAction($id, $username, Request $request)
+    public function postDeclineCouponAction($code, Request $request)
     {
         return $this->view(BaseResponse::getData([]), 200);
 
