@@ -4,6 +4,8 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\Category;
 use CoreBundle\Paginator\Pagination;
+use Elastica\Aggregation\Nested;
+use Elastica\Aggregation\ValueCount;
 use Elastica\Filter\Missing;
 use Elastica\Query;
 use Elastica\Query\Term;

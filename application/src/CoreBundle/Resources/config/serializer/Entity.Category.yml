@@ -3,13 +3,16 @@ CoreBundle\Entity\Category:
     properties:
         id:
             expose : true
-            groups: [list_category, featured_coupon,store_category,list_coupon_store]
+            groups: [list_category_count,list_category,featured_coupon,store_category,list_coupon_store]
         name:
             expose : true
-            groups: [list_category, featured_coupon, store_category,list_coupon_store]
+            groups: [list_category_count,list_category,featured_coupon,store_category,list_coupon_store]
         coupons:
             expose : true
             groups: [featured_coupon]
+        shopCount:
+            expose : true
+            groups: [list_category_count]
         iconUrl:
             expose : true
-            groups: [list_category, featured_coupon, store_category,list_coupon_store]
+            groups: [list_category_count,list_category,featured_coupon,store_category,list_coupon_store]
