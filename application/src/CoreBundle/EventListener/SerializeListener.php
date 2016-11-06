@@ -9,6 +9,8 @@ use CoreBundle\Entity\CouponPhoto;
 use CoreBundle\Entity\CouponUserPhoto;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\StorePhoto;
+use CoreBundle\Entity\UseList;
+use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\StoreManager;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
@@ -30,6 +32,11 @@ class SerializeListener implements EventSubscriberInterface
      * @var CouponManager $couponManager
      */
     private $couponManager;
+
+    /**
+     * @var AppUserManager $appUserManager
+     */
+    private $appUserManager;
 
     /**
      * @var array $couponTypes ;
@@ -54,6 +61,7 @@ class SerializeListener implements EventSubscriberInterface
             $this->preCategorySerialize($object);
         }
     }
+
 
     /**
      * getUser
@@ -272,6 +280,16 @@ class SerializeListener implements EventSubscriberInterface
     public function setCouponTypes($couponTypes)
     {
         $this->couponTypes = $couponTypes;
+        return $this;
+    }
+
+    /**
+     * @param AppUserManager $appUserManager
+     * @return SerializeListener
+     */
+    public function setAppUserManager($appUserManager)
+    {
+        $this->appUserManager = $appUserManager;
         return $this;
     }
 }

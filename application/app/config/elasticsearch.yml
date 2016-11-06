@@ -20,6 +20,11 @@ fos_elastica:
                                         title: ~
                                         imageUrl: ~
                                 status: ~
+                                expiredTime:
+                                    type: date
+                                createdAt:
+                                    type: date
+                                code: ~
                         likeLists:
                             type: "nested"
                             properties:
@@ -128,6 +133,11 @@ fos_elastica:
                                                 username: ~
                                                 email: ~
                                         status: ~
+                                        expiredTime:
+                                            type: date
+                                        createdAt:
+                                            type: date
+                                        code: ~
                                 likeLists:
                                     type: "nested"
                                     properties:
@@ -158,7 +168,6 @@ fos_elastica:
                         imageUrl: ~
                         needLogin: ~
                         impression: ~
-                        code: ~
                         type: ~
                         description: ~
                         status:
@@ -220,6 +229,11 @@ fos_elastica:
                                         username: ~
                                         email: ~
                                 status: ~
+                                expiredTime:
+                                    type: date
+                                createdAt:
+                                    type: date
+                                code: ~
                         likeLists:
                             type: nested
                             properties:
@@ -282,6 +296,33 @@ fos_elastica:
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\Category
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                useList:
+                    mappings:
+                        id: ~
+                        coupon:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                        appUser:
+                            type: object
+                            properties:
+                                id: ~
+                                username: ~
+                                name: ~
+                        expiredTime:
+                            type: date
+                        createdAt:
+                            type: date
+                        status: ~
+                        code: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\UseList
                         provider: ~
                         listener: ~
                         finder: ~

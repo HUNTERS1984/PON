@@ -57,9 +57,6 @@ CoreBundle\Entity\Coupon:
             nullable: TRUE
         needLogin:
             type: boolean
-        code:
-            type: string
-            length: 100
         type:
             type: integer
         description:

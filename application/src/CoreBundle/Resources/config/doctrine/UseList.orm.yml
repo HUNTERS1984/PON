@@ -26,4 +26,11 @@ CoreBundle\Entity\UseList:
     fields:
         status:
             type: integer
+        code:
+            type: string
+            length: 100
+        expiredTime:
+            type: datetime
+        createdAt:
+            type: datetime
     lifecycleCallbacks: {  }

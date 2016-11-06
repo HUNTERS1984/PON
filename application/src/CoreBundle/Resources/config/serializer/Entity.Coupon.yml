@@ -6,7 +6,7 @@ CoreBundle\Entity\Coupon:
             groups: [featured_coupon,list_coupon,view_coupon,store_coupon]
         title:
             expose: true
-            groups: [featured_coupon,list_coupon,view_coupon,store_coupon]
+            groups: [use_list,featured_coupon,list_coupon,view_coupon,store_coupon]
         imageUrl:
             expose: true
             groups: [featured_coupon,list_coupon,view_coupon, store_coupon]
@@ -20,9 +20,6 @@ CoreBundle\Entity\Coupon:
             expose: true
             groups: [featured_coupon,list_coupon,view_coupon, store_coupon]
             serialized_name: is_like
-        code:
-            expose: true
-            groups: [view_coupon]
         store:
             expose: true
             groups: [list_coupon,view_coupon]

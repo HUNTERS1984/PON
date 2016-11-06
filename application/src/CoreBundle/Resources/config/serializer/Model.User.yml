@@ -6,7 +6,7 @@ FOS\UserBundle\Model\User:
             groups: [view]
         username:
             expose : true
-            groups: [view]
+            groups: [use_list,view]
         enabled:
             expose : true
             groups: [view]

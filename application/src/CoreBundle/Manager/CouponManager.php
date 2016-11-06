@@ -40,6 +40,11 @@ class CouponManager extends AbstractManager
     protected $categoryFinder;
 
     /**
+     * @var TransformedFinder $couponFinder
+     */
+    protected $useListFinder;
+
+    /**
      * @var CategoryManager $categoryManager
     */
     protected $categoryManager;
@@ -698,6 +703,32 @@ class CouponManager extends AbstractManager
     }
 
     /**
+     * List Request Coupon
+     * @param array $params
+     *
+     * @return array
+     */
+    public function listRequestCoupons($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $query = new Query();
+        $query->addSort(['createdAt' => ['order' => 'asc']]);
+
+
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust(new Term(['status' => ['value' => 2]]));
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->useListFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
      * @param TransformedFinder $couponFinder
      * @return CouponManager
      */
@@ -741,6 +772,24 @@ class CouponManager extends AbstractManager
     {
         $this->categoryManager = $categoryManager;
         return $this;
+    }
+
+    /**
+     * @param TransformedFinder $useListFinder
+     * @return CouponManager
+     */
+    public function setUseListFinder($useListFinder)
+    {
+        $this->useListFinder = $useListFinder;
+        return $this;
+    }
+
+    /**
+     * @return TransformedFinder
+     */
+    public function getUseListFinder()
+    {
+        return $this->useListFinder;
     }
 
 }

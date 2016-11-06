@@ -32,11 +32,6 @@ class Coupon
     private $needLogin;
 
     /**
-     * @var string
-     */
-    private $code;
-
-    /**
      * @var integer
      */
     private $type;
@@ -240,30 +235,6 @@ class Coupon
     public function isNeedLogin()
     {
         return $this->needLogin;
-    }
-
-    /**
-     * Set code
-     *
-     * @param string $code
-     *
-     * @return Coupon
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * Get code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return $this->code;
     }
 
     /**

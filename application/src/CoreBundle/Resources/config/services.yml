@@ -16,6 +16,7 @@ services:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setFacebookManager, ["@pon.manager.facebook"]]
             - [setTwitterManager, ["@pon.manager.twitter"]]
+            - [setAppUserFinder, ["@fos_elastica.finder.app.appUser"]]
 
     pon.manager.client:
         class: CoreBundle\Manager\ClientManager
@@ -58,6 +59,7 @@ services:
             - [setCouponFinder, ["@fos_elastica.finder.app.coupon"]]
             - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
             - [setCategoryManager, ["@pon.manager.category"]]
+            - [setUseListFinder, ["@fos_elastica.finder.app.useList"]]
 
     pon.manager.photo:
         class: CoreBundle\Manager\PhotoManager
@@ -145,6 +147,7 @@ services:
             - [setSecurityContext, ["@security.token_storage"]]
             - [setStoreManager, ["@pon.manager.store"]]
             - [setCouponManager, ["@pon.manager.coupon"]]
+            - [setAppUserManager, ["@pon.manager.app_user"]]
             - [setCouponTypes, ["%coupon_types%"]]
         tags:
             - { name: jms_serializer.event_subscriber}

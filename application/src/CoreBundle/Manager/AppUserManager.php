@@ -5,7 +5,10 @@ namespace CoreBundle\Manager;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Paginator\Pagination;
+use Elastica\Filter\Missing;
+use Elastica\Query;
 use Facebook\Facebook;
+use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 class AppUserManager extends AbstractManager
 {
@@ -18,6 +21,11 @@ class AppUserManager extends AbstractManager
      * @var TwitterOAuth
     */
     protected $twitterManager;
+
+    /**
+     * @var TransformedFinder $appUserFinder
+     */
+    protected $appUserFinder;
 
     public function dummy(AppUser $user)
     {
@@ -59,6 +67,21 @@ class AppUserManager extends AbstractManager
     {
         $appUser->setUpdatedAt(new \DateTime());
         return $this->save($appUser);
+    }
+
+    /**
+     * get app user
+     *
+     * @param $id
+     * @return null | AppUser
+     */
+    public function getAppUser($id)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Query\Term(['id' => ['value' => $id]]));
+        $result = $this->appUserFinder->find($query);
+        return !empty($result) ? $result[0] : null;
     }
 
     /**
@@ -221,5 +244,15 @@ class AppUserManager extends AbstractManager
     public function getTwitterManager()
     {
         return $this->twitterManager;
+    }
+
+    /**
+     * @param TransformedFinder $appUserFinder
+     * @return AppUserManager
+     */
+    public function setAppUserFinder($appUserFinder)
+    {
+        $this->appUserFinder = $appUserFinder;
+        return $this;
     }
 }
