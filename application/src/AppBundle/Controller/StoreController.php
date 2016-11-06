@@ -212,8 +212,6 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
             ));
         }
 
-        $user = $this->getUser();
-
         $result = $this->getManager()->getFeaturedStore($type, $params, $category);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 
@@ -313,7 +311,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      * Get List Shop follow category
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list shop follow category",
+     *  description="This api is used to list shop follow category (DONE)",
      *  requirements={
      *      {
      *          "name"="id",
@@ -338,10 +336,23 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *   views = { "app"}
      * )
      * @Get("/category/{id}/shops")
+     * @View(serializerGroups={"store_featured"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
-    public function getShopByCouponTypeAction($id, Request $request)
+    public function getShopByCategoryAction($id, Request $request)
     {
+        $params = $request->query->all();
+        $category = $this->getCategoryManager()->getCategory($id);
+
+        if(!$category) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'category.not_found'
+            ));
+        }
+
+        $result = $this->getManager()->getNewestStore($params, $category);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
