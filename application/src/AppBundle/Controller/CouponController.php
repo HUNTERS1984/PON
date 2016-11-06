@@ -684,7 +684,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * Get List Request Coupon
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list request coupon",
+     *  description="This api is used to list request coupon (DONE)",
      *  headers={
      *         {
      *             "name"="Authorization",
@@ -703,16 +703,23 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * )
      * @Get("/request/coupons")
      * @Security("is_granted('ROLE_CLIENT')")
+     * @View(serializerGroups={"use_list"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getRequestCouponAction(Request $request)
     {
+        $params = $request->query->all();
+        $result = $this->getManager()->listRequestCoupons($params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
             $data[] =
                 [
-                    'title' => $faker->name,
+                    'coupon' => [
+                        'title' => $faker->name
+                    ],
                     'code' => $faker->ean13,
                     'user' => [
                         'username' => $faker->userName,

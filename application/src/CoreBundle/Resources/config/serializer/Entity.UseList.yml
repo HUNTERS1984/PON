@@ -1,0 +1,13 @@
+CoreBundle\Entity\UseList:
+    exclusion_policy: ALL
+    properties:
+        appUser:
+            expose: true
+            groups: [use_list]
+            serialized_name: user
+        coupon:
+            expose: true
+            groups: [use_list]
+        code:
+            expose: true
+            groups: [use_list]

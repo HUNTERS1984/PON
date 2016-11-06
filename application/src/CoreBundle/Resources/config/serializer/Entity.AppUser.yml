@@ -18,7 +18,7 @@ CoreBundle\Entity\AppUser:
             groups: [view]
         name:
             expose: true
-            groups: [view]
+            groups: [use_list,view]
         gender:
             expose: true
             groups: [view]

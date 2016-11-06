@@ -103,4 +103,91 @@ class UseList
     {
         return $this->status;
     }
+    /**
+     * @var string
+     */
+    private $code;
+
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return UseList
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return UseList
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+    /**
+     * @var \DateTime
+     */
+    private $expiredTime;
+
+
+    /**
+     * Set expiredTime
+     *
+     * @param \DateTime $expiredTime
+     *
+     * @return UseList
+     */
+    public function setExpiredTime($expiredTime)
+    {
+        $this->expiredTime = $expiredTime;
+
+        return $this;
+    }
+
+    /**
+     * Get expiredTime
+     *
+     * @return \DateTime
+     */
+    public function getExpiredTime()
+    {
+        return $this->expiredTime;
+    }
 }

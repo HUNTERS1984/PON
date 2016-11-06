@@ -5,6 +5,7 @@ namespace CoreBundle\DummyData;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\UseList;
 use CoreBundle\Manager\AppUserManager;
+use Faker\Factory;
 
 class UseCouponDummy extends BaseDummy implements IDummy
 {
@@ -16,6 +17,7 @@ class UseCouponDummy extends BaseDummy implements IDummy
      */
     public function generate($i = 0, $j =0)
     {
+        $faker = Factory::create();
         $appUserId = ($i % 10) + 1;
         $couponId = ($j % 10) + 1;
         $appUser = $this->appUserManager->findOneById($appUserId);
@@ -24,8 +26,12 @@ class UseCouponDummy extends BaseDummy implements IDummy
         $useCoupon = new UseList();
         $useCoupon->setAppUser($appUser);
         $useCoupon->setCoupon($coupon);
-        $status = random_int(0,4);
-        $useCoupon->setStatus($status);
+        $useCoupon->setCode($faker->ean13);
+        $useCoupon->setStatus(random_int(0,4));
+        $useCoupon->setCreatedAt(new \DateTime());
+        $expiredTime = new \DateTime();
+        $expiredTime->modify('+1 month');
+        $useCoupon->setExpiredTime($expiredTime);
         $coupon->addUseList($useCoupon);
         $this->manager->saveCoupon($coupon);
         return $coupon;

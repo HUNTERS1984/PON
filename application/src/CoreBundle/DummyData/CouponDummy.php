@@ -47,7 +47,6 @@ class CouponDummy extends BaseDummy implements IDummy
             ->setExpiredTime($expiredTime)
             ->setImageUrl($faker->imageUrl(640, 480, 'food'))
             ->setNeedLogin($faker->randomElement([false,true]))
-            ->setCode($faker->ean13)
             ->setType($faker->numberBetween(1,2))
             ->setImpression(0)
             ->setDescription($description)
