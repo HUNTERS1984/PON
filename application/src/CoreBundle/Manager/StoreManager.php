@@ -4,6 +4,7 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Category;
+use CoreBundle\Entity\FollowList;
 use CoreBundle\Entity\Store;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Exists;
@@ -148,6 +149,15 @@ class StoreManager extends AbstractManager
         return true;
     }
 
+    public function followStore(AppUser $appUser, Store $store)
+    {
+        $followStore = new FollowList();
+        $followStore->setStore($store);
+        $followStore->setAppUser($appUser);
+        $store->addFollowList($followStore);
+        return $this->saveStore($store);
+    }
+
     /**
      * getFeaturedStore
      *
@@ -257,6 +267,31 @@ class StoreManager extends AbstractManager
         }
 
         $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function getFollowShops(AppUser $appUser, $params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+
+        $mainQuery = new \Elastica\Query;
+
+        $userQuery = new Query\Term(['followLists.appUser.id' => $appUser->getId()]);
+        $nestedQuery = new Query\Nested();
+        $nestedQuery->setPath("followLists");
+        $nestedQuery->setQuery($userQuery);
+
+        $boolQuery = new Query\BoolQuery();
+        $boolQuery->addMust($nestedQuery);
+
+        $mainQuery->setPostFilter(new Missing('deletedAt'));
+        $mainQuery->setQuery($boolQuery);
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($mainQuery);
         $transformedPartialResults = $pagination->getResults($offset, $limit);
         $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();

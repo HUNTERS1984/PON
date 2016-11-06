@@ -378,7 +378,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      * Get List Follow Shop
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to list coupon",
+     *  description="This api is used to list follow shops (DONE)",
      *  headers={
      *         {
      *             "name"="Authorization",
@@ -396,10 +396,16 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      *   views = { "app"}
      * )
      * @Get("/follow/shops")
+     * @View(serializerGroups={"store_featured"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getFollowShopAction(Request $request)
     {
+        $user = $this->getUser();
+        $params = $request->query->all();
+        $result = $this->getManager()->getFollowShops($user, $params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $faker = Factory::create('ja_JP');
         $data = [];
         for ($i = 0; $i < 20; $i++) {
@@ -425,7 +431,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      * Follow Shop
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to follow shop",
+     *  description="This api is used to follow shop (DONE)",
      *  requirements={
      *      {
      *          "name"="id",
@@ -453,6 +459,24 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
      */
     public function postFollowShopAction($id, Request $request)
     {
+        $user = $this->getUser();
+        $store = $this->getManager()->getStore($id);
+        if (!$store) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'store.not_found'
+            ));
+        }
+
+        $isFollow = $this->getManager()->isFollow($user, $store);
+        if(!$isFollow) {
+            $store = $this->getManager()->followStore($user, $store);
+            if(!$store) {
+                return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                    'store.follow.not_success'
+                ));
+            }
+        }
+
         return $this->view(BaseResponse::getData([]), 200);
     }
 
