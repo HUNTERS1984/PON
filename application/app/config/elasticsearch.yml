@@ -318,6 +318,8 @@ fos_elastica:
                             type: date
                         createdAt:
                             type: date
+                        updatedAt:
+                            type: date
                         status: ~
                         code: ~
                     persistence:

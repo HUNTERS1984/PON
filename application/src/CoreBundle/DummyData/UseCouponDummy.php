@@ -29,6 +29,7 @@ class UseCouponDummy extends BaseDummy implements IDummy
         $useCoupon->setCode($faker->ean13);
         $useCoupon->setStatus(random_int(0,4));
         $useCoupon->setCreatedAt(new \DateTime());
+        $useCoupon->setUpdatedAt(new \DateTime());
         $expiredTime = new \DateTime();
         $expiredTime->modify('+1 month');
         $useCoupon->setExpiredTime($expiredTime);

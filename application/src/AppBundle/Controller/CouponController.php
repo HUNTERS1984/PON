@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\CategoryManager;
+use CoreBundle\Manager\UseListManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -740,7 +741,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * Get Request Coupon detail
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to get request coupon detail",
+     *  description="This api is used to get request coupon detail (DONE)",
      *  headers={
      *         {
      *             "name"="Authorization",
@@ -799,7 +800,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * Accept Coupon
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to accept coupon",
+     *  description="This api is used to accept coupon (DONE)",
      *  requirements={
      *      {
      *          "name"="code",
@@ -826,8 +827,17 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * @Security("is_granted('ROLE_CLIENT')")
      * @return Response
      */
-    public function postAcceptCouponAction($code, Request $request)
+    public function postAcceptCouponAction($code)
     {
+        $useList = $this->getManager()->getRequestCouponDetail($code);
+
+        if (!$useList) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        $this->getUseListManager()->acceptCoupon($useList);
         return $this->view(BaseResponse::getData([]), 200);
 
         $appUser = $this->getUser();
@@ -855,7 +865,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      * Decline Coupon
      * @ApiDoc(
      *  resource=true,
-     *  description="This api is used to decline coupon",
+     *  description="This api is used to decline coupon (DONE)",
      *  requirements={
      *      {
      *          "name"="code",
@@ -884,6 +894,15 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function postDeclineCouponAction($code, Request $request)
     {
+        $useList = $this->getManager()->getRequestCouponDetail($code);
+
+        if (!$useList) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        $this->getUseListManager()->declineCoupon($useList);
         return $this->view(BaseResponse::getData([]), 200);
 
         $appUser = $this->getUser();
@@ -922,6 +941,14 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getCategoryManager()
     {
         return $this->get('pon.manager.category');
+    }
+
+    /**
+     * @return UseListManager
+     */
+    public function getUseListManager()
+    {
+        return $this->get('pon.manager.use_list');
     }
 
     /**

@@ -24,6 +24,12 @@ services:
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Client"]
 
+    pon.manager.use_list:
+        class: CoreBundle\Manager\UseListManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\UseList"]
+
     pon.manager.store_type:
         class: CoreBundle\Manager\StoreTypeManager
         factory_service:  doctrine
@@ -31,6 +37,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\StoreType"]
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
+
     pon.manager.store:
         class: CoreBundle\Manager\StoreManager
         factory_service:  doctrine

@@ -33,4 +33,6 @@ CoreBundle\Entity\UseList:
             type: datetime
         createdAt:
             type: datetime
+        updatedAt:
+            type: datetime
     lifecycleCallbacks: {  }
