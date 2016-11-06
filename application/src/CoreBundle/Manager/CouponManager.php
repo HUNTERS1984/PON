@@ -729,6 +729,24 @@ class CouponManager extends AbstractManager
     }
 
     /**
+     * List Request Coupon
+     * @param string $code
+     *
+     * @return array
+     */
+    public function getRequestCouponDetail($code)
+    {
+
+        $query = new Query();
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust(new Term(['status' => ['value' => 2]]));
+        $boolQuery->addMust(new Term(['code' => ['value' => $code]]));
+        $query->setQuery($boolQuery);
+        $result = $this->useListFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
      * @param TransformedFinder $couponFinder
      * @return CouponManager
      */
