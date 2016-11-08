@@ -10,6 +10,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class DummyDataCommand extends ContainerAwareCommand
 {
@@ -22,6 +23,18 @@ class DummyDataCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln("Clear Upload Files...");
+        $file = new Filesystem();
+        $uploadPath = $this->getContainer()->getParameter('uploads_path');
+        if($file->exists($uploadPath)) {
+            $file->remove($uploadPath);
+        }
+        $file->mkdir($uploadPath);
+
+        $output->writeln("\n");
+        $output->writeln("Finished Clearing...");
+
+        $output->writeln("Begin Processing...");
         $this->dummyClient($output);
         $output->writeln("\n");
         $this->dummyAppUser($output);
