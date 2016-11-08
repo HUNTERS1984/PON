@@ -19,7 +19,8 @@ class UseCouponDummy extends BaseDummy implements IDummy
     {
         $faker = Factory::create();
         $appUserId = ($i % 10) + 1;
-        $couponId = ($j % 10) + 1;
+        $couponId = $faker->numberBetween(1,50);
+        $status = random_int(0,4);
         $appUser = $this->appUserManager->findOneById($appUserId);
         /**@var Coupon $coupon */
         $coupon = $this->manager->findOneById($couponId);
@@ -27,9 +28,12 @@ class UseCouponDummy extends BaseDummy implements IDummy
         $useCoupon->setAppUser($appUser);
         $useCoupon->setCoupon($coupon);
         $useCoupon->setCode($faker->ean13);
-        $useCoupon->setStatus(random_int(0,4));
+        $useCoupon->setStatus($status);
         $useCoupon->setCreatedAt(new \DateTime());
         $useCoupon->setUpdatedAt(new \DateTime());
+        if($status == 2) {
+            $useCoupon->setRequestedAt(new \DateTime());
+        }
         $expiredTime = new \DateTime();
         $expiredTime->modify('+1 month');
         $useCoupon->setExpiredTime($expiredTime);

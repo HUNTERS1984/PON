@@ -5,6 +5,9 @@ CoreBundle\Entity\UseList:
             expose: true
             groups: [use_list]
             serialized_name: user
+        requestedAt:
+            expose: true
+            groups: [use_list]
         coupon:
             expose: true
             groups: [use_list]

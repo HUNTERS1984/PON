@@ -314,6 +314,8 @@ fos_elastica:
                                 id: ~
                                 username: ~
                                 name: ~
+                        requestedAt:
+                            type: date
                         expiredTime:
                             type: date
                         createdAt:

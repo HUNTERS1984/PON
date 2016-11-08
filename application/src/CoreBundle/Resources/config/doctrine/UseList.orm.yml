@@ -29,6 +29,9 @@ CoreBundle\Entity\UseList:
         code:
             type: string
             length: 100
+        requestedAt:
+            type: datetime
+            nullable: TRUE
         expiredTime:
             type: datetime
         createdAt:
