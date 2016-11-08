@@ -2,6 +2,7 @@
 
 namespace CoreBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -664,8 +665,13 @@ class AppUser extends BaseUser
             return;
         }
         $newFile = sprintf("%s.%s",$this->getId(),$this->getFile()->guessExtension());
+        $uploadDir = $this->getUploadRootDir();
+        $file = new Filesystem();
+        if(!$file->exists($uploadDir)) {
+            $file->mkdir($uploadDir);
+        }
         $this->getFile()->move(
-            $this->getUploadRootDir(),
+            $uploadDir,
             $newFile
         );
 

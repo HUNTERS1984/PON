@@ -35,3 +35,6 @@ parameters:
     elasticsearch_port: 9200
     elasticsearch_index: pon
 
+    uploads_path: '%kernel.root_dir%/../web/uploads'
+
+
