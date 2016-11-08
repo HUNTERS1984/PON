@@ -24,6 +24,9 @@ CoreBundle\Entity\Coupon:
             expose: true
             groups: [list_coupon,view_coupon]
             serialized_name: shop
+        code:
+            expose: true
+            groups: [view_coupon]
         needLogin:
             expose: true
             groups: [featured_coupon,list_coupon,view_coupon, store_coupon]

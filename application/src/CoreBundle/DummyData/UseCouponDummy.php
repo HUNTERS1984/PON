@@ -18,7 +18,7 @@ class UseCouponDummy extends BaseDummy implements IDummy
     public function generate($i = 0, $j =0)
     {
         $faker = Factory::create();
-        $appUserId = ($i % 10) + 1;
+        $appUserId = $faker->numberBetween(51,100);
         $couponId = $faker->numberBetween(1,50);
         $status = random_int(0,4);
         $appUser = $this->appUserManager->findOneById($appUserId);
