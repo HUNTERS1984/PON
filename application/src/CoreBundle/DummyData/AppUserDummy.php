@@ -26,7 +26,7 @@ class AppUserDummy extends BaseDummy implements IDummy
             ->setEnabled(true)
             ->setAndroidPushKey($faker->md5)
             ->setApplePushKey($faker->md5)
-            ->setTemporaryHash($faker->md5)
+            ->setTemporaryHash(substr($faker->md5, 0, 4))
             ->setRoles([$role])
             ->setLocale($faker->locale)
             ->setCompany($faker->company)
