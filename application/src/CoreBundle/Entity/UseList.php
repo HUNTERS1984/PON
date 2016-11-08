@@ -219,4 +219,33 @@ class UseList
     {
         return $this->updatedAt;
     }
+    /**
+     * @var \DateTime
+     */
+    private $requestedAt;
+
+
+    /**
+     * Set requestedAt
+     *
+     * @param \DateTime $requestedAt
+     *
+     * @return UseList
+     */
+    public function setRequestedAt($requestedAt)
+    {
+        $this->requestedAt = $requestedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get requestedAt
+     *
+     * @return \DateTime
+     */
+    public function getRequestedAt()
+    {
+        return $this->requestedAt;
+    }
 }
