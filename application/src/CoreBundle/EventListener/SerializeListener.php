@@ -13,6 +13,7 @@ use CoreBundle\Entity\UseList;
 use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\StoreManager;
+use CoreBundle\Manager\UseListManager;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 
@@ -32,6 +33,11 @@ class SerializeListener implements EventSubscriberInterface
      * @var CouponManager $couponManager
      */
     private $couponManager;
+
+    /**
+     * @var UseListManager $useListManager
+     */
+    private $useListManager;
 
     /**
      * @var AppUserManager $appUserManager
@@ -115,6 +121,7 @@ class SerializeListener implements EventSubscriberInterface
         $this->setLike($coupon);
         $this->setCouponType($coupon);
         $this->setCanUse($coupon);
+        $this->setCode($coupon);
         $this->setCouponPhoto($coupon);
         $this->setCouponUserPhoto($coupon);
         $this->setSimilarCoupon($coupon);
@@ -187,6 +194,16 @@ class SerializeListener implements EventSubscriberInterface
         $user = $this->getUser();
         $isCanUse = $this->couponManager->isCanUse($user, $coupon);
         $coupon->setCanUse($isCanUse);
+    }
+
+    /**
+     * @param Coupon $coupon
+     */
+    public function setCode(Coupon &$coupon)
+    {
+        $user = $this->getUser();
+        $code = $this->useListManager->getCode($user, $coupon);
+        $coupon->setCode($code);
     }
 
     /**
@@ -290,6 +307,16 @@ class SerializeListener implements EventSubscriberInterface
     public function setAppUserManager($appUserManager)
     {
         $this->appUserManager = $appUserManager;
+        return $this;
+    }
+
+    /**
+     * @param UseListManager $useListManager
+     * @return SerializeListener
+     */
+    public function setUseListManager($useListManager)
+    {
+        $this->useListManager = $useListManager;
         return $this;
     }
 }

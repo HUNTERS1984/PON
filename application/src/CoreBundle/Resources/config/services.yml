@@ -29,6 +29,8 @@ services:
         factory_service:  doctrine
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\UseList"]
+        calls:
+            - [setUseListFinder, ["@fos_elastica.finder.app.useList"]]
 
     pon.manager.store_type:
         class: CoreBundle\Manager\StoreTypeManager
@@ -156,6 +158,7 @@ services:
             - [setCouponManager, ["@pon.manager.coupon"]]
             - [setAppUserManager, ["@pon.manager.app_user"]]
             - [setCouponTypes, ["%coupon_types%"]]
+            - [setUseListManager, ["@pon.manager.use_list"]]
         tags:
             - { name: jms_serializer.event_subscriber}
 

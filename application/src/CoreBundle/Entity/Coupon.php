@@ -122,6 +122,11 @@ class Coupon
     private $similarCoupons;
 
     /**
+     * @var string
+    */
+    private $code;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -743,5 +748,23 @@ class Coupon
     public function getCouponUserPhotos()
     {
         return $this->couponUserPhotos;
+    }
+
+    /**
+     * @param string $code
+     * @return Coupon
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }

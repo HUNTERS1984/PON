@@ -15,7 +15,7 @@ class AppUserDummy extends BaseDummy implements IDummy
         $faker = Factory::create('ja_JP');
         $user = new AppUser();
         $email = 'admin_' . $i . '@pon.dev';
-        $role = $faker->randomElement(['ROLE_ADMIN', 'ROLE_APP']);
+        $role = 'ROLE_ADMIN';
        
         $user
             ->setCreatedAt(new \DateTime())
@@ -36,6 +36,37 @@ class AppUserDummy extends BaseDummy implements IDummy
         $this->manager->dummy($user);
         return $user;
     }
+
+    /**
+     * generate dummy data
+     */
+    public function generateAppUsers($i = 0)
+    {
+        $faker = Factory::create('ja_JP');
+        $user = new AppUser();
+        $email = 'app_' . $i . '@pon.dev';
+        $role = 'ROLE_APP';
+
+        $user
+            ->setCreatedAt(new \DateTime())
+            ->setUsername($email)
+            ->setName($faker->name)
+            ->setPlainPassword('admin')
+            ->setEmail($email)
+            ->setEnabled(true)
+            ->setAndroidPushKey($faker->md5)
+            ->setApplePushKey($faker->md5)
+            ->setTemporaryHash(substr($faker->md5, 0, 4))
+            ->setRoles([$role])
+            ->setLocale($faker->locale)
+            ->setCompany($faker->company)
+            ->setAddress($faker->address)
+            ->setTel($faker->phoneNumber)
+            ->setUpdatedAt(new \DateTime());
+        $this->manager->dummy($user);
+        return $user;
+    }
+
 
     /**
      * generateStoreUsers
