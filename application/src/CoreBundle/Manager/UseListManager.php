@@ -117,10 +117,6 @@ class UseListManager extends AbstractManager
      */
     public function isCanUse(AppUser $user = null, Coupon $coupon)
     {
-        if (!$coupon->isNeedLogin()) {
-            return true;
-        }
-
         if (!$user) {
             return false;
         }
