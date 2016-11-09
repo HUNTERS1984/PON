@@ -12,6 +12,8 @@ use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Entity\UseList;
 use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\CouponManager;
+use CoreBundle\Manager\FollowListManager;
+use CoreBundle\Manager\LikeListManager;
 use CoreBundle\Manager\StoreManager;
 use CoreBundle\Manager\UseListManager;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
@@ -38,6 +40,16 @@ class SerializeListener implements EventSubscriberInterface
      * @var UseListManager $useListManager
      */
     private $useListManager;
+
+    /**
+     * @var LikeListManager $likeListManager
+     */
+    private $likeListManager;
+
+    /**
+     * @var FollowListManager $followListManager
+     */
+    private $followListManager;
 
     /**
      * @var AppUserManager $appUserManager
@@ -168,8 +180,8 @@ class SerializeListener implements EventSubscriberInterface
         $coupons = $this->couponManager->getSimilarCoupon($coupon);
         $user = $this->getUser();
         $similarCoupons = array_map(function (Coupon $coupon) use ($user){
-            $isLike = $this->couponManager->isLike($user, $coupon);
-            $isCanUse = $this->couponManager->isCanUse($user, $coupon);
+            $isLike = $this->likeListManager->isLike($user, $coupon);
+            $isCanUse = $this->useListManager->isCanUse($user, $coupon);
             $type = $coupon->getType();
             $couponType = ['id' => $type, 'name' => $this->couponTypes[$type]];
             return [
@@ -192,7 +204,7 @@ class SerializeListener implements EventSubscriberInterface
     public function setCanUse(Coupon &$coupon)
     {
         $user = $this->getUser();
-        $isCanUse = $this->couponManager->isCanUse($user, $coupon);
+        $isCanUse = $this->useListManager->isCanUse($user, $coupon);
         $coupon->setCanUse($isCanUse);
     }
 
@@ -221,7 +233,7 @@ class SerializeListener implements EventSubscriberInterface
     public function setLike(Coupon &$coupon)
     {
         $user = $this->getUser();
-        $isLike = $this->couponManager->isLike($user, $coupon);
+        $isLike = $this->likeListManager->isLike($user, $coupon);
         $coupon->setLike($isLike);
     }
 
@@ -235,7 +247,7 @@ class SerializeListener implements EventSubscriberInterface
             return;
         }
 
-        $isFollow = $this->storeManager->isFollow($user, $store);
+        $isFollow = $this->followListManager->isFollow($user, $store);
         $store->setFollow($isFollow);
     }
 
@@ -317,6 +329,26 @@ class SerializeListener implements EventSubscriberInterface
     public function setUseListManager($useListManager)
     {
         $this->useListManager = $useListManager;
+        return $this;
+    }
+
+    /**
+     * @param LikeListManager $likeListManager
+     * @return SerializeListener
+     */
+    public function setLikeListManager($likeListManager)
+    {
+        $this->likeListManager = $likeListManager;
+        return $this;
+    }
+
+    /**
+     * @param FollowListManager $followListManager
+     * @return SerializeListener
+     */
+    public function setFollowListManager($followListManager)
+    {
+        $this->followListManager = $followListManager;
         return $this;
     }
 }

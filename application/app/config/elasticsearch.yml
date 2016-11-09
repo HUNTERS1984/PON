@@ -10,40 +10,6 @@ fos_elastica:
                         id: ~
                         username: ~
                         roles: ~
-                        useLists:
-                            type: "nested"
-                            properties:
-                                coupon:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        title: ~
-                                        imageUrl: ~
-                                status: ~
-                                expiredTime:
-                                    type: date
-                                createdAt:
-                                    type: date
-                                code: ~
-                        likeLists:
-                            type: "nested"
-                            properties:
-                                coupon:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        title: ~
-                                        imageUrl: ~
-                        followLists:
-                            type: "nested"
-                            properties:
-                                store:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        title: ~
-                                        avatarUrl: ~
-                                        address: ~
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\AppUser
@@ -89,15 +55,6 @@ fos_elastica:
                                 id: ~
                                 username: ~
                                 email: ~
-                        followLists:
-                            type: "nested"
-                            properties:
-                                appUser:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        username: ~
-                                        email: ~
                         coupons:
                             type: nested
                             properties:
@@ -123,30 +80,6 @@ fos_elastica:
                                             properties:
                                                 id: ~
                                                 imageUrl: ~
-                                useLists:
-                                    type: nested
-                                    properties:
-                                        appUser:
-                                            type: object
-                                            properties:
-                                                id: ~
-                                                username: ~
-                                                email: ~
-                                        status: ~
-                                        expiredTime:
-                                            type: date
-                                        createdAt:
-                                            type: date
-                                        code: ~
-                                likeLists:
-                                    type: "nested"
-                                    properties:
-                                        appUser:
-                                            type: object
-                                            properties:
-                                                id: ~
-                                                username: ~
-                                                email: ~
                         createdAt:
                             type: date
                         updatedAt:
@@ -219,30 +152,6 @@ fos_elastica:
                                         id: ~
                                         name: ~
                                         iconUrl: ~
-                        useLists:
-                            type: nested
-                            properties:
-                                appUser:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        username: ~
-                                        email: ~
-                                status: ~
-                                expiredTime:
-                                    type: date
-                                createdAt:
-                                    type: date
-                                code: ~
-                        likeLists:
-                            type: nested
-                            properties:
-                                appUser:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        username: ~
-                                        email: ~
                         createdAt:
                             type: date
                         updatedAt:
@@ -260,39 +169,6 @@ fos_elastica:
                         id: ~
                         name: ~
                         iconUrl: ~
-                        stores:
-                            type: "nested"
-                            properties:
-                                id: ~
-                                title: ~
-                                address: ~
-                                coupons:
-                                    type: nested
-                                    properties:
-                                        id: ~
-                                        title: ~
-                                        imageUrl: ~
-                                        expiredTime:
-                                            type: date
-                                        type: ~
-                                        needLogin: ~
-                                        impression:
-                                            type: integer
-                                        createdAt:
-                                            type: date
-                                        updatedAt:
-                                            type: date
-                                        deletedAt:
-                                            type: date
-                                        likeLists:
-                                            type: "nested"
-                                            properties:
-                                                appUser:
-                                                    type: object
-                                                    properties:
-                                                        id: ~
-                                                        username: ~
-                                                        email: ~
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\Category
@@ -308,6 +184,21 @@ fos_elastica:
                             properties:
                                 id: ~
                                 title: ~
+                                deletedAt:
+                                    type: date
+                                store:
+                                    type: object
+                                    properties:
+                                        id: ~
+                                        title: ~
+                                        deletedAt:
+                                            type: date
+                                        category:
+                                            type: object
+                                            properties:
+                                                id: ~
+                                                name: ~
+                                                iconUrl: ~
                         appUser:
                             type: object
                             properties:
@@ -351,6 +242,30 @@ fos_elastica:
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\FollowList
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                likeList:
+                    mappings:
+                        id: ~
+                        coupon:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                                imageUrl: ~
+                                deletedAt:
+                                    type: date
+                        appUser:
+                            type: object
+                            properties:
+                                id: ~
+                                username: ~
+                                name: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\LikeList
                         provider: ~
                         listener: ~
                         finder: ~

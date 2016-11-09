@@ -4,8 +4,10 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\FollowList;
+use CoreBundle\Entity\Store;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
+use Elastica\Query\BoolQuery;
 use Elastica\Query\Term;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 
@@ -50,6 +52,27 @@ class FollowListManager extends AbstractManager
         }, $results);
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($stores, $total, $limit, $offset);
+    }
+
+    /**
+     * is follow
+     *
+     * @param AppUser $user
+     * @param Store $store
+     * @return bool
+     */
+    public function isFollow(AppUser $user, Store $store)
+    {
+        $storeQuery = new Term(['store.id'=> $store->getId()]);
+        $userQuery = new Term(['appUser.id'=> $user->getId()]);
+
+        $query = new BoolQuery();
+        $query
+            ->addMust($storeQuery)
+            ->addMust($userQuery);
+        $result = $this->followListFinder->find($query);
+
+        return !empty($result);
     }
 
     /**
