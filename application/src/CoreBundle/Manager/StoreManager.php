@@ -122,33 +122,6 @@ class StoreManager extends AbstractManager
         return $this->pagination->response($results, $total, $limit, $offset);
     }
 
-
-    /**
-     * is follow
-     *
-     * @param AppUser $user
-     * @param Store $store
-     * @return bool
-     */
-    public function isFollow(AppUser $user, Store $store)
-    {
-        $storeQuery = new Query\Term(['id'=> $store->getId()]);
-        $userQuery = new Query\Term(['followLists.appUser.id'=> $user->getId()]);
-        $nestedQuery = new Query\Nested();
-        $nestedQuery->setPath("followLists");
-        $nestedQuery->setQuery($userQuery);
-        $query = new Query\BoolQuery();
-        $query
-            ->addMust($storeQuery)
-            ->addMust($nestedQuery);
-        $store = $this->storeFinder->find($query);
-        if(!$store) {
-            return false;
-        }
-
-        return true;
-    }
-
     /**
      * get shop count
      *

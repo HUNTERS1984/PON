@@ -30,6 +30,7 @@ services:
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\UseList"]
         calls:
+            - [setPagination, ["@pon.paginator.pagination"]]
             - [setUseListFinder, ["@fos_elastica.finder.app.useList"]]
 
     pon.manager.follow_list:
@@ -40,6 +41,15 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setFollowListFinder, ["@fos_elastica.finder.app.followList"]]
+
+    pon.manager.like_list:
+        class: CoreBundle\Manager\LikeListManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\LikeList"]
+        calls:
+            - [setPagination, ["@pon.paginator.pagination"]]
+            - [setLikeListFinder, ["@fos_elastica.finder.app.likeList"]]
 
     pon.manager.store_type:
         class: CoreBundle\Manager\StoreTypeManager
@@ -168,6 +178,8 @@ services:
             - [setAppUserManager, ["@pon.manager.app_user"]]
             - [setCouponTypes, ["%coupon_types%"]]
             - [setUseListManager, ["@pon.manager.use_list"]]
+            - [setLikeListManager, ["@pon.manager.like_list"]]
+            - [setFollowListManager, ["@pon.manager.follow_list"]]
         tags:
             - { name: jms_serializer.event_subscriber}
 

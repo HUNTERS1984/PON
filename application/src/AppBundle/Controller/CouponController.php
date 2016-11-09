@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\CategoryManager;
+use CoreBundle\Manager\LikeListManager;
 use CoreBundle\Manager\UseListManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -446,7 +447,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
         $user = $this->getUser();
         $params = $request->query->all();
-        $result = $this->getManager()->getFavoriteCoupons($user, $params);
+        $result = $this->getLikeListManager()->getFavoriteCoupons($user, $params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 
 
@@ -518,7 +519,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 
         $user = $this->getUser();
         $params = $request->query->all();
-        $result = $this->getManager()->getUsedCoupons($user, $params);
+        $result = $this->getUseListManager()->getUsedCoupons($user, $params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 
         $user = $this->getUser();
@@ -633,7 +634,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ));
         }
 
-        $isLike = $this->getManager()->isLike($user, $coupon);
+        $isLike = $this->getLikeListManager()->isLike($user, $coupon);
         if(!$isLike) {
             $coupon = $this->getManager()->likeCoupon($user, $coupon);
             if(!$coupon) {
@@ -848,7 +849,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ));
         }
 
-        $isLike = $this->getManager()->isLike($user, $coupon);
+        $isLike = $this->getLikeListManager()->isLike($user, $coupon);
         if(!$isLike) {
             $coupon = $this->getManager()->likeCoupon($user, $coupon);
             if(!$coupon) {
@@ -913,7 +914,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ));
         }
 
-        $isLike = $this->getManager()->isLike($user, $coupon);
+        $isLike = $this->getLikeListManager()->isLike($user, $coupon);
         if(!$isLike) {
             $coupon = $this->getManager()->likeCoupon($user, $coupon);
             if(!$coupon) {
@@ -949,6 +950,14 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getUseListManager()
     {
         return $this->get('pon.manager.use_list');
+    }
+
+    /**
+     * @return LikeListManager
+     */
+    public function getLikeListManager()
+    {
+        return $this->get('pon.manager.like_list');
     }
 
     /**

@@ -242,27 +242,25 @@ class CouponManager extends AbstractManager
         }
 
         $query = new Query();
-        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setPostFilter(new Missing('coupon.deletedAt'));
 
-        $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
-        $statusQuery = new Term(['useLists.status' => 1]);
-
-        $nestedQuery = new Nested();
-        $subQuery = new BoolQuery();
-        $subQuery->addMust($userQuery);
-        $subQuery->addMust($statusQuery);
-        $nestedQuery->setPath("useLists");
-        $nestedQuery->setQuery($subQuery);
+        $userQuery = new Term(['appUser.id' => $user->getId()]);
+        $statusQuery = new Term(['status' => 1]);
 
         $mainQuery = new BoolQuery();
         $mainQuery
-            ->addMust($nestedQuery)
-            ->addMust(new Term(['store.category.id' => ['value' => $category->getId()]]));
+            ->addMust($statusQuery)
+            ->addMust($userQuery)
+            ->addMust(new Term(['coupon.store.category.id' => ['value' => $category->getId()]]));
 
         $query->setQuery($mainQuery);
-        $result = $this->couponFinder->find($query, 4);
-
-        return $result;
+        $pagination = $this->useListFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults(0, 4);
+        $results = $transformedPartialResults->toArray();
+        $coupons = array_map(function(UseList $useList){
+            return $useList->getCoupon();
+        }, $results);
+        return $coupons;
     }
 
     /**
@@ -281,30 +279,28 @@ class CouponManager extends AbstractManager
         }
 
         $query = new Query();
-        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setPostFilter(new Missing('coupon.deletedAt'));
 
-        $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
-        $statusQuery = new Term(['useLists.status' => 1]);
-
-        $nestedQuery = new Nested();
-        $subQuery = new BoolQuery();
-        $subQuery->addMust($userQuery);
-        $subQuery->addMust($statusQuery);
-        $nestedQuery->setPath("useLists");
-        $nestedQuery->setQuery($subQuery);
+        $userQuery = new Term(['appUser.id' => $user->getId()]);
+        $statusQuery = new Term(['status' => 1]);
 
         $mainQuery = new BoolQuery();
         $mainQuery
-            ->addMust($nestedQuery)
-            ->addMust(new Term(['store.category.id' => ['value' => $category->getId()]]));
+            ->addMust($statusQuery)
+            ->addMust($userQuery)
+            ->addMust(new Term(['coupon.store.category.id' => ['value' => $category->getId()]]));
 
         $query->setQuery($mainQuery);
 
-        $pagination = $this->couponFinder->createPaginatorAdapter($query);
+        $pagination = $this->useListFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults($offset, $limit);
         $results = $transformedPartialResults->toArray();
+        $coupons = array_map(function(UseList $useList){
+            return $useList->getCoupon();
+        }, $results);
+
         $total = $transformedPartialResults->getTotalHits();
-        return $this->pagination->response($results, $total, $limit, $offset);
+        return $this->pagination->response($coupons, $total, $limit, $offset);
     }
 
     /**
@@ -463,72 +459,6 @@ class CouponManager extends AbstractManager
     }
 
     /**
-     * is like
-     *
-     * @param AppUser $user
-     * @param Coupon $coupon
-     * @return bool
-     */
-    public function isLike(AppUser $user = null, Coupon $coupon)
-    {
-        if (!$user) {
-            return false;
-        }
-        $couponQuery = new Term(['id' => $coupon->getId()]);
-        $userQuery = new Term(['likeLists.appUser.id' => $user->getId()]);
-        $nestedQuery = new Nested();
-        $nestedQuery->setPath("likeLists");
-        $nestedQuery->setQuery($userQuery);
-        $query = new BoolQuery();
-        $query
-            ->addMust($couponQuery)
-            ->addMust($nestedQuery);
-        $store = $this->couponFinder->find($query);
-        if (!$store) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * is can use
-     *
-     * @param AppUser $user
-     * @param Coupon $coupon
-     * @return bool
-     */
-    public function isCanUse(AppUser $user = null, Coupon $coupon)
-    {
-        if (!$coupon->isNeedLogin()) {
-            return true;
-        }
-
-        if (!$user) {
-            return false;
-        }
-        $couponQuery = new Term(['id' => $coupon->getId()]);
-        $userQuery = new Term(['useLists.appUser.id' => $user->getId()]);
-        $statusQuery = new Term(['useLists.status' => 1]);
-        $nestedQuery = new Nested();
-        $mainQuery = new BoolQuery();
-        $mainQuery->addMust($userQuery);
-        $mainQuery->addMust($statusQuery);
-        $nestedQuery->setPath("useLists");
-        $nestedQuery->setQuery($mainQuery);
-        $query = new BoolQuery();
-        $query
-            ->addMust($couponQuery)
-            ->addMust($nestedQuery);
-        $store = $this->couponFinder->find($query);
-        if (!$store) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Search
      * @param $params
      * @return array
@@ -592,61 +522,6 @@ class CouponManager extends AbstractManager
         $pagination = $this->couponFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults(0, 4);
         return $transformedPartialResults->toArray();
-    }
-
-    public function getFavoriteCoupons(AppUser $appUser, $params)
-    {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-
-        $mainQuery = new \Elastica\Query;
-
-        $userQuery = new Term(['likeLists.appUser.id' => $appUser->getId()]);
-        $nestedQuery = new Nested();
-        $nestedQuery->setPath("likeLists");
-        $nestedQuery->setQuery($userQuery);
-
-        $boolQuery = new BoolQuery();
-        $boolQuery->addMust($nestedQuery);
-
-        $mainQuery->setPostFilter(new Missing('deletedAt'));
-        $mainQuery->setQuery($boolQuery);
-
-        $pagination = $this->couponFinder->createPaginatorAdapter($mainQuery);
-        $transformedPartialResults = $pagination->getResults($offset, $limit);
-        $results = $transformedPartialResults->toArray();
-        $total = $transformedPartialResults->getTotalHits();
-        return $this->pagination->response($results, $total, $limit, $offset);
-    }
-
-    public function getUsedCoupons(AppUser $appUser, $params)
-    {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-
-        $mainQuery = new \Elastica\Query;
-        $childQuery = new BoolQuery();
-        $userQuery = new Term(['useLists.appUser.id' => $appUser->getId()]);
-        $statusQuery = new Term(['useLists.status' => 4]);
-
-        $childQuery->addMust($userQuery);
-        $childQuery->addMust($statusQuery);
-
-        $nestedQuery = new Nested();
-        $nestedQuery->setPath("useLists");
-        $nestedQuery->setQuery($childQuery);
-
-        $boolQuery = new BoolQuery();
-        $boolQuery->addMust($nestedQuery);
-
-        $mainQuery->setPostFilter(new Missing('deletedAt'));
-        $mainQuery->setQuery($boolQuery);
-
-        $pagination = $this->couponFinder->createPaginatorAdapter($mainQuery);
-        $transformedPartialResults = $pagination->getResults($offset, $limit);
-        $results = $transformedPartialResults->toArray();
-        $total = $transformedPartialResults->getTotalHits();
-        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     public function likeCoupon(AppUser $appUser, Coupon $coupon)

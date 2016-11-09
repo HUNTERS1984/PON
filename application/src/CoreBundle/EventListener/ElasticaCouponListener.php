@@ -27,7 +27,7 @@ class ElasticaCouponListener implements EventSubscriber
     public function postPersist(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getEntity();
-        $this->setCoupon($entity);
+        //$this->setCoupon($entity);
     }
 
     public function setCategory(Coupon $coupon)
@@ -49,7 +49,7 @@ class ElasticaCouponListener implements EventSubscriber
     public function postUpdate(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getEntity();
-        $this->setCoupon($entity);
+        //$this->setCoupon($entity);
     }
 
     /**
