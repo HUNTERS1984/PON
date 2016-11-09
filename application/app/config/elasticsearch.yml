@@ -330,3 +330,27 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         finder: ~
+
+                followList:
+                    mappings:
+                        id: ~
+                        store:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                                avatar_url: ~
+                                deletedAt:
+                                    type: date
+                        appUser:
+                            type: object
+                            properties:
+                                id: ~
+                                username: ~
+                                name: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\FollowList
+                        provider: ~
+                        listener: ~
+                        finder: ~

@@ -7,6 +7,7 @@ use CoreBundle\Entity\Store;
 use CoreBundle\Entity\User;
 use CoreBundle\Form\Type\StoreType;
 use CoreBundle\Manager\CategoryManager;
+use CoreBundle\Manager\FollowListManager;
 use CoreBundle\Manager\StoreManager;
 use CoreBundle\Manager\StoreTypeManager;
 use CoreBundle\Manager\UserManager;
@@ -403,7 +404,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     {
         $user = $this->getUser();
         $params = $request->query->all();
-        $result = $this->getManager()->getFollowShops($user, $params);
+        $result = $this->getFollowListManager()->getFollowShops($user, $params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 
         $faker = Factory::create('ja_JP');
@@ -657,6 +658,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     public function getCategoryManager()
     {
         return $this->get('pon.manager.category');
+    }
+
+    /**
+     * @return FollowListManager
+     */
+    public function getFollowListManager()
+    {
+        return $this->get('pon.manager.follow_list');
     }
 
     /**
