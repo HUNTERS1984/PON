@@ -291,32 +291,7 @@ class StoreManager extends AbstractManager
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset);
     }
-
-    public function getFollowShops(AppUser $appUser, $params)
-    {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) && $params['page_index'] > 0 ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-
-        $mainQuery = new \Elastica\Query;
-
-        $userQuery = new Query\Term(['followLists.appUser.id' => $appUser->getId()]);
-        $nestedQuery = new Query\Nested();
-        $nestedQuery->setPath("followLists");
-        $nestedQuery->setQuery($userQuery);
-
-        $boolQuery = new Query\BoolQuery();
-        $boolQuery->addMust($nestedQuery);
-
-        $mainQuery->setPostFilter(new Missing('deletedAt'));
-        $mainQuery->setQuery($boolQuery);
-
-        $pagination = $this->storeFinder->createPaginatorAdapter($mainQuery);
-        $transformedPartialResults = $pagination->getResults($offset, $limit);
-        $results = $transformedPartialResults->toArray();
-        $total = $transformedPartialResults->getTotalHits();
-        return $this->pagination->response($results, $total, $limit, $offset);
-    }
-
+    
     /**
      * List Store
      * @param array $params
