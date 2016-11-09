@@ -468,7 +468,7 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
             ));
         }
 
-        $isFollow = $this->getManager()->isFollow($user, $store);
+        $isFollow = $this->getFollowListManager()->isFollow($user, $store);
         if(!$isFollow) {
             $store = $this->getManager()->followStore($user, $store);
             if(!$store) {
