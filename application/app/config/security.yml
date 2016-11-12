@@ -30,6 +30,18 @@ security:
         oauth_token:                                   # Everyone can access the access token URL.
             pattern: ^/oauth/v2/token
             security: false
+        api_news_detail:
+            security: true
+            pattern: ^/api/v1/news/[0-9]+   # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true
+        api_news_list:
+            security: true
+            pattern: ^/api/v1/news   # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true
         api_search_coupons:
             security: true
             pattern: ^/api/v1/search/coupons   # All URLs are protected

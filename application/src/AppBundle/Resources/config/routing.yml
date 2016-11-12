@@ -32,4 +32,4 @@ app_news:
     prefix: /v1
     type: rest
     resource: AppBundle\Controller\NewsController
-    name_prefix: api_post
+    name_prefix: api_news
