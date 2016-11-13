@@ -79,6 +79,19 @@ class UseListManager extends AbstractManager
         return !empty($result) ? $result[0]->getCode() : null;
     }
 
+    /**
+     * @param UseList $useList
+     *
+     * @return boolean
+     */
+    public function requestCoupon(UseList $useList)
+    {
+        $useList
+            ->setStatus(2)
+            ->setRequestedAt(new \DateTime());
+        return $this->saveUseList($useList);
+    }
+
     public function getUsedCoupons(AppUser $appUser, $params)
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
