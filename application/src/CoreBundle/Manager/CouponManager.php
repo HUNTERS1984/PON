@@ -20,6 +20,7 @@ use Elastica\Query\MatchAll;
 use Elastica\Query\MultiMatch;
 use Elastica\Query\Nested;
 use Elastica\Query\Term;
+use Elastica\Query\Range;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 class CouponManager extends AbstractManager
@@ -503,6 +504,30 @@ class CouponManager extends AbstractManager
         $query->setPostFilter(new Missing('deletedAt'));
         $query->setQuery(new Term(['id' => ['value' => $id]]));
         $result = $this->couponFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
+     * get coupon
+     *
+     * @param AppUser $user
+     * @param string $code
+     *
+     * @return null | UseList
+     */
+    public function getCouponToRequest(AppUser $user, $code)
+    {
+        $query = new Query();
+        $boolQuery = new BoolQuery();
+        $date = new \DateTime();
+        $boolQuery
+            ->addMust(new Term(['appUser.id' => ['value' => $user->getId()]]))
+            ->addMust(new Term(['code' => ['value' => $code]]))
+            ->addMust(new Term(['status' => ['value' => 1]]))
+            ->addMust(new Range('expiredTime',['gte' => $date->format(\DateTime::ISO8601)]));
+
+        $query->setQuery($boolQuery);
+        $result = $this->useListFinder->find($query);
         return !empty($result) ? $result[0] : null;
     }
 

@@ -679,6 +679,21 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
      */
     public function postRequestCouponAction($code, Request $request)
     {
+        $user = $this->getUser();
+        $useCoupon = $this->getManager()->getCouponToRequest($user, $code);
+        if (!$useCoupon) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        $useCoupon = $this->getUseListManager()->requestCoupon($useCoupon);
+        if(!$useCoupon) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.request.not_success'
+            ));
+        }
+
         return $this->view(BaseResponse::getData([]), 200);
     }
 
