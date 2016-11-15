@@ -17,16 +17,29 @@ security:
         fos_userbundle:
             id: fos_user.user_provider.username        # fos_user.user_provider.username_email does not seem to work (OAuth-spec related ("username + password") ?)
         in_memory:
-            memory:
-                users:
-                    owner:
-                        password:           123@456
-                        roles:              ROLE_OWNER
-                    admin:
-                        password:           123@456
-                        roles:              ROLE_ADMIN
+            memory: ~
 
     firewalls:
+        admin:
+            pattern: ^/admin
+            anonymous: ~
+            form_login:
+                provider: fos_userbundle
+                use_forward:    false
+                login_path: /admin/login
+                check_path: /admin/login
+                default_target_path: /admin
+                failure_path:   null
+                use_referer: true
+                require_previous_session: false
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:
+            logout:
+                path:   /admin/logout
+                target: /admin
+            anonymous:    true
         oauth_token:                                   # Everyone can access the access token URL.
             pattern: ^/oauth/v2/token
             security: false
@@ -142,7 +155,7 @@ security:
             anonymous: ~
             # activate different ways to authenticate
 
-            http_basic: ~
+#            http_basic: ~
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 
             # form_login: ~
@@ -152,6 +165,12 @@ security:
         admin_area_none:
             path: ^/admin/coupon/link
             role: IS_AUTHENTICATED_ANONYMOUSLY
+        admin_register:
+            path: /admin/register
+            roles: IS_AUTHENTICATED_ANONYMOUSLY
+        admin_login:
+            path: /admin/login
+            roles: IS_AUTHENTICATED_ANONYMOUSLY
         admin_area:
             path: ^/admin
-            role: ROLE_CLIENT
+            role: ROLE_USER
