@@ -39,6 +39,20 @@ gulp.task('admin-styles', function () {
     .pipe(gulp.dest(dir.admin_dist + 'css'));
 });
 
+gulp.task('admin-login-styles', function () {
+    gulp.src([
+        //dir.bower + 'bootstrap/dist/css/bootstrap.min.css',
+        dir.admin_path + '/css/bootstrap.css',
+        dir.admin_path + '/css/font-awesome.css',
+        dir.admin_path + '/css/login.css'
+    ])
+        .pipe(sourcemaps.init())
+        .pipe(gulpif(/[.]less/, less()))
+        .pipe(sourcemaps.write())
+        .pipe(concat('admin_login.css'))
+        .pipe(gulp.dest(dir.admin_dist + 'css'));
+});
+
 
 // ADMIN-SCRIPTS
 gulp.task('admin-scripts', function () {
@@ -176,6 +190,7 @@ gulp.task('admin', [
     'admin-styles',
     'admin-scripts',
     'admin-images',
+    'admin-login-styles'
 ]);
 
 gulp.task('customer', [

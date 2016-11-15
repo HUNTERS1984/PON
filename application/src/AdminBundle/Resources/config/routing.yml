@@ -37,3 +37,19 @@ admin_help:
 admin_contact:
     path:     /contact
     defaults: { _controller: AdminBundle:Contact:index }
+
+admin_login:
+    path:     /login
+    defaults: { _controller: AdminBundle:Security:login }
+
+admin_register:
+    path:     /register
+    defaults: { _controller: AdminBundle:Security:register }
+
+admin_logout:
+    path:     /logout
+    defaults: { _controller: AdminBundle:Security:logout }
+
+admin_forgot:
+    path:     /forgot
+    defaults: { _controller: AdminBundle:Security:forgot }

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html {% block html_attributes %}class="no-js"{% endblock %}>
+
+<head>
+    {% block meta_tags %}
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    {% endblock %}
+    <meta charset="utf-8">
+
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('backend/css/admin_login.css') }}"/>
+    {% endblock %}
+
+    {% block datatables_stylesheets %}
+
+    {% endblock %}
+
+    <!-- Favicons -->
+    {% block favicons %}
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    {% endblock %}
+
+</head>
+
+<body >
+{% block body %}
+    {% block page_content %}{% endblock %}
+
+    {% block scripts_footer_inline %}{% endblock %}
+
+
+    {% block custom_scripts %}
+
+    {% endblock %}
+
+{% endblock %}
+</body>
+</html>
