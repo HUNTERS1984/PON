@@ -71,7 +71,7 @@ class CouponManager extends AbstractManager
     public function createCoupon(Coupon $coupon)
     {
         $coupon->setCreatedAt(new \DateTime());
-        $this->saveCoupon($coupon);
+        return $this->saveCoupon($coupon);
     }
 
     /**

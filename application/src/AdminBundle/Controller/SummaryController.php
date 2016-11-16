@@ -30,25 +30,22 @@ class SummaryController extends Controller
         $coupon = $this->getManager()->getCoupon($id);
 
         if (!$coupon) {
-            throw $this->createNotFoundException('Unable to find Coupon.');
+            throw $this->createNotFoundException('クーポンが見つかりません。');
         }
 
         $form = $this->createForm(CouponType::class, $coupon)->handleRequest($request);
 
-        if($request->isXmlHttpRequest() && !$form->isValid()) {
-            echo 'abc';die();
-            return $this->render(
-                'AdminBundle:Summary:base_edit.html.twig',
-                [
-                    'form' => $form->createView()
-                ]
-            );
-        }
-
         if ($request->isXmlHttpRequest() && $form->isValid()) {
             $coupon = $form->getData();
-            var_dump($coupon);
-            return new Response(json_encode(array('status'=>'success')));
+            $coupon = $this->getManager()->saveCoupon($coupon);
+            if(!$coupon) {
+                return $this->getFailureMessage('クーポンの作成に失敗しました');
+            }
+            return $this->getSuccessMessage();
+        }
+
+        if(count($errors = $form->getErrors(true)) > 0) {
+            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -59,6 +56,24 @@ class SummaryController extends Controller
             ]
         );
 
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    public function getSuccessMessage($message = '')
+    {
+        return new Response(json_encode(['status'=> true, 'message' => $message]));
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    public function getFailureMessage($message = '')
+    {
+        return new Response(json_encode(['status'=> false, 'message' => $message]));
     }
 
     /**

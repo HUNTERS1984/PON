@@ -4,7 +4,7 @@ CoreBundle\Entity\Coupon:
             - NotBlank:
                 message: coupon.type.not_blank
             - Choice:
-                choices:  [0, 1]
+                choices:  [1, 2]
                 message:  coupon.type.choice
         title:
             - NotBlank:
@@ -35,6 +35,3 @@ CoreBundle\Entity\Coupon:
             - Type:
                 type: integer
                 message: coupon.size.integer
-        type:
-            - NotBlank:
-                message: coupon.type.not_blank

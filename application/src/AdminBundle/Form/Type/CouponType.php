@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,12 +42,33 @@ class CouponType extends AbstractType
                     'placeholder' => 'クーポンタイトル'
                 ]
             ])
+            ->add('status', ChoiceType::class, [
+                'label' => '状態',
+                'required' => true,
+                'choices'  => [
+                    'アクティブ' => 1,
+                    '非アクティブ' => 0
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('type', ChoiceType::class,[
                 'label' => 'クーポンタイプ',
                 'choices'  => [
                     'ユーザー投稿型' => null,
                     'SNS' => 1,
                     'Store' => 2
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('needLogin', ChoiceType::class,[
+                'label' => 'ログインする必要がある',
+                'choices'  => [
+                    'はい' => 1,
+                    'いいえ' => 0
                 ],
                 'attr' => [
                     'class' => 'form-control'
@@ -59,6 +81,14 @@ class CouponType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'ハッシュタグ'
                 ],
+            ])
+            ->add('size', IntegerType::class, [
+                'label' => '量',
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => '量'
+                ]
             ])
             ->add('description', TextareaType::class, [
                 'label' => '説明文',
