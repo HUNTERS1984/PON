@@ -18,6 +18,9 @@ use CoreBundle\Manager\StoreManager;
 use CoreBundle\Manager\UseListManager;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Router;
 
 class SerializeListener implements EventSubscriberInterface
 {
@@ -60,6 +63,16 @@ class SerializeListener implements EventSubscriberInterface
      * @var array $couponTypes ;
      */
     private $couponTypes;
+
+    /**
+     * @var Router
+    */
+    private $router;
+
+    /**
+     * @var RequestStack
+    */
+    private $request;
 
     /**
      * @param PreSerializeEvent $event
@@ -134,6 +147,7 @@ class SerializeListener implements EventSubscriberInterface
         $this->setCouponType($coupon);
         $this->setCanUse($coupon);
         $this->setCode($coupon);
+        $this->setLink($coupon);
         $this->setCouponPhoto($coupon);
         $this->setCouponUserPhoto($coupon);
         $this->setSimilarCoupon($coupon);
@@ -216,6 +230,20 @@ class SerializeListener implements EventSubscriberInterface
         $user = $this->getUser();
         $code = $this->useListManager->getCode($user, $coupon);
         $coupon->setCode($code);
+    }
+
+    /**
+     * @param Coupon $coupon
+     */
+    public function setLink(Coupon &$coupon)
+    {
+        /** @var Router $router */
+        $router = $this->router;
+        /** @var RequestStack $request */
+        $request = $this->request;
+        $url = $request->getCurrentRequest()->getSchemeAndHttpHost();
+        $link = $router->generate('admin_coupon_link',['id' => $coupon->getId()]);
+        $coupon->setLink(sprintf("%s%s",$url, $link));
     }
 
     /**
@@ -350,5 +378,33 @@ class SerializeListener implements EventSubscriberInterface
     {
         $this->followListManager = $followListManager;
         return $this;
+    }
+
+    /**
+     * @param mixed $router
+     * @return SerializeListener
+     */
+    public function setRouter($router)
+    {
+        $this->router = $router;
+        return $this;
+    }
+
+    /**
+     * @param mixed $request
+     * @return SerializeListener
+     */
+    public function setRequest($request)
+    {
+        $this->request = $request;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 }

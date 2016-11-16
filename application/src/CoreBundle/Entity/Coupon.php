@@ -127,6 +127,12 @@ class Coupon
     private $code;
 
     /**
+     * @var string
+     */
+    private $link;
+
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -766,5 +772,23 @@ class Coupon
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * @param string $link
+     * @return Coupon
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLink()
+    {
+        return $this->link;
     }
 }

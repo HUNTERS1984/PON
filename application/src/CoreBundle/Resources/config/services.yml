@@ -180,6 +180,8 @@ services:
             - [setUseListManager, ["@pon.manager.use_list"]]
             - [setLikeListManager, ["@pon.manager.like_list"]]
             - [setFollowListManager, ["@pon.manager.follow_list"]]
+            - [setRouter, ["@router"]]
+            - [setRequest, ["@request_stack"]]
         tags:
             - { name: jms_serializer.event_subscriber}
 

@@ -27,6 +27,9 @@ CoreBundle\Entity\Coupon:
         code:
             expose: true
             groups: [view_coupon]
+        link:
+            expose: true
+            groups: [view_coupon]
         needLogin:
             expose: true
             groups: [featured_coupon,list_coupon,view_coupon, store_coupon]
