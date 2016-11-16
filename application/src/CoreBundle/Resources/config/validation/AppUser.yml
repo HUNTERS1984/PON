@@ -64,7 +64,7 @@ CoreBundle\Entity\AppUser:
                 maxMessage: app_user.address.max_message
         gender:
             - Choice:
-                choices:  [0, 1]
+                choices:  [0,1,2]
                 message:  app_user.gender.choice
         avatarUrl:
             - Length:

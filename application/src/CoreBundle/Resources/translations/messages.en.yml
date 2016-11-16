@@ -104,7 +104,7 @@ app_user:
         min_message: The Avatar Url must be at least 1 characters long
         max_message: The Avatar Url cannot be longer than 255 characters
     gender:
-        choice: The Gender should be 1 or 0
+        choice: The Gender should be 0, 1, 2
     temporary_hash:
         not_blank: The TemporaryHash should not be blank
         min_message: The TemporaryHash must be at least 1 characters long
