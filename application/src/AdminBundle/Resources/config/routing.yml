@@ -6,6 +6,10 @@ admin_dashboard:
     path:     /
     defaults: { _controller: AdminBundle:Dashboard:index }
 
+admin_coupon_link:
+    path:     /coupon/link/{id}
+    defaults: { _controller: AdminBundle:Coupon:link }
+
 admin_summary:
     path:     /summary
     defaults: { _controller: AdminBundle:Summary:index }

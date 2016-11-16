@@ -149,6 +149,9 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
+        admin_area_none:
+            path: ^/admin/coupon/link
+            role: IS_AUTHENTICATED_ANONYMOUSLY
         admin_area:
             path: ^/admin
             role: ROLE_CLIENT
