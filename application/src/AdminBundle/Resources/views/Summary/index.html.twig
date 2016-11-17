@@ -39,13 +39,18 @@
 
         $(document).ready(function(){
             var $modal = $('#load_popup_modal_show_id');
-            $('.click_to_load_modal_popup').on('click', function(){
+            $('.click_to_load_modal_popup').on('click', function(event){
+                event.preventDefault();
                 var link = $(this).attr('href');
                 $modal.load(link,{},
                 function(){
                     $modal.modal('show');
                 });
 
+            });
+
+            $modal.on('hidden.bs.modal', function () {
+                $modal.html('');
             });
 
         });
