@@ -30,7 +30,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     /**
      * View Shop Detail
      * @ApiDoc(
-     *  resource=true,
+     *  section="Shop",
+     *  resource=false,
      *  description="This api is used to view shop detail (DONE)",
      *  requirements={
      *      {
@@ -160,7 +161,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     /**
      * Get List Feature Shop Follow Featured And Category
      * @ApiDoc(
-     *  resource=true,
+     *  section="Shop",
+     *  resource=false,
      *  description="This api is used to list shop  (DONE)",
      *  requirements={
      *      {
@@ -241,7 +243,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     /**
      * Get List Feature Shop Follow Featured
      * @ApiDoc(
-     *  resource=true,
+     *  section="Shop",
+     *  resource=false,
      *  description="This api is used to list shop (DONE)",
      *  requirements={
      *      {
@@ -311,7 +314,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     /**
      * Get List Shop follow category
      * @ApiDoc(
-     *  resource=true,
+     *  section="Shop",
+     *  resource=false,
      *  description="This api is used to list shop follow category (DONE)",
      *  requirements={
      *      {
@@ -378,7 +382,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     /**
      * Get List Follow Shop
      * @ApiDoc(
-     *  resource=true,
+     *  section="Shop",
+     *  resource=false,
      *  description="This api is used to list follow shops (DONE)",
      *  headers={
      *         {
@@ -431,7 +436,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     /**
      * Follow Shop
      * @ApiDoc(
-     *  resource=true,
+     *  section="Shop",
+     *  resource=false,
      *  description="This api is used to follow shop (DONE)",
      *  requirements={
      *      {
@@ -484,7 +490,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     /**
      * Get Shop Coupons By Map
      * @ApiDoc(
-     *  resource=true,
+     *  section="Shop",
+     *  resource=false,
      *  description="This api is used to list coupon (DONE)",
      *  requirements={
      *      {
