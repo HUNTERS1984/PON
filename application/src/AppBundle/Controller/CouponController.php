@@ -27,7 +27,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * Get List Featured Category
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to list coupon (DONE)",
      *  requirements={
      *      {
@@ -165,7 +166,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * Get List Featured Coupons By Category
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to list coupon (DONE)",
      *  requirements={
      *      {
@@ -260,7 +262,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * View Detail Coupon
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to view coupon (DONE)",
      *  requirements={
      *      {
@@ -421,7 +424,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * Get List Favorite Coupon
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to list coupon (DONE)",
      *  headers={
      *         {
@@ -492,7 +496,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * Get List Used Coupon
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to list coupon (DONE)",
      *  headers={
      *         {
@@ -564,7 +569,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * search coupon
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to search coupon (DONE)",
      *  headers={
      *         {
@@ -597,7 +603,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * Like Coupon
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to like coupon (DONE)",
      *  requirements={
      *      {
@@ -650,7 +657,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * Request Coupon
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to request coupon",
      *  requirements={
      *      {
@@ -700,7 +708,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * Get List Request Coupon
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to list request coupon (DONE)",
      *  headers={
      *         {
@@ -756,7 +765,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * Get Request Coupon detail
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to get request coupon detail (DONE)",
      *  headers={
      *         {
@@ -815,7 +825,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * Accept Coupon
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to accept coupon (DONE)",
      *  requirements={
      *      {
@@ -880,7 +891,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     /**
      * Decline Coupon
      * @ApiDoc(
-     *  resource=true,
+     *  section="Coupon",
+     *  resource=false,
      *  description="This api is used to decline coupon (DONE)",
      *  requirements={
      *      {

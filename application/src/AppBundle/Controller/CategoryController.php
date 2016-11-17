@@ -26,7 +26,8 @@ class CategoryController extends FOSRestController implements ClassResourceInter
     /**
      * Get List Category
      * @ApiDoc(
-     *  resource=true,
+     *  section="Category",
+     *  resource=false,
      *  description="This api is used to list Category (DONE)",
      *  headers={
      *         {
@@ -76,7 +77,8 @@ class CategoryController extends FOSRestController implements ClassResourceInter
     /**
      * Get List Category Include shop total
      * @ApiDoc(
-     *  resource=true,
+     *  section="Category",
+     *  resource=false,
      *  description="This api is used to list category (DONE)",
      *  headers={
      *         {

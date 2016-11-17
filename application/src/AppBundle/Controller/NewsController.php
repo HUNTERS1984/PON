@@ -19,7 +19,8 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
     /**
      * Get List News
      * @ApiDoc(
-     *  resource=true,
+     *  section="News",
+     *  resource=false,
      *  description="This api is used to list news",
      *  headers={
      *         {
@@ -95,7 +96,8 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
     /**
      * View Detail News
      * @ApiDoc(
-     *  resource=true,
+     *  section="News",
+     *  resource=false,
      *  description="This api is used to view news",
      *  requirements={
      *      {
