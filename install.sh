@@ -14,6 +14,15 @@ yes |   cp -rf $(pwd)/vagrant/bin/gulp.sh /usr/local/bin/gulp &&   chmod a+x /us
 yes |   cp -rf $(pwd)/vagrant/bin/cache.sh /usr/local/bin/cache &&  chmod a+x /usr/local/bin/cache
 yes |   cp -rf $(pwd)/vagrant/bin/queue.sh /usr/local/bin/queue &&  chmod a+x /usr/local/bin/queue
 
+mkdir -p $(pwd)/application/bower_components
+mkdir -p $(pwd)/application/node_modules
+
+chmod -R 777 $(pwd)/application/var/sessions
+chmod -R 777 $(pwd)/application/var/cache
+chmod -R 777 $(pwd)/application/web/uploads
+chmod -R 777 $(pwd)/application/bower_components
+chmod -R 777 $(pwd)/application/node_modules
+
 docker-compose up -d --build
 
 /usr/local/bin/queue
@@ -35,7 +44,3 @@ docker-compose up -d --build
 /usr/local/bin/gulp admin
 
 /usr/local/bin/cache
-
-chmod -R 777 $(pwd)/application/var/sessions
-chmod -R 777 $(pwd)/application/var/cache
-chmod -R 777 $(pwd)/application/web/uploads

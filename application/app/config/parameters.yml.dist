@@ -36,5 +36,12 @@ parameters:
     elasticsearch_index: pon
 
     uploads_path: '%kernel.root_dir%/../web/uploads'
+    coupon_avatar_path: '%uploads_path%/coupon/avatar'
+    base_coupon_avatar_path: 'uploads/coupon/avatar/'
+    base_store_avatar_path: 'uploads/store/avatar/'
+    store_avatar_path: '%uploads_path%/store/avatar'
+    category_avatar_path: '%uploads_path%/category/avatar'
+    image_path: '%uploads_path%/image'
+    base_image_upload: 'uploads/image/'
 
 

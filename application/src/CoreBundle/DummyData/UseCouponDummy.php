@@ -5,17 +5,22 @@ namespace CoreBundle\DummyData;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\UseList;
 use CoreBundle\Manager\AppUserManager;
+use CoreBundle\Manager\UseListManager;
 use Faker\Factory;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class UseCouponDummy extends BaseDummy implements IDummy
 {
     /**@var AppUserManager */
     private $appUserManager;
 
+    /** @var UseListManager $useListManager*/
+    private $useListManager;
+
     /**
      * generate dummy data
      */
-    public function generate($i = 0, $j =0)
+    public function generate(OutputInterface $output, $i = 0)
     {
         $faker = Factory::create();
         $appUserId = $faker->numberBetween(51,100);
@@ -24,22 +29,20 @@ class UseCouponDummy extends BaseDummy implements IDummy
         $appUser = $this->appUserManager->findOneById($appUserId);
         /**@var Coupon $coupon */
         $coupon = $this->manager->findOneById($couponId);
+
         $useCoupon = new UseList();
         $useCoupon->setAppUser($appUser);
         $useCoupon->setCoupon($coupon);
         $useCoupon->setCode($faker->ean13);
         $useCoupon->setStatus($status);
-        $useCoupon->setCreatedAt(new \DateTime());
-        $useCoupon->setUpdatedAt(new \DateTime());
         if($status == 2) {
             $useCoupon->setRequestedAt(new \DateTime());
         }
         $expiredTime = new \DateTime();
         $expiredTime->modify('+1 month');
         $useCoupon->setExpiredTime($expiredTime);
-        $coupon->addUseList($useCoupon);
-        $this->manager->saveCoupon($coupon);
-        return $coupon;
+        $useCoupon = $this->useListManager->createUseList($useCoupon);
+        return $useCoupon;
     }
 
     /**
@@ -49,6 +52,16 @@ class UseCouponDummy extends BaseDummy implements IDummy
     public function setAppUserManager($appUserManager)
     {
         $this->appUserManager = $appUserManager;
+        return $this;
+    }
+
+    /**
+     * @param UseListManager $useListManager
+     * @return UseCouponDummy
+     */
+    public function setUseListManager($useListManager)
+    {
+        $this->useListManager = $useListManager;
         return $this;
     }
 }

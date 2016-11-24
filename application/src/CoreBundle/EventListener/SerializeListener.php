@@ -75,6 +75,21 @@ class SerializeListener implements EventSubscriberInterface
     private $request;
 
     /**
+     * @var string
+    */
+    private $baseCouponAvatarPath;
+
+    /**
+     * @var string
+     */
+    private $baseStoreAvatarPath;
+
+    /**
+     * @var string
+     */
+    private $baseImagePath;
+
+    /**
      * @param PreSerializeEvent $event
      */
     public function onPreSerialize(PreSerializeEvent $event)
@@ -119,6 +134,7 @@ class SerializeListener implements EventSubscriberInterface
     {
         $this->setFollow($store);
         $this->setStorePhoto($store);
+        $this->setAvatarStore($store);
     }
 
     /**
@@ -149,8 +165,32 @@ class SerializeListener implements EventSubscriberInterface
         $this->setCode($coupon);
         $this->setLink($coupon);
         $this->setCouponPhoto($coupon);
+        $this->setAvatarCoupon($coupon);
         $this->setCouponUserPhoto($coupon);
         $this->setSimilarCoupon($coupon);
+    }
+
+    /**
+     * @param Coupon $coupon
+     */
+    public function setAvatarCoupon(Coupon $coupon)
+    {
+        $avatarUrl = sprintf("%s/%s%s",$this->getUrl(),$this->baseCouponAvatarPath, $coupon->getImageUrl());
+        $coupon->setImageUrl($avatarUrl);
+    }
+
+    /**
+     * @param Store $store
+     */
+    public function setAvatarStore(Store $store)
+    {
+        $avatarUrl = sprintf("%s/%s%s",$this->getUrl(),$this->baseStoreAvatarPath, $store->getAvatarUrl());
+        $store->setAvatarUrl($avatarUrl);
+    }
+
+    public function getUrl()
+    {
+        return $this->request->getCurrentRequest()->getSchemeAndHttpHost();
     }
 
     /**
@@ -158,8 +198,10 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setStorePhoto(Store $store)
     {
-        $photoUrls = array_map(function (StorePhoto $storePhoto) {
-            return $storePhoto->getPhoto()->getImageUrl();
+        /** @var RequestStack $request */
+        $request = $this->request;
+        $photoUrls = array_map(function (StorePhoto $storePhoto){
+            return sprintf("%s/%s%s",$this->getUrl(),$this->baseImagePath, $storePhoto->getPhoto()->getImageUrl());
         }, $store->getStorePhotos()->toArray());
         $store->setStorePhotoUrls($photoUrls);
     }
@@ -169,8 +211,8 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setCouponPhoto(Coupon $coupon)
     {
-        $photoUrls = array_map(function (CouponPhoto $couponPhoto) {
-            return $couponPhoto->getPhoto()->getImageUrl();
+        $photoUrls = array_map(function (CouponPhoto $couponPhoto){
+            return sprintf("%s/%s%s",$this->getUrl(),$this->baseImagePath, $couponPhoto->getPhoto()->getImageUrl());
         }, $coupon->getCouponPhotos()->toArray());
         $coupon->setCouponPhotoUrls($photoUrls);
     }
@@ -181,7 +223,7 @@ class SerializeListener implements EventSubscriberInterface
     public function setCouponUserPhoto(Coupon $coupon)
     {
         $photoUrls = array_map(function (CouponUserPhoto $couponUserPhoto) {
-            return $couponUserPhoto->getPhoto()->getImageUrl();
+            return sprintf("%s/%s%s",$this->getUrl(),$this->baseImagePath, $couponUserPhoto->getPhoto()->getImageUrl());
         }, $coupon->getCouponUserPhotos()->toArray());
         $coupon->setCouponUserPhotoUrls($photoUrls);
     }
@@ -406,5 +448,35 @@ class SerializeListener implements EventSubscriberInterface
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * @param mixed $baseCouponAvatarPath
+     * @return SerializeListener
+     */
+    public function setBaseCouponAvatarPath($baseCouponAvatarPath)
+    {
+        $this->baseCouponAvatarPath = $baseCouponAvatarPath;
+        return $this;
+    }
+
+    /**
+     * @param string $baseStoreAvatarPath
+     * @return SerializeListener
+     */
+    public function setBaseStoreAvatarPath(string $baseStoreAvatarPath): SerializeListener
+    {
+        $this->baseStoreAvatarPath = $baseStoreAvatarPath;
+        return $this;
+    }
+
+    /**
+     * @param string $baseImagePath
+     * @return SerializeListener
+     */
+    public function setBaseImagePath(string $baseImagePath): SerializeListener
+    {
+        $this->baseImagePath = $baseImagePath;
+        return $this;
     }
 }

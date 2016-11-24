@@ -3,13 +3,14 @@
 namespace CoreBundle\DummyData;
 
 use CoreBundle\Entity\Client;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ClientDummy extends BaseDummy implements IDummy
 {
     /**
      * generate dummy data
      */
-    public function generate()
+    public function generate(OutputInterface $output, $i = 0)
     {
         $client = new Client();
         $client->setRandomId('3bcbxd9e24g0gk4swg0kwgcwg4o8k8g4g888kwc44gcc0gwwk4');

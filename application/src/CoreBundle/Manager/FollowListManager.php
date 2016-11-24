@@ -76,6 +76,24 @@ class FollowListManager extends AbstractManager
     }
 
     /**
+     * @param FollowList $followList
+     *
+     * @return FollowList
+     */
+    public function saveFollowList(FollowList $followList)
+    {
+        return $this->save($followList);
+    }
+
+    public function followStore(AppUser $appUser, Store $store)
+    {
+        $followStore = new FollowList();
+        $followStore->setStore($store);
+        $followStore->setAppUser($appUser);
+        return $this->saveFollowList($followStore);
+    }
+
+    /**
      * @param TransformedFinder $followListFinder
      * @return UseListManager
      */

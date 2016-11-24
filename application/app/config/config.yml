@@ -45,6 +45,8 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         coupon_types: '%coupon_types%'
+        base_image_upload: '%base_image_upload%'
+        coupon_avatar_path: %base_coupon_avatar_path%
 
 # Doctrine Configuration
 doctrine:

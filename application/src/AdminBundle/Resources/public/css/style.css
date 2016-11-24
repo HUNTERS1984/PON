@@ -491,6 +491,7 @@ ul.nav_radio li.line_radio{
   color: #7a8387;
   text-decoration: none;
 }
+
 button.btn.btn-setting{
   text-align: center;
   background: #18c0d4;
@@ -784,6 +785,39 @@ span.total_pa{
   color: #7a8387;
   text-decoration: none;
 }
+
+.modal-content.modal_coupon .btn_upload_image{
+  cursor: pointer;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid #18c0d4;
+  border-radius: 3px;
+  color: #18c0d4;
+}
+.modal-content.modal_coupon .btn_upload_image span{
+  cursor: pointer;
+  padding: 8px 35px;
+  vertical-align: bottom;
+}
+
+.modal-content.modal_coupon .btn_upload_image input{
+  cursor: pointer;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  right:0;
+}
+.modal-content.modal_coupon .btn_upload_image:hover{
+  cursor: pointer;
+  border: 2px solid #7a8387;
+  color: #7a8387;
+  text-decoration: none;
+}
+
+
 .modal-content.modal_coupon button.btn.btn-setting{
   text-align: center;
   background: #18c0d4;
@@ -906,6 +940,28 @@ span.total_pa{
   opacity: 1;
   text-shadow: none;
 }
+
+button.collection_image_close {
+  float: right;
+  color: red;
+  opacity: 1;
+  text-shadow: none;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-weight: bold;
+  font-size: 20px;
+  height: 30px;
+}
+
+button.collection_image_close:hover {
+  color: green;
+}
+
+.collection_image{
+  margin-top:30px;
+}
+
 .modal-content.modal_coupon_top button.btn-primary.btn-change {
   background-color: #18c0d4;
   border-color: #0fb3c7;

@@ -13,7 +13,6 @@ CoreBundle\Entity\StorePhoto:
         photo:
             targetEntity: Photo
             inversedBy: storePhotos
-            cascade: ["all"]
             joinColumn:
                 name: photo_id
                 referencedColumnName: id

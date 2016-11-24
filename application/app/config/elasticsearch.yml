@@ -35,14 +35,6 @@ fos_elastica:
                         aveBill: ~
                         help_text: ~
                         address: ~
-                        storePhotos:
-                            type: "nested"
-                            properties:
-                                photo:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        imageUrl: ~
                         category:
                             type: object
                             properties:
@@ -55,31 +47,6 @@ fos_elastica:
                                 id: ~
                                 username: ~
                                 email: ~
-                        coupons:
-                            type: nested
-                            properties:
-                                id: ~
-                                title: ~
-                                imageUrl: ~
-                                type: ~
-                                impression:
-                                    type: integer
-                                couponUserPhotos:
-                                    type: "nested"
-                                    properties:
-                                        photo:
-                                            type: object
-                                            properties:
-                                                id: ~
-                                                imageUrl: ~
-                                couponPhotos:
-                                    type: "nested"
-                                    properties:
-                                        photo:
-                                            type: object
-                                            properties:
-                                                id: ~
-                                                imageUrl: ~
                         createdAt:
                             type: date
                         updatedAt:
@@ -103,25 +70,10 @@ fos_elastica:
                         impression: ~
                         type: ~
                         description: ~
+                        hashTag: ~
                         status:
                             type: boolean
                         size: ~
-                        couponUserPhotos:
-                            type: "nested"
-                            properties:
-                                photo:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        imageUrl: ~
-                        couponPhotos:
-                            type: "nested"
-                            properties:
-                                photo:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        imageUrl: ~
                         store:
                             type: object
                             properties:
@@ -132,14 +84,6 @@ fos_elastica:
                                 longitude: ~
                                 address: ~
                                 impression: ~
-                                storePhotos:
-                                    type: "nested"
-                                    properties:
-                                        photo:
-                                            type: object
-                                            properties:
-                                                id: ~
-                                                imageUrl: ~
                                 appUser:
                                     type: object
                                     properties:
@@ -164,6 +108,67 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         finder: ~
+
+                storePhoto:
+                    mappings:
+                        store:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                        photo:
+                            type: object
+                            properties:
+                                id: ~
+                                imageUrl: ~
+                                photoId: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\StorePhoto
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                couponUserPhoto:
+                    mappings:
+                        coupon:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                        photo:
+                            type: object
+                            properties:
+                                id: ~
+                                imageUrl: ~
+                                photoId: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\CouponUserPhoto
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                couponPhoto:
+                    mappings:
+                        coupon:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                        photo:
+                            type: object
+                            properties:
+                                id: ~
+                                imageUrl: ~
+                                photoId: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\CouponPhoto
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
                 category:
                     mappings:
                         id: ~

@@ -13,6 +13,7 @@ CoreBundle\Entity\LikeList:
         appUser:
             targetEntity: AppUser
             inversedBy: likeLists
+            cascade: ["all"]
             joinColumn:
                 name: app_user_id
                 referencedColumnName: id

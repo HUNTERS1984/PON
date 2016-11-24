@@ -1,6 +1,7 @@
 <?php
 
 namespace CoreBundle\Entity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Photo
@@ -41,6 +42,16 @@ class Photo
      * @var \Doctrine\Common\Collections\Collection
      */
     private $storePhotos;
+
+    /**
+     * @var UploadedFile
+     */
+    private $imageFile;
+
+    /**
+     * @var string
+    */
+    private $photoId;
 
     /**
      * Constructor
@@ -262,5 +273,41 @@ class Photo
     public function getCouponUserPhotos()
     {
         return $this->couponUserPhotos;
+    }
+
+    /**
+     * @param UploadedFile $imageFile
+     * @return Photo
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param string $photoId
+     * @return Photo
+     */
+    public function setPhotoId($photoId)
+    {
+        $this->photoId = $photoId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhotoId()
+    {
+        return $this->photoId;
     }
 }

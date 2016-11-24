@@ -4,13 +4,14 @@ namespace CoreBundle\DummyData;
 
 use CoreBundle\Entity\AppUser;
 use Faker\Factory;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class AppUserDummy extends BaseDummy implements IDummy
 {
     /**
      * generate dummy data
      */
-    public function generate($i = 0)
+    public function generate(OutputInterface $output, $i = 0)
     {
         $faker = Factory::create('ja_JP');
         $user = new AppUser();
@@ -40,7 +41,7 @@ class AppUserDummy extends BaseDummy implements IDummy
     /**
      * generate dummy data
      */
-    public function generateAppUsers($i = 0)
+    public function generateAppUsers(OutputInterface $output,$i = 0)
     {
         $faker = Factory::create('ja_JP');
         $user = new AppUser();
@@ -71,7 +72,7 @@ class AppUserDummy extends BaseDummy implements IDummy
     /**
      * generateStoreUsers
      */
-    public function generateStoreUsers($i = 0)
+    public function generateStoreUsers(OutputInterface $output,$i = 0)
     {
         $faker = Factory::create('ja_JP');
         $user = new AppUser();

@@ -27,14 +27,12 @@ CoreBundle\Entity\Store:
         category:
             targetEntity: Category
             inversedBy: stores
-            cascade: ["all"]
             joinColumn:
                 name: category_id
                 referencedColumnName: id
         appUser:
             targetEntity: AppUser
             inversedBy: stores
-            cascade: ["all"]
             joinColumn:
                 name: app_user_id
                 referencedColumnName: id

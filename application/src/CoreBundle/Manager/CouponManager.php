@@ -71,7 +71,7 @@ class CouponManager extends AbstractManager
     public function createCoupon(Coupon $coupon)
     {
         $coupon->setCreatedAt(new \DateTime());
-        $this->saveCoupon($coupon);
+        return $this->saveCoupon($coupon);
     }
 
     /**
@@ -547,15 +547,6 @@ class CouponManager extends AbstractManager
         $pagination = $this->couponFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults(0, 4);
         return $transformedPartialResults->toArray();
-    }
-
-    public function likeCoupon(AppUser $appUser, Coupon $coupon)
-    {
-        $likeCoupon = new LikeList();
-        $likeCoupon->setCoupon($coupon);
-        $likeCoupon->setAppUser($appUser);
-        $coupon->addLikeList($likeCoupon);
-        return $this->saveCoupon($coupon);
     }
 
     /**

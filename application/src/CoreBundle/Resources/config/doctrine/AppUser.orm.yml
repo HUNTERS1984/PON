@@ -10,6 +10,7 @@ CoreBundle\Entity\AppUser:
         posts:
             targetEntity: Post
             mappedBy: appUser
+            cascade: ["all"]
         useLists:
             targetEntity: UseList
             mappedBy: appUser

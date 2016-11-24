@@ -77,6 +77,24 @@ services:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
 
+    pon.manager.coupon_photo:
+        class: CoreBundle\Manager\CouponPhotoManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\CouponPhoto"]
+
+    pon.manager.store_photo:
+        class: CoreBundle\Manager\StorePhotoManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\StorePhoto"]
+
+    pon.manager.coupon_user_photo:
+        class: CoreBundle\Manager\CouponUserPhotoManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\CouponUserPhoto"]
+
     pon.manager.coupon:
         class: CoreBundle\Manager\CouponManager
         factory_service:  doctrine
@@ -88,6 +106,8 @@ services:
             - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
             - [setCategoryManager, ["@pon.manager.category"]]
             - [setUseListFinder, ["@fos_elastica.finder.app.useList"]]
+            - [setAvatarDir, ["%coupon_avatar_path%"]]
+            - [setImageDir, ["%image_path%"]]
 
     pon.manager.photo:
         class: CoreBundle\Manager\PhotoManager
@@ -126,10 +146,12 @@ services:
         calls:
             - [setManager, ["@pon.manager.coupon"]]
             - [setAppUserManager, ["@pon.manager.app_user"]]
+            - [setUseListManager, ["@pon.manager.use_list"]]
     pon.dummy.category:
         class: CoreBundle\DummyData\CategoryDummy
         calls:
             - [setManager, ["@pon.manager.category"]]
+            - [setAvatarDirPath, ["%category_avatar_path%"]]
     pon.dummy.store:
         class: CoreBundle\DummyData\StoreDummy
         calls:
@@ -137,6 +159,9 @@ services:
             - [setCategoryManager, ["@pon.manager.category"]]
             - [setAppUserManager, ["@pon.manager.app_user"]]
             - [setPhotoManager, ["@pon.manager.photo"]]
+            - [setAvatarDirPath, ["%store_avatar_path%"]]
+            - [setImageDirPath, ["%image_path%"]]
+            - [setStorePhotoManager, ["@pon.manager.store_photo"]]
 
     pon.dummy.coupon:
         class: CoreBundle\DummyData\CouponDummy
@@ -144,6 +169,10 @@ services:
             - [setManager, ["@pon.manager.coupon"]]
             - [setStoreManager, ["@pon.manager.store"]]
             - [setPhotoManager, ["@pon.manager.photo"]]
+            - [setAvatarDirPath, ["%coupon_avatar_path%"]]
+            - [setImageDirPath, ["%image_path%"]]
+            - [setCouponPhotoManager, ["@pon.manager.coupon_photo"]]
+            - [setCouponUserPhotoManager, ["@pon.manager.coupon_user_photo"]]
 
     pon.exception.exception_handler:
         class: CoreBundle\Exception\ExceptionHandler
@@ -182,6 +211,9 @@ services:
             - [setFollowListManager, ["@pon.manager.follow_list"]]
             - [setRouter, ["@router"]]
             - [setRequest, ["@request_stack"]]
+            - [setBaseCouponAvatarPath,["%base_coupon_avatar_path%"]]
+            - [setBaseStoreAvatarPath,["%base_store_avatar_path%"]]
+            - [setBaseImagePath,["%base_image_upload%"]]
         tags:
             - { name: jms_serializer.event_subscriber}
 
