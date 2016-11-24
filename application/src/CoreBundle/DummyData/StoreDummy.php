@@ -9,8 +9,12 @@ use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Manager\CategoryManager;
 use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\PhotoManager;
+use CoreBundle\Manager\StorePhotoManager;
 use CoreBundle\Manager\UserManager;
 use Faker\Factory;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class StoreDummy extends BaseDummy implements IDummy
 {
@@ -23,10 +27,23 @@ class StoreDummy extends BaseDummy implements IDummy
     /** @var PhotoManager $photoManager */
     private $photoManager;
 
+    /** @var StorePhotoManager $storePhotoManager */
+    private $storePhotoManager;
+
+    /***
+     * @var string $avatarDirPath
+     */
+    protected $avatarDirPath;
+
+    /***
+     * @var string $imageDirPath
+     */
+    protected $imageDirPath;
+
     /**
      * generate dummy data
      */
-    public function generate()
+    public function generate(OutputInterface $output, $i = 0)
     {
         $faker = Factory::create('ja_JP');
         $store = new Store();
@@ -36,6 +53,15 @@ class StoreDummy extends BaseDummy implements IDummy
         $userId = $faker->numberBetween(5, 10);
         /**@var AppUser $user */
         $user = $this->appUserManager->findOneById($userId);
+
+        $file = new Filesystem();
+        if(!$file->exists($this->avatarDirPath)) {
+            $file->mkdir($this->avatarDirPath);
+        }
+
+        if(!$file->exists($this->imageDirPath)) {
+            $file->mkdir($this->imageDirPath);
+        }
         
         $arrayGeo = [
             [10.785871, 106.6851],
@@ -61,7 +87,7 @@ class StoreDummy extends BaseDummy implements IDummy
             ->setTitle($name)
             ->setOperationStartTime($startTime)
             ->setOperationEndTime($endTime)
-            ->setAvatarUrl($faker->imageUrl(640, 480, 'food'))
+            ->setAvatarUrl(basename($faker->image($this->avatarDirPath,640, 480, 'food')))
             ->setTel($faker->phoneNumber)
             ->setLatitude($lat)
             ->setLongitude($long)
@@ -74,20 +100,36 @@ class StoreDummy extends BaseDummy implements IDummy
 
         /** @var Store $store*/
         $store = $this->manager->createStore($store);
-        for($i=0; $i< 5; $i++) {
+
+        $output->writeln("");
+        $progress = new ProgressBar($output, 2);
+        $progress->setRedrawFrequency(1);
+        $progress->start();
+        $output->writeln("");
+        $output->writeln("Begin Creating Photo...");
+        for($i=0; $i< 2; $i++) {
             $photo = new Photo();
             $photo
-                ->setImageUrl($faker->imageUrl(640, 480, 'food'));
+                ->setImageUrl(basename($faker->image($this->imageDirPath,640, 480, 'food')))
+                ->setPhotoId($this->photoManager->createID('PH'));
             $photo = $this->photoManager->createPhoto($photo);
 
             $storePhoto = new StorePhoto();
             $storePhoto
                 ->setPhoto($photo)
                 ->setStore($store);
+
+            $storePhoto = $this->storePhotoManager->save($storePhoto, false);
             $store->addStorePhoto($storePhoto);
+            $progress->advance();
         }
+        $progress->finish();
+        $output->writeln("");
+        $output->writeln("Finished Creating Photo...");
+        $output->writeln("");
 
         $store = $this->manager->saveStore($store);
+
         return $store;
     }
 
@@ -118,6 +160,52 @@ class StoreDummy extends BaseDummy implements IDummy
     public function setPhotoManager($photoManager)
     {
         $this->photoManager = $photoManager;
+        return $this;
+    }
+
+    /**
+     * @param string $avatarDirPath
+     * @return CouponDummy
+     */
+    public function setAvatarDirPath($avatarDirPath)
+    {
+        $this->avatarDirPath = $avatarDirPath;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatarDirPath()
+    {
+        return $this->avatarDirPath;
+    }
+
+    /**
+     * @param string $imageDirPath
+     * @return CouponDummy
+     */
+    public function setImageDirPath($imageDirPath)
+    {
+        $this->imageDirPath = $imageDirPath;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageDirPath()
+    {
+        return $this->imageDirPath;
+    }
+
+    /**
+     * @param StorePhotoManager $storePhotoManager
+     * @return StoreDummy
+     */
+    public function setStorePhotoManager(StorePhotoManager $storePhotoManager): StoreDummy
+    {
+        $this->storePhotoManager = $storePhotoManager;
         return $this;
     }
 }

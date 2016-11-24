@@ -2,9 +2,12 @@
 namespace CoreBundle\Manager;
 
 
+use CoreBundle\Utils\StringGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
 use Elastica\QueryBuilder\DSL\Query;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Tests\Fixtures\EntityInterface;
 
 abstract class AbstractManager
@@ -23,6 +26,16 @@ abstract class AbstractManager
      * @var \Doctrine\Common\Persistence\ObjectRepository
      */
     protected $repository;
+
+    /**
+     * @var string
+     */
+    protected $avatarDir;
+
+    /**
+     * @var string
+     */
+    protected $imageDir;
 
     /**
      * @param \Doctrine\Common\Persistence\ObjectManager $objectManager
@@ -53,6 +66,36 @@ abstract class AbstractManager
         return $this->repository->findAll();
     }
 
+    public function uploadAvatar(UploadedFile $fileUpload, $id)
+    {
+        $fileSystem = new Filesystem();
+        if(!$fileSystem->exists($this->avatarDir)) {
+            $fileSystem->mkdir($this->avatarDir);
+        }
+        $newFile = sprintf("%s.%s", $id, $fileUpload->guessExtension());
+        $fileUpload->move(
+            $this->avatarDir,
+            $newFile
+        );
+
+        return $newFile;
+    }
+
+    public function uploadImage(UploadedFile $fileUpload, $id)
+    {
+        $fileSystem = new Filesystem();
+        if(!$fileSystem->exists($this->imageDir)) {
+            $fileSystem->mkdir($this->imageDir);
+        }
+        $newFile = sprintf("%s.%s", $id, $fileUpload->guessExtension());
+        $fileUpload->move(
+            $this->imageDir,
+            $newFile
+        );
+
+        return $newFile;
+    }
+
     /**
      * @param array $criteria
      * @return array
@@ -78,7 +121,7 @@ abstract class AbstractManager
     */
     public function delete($entity, $andFlush = true)
     {
-        $this->objectManager->remove($entity, $andFlush = true);
+        $this->objectManager->remove($entity);
         if (true === $andFlush) {
             $this->objectManager->flush();
         }
@@ -142,5 +185,46 @@ abstract class AbstractManager
 
         // Create our query
         return $qb->getQuery();
+    }
+
+    public function createID($prefix = 'ID')
+    {
+        return $prefix . StringGenerator::uniqueGenerate(10, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+    }
+
+    /**
+     * @param string $avatarDir
+     * @return $this
+     */
+    public function setAvatarDir($avatarDir)
+    {
+        $this->avatarDir = $avatarDir;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatarDir()
+    {
+        return $this->avatarDir;
+    }
+
+    /**
+     * @param string $imageDir
+     * @return $this
+     */
+    public function setImageDir($imageDir)
+    {
+        $this->imageDir = $imageDir;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageDir()
+    {
+        return $this->imageDir;
     }
 }

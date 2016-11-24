@@ -31,15 +31,46 @@ class DummyDataCommand extends ContainerAwareCommand
         }
         $file->mkdir($uploadPath);
 
-        $output->writeln("\n");
         $output->writeln("Finished Clearing...");
 
+        $output->writeln("");
         $output->writeln("Begin Processing...");
+        $output->writeln("Starting Dump Client...");
         $this->dummyClient($output);
-        $output->writeln("\n");
-        $this->dummyAppUser($output);
-        $output->writeln("\n");
+        $output->writeln("");
+        $output->writeln("Finished Dump Client...");
 
+        $output->writeln("");
+        $output->writeln("Starting Dump Category...");
+        $this->dummyCategory($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump Category...");
+
+        $output->writeln("");
+        $output->writeln("Starting Dump AppUser...");
+        $this->dummyAppUser($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump AppUser...");
+
+        $output->writeln("");
+        $output->writeln("Starting Dump Store...");
+        $this->dummyStore($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump Store...");
+
+        $output->writeln("");
+        $output->writeln("Starting Dump Coupon...");
+        $this->dummyCoupon($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump Coupon...");
+
+        $output->writeln("");
+        $output->writeln("Starting Dump UseList...");
+        $this->dummyUseList($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump UseList...");
+
+        $output->writeln("");
         $output->writeln("Progress Finished.");
     }
 
@@ -47,14 +78,15 @@ class DummyDataCommand extends ContainerAwareCommand
     {
         $progress = new ProgressBar($output, 10);
         $progress->start();
+        $output->writeln("");
 
         /** @var $client Client */
-        $client = $this->getContainer()->get('pon.dummy.client')->generate();
+        $client = $this->getContainer()->get('pon.dummy.client')->generate($output);
         $output->write([
             sprintf("client_id: %s", $client->getPublicId()),
             sprintf("client_secret: %s", $client->getSecret())
         ], true);
-        $output->writeln("\n");
+        $output->writeln("");
         $progress->advance();
 
         $progress->finish();
@@ -62,39 +94,86 @@ class DummyDataCommand extends ContainerAwareCommand
 
     public function dummyAppUser(OutputInterface $output)
     {
-        $progress = new ProgressBar($output, 10);
+        $progress = new ProgressBar($output, 150);
+        $progress->setRedrawFrequency(1);
         $progress->start();
 
         /** @var AppUserDummy */
+        for ($i = 0; $i < 50; $i++) {
+            $this->getContainer()->get('pon.dummy.app_user')->generate($output,$i);
+            $progress->advance();
+        }
+
+        for ($i = 0; $i < 50; $i++) {
+            $this->getContainer()->get('pon.dummy.app_user')->generateAppUsers($output,$i);
+            $progress->advance();
+        }
+
+        for ($i = 0; $i < 50; $i++) {
+            $this->getContainer()->get('pon.dummy.app_user')->generateStoreUsers($output,$i);
+            $progress->advance();
+        }
+
+
+        $progress->finish();
+    }
+
+    public function dummyCategory(OutputInterface $output)
+    {
+        $progress = new ProgressBar($output, 5);
+        $progress->setRedrawFrequency(1);
+        $progress->start();
+
         for($i = 0; $i< 5; $i++) {
-            $this->getContainer()->get('pon.dummy.category')->generate($i);
+            $this->getContainer()->get('pon.dummy.category')->generate($output);
+            $progress->advance();
         }
-        for ($i = 0; $i < 50; $i++) {
-            $this->getContainer()->get('pon.dummy.app_user')->generate($i);
-        }
+        $progress->finish();
+    }
 
-        for ($i = 0; $i < 50; $i++) {
-            $this->getContainer()->get('pon.dummy.app_user')->generateAppUsers($i);
-        }
-
-        for ($i = 0; $i < 50; $i++) {
-            $this->getContainer()->get('pon.dummy.app_user')->generateStoreUsers($i);
-        }
-
+    public function dummyStore(OutputInterface $output)
+    {
+        $progress = new ProgressBar($output, 10);
+        $progress->setRedrawFrequency(1);
+        $progress->start();
+        $output->writeln("");
         for($i=0; $i< 10; $i ++) {
-            $this->getContainer()->get('pon.dummy.store')->generate();
+            $output->writeln(sprintf("Begin dummy Store %s",$i+1));
+            $this->getContainer()->get('pon.dummy.store')->generate($output);
+            $progress->advance();
+            $output->writeln("");
+            $output->writeln(sprintf("Finished dummy Store %s",$i+1));
+            $output->writeln("");
         }
+        $progress->finish();
+    }
 
+    public function dummyCoupon(OutputInterface $output)
+    {
+        $progress = new ProgressBar($output, 50);
+        $progress->setRedrawFrequency(1);
+        $progress->start();
+        $output->writeln("");
         for ($i = 0; $i < 50; $i++) {
-            $this->getContainer()->get('pon.dummy.coupon')->generate($i);
+            $output->writeln(sprintf("Begin dummy Coupon %s",$i+1));
+            $this->getContainer()->get('pon.dummy.coupon')->generate($output);
+            $progress->advance();
+            $output->writeln("");
+            $output->writeln(sprintf("Finished dummy Coupon %s",$i+1));
+            $output->writeln("");
         }
+        $progress->finish();
+    }
 
-        for ($i = 0; $i < 4; $i++) {
-            for ($j = 0; $j < 6; $j++) {
-                $this->getContainer()->get('pon.dummy.use_list')->generate($i, $j);
-            }
+    public function dummyUseList(OutputInterface $output)
+    {
+        $progress = new ProgressBar($output, 100);
+        $progress->setRedrawFrequency(1);
+        $progress->start();
+        for ($i = 0; $i < 100; $i++) {
+            $this->getContainer()->get('pon.dummy.use_list')->generate($output);
+            $progress->advance();
         }
-
         $progress->finish();
     }
 }

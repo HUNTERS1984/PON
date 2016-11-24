@@ -4,13 +4,14 @@ namespace CoreBundle\DummyData;
 
 use CoreBundle\Entity\User;
 use Faker\Factory;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class UserDummy extends BaseDummy implements IDummy
 {
     /**
      * generate dummy data
      */
-    public function generate($i = 0)
+    public function generate(OutputInterface $output, $i = 0)
     {
         $faker = Factory::create();
         $user = new User();

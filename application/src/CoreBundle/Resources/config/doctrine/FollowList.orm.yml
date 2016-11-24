@@ -13,6 +13,7 @@ CoreBundle\Entity\FollowList:
         appUser:
             targetEntity: AppUser
             inversedBy: followLists
+            cascade: ["all"]
             joinColumn:
                 name: app_user_id
                 referencedColumnName: id

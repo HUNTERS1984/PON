@@ -21,3 +21,79 @@
         {% endif %}
     {% endspaceless %}
 {% endblock date_widget %}
+
+{% block _coupon_couponPhotos_widget %}
+    {{ _self.photo_item(form, prototype_name, show_when_empty, allow_add, allow_delete, disabled) }}
+{% endblock %}
+
+{% block _coupon_couponUserPhotos_widget %}
+    {{ _self.photo_item(form, prototype_name, show_when_empty, allow_add, allow_delete, disabled) }}
+{% endblock %}
+
+{% macro photo_item(form, prototype_name, show_when_empty, allow_add, allow_delete,disabled) %}
+    {% set rendered_content = allow_add ? _self.collection_item(form, prototype_name) : '' %}
+    {% set current_index = form.children|length + 1 %}
+    {% if current_index == 1 and show_when_empty %}
+        {% set current_index = 2 %}
+    {% endif %}
+    <div class="form-setting" data-toggle="photoCollectionFormType"
+         data-current-index="{{ current_index }}"
+         data-replace-key="{{ prototype_name }}"
+         data-row-class=".collection_image"
+         {% if allow_add %}data-add-btn=".collection_btn_add"{% endif %}
+            {% if allow_delete %}data-remove-btn=".collection_image_close"{% endif %}
+         data-template="{{ rendered_content|escape }}">
+        <div class="col-md-12 collection_row_item">
+            <div class="row collection_preview_image">
+                {% if form.children|length %}
+                    {% for child in form.children %}
+                        {{ _self.collection_item(child, loop.index) }}
+                    {% endfor %}
+                {% elseif show_when_empty %}
+                    {{ rendered_content|replace({(prototype_name): 1})|raw }}
+                {% endif %}
+            </div>
+            <div style="margin-top: 30px;"></div>
+            <div class="row">
+                <div class="col-lg-4">
+                    {% if allow_add %}
+                        <a class="btn btn-default dropdown-toggle waves-effect waves-light {% if disabled %}disabled{% else %}collection_btn_add{% endif %}"
+                           href="javascript:void(0)">
+                            <i class="fa fa-plus"></i>
+                            Add Image
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_errors(form) }}
+{% endmacro %}
+
+{% macro collection_item(widget, index) %}
+    {% if 'collection' in widget.vars.block_prefixes %}
+        {% set allow_add = widget.vars.allow_add %}
+        {% set form = allow_add ? widget.vars.prototype : widget %}
+        {% set disabled = widget.vars.disabled %}
+        {% set allow_delete = widget.vars.allow_delete %}
+        {% set entry_title = widget.vars.entry_title %}
+    {% else %}
+        {% set form = widget %}
+        {% set disabled = widget.parent.vars.disabled %}
+        {% set allow_delete = widget.parent.vars.allow_delete %}
+        {% set entry_title = widget.parent.vars.entry_title %}
+    {% endif %}
+
+    <div class="col-md-3 collection_image">
+
+    {% if allow_delete and not disabled %}
+        <button type="button" class="collection_image_close"><span aria-hidden="true">×</span></button>
+    {% endif %}
+    <img width="200px" height="200px" src="{% if widget.vars.value.photo is defined %}{{ asset(base_image_upload~widget.vars.value.photo.imageUrl) }}{% endif %}" alt="">
+
+    <div style="position: absolute;">
+        {{ form_widget(form, {disabled: disabled, id: ''}) }}
+        {{ form_errors(form) }}
+    </div>
+    </div>
+{% endmacro %}

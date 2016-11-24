@@ -51,6 +51,14 @@ class LikeListManager extends AbstractManager
         return $this->save($likeList);
     }
 
+    public function likeCoupon(AppUser $appUser, Coupon $coupon)
+    {
+        $likeCoupon = new LikeList();
+        $likeCoupon->setCoupon($coupon);
+        $likeCoupon->setAppUser($appUser);
+        return $this->saveLikeList($likeCoupon);
+    }
+
     /**
      * is like
      *

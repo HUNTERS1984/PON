@@ -5,6 +5,7 @@ services:
             - '@router'
         tags:
             - { name: twig.extension }
-#    admin.example:
-#        class: AdminBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    pon.form.extension.collection:
+        class: AdminBundle\Form\Extension\CollectionTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\CollectionType }

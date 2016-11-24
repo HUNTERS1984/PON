@@ -643,7 +643,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 
         $isLike = $this->getLikeListManager()->isLike($user, $coupon);
         if(!$isLike) {
-            $coupon = $this->getManager()->likeCoupon($user, $coupon);
+            $coupon = $this->getLikeListManager()->likeCoupon($user, $coupon);
             if(!$coupon) {
                 return $this->view($this->get('pon.exception.exception_handler')->throwError(
                     'coupon.like.not_success'

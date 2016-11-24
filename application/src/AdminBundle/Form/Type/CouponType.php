@@ -6,7 +6,7 @@ namespace AdminBundle\Form\Type;
 use CoreBundle\Entity\Coupon;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -104,6 +104,22 @@ class CouponType extends AbstractType
                 'attr' => [
                     'class' => 'select_day',
                 ],
+            ])
+            ->add('couponPhotos', CollectionType::class, [
+                'label' => false,
+                'entry_type' => CouponPhotoType::class,
+                'by_reference' => false,
+                'show_when_empty' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+            ])
+            ->add('couponUserPhotos', CollectionType::class, [
+                'label' => false,
+                'entry_type' => CouponUserPhotoType::class,
+                'by_reference' => false,
+                'show_when_empty' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
             ]);
     }
 }

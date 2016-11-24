@@ -1,29 +1,8 @@
 {% form_theme form with ['AdminBundle:Form:fields.html.twig', _self] %}
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#frmSummary").submit(function(e){
-            e.preventDefault();
-            var formSerialize = $(this).serialize();
-            $.post("{{ path("admin_summary_edit",{id: coupon.id}) }}", formSerialize, function(response){
-                $('#error_message').html('');
-                //your callback here
-               if(!response.status) {
-                   $('#error_message').html(response.message);
-                   return;
-               }
-
-                window.location.href = "{{ path("admin_summary") }}";
-
-            },'JSON');
-        });
-
-    });
-
-</script>
 <div id="frmEditCoupon">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content modal_coupon">
-            {{ form_start(form, {'attr': {'id': 'frmSummary'}}) }}
+            {{ form_start(form, {'attr': {'class': 'submitModal','data-ajax-redirect': path('admin_summary'),'data-ajax-url': path("admin_summary_edit",{id: coupon.id}), 'enctype': 'multipart/form-data'  }}) }}
             {{ form_errors(form) }}
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -33,7 +12,7 @@
                 <div class="">
                     <div class="col-md-12">
                         <div class="row wrapp_avar_btn">
-                            <div class="col-md-3"><img width="200px" height="200px" src="{{ coupon.imageUrl }}" alt=""></div>
+                            <div class="col-md-3"><img width="200px" height="200px" src="{{ asset(coupon_avatar_path~ coupon.imageUrl) }}" alt=""></div>
                             <div class="col-md-9">
                                 <div class="btn_setting_avatar">
                                     <a href="" class="">アカウントイメージの変更</a>
@@ -49,17 +28,8 @@
                             {{ form_row(form.hashTag) }}
                             {{ form_row(form.description) }}
                             {{ form_row(form.expiredTime) }}
-                        </div>
-                        <div class="form-setting">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-3"><img width="200px" height="200px" src="{{ coupon.imageUrl }}" alt=""></div>
-                                    <div class="col-md-3"><img width="200px" height="200px" src="{{ coupon.imageUrl }}" alt=""></div>
-                                    <div class="col-md-3"><img width="200px" height="200px" src="{{ coupon.imageUrl }}" alt=""></div>
-                                    <div class="col-md-3"><img width="200px" height="200px" src="{{ coupon.imageUrl }}" alt=""></div>
-                                    <div class="col-md-3"><img width="200px" height="200px" src="{{ coupon.imageUrl }}" alt=""></div>
-                                </div>
-                            </div>
+                            {{ form_row(form.couponPhotos) }}
+                            {{ form_row(form.couponUserPhotos) }}
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -79,3 +49,7 @@
     </div>
 
 </div>
+
+{% block scripts_footer %}
+    <script src="{{ asset('backend/js/admin.js') }}"></script>
+{% endblock %}

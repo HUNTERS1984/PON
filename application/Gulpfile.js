@@ -60,7 +60,11 @@ gulp.task('admin-scripts', function () {
             dir.admin_path + '/js/jquery.min.js',
             dir.admin_path + '/js/bootstrap.min.js',
             dir.admin_path + '/js/vertical-responsive-menu.min.js',
-            dir.admin_path + '/js/jquery.canvasjs.min.js'
+            dir.admin_path + '/js/jquery.canvasjs.min.js',
+            dir.admin_path + 'js/components/collection-form-type.js',
+            dir.admin_path + 'js/components/photo-collection-form-type.js',
+            dir.admin_path + 'js/components/handle-submit.js',
+            dir.admin_path + 'js/app.js',
         ])
         .pipe(concat('admin.js'))
         .pipe(uglify())

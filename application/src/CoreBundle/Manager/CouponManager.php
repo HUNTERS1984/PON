@@ -549,15 +549,6 @@ class CouponManager extends AbstractManager
         return $transformedPartialResults->toArray();
     }
 
-    public function likeCoupon(AppUser $appUser, Coupon $coupon)
-    {
-        $likeCoupon = new LikeList();
-        $likeCoupon->setCoupon($coupon);
-        $likeCoupon->setAppUser($appUser);
-        $coupon->addLikeList($likeCoupon);
-        return $this->saveCoupon($coupon);
-    }
-
     /**
      * List Coupon
      * @param array $params

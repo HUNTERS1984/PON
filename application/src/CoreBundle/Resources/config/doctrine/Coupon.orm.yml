@@ -14,11 +14,13 @@ CoreBundle\Entity\Coupon:
         couponPhotos:
             targetEntity: CouponPhoto
             mappedBy: coupon
-            cascade: ["all"]
+            cascade: ["persist"]
+            orphanRemoval: true
         couponUserPhotos:
             targetEntity: CouponUserPhoto
             mappedBy: coupon
-            cascade: ["all"]
+            cascade: ["persist"]
+            orphanRemoval: true
     manyToMany:
         tags:
             targetEntity: Tag
@@ -35,7 +37,6 @@ CoreBundle\Entity\Coupon:
         store:
             targetEntity: Store
             inversedBy: coupons
-            cascade: ["all"]
             joinColumn:
                 name: store_id
                 referencedColumnName: id

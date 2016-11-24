@@ -6,14 +6,16 @@ CoreBundle\Entity\CouponPhoto:
         coupon:
             targetEntity: Coupon
             inversedBy: couponPhotos
-            cascade: ["all"]
+            cascade: ["persist"]
+            orphanRemoval: true
             joinColumn:
                 name: coupon_id
                 referencedColumnName: id
         photo:
             targetEntity: Photo
             inversedBy: couponPhotos
-            cascade: ["all"]
+            cascade: ["persist","remove"]
+            orphanRemoval: true
             joinColumn:
                 name: photo_id
                 referencedColumnName: id

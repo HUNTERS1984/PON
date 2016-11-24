@@ -141,15 +141,6 @@ class StoreManager extends AbstractManager
         return $total;
     }
 
-    public function followStore(AppUser $appUser, Store $store)
-    {
-        $followStore = new FollowList();
-        $followStore->setStore($store);
-        $followStore->setAppUser($appUser);
-        $store->addFollowList($followStore);
-        return $this->saveStore($store);
-    }
-
     /**
      * getFeaturedStore
      *

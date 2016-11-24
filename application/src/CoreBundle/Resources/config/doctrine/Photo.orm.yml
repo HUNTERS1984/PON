@@ -6,15 +6,16 @@ CoreBundle\Entity\Photo:
         couponPhotos:
             targetEntity: CouponPhoto
             mappedBy: photo
-            cascade: ["all"]
+            cascade: ["persist"]
+            orphanRemoval: true
         storePhotos:
             targetEntity: StorePhoto
             mappedBy: photo
-            cascade: ["all"]
         couponUserPhotos:
             targetEntity: CouponUserPhoto
             mappedBy: photo
-            cascade: ["all"]
+            cascade: ["persist"]
+            orphanRemoval: true
     id:
         id:
             type: integer
@@ -25,6 +26,9 @@ CoreBundle\Entity\Photo:
         imageUrl:
             type: string
             length: 255
+        photoId:
+            type: string
+            length: 100
         createdAt:
             type: datetime
         updatedAt:
