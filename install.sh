@@ -37,7 +37,7 @@ docker-compose up -d --build
 
 /usr/local/bin/console dummy:data
 
-/usr/local/bin/npm install
+/usr/local/bin/npm install --no-optional
 
 /usr/local/bin/bower install
 

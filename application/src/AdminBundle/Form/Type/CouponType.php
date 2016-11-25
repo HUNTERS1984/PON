@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -106,7 +107,8 @@ class CouponType extends AbstractType
                 ],
             ])
             ->add('couponPhotos', CollectionType::class, [
-                'label' => false,
+                'label' => 'クーポンの写真',
+                'required' => false,
                 'entry_type' => CouponPhotoType::class,
                 'by_reference' => false,
                 'show_when_empty' => false,
@@ -114,12 +116,16 @@ class CouponType extends AbstractType
                 'allow_delete' => true,
             ])
             ->add('couponUserPhotos', CollectionType::class, [
-                'label' => false,
+                'label' => 'ユーザーの写真',
+                'required' => false,
                 'entry_type' => CouponUserPhotoType::class,
                 'by_reference' => false,
                 'show_when_empty' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
+            ])->add('imageFile', FileType::class, [
+                'label' => 'アカウントイメージの変更',
+                'required' => false
             ]);
     }
 }

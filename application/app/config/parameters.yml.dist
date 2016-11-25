@@ -39,6 +39,7 @@ parameters:
     coupon_avatar_path: '%uploads_path%/coupon/avatar'
     base_coupon_avatar_path: 'uploads/coupon/avatar/'
     base_store_avatar_path: 'uploads/store/avatar/'
+    base_category_avatar_path: 'uploads/category/avatar/'
     store_avatar_path: '%uploads_path%/store/avatar'
     category_avatar_path: '%uploads_path%/category/avatar'
     image_path: '%uploads_path%/image'

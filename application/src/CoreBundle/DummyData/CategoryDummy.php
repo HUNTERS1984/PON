@@ -32,7 +32,7 @@ class CategoryDummy extends BaseDummy implements IDummy
         $mod
             ->setCreatedAt(new \DateTime())
             ->setName($name)
-            ->setIconUrl(basename($faker->imageUrl(640, 480, 'food')))
+            ->setIconUrl(basename($faker->image($this->avatarDirPath,640, 480, 'food')))
             ->setUpdatedAt(new \DateTime());
         $this->manager->dummy($mod);
         return $mod;

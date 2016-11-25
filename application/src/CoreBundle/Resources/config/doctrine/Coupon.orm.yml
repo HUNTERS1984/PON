@@ -47,6 +47,9 @@ CoreBundle\Entity\Coupon:
             generator:
                 strategy: AUTO
     fields:
+        couponId:
+            type: string
+            length: 100
         title:
             type: string
             length: 255

@@ -13,9 +13,10 @@
                     <div class="col-md-12">
                         <div class="row wrapp_avar_btn">
                             <div class="col-md-3"><img width="200px" height="200px" src="{{ asset(coupon_avatar_path~ coupon.imageUrl) }}" alt=""></div>
-                            <div class="col-md-9">
-                                <div class="btn_setting_avatar">
-                                    <a href="" class="">アカウントイメージの変更</a>
+                            <div class="col-md-4">
+                                <div class="btn_upload_image">
+                                    <span>{{ form_label(form.imageFile) }}</span>
+                                    {{ form_widget(form.imageFile) }}
                                 </div>
                             </div>
                         </div>
@@ -28,8 +29,8 @@
                             {{ form_row(form.hashTag) }}
                             {{ form_row(form.description) }}
                             {{ form_row(form.expiredTime) }}
-                            {{ form_row(form.couponPhotos) }}
-                            {{ form_row(form.couponUserPhotos) }}
+                            {{ form_widget(form.couponPhotos) }}
+                            {{ form_widget(form.couponUserPhotos) }}
                         </div>
                     </div>
                     <div class="col-md-12">

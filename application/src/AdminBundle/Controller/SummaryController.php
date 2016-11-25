@@ -43,6 +43,11 @@ class SummaryController extends Controller
 
             /** @var Coupon $coupon */
             $coupon = $form->getData();
+            if ($fileUpload = $coupon->getImageFile()) {
+                $fileUrl = $this->getManager()->uploadAvatar($fileUpload, $coupon->getCouponId());
+                $coupon->setImageUrl($fileUrl);
+            }
+
             foreach($coupon->getCouponPhotos() as $key=> $couponPhoto) {
                 /** @var CouponPhoto $couponPhoto */
                 $photo = $couponPhoto->getPhoto();

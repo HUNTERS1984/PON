@@ -213,6 +213,7 @@ services:
             - [setRequest, ["@request_stack"]]
             - [setBaseCouponAvatarPath,["%base_coupon_avatar_path%"]]
             - [setBaseStoreAvatarPath,["%base_store_avatar_path%"]]
+            - [setBaseCategoryAvatarPath,["%base_category_avatar_path%"]]
             - [setBaseImagePath,["%base_image_upload%"]]
         tags:
             - { name: jms_serializer.event_subscriber}

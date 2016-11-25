@@ -44,6 +44,11 @@
             {% if allow_delete %}data-remove-btn=".collection_image_close"{% endif %}
          data-template="{{ rendered_content|escape }}">
         <div class="col-md-12 collection_row_item">
+            <div class="row">
+                <div style="margin-bottom:-20px;" class="col-lg-4">
+                    {{ form_label(form) }}
+                </div>
+            </div>
             <div class="row collection_preview_image">
                 {% if form.children|length %}
                     {% for child in form.children %}
@@ -60,14 +65,22 @@
                         <a class="btn btn-default dropdown-toggle waves-effect waves-light {% if disabled %}disabled{% else %}collection_btn_add{% endif %}"
                            href="javascript:void(0)">
                             <i class="fa fa-plus"></i>
-                            Add Image
+                            画像を追加
                         </a>
                     {% endif %}
                 </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ form_errors(form) }}
+                    <hr/>
+                </div>
             </div>
         </div>
+        <hr/>
     </div>
-    {{ form_errors(form) }}
 {% endmacro %}
 
 {% macro collection_item(widget, index) %}
