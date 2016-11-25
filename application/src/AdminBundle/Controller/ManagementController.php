@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,16 +15,16 @@ class ManagementController extends Controller
      * List all Use_list
      *
      * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
      */
     public function indexAction(Request $request)
     {
         $params = $request->query->all();
-        $params['query'] = isset($params['query']) ? $params['query'] : '';
+        $params['query'] = isset($params['query']) ? urlencode($params['query']) : '';
         $user = $this->getUser();
         if ($this->isGranted('ROLE_ADMIN')) {
             $result = $this->getManager()->getUseListManagerFromAdmin($params);
-        }
-        elseif ($this->isGranted('ROLE_CLIENT')) {
+        } else {
             $result = $this->getManager()->getUseListManagerFromClient($params, $user);
         }
 
@@ -32,7 +33,7 @@ class ManagementController extends Controller
             [
                 'lists' => $result['data'],
                 'pagination' => $result['pagination'],
-                'params' => $params
+                'query' => urldecode($params['query'])
             ]
         );
 
