@@ -255,6 +255,7 @@ class SerializeListener implements EventSubscriberInterface
             $isCanUse = $this->useListManager->isCanUse($user, $coupon);
             $type = $coupon->getType();
             $couponType = ['id' => $type, 'name' => $this->couponTypes[$type]];
+            $this->setAvatarCoupon($coupon);
             return [
                 'id' => $coupon->getId(),
                 'title' => $coupon->getTitle(),
