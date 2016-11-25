@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use CoreBundle\Entity\Coupon;
+use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\CategoryManager;
 use CoreBundle\Manager\LikeListManager;
@@ -62,7 +63,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getFeaturedCouponAction($type, Request $request)
     {
         $params = $request->query->all();
-        if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
+        if ($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_blank.latitude_longitude'
             ));
@@ -207,13 +208,13 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
         $params = $request->query->all();
 
-        if(!$categoryObject = $this->getCategoryManager()->getCategory($category)) {
+        if (!$categoryObject = $this->getCategoryManager()->getCategory($category)) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_found'
             ));
         }
 
-        if($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
+        if ($type == 3 && (empty($params['latitude']) || empty($params['longitude']))) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_blank.latitude_longitude'
             ));
@@ -297,7 +298,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ));
         }
 
-        $coupon->setImpression($coupon->getImpression()+1);
+        $coupon->setImpression($coupon->getImpression() + 1);
 
         $coupon = $this->getManager()->saveCoupon($coupon);
 
@@ -642,13 +643,105 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         $isLike = $this->getLikeListManager()->isLike($user, $coupon);
-        if(!$isLike) {
+        if (!$isLike) {
             $coupon = $this->getLikeListManager()->likeCoupon($user, $coupon);
-            if(!$coupon) {
+            if (!$coupon) {
                 return $this->view($this->get('pon.exception.exception_handler')->throwError(
                     'coupon.like.not_success'
                 ));
             }
+        }
+
+        return $this->view(BaseResponse::getData([]), 200);
+    }
+
+    /**
+     * Approve Coupon
+     * @ApiDoc(
+     *  section="Coupon",
+     *  resource=false,
+     *  description="This api is used to approve coupon (DONE)",
+     *  requirements={
+     *      {
+     *          "name"="id",
+     *          "dataType"="string",
+     *          "description"="id of coupon"
+     *      },
+     *     {
+     *          "name"="username",
+     *          "dataType"="string",
+     *          "description"="username of app user"
+     *      }
+     *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   },
+     *   views = { "client"}
+     * )
+     *
+     * @Post("/approve/coupons/{id}", name="approve_coupon")
+     * @Security("is_granted('ROLE_CLIENT')")
+     * @return Response
+     */
+    public function postApproveCouponAction($id, Request $request)
+    {
+        $user = $this->getUser();
+        $coupon = $this->getManager()->getCoupon($id);
+        if (!$coupon) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        $username = $request->request->get('username');
+        $appUser = $this->getAppUserManager()->getAppUserByUsername($username);
+
+        if (!$appUser) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
+            ));
+        }
+
+        $useCoupon = $this->getUseListManager()->getUseCoupon($appUser, $coupon);
+
+        if($useCoupon && !in_array($useCoupon->getStatus(), [0, 1])) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'use_list.coupon.ever_approved'
+            ));
+        }
+
+        if($useCoupon && $useCoupon->getStatus() == 1) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'use_list.coupon.approved'
+            ));
+        }
+
+        if(!$useCoupon) {
+            // create new approve coupon
+            $useCoupon = $this->getUseListManager()->createNewUseList($appUser, $coupon);
+        }
+
+        if(!$useCoupon) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'use_list.not_found'
+            ));
+        }
+
+        $useCoupon = $this->getUseListManager()->approveCoupon($useCoupon);
+
+        if(!$useCoupon) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'use_list.approve_not_success'
+            ));
         }
 
         return $this->view(BaseResponse::getData([]), 200);
@@ -696,7 +789,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         $useCoupon = $this->getUseListManager()->requestCoupon($useCoupon);
-        if(!$useCoupon) {
+        if (!$useCoupon) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.request.not_success'
             ));
@@ -876,9 +969,9 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         $isLike = $this->getLikeListManager()->isLike($user, $coupon);
-        if(!$isLike) {
+        if (!$isLike) {
             $coupon = $this->getManager()->likeCoupon($user, $coupon);
-            if(!$coupon) {
+            if (!$coupon) {
                 return $this->view($this->get('pon.exception.exception_handler')->throwError(
                     'coupon.like.not_success'
                 ));
@@ -942,9 +1035,9 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         $isLike = $this->getLikeListManager()->isLike($user, $coupon);
-        if(!$isLike) {
+        if (!$isLike) {
             $coupon = $this->getManager()->likeCoupon($user, $coupon);
-            if(!$coupon) {
+            if (!$coupon) {
                 return $this->view($this->get('pon.exception.exception_handler')->throwError(
                     'coupon.like.not_success'
                 ));
@@ -961,6 +1054,14 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getManager()
     {
         return $this->get('pon.manager.coupon');
+    }
+
+    /**
+     * @return AppUserManager
+     */
+    public function getAppUserManager()
+    {
+        return $this->get('pon.manager.app_user');
     }
 
     /**

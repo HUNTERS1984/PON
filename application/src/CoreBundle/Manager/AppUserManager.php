@@ -85,6 +85,21 @@ class AppUserManager extends AbstractManager
     }
 
     /**
+     * get app user
+     *
+     * @param $username
+     * @return null | AppUser
+     */
+    public function getAppUserByUsername($username)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Query\Term(['username' => ['value' => $username]]));
+        $result = $this->appUserFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
      * @param AppUser $appUser
      *
      * @return boolean
