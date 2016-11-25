@@ -193,6 +193,7 @@ fos_elastica:
                                 id: ~
                                 couponId: ~
                                 title: ~
+                                hashTag: ~
                                 deletedAt:
                                     type: date
                                 store:
@@ -208,6 +209,10 @@ fos_elastica:
                                                 id: ~
                                                 name: ~
                                                 iconUrl: ~
+                                        appUser:
+                                            type: object
+                                            properties:
+                                                id: ~
                         appUser:
                             type: object
                             properties:

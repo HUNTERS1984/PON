@@ -47,6 +47,7 @@ twig:
         coupon_types: '%coupon_types%'
         base_image_upload: '%base_image_upload%'
         coupon_avatar_path: %base_coupon_avatar_path%
+        user_avatar_path: %base_user_avatar_path%
 
 # Doctrine Configuration
 doctrine:
