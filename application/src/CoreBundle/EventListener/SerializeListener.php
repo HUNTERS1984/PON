@@ -82,6 +82,11 @@ class SerializeListener implements EventSubscriberInterface
     /**
      * @var string
      */
+    private $baseCategoryAvatarPath;
+
+    /**
+     * @var string
+     */
     private $baseStoreAvatarPath;
 
     /**
@@ -143,6 +148,7 @@ class SerializeListener implements EventSubscriberInterface
     public function preCategorySerialize(Category $category)
     {
         $this->setShopCount($category);
+        $this->setAvatarCategory($category);
     }
 
     /**
@@ -177,6 +183,15 @@ class SerializeListener implements EventSubscriberInterface
     {
         $avatarUrl = sprintf("%s/%s%s",$this->getUrl(),$this->baseCouponAvatarPath, $coupon->getImageUrl());
         $coupon->setImageUrl($avatarUrl);
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setAvatarCategory(Category $category)
+    {
+        $avatarUrl = sprintf("%s/%s%s",$this->getUrl(),$this->baseCategoryAvatarPath, $category->getIconUrl());
+        $category->setIconUrl($avatarUrl);
     }
 
     /**
@@ -477,6 +492,16 @@ class SerializeListener implements EventSubscriberInterface
     public function setBaseImagePath(string $baseImagePath): SerializeListener
     {
         $this->baseImagePath = $baseImagePath;
+        return $this;
+    }
+
+    /**
+     * @param string $baseCategoryAvatarPath
+     * @return SerializeListener
+     */
+    public function setBaseCategoryAvatarPath(string $baseCategoryAvatarPath): SerializeListener
+    {
+        $this->baseCategoryAvatarPath = $baseCategoryAvatarPath;
         return $this;
     }
 }

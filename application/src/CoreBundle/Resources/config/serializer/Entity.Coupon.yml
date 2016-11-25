@@ -4,6 +4,9 @@ CoreBundle\Entity\Coupon:
         id:
             expose : true
             groups: [featured_coupon,list_coupon,view_coupon,store_coupon]
+        couponId:
+            expose : true
+            groups: [featured_coupon,list_coupon,view_coupon,store_coupon]
         title:
             expose: true
             groups: [use_list,featured_coupon,list_coupon,view_coupon,store_coupon]

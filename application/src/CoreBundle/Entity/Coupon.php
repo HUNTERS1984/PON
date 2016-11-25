@@ -1,6 +1,7 @@
 <?php
 
 namespace CoreBundle\Entity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Coupon
@@ -130,6 +131,16 @@ class Coupon
      * @var string
      */
     private $link;
+
+    /**
+     * @var UploadedFile
+     */
+    private $imageFile;
+
+    /**
+     * @var string
+    */
+    private $couponId;
 
 
     /**
@@ -819,5 +830,41 @@ class Coupon
     public function getHashTag()
     {
         return $this->hashTag;
+    }
+
+    /**
+     * @param UploadedFile $imageFile
+     * @return Coupon
+     */
+    public function setImageFile(UploadedFile $imageFile)
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param string $couponId
+     * @return Coupon
+     */
+    public function setCouponId($couponId)
+    {
+        $this->couponId = $couponId;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCouponId()
+    {
+        return $this->couponId;
     }
 }

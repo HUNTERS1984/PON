@@ -29,7 +29,7 @@ class CouponUserPhotoType extends AbstractType
         $builder
             ->add('photo', PhotoType::class,[
                 'label' => false,
-                'required' => false
+                'required' => true
             ]);
     }
 }
