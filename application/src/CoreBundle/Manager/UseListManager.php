@@ -9,6 +9,7 @@ use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Term;
+use Elastica\Query\Terms;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 class UseListManager extends AbstractManager
@@ -38,8 +39,10 @@ class UseListManager extends AbstractManager
      */
     public function createUseList(UseList $useList)
     {
-        $useList->setCreatedAt(new \DateTime());
-        $this->saveUseList($useList);
+        $useList
+            ->setCreatedAt(new \DateTime())
+            ->setCode($this->createID('UL'));
+        return $this->saveUseList($useList);
     }
 
     /**
@@ -122,6 +125,52 @@ class UseListManager extends AbstractManager
     }
 
     /**
+     * getUseCoupon
+     *
+     * @param AppUser $appUser
+     * @param Coupon $coupon
+     * @return UseList|null
+     */
+    public function getUseCoupon(AppUser $appUser, Coupon $coupon)
+    {
+        $mainQuery = new \Elastica\Query;
+
+        $userQuery = new Term(['appUser.id' => $appUser->getId()]);
+        $couponQuery = new Term(['coupon.id' => $coupon->getId()]);
+
+        $boolQuery = new BoolQuery();
+        $boolQuery
+            ->addMust($userQuery)
+            ->addMust($couponQuery);
+
+        $mainQuery->setPostFilter(new Missing('coupon.deletedAt'));
+        $mainQuery->setQuery($boolQuery);
+
+        $result = $this->useListFinder->find($mainQuery);
+
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
+     * create new approve coupon
+     *
+     * @param AppUser $appUser
+     * @param Coupon $coupon
+     * @return UseList|null
+     */
+    public function createNewUseList(AppUser $appUser, Coupon $coupon)
+    {
+        $useList = new UseList();
+        $useList
+            ->setAppUser($appUser)
+            ->setCoupon($coupon)
+            ->setStatus(0)
+            ->setExpiredTime($coupon->getExpiredTime());
+
+        return $this->createUseList($useList);
+    }
+
+    /**
      * is can use
      *
      * @param AppUser $user
@@ -155,6 +204,18 @@ class UseListManager extends AbstractManager
     public function acceptCoupon(UseList $useList)
     {
         $useList->setStatus(3);
+        return $this->saveUseList($useList);
+    }
+
+    /**
+     * Approve Coupon
+     * @param UseList $useList
+     *
+     * @return array
+     */
+    public function approveCoupon(UseList $useList)
+    {
+        $useList->setStatus(1);
         return $this->saveUseList($useList);
     }
 
