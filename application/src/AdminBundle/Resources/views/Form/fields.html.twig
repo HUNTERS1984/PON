@@ -22,6 +22,15 @@
     {% endspaceless %}
 {% endblock date_widget %}
 
+{% block select_box_widget %}
+    {% set attr = attr|merge({'data-placeholder': placeholder|trans}) %}
+    {% if ajax_url %}
+        {% set attr = attr|merge({'data-ajax--url': path(ajax_url)}) %}
+    {% endif %}
+
+    {{ block('choice_widget') }}
+{% endblock %}
+
 {% block _coupon_couponPhotos_widget %}
     {{ _self.photo_item(form, prototype_name, show_when_empty, allow_add, allow_delete, disabled) }}
 {% endblock %}

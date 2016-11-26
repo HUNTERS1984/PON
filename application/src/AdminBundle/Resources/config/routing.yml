@@ -61,3 +61,7 @@ admin_logout:
 admin_forgot:
     path:     /forgot
     defaults: { _controller: AdminBundle:Security:forgot }
+
+admin_store_search:
+    path:     /store/search
+    defaults: { _controller: AdminBundle:Store:search }

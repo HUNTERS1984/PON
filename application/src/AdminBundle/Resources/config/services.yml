@@ -9,3 +9,10 @@ services:
         class: AdminBundle\Form\Extension\CollectionTypeExtension
         tags:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\CollectionType }
+
+    pon.form.type.store:
+        class: AdminBundle\Form\Type\StoreType
+        calls:
+            - [setManager, ['@pon.manager.store']]
+        tags:
+            -  { name: form.type, alias:'store' }
