@@ -29,6 +29,12 @@ var App = function () {
         }
     };
 
+    var handleStoreSelect = function ($element) {
+        if ($().select2) {
+            $element.find('select[data-toggle=store]').storeSelect();
+        }
+    };
+
     var handleCollection = function ($element) {
         if ($().collectionFormType) {
             $element.find('*[data-toggle=collectionFormType]').each(function () {
@@ -65,6 +71,7 @@ var App = function () {
         //main function to initiate the theme
         init: function () {
             handleInit();
+            handleStoreSelect($document);
             handleCollection($document);
             handlePhotoCollection($document);
             handleSubmitModal($document);
@@ -72,6 +79,7 @@ var App = function () {
 
         //main function to initiate core javascript after ajax complete
         initAjax: function () {
+            handleStoreSelect($document);
             handleCollection($document);
             handlePhotoCollection($document);
             handleSubmitModal($document);
@@ -79,6 +87,7 @@ var App = function () {
 
         //init main components
         initComponents: function ($element) {
+            handleStoreSelect($element);
             handleCollection($element);
             handlePhotoCollection($element);
             handleSubmitModal($element);

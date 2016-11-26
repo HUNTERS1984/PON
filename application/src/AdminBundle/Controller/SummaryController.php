@@ -3,12 +3,14 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Form\Type\CouponType;
+use AdminBundle\Form\Type\StoreType;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\CouponPhoto;
 use CoreBundle\Entity\CouponUserPhoto;
 use CoreBundle\Entity\Photo;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\CouponPhotoManager;
+use CoreBundle\Manager\StoreManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,12 +39,31 @@ class SummaryController extends Controller
         if (!$coupon) {
             throw $this->createNotFoundException('クーポンが見つかりません。');
         }
-        $form = $this->createForm(CouponType::class, $coupon)->handleRequest($request);
+        $form = $this->createForm(CouponType::class, $coupon);
+
+        if($this->isGranted('ROLE_ADMIN')) {
+            $form
+                ->add('store', StoreType::class, [
+                'label' => false,
+                'store_label' => 'ショップ',
+            ]);
+        }
+
+        $form = $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest() && $form->isValid()) {
 
             /** @var Coupon $coupon */
             $coupon = $form->getData();
+
+            $store = $this->getStoreManager()->getStore($coupon->getStore()->getId());
+
+            if(!$store) {
+                return $this->getFailureMessage('店を見つけることができませんでした！');
+            }
+
+            $coupon->setStore($store);
+
             if ($fileUpload = $coupon->getImageFile()) {
                 $fileUrl = $this->getManager()->uploadAvatar($fileUpload, $coupon->getCouponId());
                 $coupon->setImageUrl($fileUrl);
@@ -138,6 +159,14 @@ class SummaryController extends Controller
     public function getCouponPhotoManager()
     {
         return $this->get('pon.manager.coupon_photo');
+    }
+
+    /**
+     * @return StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->get('pon.manager.store');
     }
 
     /**

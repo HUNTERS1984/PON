@@ -1,3 +1,6 @@
+
+<link rel="stylesheet" href="{{ asset('backend/plugins/select2/css/select2.min.css') }}"/>
+
 {% form_theme form with ['AdminBundle:Form:fields.html.twig', _self] %}
 <div id="frmEditCoupon">
     <div class="modal-dialog modal-lg" role="document">
@@ -22,6 +25,7 @@
                         </div>
                         <div class="form-setting">
                             {{ form_row(form.title) }}
+                            {{ form_row(form.store) }}
                             {{ form_row(form.size) }}
                             {{ form_row(form.type) }}
                             {{ form_row(form.status) }}
@@ -53,4 +57,5 @@
 
 {% block scripts_footer %}
     <script src="{{ asset('backend/js/admin.js') }}"></script>
+    <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
 {% endblock %}

@@ -788,4 +788,14 @@ class Store
     {
         return $this->impression;
     }
+
+    /**
+     * @param int $id
+     * @return Store
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+        return $this;
+    }
 }

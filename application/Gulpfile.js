@@ -61,6 +61,7 @@ gulp.task('admin-scripts', function () {
             dir.admin_path + '/js/bootstrap.min.js',
             dir.admin_path + '/js/vertical-responsive-menu.min.js',
             dir.admin_path + '/js/jquery.canvasjs.min.js',
+            dir.admin_path + 'js/components/store-select.js',
             dir.admin_path + 'js/components/collection-form-type.js',
             dir.admin_path + 'js/components/photo-collection-form-type.js',
             dir.admin_path + 'js/components/handle-submit.js',
@@ -69,6 +70,12 @@ gulp.task('admin-scripts', function () {
         .pipe(concat('admin.js'))
         .pipe(uglify())
         .pipe(gulp.dest(dir.admin_dist + 'js'));
+});
+
+gulp.task('admin-plugins-scripts', function () {
+    gulp.src([
+        dir.admin_path + '/plugins/**',
+    ]).pipe(gulp.dest(dir.admin_dist + 'plugins'));
 });
 
 gulp.task('admin-images', function () {
@@ -192,6 +199,7 @@ gulp.task('default', ['admin','customer','lp']);
 gulp.task('admin', [
     'admin-fonts',
     'admin-styles',
+    'admin-plugins-scripts',
     'admin-scripts',
     'admin-images',
     'admin-login-styles'
