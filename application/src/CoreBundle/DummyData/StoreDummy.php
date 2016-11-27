@@ -50,7 +50,7 @@ class StoreDummy extends BaseDummy implements IDummy
         $name = $faker->name;
         $categoryId = $faker->numberBetween(1, 5);
         $category = $this->categoryManager->findOneById($categoryId);
-        $userId = $faker->numberBetween(5, 10);
+        $userId = $faker->numberBetween(101, 150);
         /**@var AppUser $user */
         $user = $this->appUserManager->findOneById($userId);
 

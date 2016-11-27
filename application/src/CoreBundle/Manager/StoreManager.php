@@ -258,12 +258,12 @@ class StoreManager extends AbstractManager
 
 
     /**
-     * List Store
+     * List Store From Admin
      * @param array $params
      *
      * @return array
      */
-    public function listStore($params)
+    public function listStoreFromAdmin($params)
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
@@ -286,6 +286,48 @@ class StoreManager extends AbstractManager
         } else {
             $boolQuery->addMust(new Query\MatchAll());
         }
+
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->storeFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset, $sortBy, $orderBy);
+    }
+
+    /**
+     * List Store From Client
+     * @param array $params
+     * @param AppUser $user
+     *
+     * @return array
+     */
+    public function listStoreFromClient($params, AppUser $user)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $orderBy = isset($params['order_by']) ? $params['order_by'] : 'desc';
+        $sortBy = isset($params['sort_by']) && in_array($params['sort_by'], ['title', 'createdAt']) ? $params['sort_by'] : 'updatedAt';
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort([$sortBy => ['order' => $orderBy]]);
+
+        $boolQuery = new Query\BoolQuery();
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['title']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery->addMust($multiMatchQuery);
+        } else {
+            $boolQuery->addMust(new Query\MatchAll());
+        }
+
+        $boolQuery->addMust(new Query\Term(['appUser.id' => $user->getId()]));
 
         $query->setQuery($boolQuery);
 

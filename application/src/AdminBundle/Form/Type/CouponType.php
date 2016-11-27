@@ -102,6 +102,7 @@ class CouponType extends AbstractType
             ->add('expiredTime', DateType::class, [
                 'label' => '期限',
                 'format' => 'y-M-d',
+                'years' => range(date('Y'), date('Y') + 10),
                 'attr' => [
                     'class' => 'select_day',
                 ],
@@ -126,6 +127,10 @@ class CouponType extends AbstractType
             ])->add('imageFile', FileType::class, [
                 'label' => 'アカウントイメージの変更',
                 'required' => false
+            ])
+            ->add('store', StoreType::class, [
+                'label' => false,
+                'store_label' => 'ショップ',
             ]);
     }
 }
