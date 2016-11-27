@@ -3,9 +3,9 @@
 namespace CoreBundle\Entity;
 
 /**
- * PushSetting
+ * Segement
  */
-class PushSetting
+class Segement
 {
     /**
      * @var integer
@@ -16,31 +16,6 @@ class PushSetting
      * @var string
      */
     private $title;
-
-    /**
-     * @var string
-     */
-    private $message;
-
-    /**
-     * @var string
-     */
-    private $json;
-
-    /**
-     * @var string
-     */
-    private $status;
-
-    /**
-     * @var \DateTime
-     */
-    private $time;
-
-    /**
-     * @var \DateTime
-     */
-    private $date;
 
     /**
      * @var \DateTime
@@ -60,6 +35,11 @@ class PushSetting
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
+    private $pushSettings;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
     private $messageDeliveries;
 
     /**
@@ -68,15 +48,11 @@ class PushSetting
     private $store;
 
     /**
-     * @var \CoreBundle\Entity\Segement
-     */
-    private $segement;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->pushSettings = new \Doctrine\Common\Collections\ArrayCollection();
         $this->messageDeliveries = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -95,7 +71,7 @@ class PushSetting
      *
      * @param string $title
      *
-     * @return PushSetting
+     * @return Segement
      */
     public function setTitle($title)
     {
@@ -115,131 +91,11 @@ class PushSetting
     }
 
     /**
-     * Set message
-     *
-     * @param string $message
-     *
-     * @return PushSetting
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
-
-        return $this;
-    }
-
-    /**
-     * Get message
-     *
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
-     * Set json
-     *
-     * @param string $json
-     *
-     * @return PushSetting
-     */
-    public function setJson($json)
-    {
-        $this->json = $json;
-
-        return $this;
-    }
-
-    /**
-     * Get json
-     *
-     * @return string
-     */
-    public function getJson()
-    {
-        return $this->json;
-    }
-
-    /**
-     * Set status
-     *
-     * @param string $status
-     *
-     * @return PushSetting
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set time
-     *
-     * @param \DateTime $time
-     *
-     * @return PushSetting
-     */
-    public function setTime($time)
-    {
-        $this->time = $time;
-
-        return $this;
-    }
-
-    /**
-     * Get time
-     *
-     * @return \DateTime
-     */
-    public function getTime()
-    {
-        return $this->time;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return PushSetting
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
      *
-     * @return PushSetting
+     * @return Segement
      */
     public function setCreatedAt($createdAt)
     {
@@ -263,7 +119,7 @@ class PushSetting
      *
      * @param \DateTime $updatedAt
      *
-     * @return PushSetting
+     * @return Segement
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -287,7 +143,7 @@ class PushSetting
      *
      * @param \DateTime $deletedAt
      *
-     * @return PushSetting
+     * @return Segement
      */
     public function setDeletedAt($deletedAt)
     {
@@ -307,11 +163,45 @@ class PushSetting
     }
 
     /**
+     * Add pushSetting
+     *
+     * @param \CoreBundle\Entity\PushSetting $pushSetting
+     *
+     * @return Segement
+     */
+    public function addPushSetting(\CoreBundle\Entity\PushSetting $pushSetting)
+    {
+        $this->pushSettings[] = $pushSetting;
+
+        return $this;
+    }
+
+    /**
+     * Remove pushSetting
+     *
+     * @param \CoreBundle\Entity\PushSetting $pushSetting
+     */
+    public function removePushSetting(\CoreBundle\Entity\PushSetting $pushSetting)
+    {
+        $this->pushSettings->removeElement($pushSetting);
+    }
+
+    /**
+     * Get pushSettings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPushSettings()
+    {
+        return $this->pushSettings;
+    }
+
+    /**
      * Add messageDelivery
      *
      * @param \CoreBundle\Entity\MessageDelivery $messageDelivery
      *
-     * @return PushSetting
+     * @return Segement
      */
     public function addMessageDelivery(\CoreBundle\Entity\MessageDelivery $messageDelivery)
     {
@@ -345,7 +235,7 @@ class PushSetting
      *
      * @param \CoreBundle\Entity\Store $store
      *
-     * @return PushSetting
+     * @return Segement
      */
     public function setStore(\CoreBundle\Entity\Store $store = null)
     {
@@ -362,30 +252,6 @@ class PushSetting
     public function getStore()
     {
         return $this->store;
-    }
-
-    /**
-     * Set segement
-     *
-     * @param \CoreBundle\Entity\Segement $segement
-     *
-     * @return PushSetting
-     */
-    public function setSegement(\CoreBundle\Entity\Segement $segement = null)
-    {
-        $this->segement = $segement;
-
-        return $this;
-    }
-
-    /**
-     * Get segement
-     *
-     * @return \CoreBundle\Entity\Segement
-     */
-    public function getSegement()
-    {
-        return $this->segement;
     }
 }
 

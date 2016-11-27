@@ -1,0 +1,32 @@
+CoreBundle\Entity\MessageDelivery:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\MessageDeliveryRepository
+    manyToOne:
+        pushSetting:
+            targetEntity: PushSetting
+            inversedBy: messageDeliveries
+            cascade: ["persist"]
+            orphanRemoval: true
+            joinColumn:
+                name: push_setting_id
+                referencedColumnName: id
+        segement:
+            targetEntity: Segement
+            inversedBy: messageDeliveries
+            cascade: ["persist","remove"]
+            orphanRemoval: true
+            joinColumn:
+                name: segement_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        status:
+            type: string
+            length: 20
+    lifecycleCallbacks: {  }
