@@ -15,6 +15,7 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setFacebookManager, ["@pon.manager.facebook"]]
+            - [setSampleImagePath, ["%sample_image_path%"]]
             - [setTwitterManager, ["@pon.manager.twitter"]]
             - [setAppUserFinder, ["@fos_elastica.finder.app.appUser"]]
 
@@ -66,6 +67,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Store"]
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
+            - [setSampleImagePath, ["%sample_image_path%"]]
             - [setStoreFinder, ["@fos_elastica.finder.app.store"]]
 
     pon.manager.category:
@@ -75,6 +77,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Category"]
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
+            - [setSampleImagePath, ["%sample_image_path%"]]
             - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
 
     pon.manager.coupon_photo:
@@ -106,6 +109,7 @@ services:
             - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
             - [setCategoryManager, ["@pon.manager.category"]]
             - [setUseListFinder, ["@fos_elastica.finder.app.useList"]]
+            - [setSampleImagePath, ["%sample_image_path%"]]
             - [setAvatarDir, ["%coupon_avatar_path%"]]
             - [setImageDir, ["%image_path%"]]
 
@@ -140,6 +144,7 @@ services:
         class: CoreBundle\DummyData\AppUserDummy
         calls:
             - [setManager, ["@pon.manager.app_user"]]
+            - [setAvatarDirPath, ["%user_avatar_path%"]]
 
     pon.dummy.use_list:
         class: CoreBundle\DummyData\UseCouponDummy
