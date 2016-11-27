@@ -77,7 +77,7 @@ class CouponDummy extends BaseDummy implements IDummy
         $coupon
             ->setTitle($faker->name)
             ->setExpiredTime($expiredTime)
-            ->setImageUrl(basename($faker->image($this->avatarDirPath,640, 480, 'food')))
+            ->setImageUrl($this->manager->getImage($this->avatarDirPath))
             ->setNeedLogin($faker->randomElement([false,true]))
             ->setType($faker->numberBetween(1,2))
             ->setImpression(0)
@@ -97,7 +97,7 @@ class CouponDummy extends BaseDummy implements IDummy
         for($i=0; $i< 2; $i++) {
             $photo1 = new Photo();
             $photo1
-                ->setImageUrl(basename($faker->image($this->imageDirPath,640, 480, 'food')))
+                ->setImageUrl($this->manager->getImage($this->imageDirPath))
                 ->setPhotoId($this->photoManager->createID('PH'));
             $photo1 = $this->photoManager->createPhoto($photo1);
 
@@ -111,7 +111,7 @@ class CouponDummy extends BaseDummy implements IDummy
 
             $photo2 = new Photo();
             $photo2
-                ->setImageUrl(basename($faker->image($this->imageDirPath,640, 480, 'food')))
+                ->setImageUrl($this->manager->getImage($this->imageDirPath))
                 ->setPhotoId($this->photoManager->createID('PH'));
             $photo2 = $this->photoManager->createPhoto($photo2);
 

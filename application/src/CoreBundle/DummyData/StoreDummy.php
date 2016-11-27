@@ -87,7 +87,7 @@ class StoreDummy extends BaseDummy implements IDummy
             ->setTitle($name)
             ->setOperationStartTime($startTime)
             ->setOperationEndTime($endTime)
-            ->setAvatarUrl(basename($faker->image($this->avatarDirPath,640, 480, 'food')))
+            ->setAvatarUrl($this->manager->getImage($this->avatarDirPath))
             ->setTel($faker->phoneNumber)
             ->setLatitude($lat)
             ->setLongitude($long)
@@ -110,7 +110,7 @@ class StoreDummy extends BaseDummy implements IDummy
         for($i=0; $i< 2; $i++) {
             $photo = new Photo();
             $photo
-                ->setImageUrl(basename($faker->image($this->imageDirPath,640, 480, 'food')))
+                ->setImageUrl($this->manager->getImage($this->imageDirPath))
                 ->setPhotoId($this->photoManager->createID('PH'));
             $photo = $this->photoManager->createPhoto($photo);
 

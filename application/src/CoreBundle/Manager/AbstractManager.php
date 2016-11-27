@@ -6,6 +6,7 @@ use CoreBundle\Utils\StringGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
 use Elastica\QueryBuilder\DSL\Query;
+use Faker\Factory;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Tests\Fixtures\EntityInterface;
@@ -36,6 +37,37 @@ abstract class AbstractManager
      * @var string
      */
     protected $imageDir;
+
+    /**
+     * @var string
+     */
+    private $sampleImagePath;
+
+    /**
+     * @param string $sampleImagePath
+     * @return $this
+     */
+    public function setSampleImagePath($sampleImagePath)
+    {
+        $this->sampleImagePath = $sampleImagePath;
+        return $this;
+    }
+
+    /**
+     * @param string $destinationPath
+     *
+     * @return string
+     */
+    public function getImage($destinationPath)
+    {
+        $faker = Factory::create('ja_JP');
+        $files = glob($this->sampleImagePath."/*.jpg");
+        $fileSystem = new Filesystem();
+        $originFile = $faker->randomElement($files);
+        $baseName = $faker->md5.".jpg";
+        $fileSystem->copy($originFile,sprintf("%s/%s",$destinationPath,$baseName));
+        return $baseName;
+    }
 
     /**
      * @param \Doctrine\Common\Persistence\ObjectManager $objectManager

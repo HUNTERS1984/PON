@@ -5,9 +5,17 @@ namespace CoreBundle\DummyData;
 use CoreBundle\Entity\AppUser;
 use Faker\Factory;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class AppUserDummy extends BaseDummy implements IDummy
 {
+
+    /***
+     * @var string $avatarDirPath
+     */
+    protected $avatarDirPath;
+
+
     /**
      * generate dummy data
      */
@@ -17,10 +25,11 @@ class AppUserDummy extends BaseDummy implements IDummy
         $user = new AppUser();
         $email = 'admin_' . $i . '@pon.dev';
         $role = 'ROLE_ADMIN';
-       
+
         $user
             ->setCreatedAt(new \DateTime())
             ->setUsername($email)
+            ->setAvatarUrl($this->manager->getImage($this->avatarDirPath))
             ->setName($faker->name)
             ->setPlainPassword('admin')
             ->setEmail($email)
@@ -51,6 +60,7 @@ class AppUserDummy extends BaseDummy implements IDummy
         $user
             ->setCreatedAt(new \DateTime())
             ->setUsername($email)
+            ->setAvatarUrl($this->manager->getImage($this->avatarDirPath))
             ->setName($faker->name)
             ->setPlainPassword('admin')
             ->setEmail($email)
@@ -81,6 +91,7 @@ class AppUserDummy extends BaseDummy implements IDummy
         $user
             ->setCreatedAt(new \DateTime())
             ->setUsername($email)
+            ->setAvatarUrl($this->manager->getImage($this->avatarDirPath))
             ->setName($faker->name)
             ->setPlainPassword('admin')
             ->setEmail($email)
@@ -96,5 +107,15 @@ class AppUserDummy extends BaseDummy implements IDummy
             ->setUpdatedAt(new \DateTime());
         $this->manager->dummy($user);
         return $user;
+    }
+
+    /**
+     * @param string $avatarDirPath
+     * @return AppUserDummy
+     */
+    public function setAvatarDirPath(string $avatarDirPath)
+    {
+        $this->avatarDirPath = $avatarDirPath;
+        return $this;
     }
 }
