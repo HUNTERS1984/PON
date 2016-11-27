@@ -33,7 +33,8 @@ class ManagementController extends Controller
             [
                 'lists' => $result['data'],
                 'pagination' => $result['pagination'],
-                'query' => urldecode($params['query'])
+                'query' => urldecode($params['query']),
+                'params' => $params
             ]
         );
 

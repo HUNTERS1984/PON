@@ -4,25 +4,29 @@
 
 {% set count = pagination.item_total %}
 
+{% if params.status is defined %}
+    {% set status = params.status %}
+{% else %}
+    {% set status = null %}
+{% endif %}
+
+{% set params_emptyapproved = params|merge({ 'status': null, 'page_index': 1 }) %}
+{% set params_approved = params|merge({ 'status': true, 'page_index': 1 }) %}
+{% set params_unapproved = params|merge({ 'status': false, 'page_index': 1 }) %}
+
 {% block breadcurm %}
     <div class="row">
-        <div class="col-md-3 col-xs-6">
+        <div class="col-md-3 col-xs-12">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">承認管理</span></li>
+                <li><span class="text_bre">クーポン一覧</span></li>
                 <li><span class="no_bre">{{ count }}</span></li>
             </ul>
         </div>
         <div class="col-md-6 col-xs-12">
             <div class="btn-group btn-group-justified">
-                <a href="#" class="btn btn-default btn_tab_breadcrumbs active" role="button">全て</a>
-                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">未承認</a>
-                <a href="#" class="btn btn-default btn_tab_breadcrumbs" role="button">承認済み</a>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="btn_bread_right">
-                <a href="" class="btn_up"></a>
-                <a href="" class="btn_ques"></a>
+                <a href="{{ path("admin_management", params_emptyapproved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is  empty %}active{% endif %}" role="button">全て</a>
+                <a href="{{ path("admin_management", params_approved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 1%}active{% endif %}" role="button">承認済み</a>
+                <a href="{{ path("admin_management", params_unapproved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 0%}active{% endif %}" role="button">未承認</a>
             </div>
         </div>
     </div>

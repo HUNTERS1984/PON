@@ -253,9 +253,16 @@ class UseListManager extends AbstractManager
         $query->addSort(['createdAt' => ['order' => 'desc']]);
 
         $statusQuery = new BoolQuery();
-        $statusQuery
-            ->addShould(new Query\Term(['status'=> 0]))
-            ->addShould(new Query\Term(['status'=> 1]));
+
+        if(isset($params['status']) && in_array($params['status'], ["1","0"])) {
+            $status = (int)$params["status"];
+            $statusQuery->addShould(new Query\Term(['status' => $status]));
+        } else {
+            $statusQuery
+                ->addShould(new Query\Term(['status'=> 0]))
+                ->addShould(new Query\Term(['status'=> 1]));
+        }
+
         $boolQuery = new Query\BoolQuery();
 
         if (!empty($queryString)) {
@@ -292,10 +299,16 @@ class UseListManager extends AbstractManager
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
         $query->addSort([$sortBy => ['order' => $orderBy]]);
+
         $statusQuery = new BoolQuery();
-        $statusQuery
-            ->addShould(new Query\Term(['status'=> 0]))
-            ->addShould(new Query\Term(['status'=> 1]));
+        if(isset($params['status']) && in_array($params['status'], ["1","0"])) {
+            $status = (int)$params["status"];
+            $statusQuery->addShould(new Query\Term(['status' => $status]));
+        } else {
+            $statusQuery
+                ->addShould(new Query\Term(['status'=> 0]))
+                ->addShould(new Query\Term(['status'=> 1]));
+        }
 
         $boolQuery = new Query\BoolQuery();
         if (!empty($queryString)) {
