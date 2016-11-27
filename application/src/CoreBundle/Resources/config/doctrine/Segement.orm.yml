@@ -1,26 +1,23 @@
-CoreBundle\Entity\PushSetting:
+CoreBundle\Entity\Segement:
     type: entity
     table: null
-    repositoryClass: CoreBundle\Repository\PushSettingRepository
+    repositoryClass: CoreBundle\Repository\SegmentRepository
     oneToMany:
+        pushSettings:
+            targetEntity: PushSetting
+            mappedBy: segement
+            cascade: ["all"]
         messageDeliveries:
             targetEntity: MessageDelivery
-            mappedBy: pushSetting
+            mappedBy: segement
             cascade: ["persist"]
             orphanRemoval: true
     manyToOne:
         store:
             targetEntity: Store
-            inversedBy: pushSettings
+            inversedBy: segements
             joinColumn:
                 name: store_id
-                referencedColumnName: id
-
-        segement:
-            targetEntity: Segement
-            inversedBy: pushSettings
-            joinColumn:
-                name: segement_id
                 referencedColumnName: id
     id:
         id:
@@ -32,19 +29,6 @@ CoreBundle\Entity\PushSetting:
         title:
             type: string
             length: 255
-        message:
-            type: string
-            length: 255
-        json:
-            type: string
-            length: 20
-        status:
-            type: string
-            length: 20
-        time:
-            type: datetime
-        date:
-            type: datetime
         createdAt:
             type: datetime
         updatedAt:
