@@ -6,6 +6,7 @@ use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\UseList;
 use CoreBundle\Paginator\Pagination;
+use Elastica\Query;
 use Elastica\Filter\Missing;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Term;
@@ -239,6 +240,99 @@ class UseListManager extends AbstractManager
     {
         $this->useListFinder = $useListFinder;
         return $this;
+    }
+
+    public function getUseListManagerFromAdmin($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+        $statusQuery = new BoolQuery();
+
+        if(isset($params['status']) && in_array($params['status'], ["1","0"])) {
+            $status = (int)$params["status"];
+            $statusQuery->addShould(new Query\Term(['status' => $status]));
+        } else {
+            $statusQuery
+                ->addShould(new Query\Term(['status'=> 0]))
+                ->addShould(new Query\Term(['status'=> 1]));
+        }
+
+        $boolQuery = new Query\BoolQuery();
+
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['appUser.username','coupon.hashTag', 'status']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery
+                ->addMust($statusQuery)
+                ->addMust($multiMatchQuery);
+
+        } else {
+            $boolQuery->addMust($statusQuery);
+        }
+
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->useListFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function getUseListManagerFromClient($params, AppUser $user)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $orderBy = isset($params['order_by']) ? $params['order_by'] : 'desc';
+        $sortBy = 'updatedAt';
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort([$sortBy => ['order' => $orderBy]]);
+
+        $statusQuery = new BoolQuery();
+        if(isset($params['status']) && in_array($params['status'], ["1","0"])) {
+            $status = (int)$params["status"];
+            $statusQuery->addShould(new Query\Term(['status' => $status]));
+        } else {
+            $statusQuery
+                ->addShould(new Query\Term(['status'=> 0]))
+                ->addShould(new Query\Term(['status'=> 1]));
+        }
+
+        $boolQuery = new Query\BoolQuery();
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['appUser.username','coupon.hashTag', 'status']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery
+                ->addMust($statusQuery)
+                ->addMust($multiMatchQuery);
+        } else {
+            $boolQuery
+                ->addMust($statusQuery);
+        }
+
+        $boolQuery->addMust(new Query\Term(['coupon.store.appUser.id'=> $user->getId()]));
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->useListFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
 }
