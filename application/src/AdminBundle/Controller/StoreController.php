@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Controller;
 
+use CoreBundle\Entity\AppUser;
 use CoreBundle\Manager\StoreManager;
 use CoreBundle\Serializator\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,9 +13,16 @@ class StoreController extends Controller
 {
     public function searchAction(Request $request)
     {
+        /** @var AppUser $user */
+        $user = $this->getUser();
         $params = $request->query->all();
         $params['query'] = isset($params['q']) ? $params['q'] : '';
-        $result = $this->getManager()->listStore($params);
+        if($this->isGranted('ROLE_ADMIN')) {
+            $result = $this->getManager()->listStoreFromAdmin($params);
+        } else{
+            $result = $this->getManager()->listStoreFromClient($params, $user);
+        }
+
         $response = new JsonResponse();
         $data = $this->getSerializer()->serialize($result, ['list']);
         return $response->setData($data);

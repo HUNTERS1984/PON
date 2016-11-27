@@ -70,9 +70,12 @@ class CouponManager extends AbstractManager
      */
     public function createCoupon(Coupon $coupon)
     {
+        if(!$coupon->getCouponId()) {
+            $coupon->setCouponId($this->createID('CO'));
+        }
         $coupon
-            ->setCreatedAt(new \DateTime())
-            ->setCouponId($this->createID('CO'));
+            ->setImpression(0)
+            ->setCreatedAt(new \DateTime());
         return $this->saveCoupon($coupon);
     }
 
@@ -552,12 +555,12 @@ class CouponManager extends AbstractManager
     }
 
     /**
-     * List Coupon
+     * List Coupon From Admin
      * @param array $params
      *
      * @return array
      */
-    public function listCoupon($params)
+    public function listCouponFromAdmin($params)
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
@@ -585,6 +588,53 @@ class CouponManager extends AbstractManager
             $status = $params["status"] == 1;
             $boolQuery->addMust(new Term(['status' => ['value' => $status]]));
         }
+
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * List Coupon From Client
+     * @param array $params
+     * @param AppUser $user
+     *
+     * @return array
+     */
+    public function listCouponFromClient($params, AppUser $user)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+
+
+        $boolQuery = new BoolQuery();
+        if (!empty($queryString)) {
+            $multiMatchQuery = new MultiMatch();
+            $multiMatchQuery->setFields(['title^9', 'store.title^2', 'store.category.name', 'store.address']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery->addMust($multiMatchQuery);
+        } else {
+            $boolQuery->addMust(new MatchAll());
+        }
+
+        if(isset($params['status']) && in_array($params['status'], ["1","0"])) {
+            $status = $params["status"] == 1;
+            $boolQuery->addMust(new Term(['status' => ['value' => $status]]));
+        }
+
+        $boolQuery->addMust(new Term(['store.appUser.id' => $user->getId()]));
 
         $query->setQuery($boolQuery);
 

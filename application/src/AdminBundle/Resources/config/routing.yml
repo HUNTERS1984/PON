@@ -14,6 +14,10 @@ admin_summary:
     path:     /summary
     defaults: { _controller: AdminBundle:Summary:index }
 
+admin_summary_create:
+    path:     /summary/create
+    defaults: { _controller: AdminBundle:Summary:create }
+
 admin_summary_edit:
     path:     /summary/edit/{id}
     defaults: { _controller: AdminBundle:Summary:edit }

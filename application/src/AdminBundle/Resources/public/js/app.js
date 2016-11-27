@@ -53,6 +53,14 @@ var App = function () {
         });
     };
 
+    var handleOpenModalPopup = function($element) {
+        $element.find('*[class=click_to_load_modal_popup]').each(function () {
+            $(this).modalPopup({
+                onRowAdded: App.initComponents
+            });
+        });
+    }
+
     var handlePhotoCollection = function ($element) {
         if ($().collectionFormType) {
             $element.find('*[data-toggle=photoCollectionFormType]').each(function () {
@@ -75,6 +83,7 @@ var App = function () {
             handleCollection($document);
             handlePhotoCollection($document);
             handleSubmitModal($document);
+            handleOpenModalPopup($document);
         },
 
         //main function to initiate core javascript after ajax complete
@@ -83,6 +92,7 @@ var App = function () {
             handleCollection($document);
             handlePhotoCollection($document);
             handleSubmitModal($document);
+            handleOpenModalPopup($document);
         },
 
         //init main components
@@ -91,6 +101,7 @@ var App = function () {
             handleCollection($element);
             handlePhotoCollection($element);
             handleSubmitModal($element);
+            handleOpenModalPopup($element);
         }
     };
 
