@@ -27,11 +27,6 @@ CoreBundle\Entity\SocialProfile:
         socialSecret:
             type: string
             length: 255
-        nickname:
-            type: string
-            length: 255
-        json:
-            type: text
         createdAt:
             type: datetime
         updatedAt:

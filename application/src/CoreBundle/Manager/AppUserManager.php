@@ -8,6 +8,7 @@ use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query;
 use Facebook\Facebook;
+use Facebook\FacebookResponse;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 class AppUserManager extends AbstractManager
@@ -120,16 +121,13 @@ class AppUserManager extends AbstractManager
      */
     public function facebookLogin($accessToken)
     {
-        /** @var Facebook $manager */
-        $manager = $this->facebookManager;
-        $manager->setDefaultAccessToken($accessToken);
-        try {
-            $response = $manager->get('/me');
-        } catch(\Facebook\Exceptions\FacebookResponseException $e) {
-           return ['status' => false, 'message' => $e->getMessage()];
-        } catch(\Facebook\Exceptions\FacebookSDKException $e) {
-            return ['status' => false, 'message' => $e->getMessage()];
+        $result = $this->getFacebookAccess($accessToken);
+        if(!$result['status']) {
+            return $result;
         }
+
+        /** @var FacebookResponse $response*/
+        $response = $result['response'];
         $facebookUser = $response->getGraphUser();
         $appUser = $this->findOneBy(['facebookId'=> $facebookUser->getId()]);
         $isNull = false;
@@ -152,6 +150,21 @@ class AppUserManager extends AbstractManager
         }
 
         return ['status' => true, 'password' => $password, 'username' => $appUser->getUsername()];
+    }
+
+    public function getFacebookAccess($accessToken)
+    {
+        /** @var Facebook $manager */
+        $manager = $this->facebookManager;
+        $manager->setDefaultAccessToken($accessToken);
+        try {
+            $response = $manager->get('/me');
+        } catch(\Facebook\Exceptions\FacebookResponseException $e) {
+            return ['status' => false, 'message' => $e->getMessage()];
+        } catch(\Facebook\Exceptions\FacebookSDKException $e) {
+            return ['status' => false, 'message' => $e->getMessage()];
+        }
+        return ['status' => true, 'response' => $response];
     }
 
     /**

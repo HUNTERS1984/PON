@@ -8,6 +8,7 @@ use CoreBundle\Form\Type\AppUserType;
 use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Serializator\Serializer;
 use Doctrine\Common\Inflector\Inflector;
+use Facebook\FacebookResponse;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -213,6 +214,52 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             'token' => json_decode($token->getContent(),true)['access_token'],
             'user' =>  $appUser
         ];
+
+        return  $this->view(BaseResponse::getData($result));
+    }
+
+    /**
+     * Facebook Update Token
+     * @ApiDoc(
+     *  section="User",
+     *  resource=false,
+     *  description="This api is used to update (DONE)",
+     *  requirements={
+     *      {
+     *          "name"="facebook_access_token",
+     *          "dataType"="string",
+     *          "description"="access_token of facebook"
+     *      }
+     *  },
+     *  statusCodes = {
+     *     201 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *   views = { "app"}
+     * )
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @Post("/facebook/signin", name="app_facebook_signin")
+     * @return Response
+     */
+    public function postFacebookUpdateTokenAction(Request $request)
+    {
+        $accessToken = $request->get('facebook_access_token');
+        $user = $this->getUser();
+        $result = $this->getManager()->getFacebookAccess($accessToken);
+        if(!$result['status']) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.access_token.not_found', $result['message']
+            ));
+        }
+
+        /** @var FacebookResponse $response */
+        $response = $result['response'];
 
         return  $this->view(BaseResponse::getData($result));
     }
