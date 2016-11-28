@@ -11,14 +11,6 @@ CoreBundle\Entity\MessageDelivery:
             joinColumn:
                 name: push_setting_id
                 referencedColumnName: id
-        segement:
-            targetEntity: Segement
-            inversedBy: messageDeliveries
-            cascade: ["persist","remove"]
-            orphanRemoval: true
-            joinColumn:
-                name: segement_id
-                referencedColumnName: id
     id:
         id:
             type: integer

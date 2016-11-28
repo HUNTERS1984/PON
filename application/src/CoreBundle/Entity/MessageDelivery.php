@@ -22,11 +22,6 @@ class MessageDelivery
      */
     private $pushSetting;
 
-    /**
-     * @var \CoreBundle\Entity\Segement
-     */
-    private $segement;
-
 
     /**
      * Get id
@@ -86,28 +81,5 @@ class MessageDelivery
         return $this->pushSetting;
     }
 
-    /**
-     * Set segement
-     *
-     * @param \CoreBundle\Entity\Segement $segement
-     *
-     * @return MessageDelivery
-     */
-    public function setSegement(\CoreBundle\Entity\Segement $segement = null)
-    {
-        $this->segement = $segement;
-
-        return $this;
-    }
-
-    /**
-     * Get segement
-     *
-     * @return \CoreBundle\Entity\Segement
-     */
-    public function getSegement()
-    {
-        return $this->segement;
-    }
 }
 

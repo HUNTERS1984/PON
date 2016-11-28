@@ -7,11 +7,6 @@ CoreBundle\Entity\Segement:
             targetEntity: PushSetting
             mappedBy: segement
             cascade: ["all"]
-        messageDeliveries:
-            targetEntity: MessageDelivery
-            mappedBy: segement
-            cascade: ["persist"]
-            orphanRemoval: true
     manyToOne:
         store:
             targetEntity: Store

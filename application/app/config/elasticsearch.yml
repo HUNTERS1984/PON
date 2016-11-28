@@ -284,3 +284,72 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         finder: ~
+
+                segement:
+                    mappings:
+                        id: ~
+                        store:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                                avatar_url: ~
+                                deletedAt:
+                                    type: date
+                        title: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\Segement
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                pushSetting:
+                    mappings:
+                        id: ~
+                        store:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                                avatar_url: ~
+                                deletedAt:
+                                    type: date
+                                appUser:
+                                    type: object
+                                    properties:
+                                        id: ~
+                        segement:
+                            type: object
+                            properties:
+                                id: ~
+                        title: ~
+                        message: ~
+                        status: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        deletedAt:
+                            type: date
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\PushSetting
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                messageDelivery:
+                    mappings:
+                        id: ~
+                        pushSetting:
+                            type: object
+                            properties:
+                                id: ~
+                        status: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\MessageDelivery
+                        provider: ~
+                        listener: ~
+                        finder: ~

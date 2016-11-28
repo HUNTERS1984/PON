@@ -1,0 +1,169 @@
+<?php
+
+namespace CoreBundle\Manager;
+
+use CoreBundle\Entity\AppUser;
+use CoreBundle\Entity\Store;
+use CoreBundle\Entity\PushSetting;
+use CoreBundle\Paginator\Pagination;
+use Elastica\Filter\Missing;
+use Elastica\Query;
+use FOS\ElasticaBundle\Finder\TransformedFinder;
+
+class PushSettingManager extends AbstractManager
+{
+    /**
+     * @var Pagination
+     */
+    protected $pagination;
+
+    /**
+     * @var TransformedFinder $pushSettingFinder
+     */
+    protected $pushSettingFinder;
+
+    /**
+     * @var Pagination $pagination
+     */
+    public function setPagination(Pagination $pagination)
+    {
+        $this->pagination = $pagination;
+    }
+
+    public function dummy(PushSetting $pushSetting)
+    {
+        $this->save($pushSetting);
+    }
+
+    /**
+     * @param PushSetting $pushSetting
+     *
+     * @return PushSetting
+     */
+    public function createPushSetting(PushSetting $pushSetting)
+    {
+        $pushSetting
+            ->setCreatedAt(new \DateTime());
+        return $this->savePushSetting($pushSetting);
+    }
+
+    /**
+     * @param PushSetting $pushSetting
+     *
+     * @return PushSetting
+     */
+    public function savePushSetting(PushSetting $pushSetting)
+    {
+        $pushSetting->setUpdatedAt(new \DateTime());
+        return $this->save($pushSetting);
+    }
+
+    /**
+     * @param PushSetting $pushSetting
+     *
+     * @return boolean
+     */
+    public function deleteSegment(PushSetting $pushSetting)
+    {
+        $pushSetting
+            ->setDeletedAt(new \DateTime());
+        return $this->savePushSetting($pushSetting);
+    }
+
+    /**
+     * @param mixed $pushSettingFinder
+     * @return PushSettingManager
+     */
+    public function setPushSettingFinder($pushSettingFinder)
+    {
+        $this->pushSettingFinder = $pushSettingFinder;
+        return $this;
+    }
+
+    public function getPushSettingManagerFromAdmin($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+        $statusQuery = new Query\BoolQuery();
+
+        if (isset($params['status']) && in_array($params['status'], ["1", "0"])) {
+            $status = (int)$params["status"];
+            $statusQuery->addShould(new Query\Term(['status' => $status]));
+        }
+
+        $boolQuery = new Query\BoolQuery();
+
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['title', 'message']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery
+                ->addMust($multiMatchQuery)
+                ->addMust($statusQuery);
+        } else {
+            $boolQuery
+                ->addMust(new Query\MatchAll())
+                ->addMust($statusQuery);;
+        }
+
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->pushSettingFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    public function getPushSettingManagerFromClient($params, AppUser $user)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $orderBy = isset($params['order_by']) ? $params['order_by'] : 'desc';
+        $sortBy = 'updatedAt';
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort([$sortBy => ['order' => $orderBy]]);
+
+        $statusQuery = new Query\BoolQuery();
+        if (isset($params['status']) && in_array($params['status'], ["1", "0"])) {
+            $status = (int)$params["status"];
+            $statusQuery->addShould(new Query\Term(['status' => $status]));
+        }
+
+        $boolQuery = new Query\BoolQuery();
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['title', 'message']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery
+                ->addMust($multiMatchQuery)
+                ->addMust($statusQuery);
+        } else {
+            $boolQuery
+                ->addMust(new Query\MatchAll())
+                ->addMust($statusQuery);
+        }
+        $boolQuery->addMust(new Query\Term(['store.appUser.id' => $user->getId()]));
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->pushSettingFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+}

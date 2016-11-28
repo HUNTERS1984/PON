@@ -37,7 +37,6 @@ class ManagementController extends Controller
                 'params' => $params
             ]
         );
-
     }
 
     /**
