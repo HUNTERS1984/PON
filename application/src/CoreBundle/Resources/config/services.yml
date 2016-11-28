@@ -146,6 +146,14 @@ services:
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Photo"]
 
+    pon.manager.social_profile:
+        class: CoreBundle\Manager\SocialProfileManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\SocialProfile"]
+        calls:
+            - [setSocialProfileFinder, ["@fos_elastica.finder.app.socialProfile"]]
+
     pon.manager.post:
         class: CoreBundle\Manager\PostManager
         factory_service:  doctrine
