@@ -6,6 +6,7 @@ CoreBundle\Entity\SocialProfile:
         appUser:
             targetEntity: AppUser
             inversedBy: socialProfiles
+            cascade: ["all"]
             joinColumn:
                 name: app_user_id
                 referencedColumnName: id
@@ -22,13 +23,17 @@ CoreBundle\Entity\SocialProfile:
             type: string
             length: 255
         socialToken:
-            type: string
+            type: text
             length: 255
         socialSecret:
             type: string
             length: 255
+            nullable: TRUE
         createdAt:
             type: datetime
         updatedAt:
             type: datetime
+        deletedAt:
+            type: datetime
+            nullable: TRUE
     lifecycleCallbacks: {  }

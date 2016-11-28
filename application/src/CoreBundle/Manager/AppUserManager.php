@@ -4,6 +4,7 @@ namespace CoreBundle\Manager;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Entity\SocialProfile;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query;
@@ -111,6 +112,11 @@ class AppUserManager extends AbstractManager
             ->setDeletedAt(new \DateTime())
             ->setEnabled(false);
 
+        /** @var SocialProfile $socialProfile */
+        foreach($appUser->getSocialProfiles() as $socialProfile) {
+            $socialProfile->setDeletedAt(new \DateTime());
+        }
+
         return $this->saveAppUser($appUser);
     }
 
@@ -144,8 +150,35 @@ class AppUserManager extends AbstractManager
         $appUser->setPlainPassword($password);
 
         if($isNull) {
+            $socialProfile = new SocialProfile();
+            $socialProfile
+                ->setSocialType(1)
+                ->setAppUser($appUser)
+                ->setSocialId($facebookUser->getId())
+                ->setSocialToken($accessToken);
+            $appUser->addSocialProfile($socialProfile);
             $this->createAppUser($appUser);
         }else{
+            $hasFacebookProfile = false;
+            /** @var SocialProfile $socialProfile */
+            foreach($appUser->getSocialProfiles() as $socialProfile) {
+                if($socialProfile->getSocialId() == 1) {
+                    $socialProfile
+                        ->setSocialId($facebookUser->getId())
+                        ->setSocialToken($accessToken);
+                    $hasFacebookProfile = true;
+                    break;
+                }
+            }
+            if(!$hasFacebookProfile) {
+                $socialProfile = new SocialProfile();
+                $socialProfile
+                    ->setSocialType(1)
+                    ->setAppUser($appUser)
+                    ->setSocialId($facebookUser->getId())
+                    ->setSocialToken($accessToken);
+                $appUser->addSocialProfile($socialProfile);
+            }
             $this->saveAppUser($appUser);
         }
 
@@ -175,14 +208,11 @@ class AppUserManager extends AbstractManager
      */
     public function twitterLogin($accessToken, $accessTokenSecret)
     {
-        /** @var TwitterOAuth $manager */
-        $manager = $this->twitterManager;
-        $manager->setOauthToken($accessToken, $accessTokenSecret);
-        $response = $manager->get("account/verify_credentials");
-        if(isset($response->errors) && count($response->errors) > 0) {
-            return ['status' => false, 'message' => $response->errors[0]->message];
+        $result = $this->getTwitterAccess($accessToken, $accessTokenSecret);
+        if(!$result['status']) {
+            return $result;
         }
-        $twitter = $response;
+        $twitter = $result['response'];
         $appUser = $this->findOneBy(['twitterId'=> $twitter->id]);
         $isNull = false;
         if(!$appUser) {
@@ -198,12 +228,55 @@ class AppUserManager extends AbstractManager
         $appUser->setPlainPassword($password);
 
         if($isNull) {
+            $socialProfile = new SocialProfile();
+            $socialProfile
+                ->setSocialType(2)
+                ->setAppUser($appUser)
+                ->setSocialId($twitter->id)
+                ->setSocialToken($accessToken)
+                ->setSocialSecret($accessTokenSecret);
+            $appUser->addSocialProfile($socialProfile);
             $this->createAppUser($appUser);
         }else{
+            $hasTwitterProfile = false;
+            /** @var SocialProfile $socialProfile */
+            foreach($appUser->getSocialProfiles() as $socialProfile) {
+                if($socialProfile->getSocialId() == 1) {
+                    $socialProfile
+                        ->setSocialId($twitter->id)
+                        ->setSocialToken($accessToken)
+                        ->setSocialSecret($accessTokenSecret);
+                    $hasTwitterProfile = true;
+                    break;
+                }
+            }
+            if(!$hasTwitterProfile) {
+                $socialProfile = new SocialProfile();
+                $socialProfile
+                    ->setSocialType(2)
+                    ->setAppUser($appUser)
+                    ->setSocialId($twitter->id)
+                    ->setSocialToken($accessToken)
+                    ->setSocialSecret($accessTokenSecret);
+                $appUser->addSocialProfile($socialProfile);
+            }
+
             $this->saveAppUser($appUser);
         }
 
         return ['status' => true, 'password' => $password, 'username' => $appUser->getUsername()];
+    }
+
+    public function getTwitterAccess($accessToken, $accessTokenSecret)
+    {
+        /** @var TwitterOAuth $manager */
+        $manager = $this->twitterManager;
+        $manager->setOauthToken($accessToken, $accessTokenSecret);
+        $response = $manager->get("account/verify_credentials");
+        if(isset($response->errors) && count($response->errors) > 0) {
+            return ['status' => false, 'message' => $response->errors[0]->message];
+        }
+        return ['status' => true, 'response' => $response];
     }
 
     /**

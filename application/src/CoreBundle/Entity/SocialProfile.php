@@ -33,16 +33,6 @@ class SocialProfile
     private $socialSecret;
 
     /**
-     * @var string
-     */
-    private $nickname;
-
-    /**
-     * @var string
-     */
-    private $json;
-
-    /**
      * @var \DateTime
      */
     private $createdAt;
@@ -51,6 +41,11 @@ class SocialProfile
      * @var \DateTime
      */
     private $updatedAt;
+
+    /**
+     * @var \DateTime
+     */
+    private $deletedAt;
 
     /**
      * @var \CoreBundle\Entity\AppUser
@@ -165,54 +160,6 @@ class SocialProfile
     }
 
     /**
-     * Set nickname
-     *
-     * @param string $nickname
-     *
-     * @return SocialProfile
-     */
-    public function setNickname($nickname)
-    {
-        $this->nickname = $nickname;
-
-        return $this;
-    }
-
-    /**
-     * Get nickname
-     *
-     * @return string
-     */
-    public function getNickname()
-    {
-        return $this->nickname;
-    }
-
-    /**
-     * Set json
-     *
-     * @param string $json
-     *
-     * @return SocialProfile
-     */
-    public function setJson($json)
-    {
-        $this->json = $json;
-
-        return $this;
-    }
-
-    /**
-     * Get json
-     *
-     * @return string
-     */
-    public function getJson()
-    {
-        return $this->json;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -258,6 +205,30 @@ class SocialProfile
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return \DateTime
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * Set deletedAt
+     *
+     * @param \DateTime $deletedAt
+     *
+     * @return SocialProfile
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 
     /**

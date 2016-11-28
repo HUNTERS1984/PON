@@ -3,9 +3,11 @@
 namespace AppBundle\Controller;
 
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Entity\SocialProfile;
 use CoreBundle\Exception\ExceptionHandler;
 use CoreBundle\Form\Type\AppUserType;
 use CoreBundle\Manager\AppUserManager;
+use CoreBundle\Manager\SocialProfileManager;
 use CoreBundle\Serializator\Serializer;
 use Doctrine\Common\Inflector\Inflector;
 use Facebook\FacebookResponse;
@@ -223,7 +225,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      * @ApiDoc(
      *  section="User",
      *  resource=false,
-     *  description="This api is used to update (DONE)",
+     *  description="This api is used to update token (DONE)",
      *  requirements={
      *      {
      *          "name"="facebook_access_token",
@@ -244,22 +246,43 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *   views = { "app"}
      * )
      * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
-     * @Post("/facebook/signin", name="app_facebook_signin")
+     * @Post("/facebook/token", name="app_facebook_update_token")
      * @return Response
      */
     public function postFacebookUpdateTokenAction(Request $request)
     {
         $accessToken = $request->get('facebook_access_token');
+        /** @var AppUser $user */
         $user = $this->getUser();
         $result = $this->getManager()->getFacebookAccess($accessToken);
         if(!$result['status']) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                'app_user.access_token.not_found', $result['message']
+                'app_user.facebook.access_token.not_found', $result['message']
             ));
         }
 
         /** @var FacebookResponse $response */
         $response = $result['response'];
+        $facebookUser = $response->getGraphUser();
+
+        /** @var SocialProfile $socialProfile */
+        $socialProfile = $this->getSocialProfileManager()->getSocialProfile($user, 1);
+
+        if(!$user->getFacebookId()) {
+            $user->setFacebookId($facebookUser->getId());
+        }
+
+        if(!$socialProfile) {
+            $socialProfile = new SocialProfile();
+            $socialProfile
+                ->setSocialType(1)
+                ->setAppUser($user)
+                ->setSocialId($facebookUser->getId())
+                ->setSocialToken($accessToken);
+            $this->getSocialProfileManager()->createSocialProfile($socialProfile);
+        }else{
+            $this->getSocialProfileManager()->saveSocialProfile($socialProfile);
+        }
 
         return  $this->view(BaseResponse::getData($result));
     }
@@ -330,6 +353,80 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             'token' => json_decode($token->getContent(),true)['access_token'],
             'user' =>  $appUser
         ];
+
+        return  $this->view(BaseResponse::getData($result));
+    }
+
+    /**
+     * Twitter Update Token
+     * @ApiDoc(
+     *  section="User",
+     *  resource=false,
+     *  description="This api is used to update token (DONE)",
+     *  requirements={
+     *      {
+     *          "name"="twitter_access_token",
+     *          "dataType"="string",
+     *          "description"="authToken of facebook"
+     *      },
+     *     {
+     *          "name"="twitter_access_token_secret",
+     *          "dataType"="string",
+     *          "description"="authTokenSecret of twitter"
+     *      }
+     *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     201 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   },
+     *   views = { "app"}
+     * )
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @Post("/twitter/token", name="app_twitter_update_token")
+     * @return Response
+     */
+    public function postTwitterUpdateTokenAction(Request $request)
+    {
+        $accessToken = $request->get('twitter_access_token');
+        $accessTokenSecret = $request->get('twitter_access_token_secret');
+
+        /** @var AppUser $user */
+        $user = $this->getUser();
+        $result = $this->getManager()->getTwitterAccess($accessToken, $accessTokenSecret);
+        if(!$result['status']) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.twitter.access_token.not_found', $result['message']
+            ));
+        }
+
+        /** @var FacebookResponse $response */
+        $twitter = $result['response'];
+
+        /** @var SocialProfile $socialProfile */
+        $socialProfile = $this->getSocialProfileManager()->getSocialProfile($user, 2);
+
+        if(!$user->getTwitterId()) {
+            $user->setTwitterId($twitter->id);
+        }
+
+        if(!$socialProfile) {
+            $socialProfile = new SocialProfile();
+            $socialProfile
+                ->setSocialType(2)
+                ->setAppUser($user)
+                ->setSocialId($twitter->id)
+                ->setSocialToken($accessToken)
+                ->setSocialSecret($accessTokenSecret);
+            $this->getSocialProfileManager()->createSocialProfile($socialProfile);
+        }else{
+            $this->getSocialProfileManager()->saveSocialProfile($socialProfile);
+        }
 
         return  $this->view(BaseResponse::getData($result));
     }
@@ -518,6 +615,14 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     public function getManager()
     {
         return $this->get('pon.manager.app_user');
+    }
+
+    /**
+     * @return SocialProfileManager
+     */
+    public function getSocialProfileManager()
+    {
+        return $this->get('pon.manager.social_profile');
     }
 
     /**

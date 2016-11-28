@@ -353,3 +353,27 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         finder: ~
+
+                socialProfile:
+                    mappings:
+                        id: ~
+                        appUser:
+                            type: object
+                            properties:
+                                id: ~
+                                username: ~
+                        socialType: ~
+                        socialId: ~
+                        socialToken: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        deletedAt:
+                            type: date
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\SocialProfile
+                        provider: ~
+                        listener: ~
+                        finder: ~
