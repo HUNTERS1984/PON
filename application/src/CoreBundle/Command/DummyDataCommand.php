@@ -26,7 +26,7 @@ class DummyDataCommand extends ContainerAwareCommand
         $output->writeln("Clear Upload Files...");
         $file = new Filesystem();
         $uploadPath = $this->getContainer()->getParameter('uploads_path');
-        if($file->exists($uploadPath)) {
+        if ($file->exists($uploadPath)) {
             $file->remove($uploadPath);
         }
         $file->mkdir($uploadPath);
@@ -57,6 +57,25 @@ class DummyDataCommand extends ContainerAwareCommand
         $this->dummyStore($output);
         $output->writeln("");
         $output->writeln("Finished Dump Store...");
+
+        $output->writeln("");
+        $output->writeln("Starting Dump Segement...");
+        $this->dummySegement($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump Segement...");
+
+        $output->writeln("");
+        $output->writeln("Starting Dump PushSetting...");
+        $this->dummyPushSetting($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump PushSetting...");
+
+        $output->writeln("");
+        $output->writeln("Starting Dump MessageDelivery...");
+        $this->dummyMessageDelivery($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump MessageDelivery...");
+
 
         $output->writeln("");
         $output->writeln("Starting Dump Coupon...");
@@ -100,17 +119,17 @@ class DummyDataCommand extends ContainerAwareCommand
 
         /** @var AppUserDummy */
         for ($i = 0; $i < 50; $i++) {
-            $this->getContainer()->get('pon.dummy.app_user')->generate($output,$i);
+            $this->getContainer()->get('pon.dummy.app_user')->generate($output, $i);
             $progress->advance();
         }
 
         for ($i = 0; $i < 50; $i++) {
-            $this->getContainer()->get('pon.dummy.app_user')->generateStoreUsers($output,$i);
+            $this->getContainer()->get('pon.dummy.app_user')->generateStoreUsers($output, $i);
             $progress->advance();
         }
 
         for ($i = 0; $i < 50; $i++) {
-            $this->getContainer()->get('pon.dummy.app_user')->generateAppUsers($output,$i);
+            $this->getContainer()->get('pon.dummy.app_user')->generateAppUsers($output, $i);
             $progress->advance();
         }
 
@@ -124,7 +143,7 @@ class DummyDataCommand extends ContainerAwareCommand
         $progress->setRedrawFrequency(1);
         $progress->start();
 
-        for($i = 0; $i< 5; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $this->getContainer()->get('pon.dummy.category')->generate($output);
             $progress->advance();
         }
@@ -137,12 +156,63 @@ class DummyDataCommand extends ContainerAwareCommand
         $progress->setRedrawFrequency(1);
         $progress->start();
         $output->writeln("");
-        for($i=0; $i< 10; $i ++) {
-            $output->writeln(sprintf("Begin dummy Store %s",$i+1));
+        for ($i = 0; $i < 10; $i++) {
+            $output->writeln(sprintf("Begin dummy Store %s", $i + 1));
             $this->getContainer()->get('pon.dummy.store')->generate($output);
             $progress->advance();
             $output->writeln("");
-            $output->writeln(sprintf("Finished dummy Store %s",$i+1));
+            $output->writeln(sprintf("Finished dummy Store %s", $i + 1));
+            $output->writeln("");
+        }
+        $progress->finish();
+    }
+
+    public function dummySegement(OutputInterface $output)
+    {
+        $progress = new ProgressBar($output, 10);
+        $progress->setRedrawFrequency(1);
+        $progress->start();
+        $output->writeln("");
+        for ($i = 0; $i < 10; $i++) {
+            $output->writeln(sprintf("Begin dummy Segement %s", $i + 1));
+            $this->getContainer()->get('pon.dummy.segement')->generate($output);
+            $progress->advance();
+            $output->writeln("");
+            $output->writeln(sprintf("Finished dummy Segement %s", $i + 1));
+            $output->writeln("");
+        }
+        $progress->finish();
+    }
+
+    public function dummyPushSetting(OutputInterface $output)
+    {
+        $progress = new ProgressBar($output, 50);
+        $progress->setRedrawFrequency(1);
+        $progress->start();
+        $output->writeln("");
+        for ($i = 0; $i < 50; $i++) {
+            $output->writeln(sprintf("Begin dummy PushSetting %s", $i + 1));
+            $this->getContainer()->get('pon.dummy.push_setting')->generate($output);
+            $progress->advance();
+            $output->writeln("");
+            $output->writeln(sprintf("Finished dummy PushSetting %s", $i + 1));
+            $output->writeln("");
+        }
+        $progress->finish();
+    }
+
+    public function dummyMessageDelivery(OutputInterface $output)
+    {
+        $progress = new ProgressBar($output, 50);
+        $progress->setRedrawFrequency(1);
+        $progress->start();
+        $output->writeln("");
+        for ($i = 0; $i < 50; $i++) {
+            $output->writeln(sprintf("Begin dummy MessageDelivery %s", $i + 1));
+            $this->getContainer()->get('pon.dummy.message_delivery')->generate($output, $i + 1);
+            $progress->advance();
+            $output->writeln("");
+            $output->writeln(sprintf("Finished dummy MessageDelivery %s", $i + 1));
             $output->writeln("");
         }
         $progress->finish();
@@ -155,11 +225,11 @@ class DummyDataCommand extends ContainerAwareCommand
         $progress->start();
         $output->writeln("");
         for ($i = 0; $i < 50; $i++) {
-            $output->writeln(sprintf("Begin dummy Coupon %s",$i+1));
+            $output->writeln(sprintf("Begin dummy Coupon %s", $i + 1));
             $this->getContainer()->get('pon.dummy.coupon')->generate($output);
             $progress->advance();
             $output->writeln("");
-            $output->writeln(sprintf("Finished dummy Coupon %s",$i+1));
+            $output->writeln(sprintf("Finished dummy Coupon %s", $i + 1));
             $output->writeln("");
         }
         $progress->finish();

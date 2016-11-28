@@ -37,10 +37,6 @@ class Segement
      */
     private $pushSettings;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $messageDeliveries;
 
     /**
      * @var \CoreBundle\Entity\Store
@@ -53,7 +49,6 @@ class Segement
     public function __construct()
     {
         $this->pushSettings = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->messageDeliveries = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -194,40 +189,6 @@ class Segement
     public function getPushSettings()
     {
         return $this->pushSettings;
-    }
-
-    /**
-     * Add messageDelivery
-     *
-     * @param \CoreBundle\Entity\MessageDelivery $messageDelivery
-     *
-     * @return Segement
-     */
-    public function addMessageDelivery(\CoreBundle\Entity\MessageDelivery $messageDelivery)
-    {
-        $this->messageDeliveries[] = $messageDelivery;
-
-        return $this;
-    }
-
-    /**
-     * Remove messageDelivery
-     *
-     * @param \CoreBundle\Entity\MessageDelivery $messageDelivery
-     */
-    public function removeMessageDelivery(\CoreBundle\Entity\MessageDelivery $messageDelivery)
-    {
-        $this->messageDeliveries->removeElement($messageDelivery);
-    }
-
-    /**
-     * Get messageDeliveries
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getMessageDeliveries()
-    {
-        return $this->messageDeliveries;
     }
 
     /**

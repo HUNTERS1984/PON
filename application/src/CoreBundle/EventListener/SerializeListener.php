@@ -7,6 +7,7 @@ use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\CouponPhoto;
 use CoreBundle\Entity\CouponUserPhoto;
+use CoreBundle\Entity\Segement;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Entity\UseList;
@@ -14,6 +15,9 @@ use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\FollowListManager;
 use CoreBundle\Manager\LikeListManager;
+use CoreBundle\Manager\SegementManager;
+use CoreBundle\Manager\PushSettingManager;
+use CoreBundle\Manager\MessageDeliveryManager;
 use CoreBundle\Manager\StoreManager;
 use CoreBundle\Manager\UseListManager;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
@@ -45,6 +49,21 @@ class SerializeListener implements EventSubscriberInterface
     private $useListManager;
 
     /**
+     * @var segementManager $segementManager
+     */
+    private $segementManager;
+
+    /**
+     * @var pushSettingManager $pushSettingManager
+     */
+    private $pushSettingManager;
+
+    /**
+     * @var messageDeliveryManager $messageDeliveryManager
+     */
+    private $messageDeliveryManager;
+
+    /**
      * @var LikeListManager $likeListManager
      */
     private $likeListManager;
@@ -66,17 +85,17 @@ class SerializeListener implements EventSubscriberInterface
 
     /**
      * @var Router
-    */
+     */
     private $router;
 
     /**
      * @var RequestStack
-    */
+     */
     private $request;
 
     /**
      * @var string
-    */
+     */
     private $baseCouponAvatarPath;
 
     /**
@@ -108,7 +127,7 @@ class SerializeListener implements EventSubscriberInterface
             $this->preCouponSerialize($object);
         }
 
-        if($object instanceof Category) {
+        if ($object instanceof Category) {
             $this->preCategorySerialize($object);
         }
     }
@@ -181,7 +200,7 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setAvatarCoupon(Coupon $coupon)
     {
-        $avatarUrl = sprintf("%s/%s%s",$this->getUrl(),$this->baseCouponAvatarPath, $coupon->getImageUrl());
+        $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseCouponAvatarPath, $coupon->getImageUrl());
         $coupon->setImageUrl($avatarUrl);
     }
 
@@ -190,7 +209,7 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setAvatarCategory(Category $category)
     {
-        $avatarUrl = sprintf("%s/%s%s",$this->getUrl(),$this->baseCategoryAvatarPath, $category->getIconUrl());
+        $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseCategoryAvatarPath, $category->getIconUrl());
         $category->setIconUrl($avatarUrl);
     }
 
@@ -199,7 +218,7 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setAvatarStore(Store $store)
     {
-        $avatarUrl = sprintf("%s/%s%s",$this->getUrl(),$this->baseStoreAvatarPath, $store->getAvatarUrl());
+        $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseStoreAvatarPath, $store->getAvatarUrl());
         $store->setAvatarUrl($avatarUrl);
     }
 
@@ -215,8 +234,8 @@ class SerializeListener implements EventSubscriberInterface
     {
         /** @var RequestStack $request */
         $request = $this->request;
-        $photoUrls = array_map(function (StorePhoto $storePhoto){
-            return sprintf("%s/%s%s",$this->getUrl(),$this->baseImagePath, $storePhoto->getPhoto()->getImageUrl());
+        $photoUrls = array_map(function (StorePhoto $storePhoto) {
+            return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $storePhoto->getPhoto()->getImageUrl());
         }, $store->getStorePhotos()->toArray());
         $store->setStorePhotoUrls($photoUrls);
     }
@@ -226,8 +245,8 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setCouponPhoto(Coupon $coupon)
     {
-        $photoUrls = array_map(function (CouponPhoto $couponPhoto){
-            return sprintf("%s/%s%s",$this->getUrl(),$this->baseImagePath, $couponPhoto->getPhoto()->getImageUrl());
+        $photoUrls = array_map(function (CouponPhoto $couponPhoto) {
+            return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $couponPhoto->getPhoto()->getImageUrl());
         }, $coupon->getCouponPhotos()->toArray());
         $coupon->setCouponPhotoUrls($photoUrls);
     }
@@ -238,7 +257,7 @@ class SerializeListener implements EventSubscriberInterface
     public function setCouponUserPhoto(Coupon $coupon)
     {
         $photoUrls = array_map(function (CouponUserPhoto $couponUserPhoto) {
-            return sprintf("%s/%s%s",$this->getUrl(),$this->baseImagePath, $couponUserPhoto->getPhoto()->getImageUrl());
+            return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $couponUserPhoto->getPhoto()->getImageUrl());
         }, $coupon->getCouponUserPhotos()->toArray());
         $coupon->setCouponUserPhotoUrls($photoUrls);
     }
@@ -250,7 +269,7 @@ class SerializeListener implements EventSubscriberInterface
     {
         $coupons = $this->couponManager->getSimilarCoupon($coupon);
         $user = $this->getUser();
-        $similarCoupons = array_map(function (Coupon $coupon) use ($user){
+        $similarCoupons = array_map(function (Coupon $coupon) use ($user) {
             $isLike = $this->likeListManager->isLike($user, $coupon);
             $isCanUse = $this->useListManager->isCanUse($user, $coupon);
             $type = $coupon->getType();
@@ -300,8 +319,8 @@ class SerializeListener implements EventSubscriberInterface
         /** @var RequestStack $request */
         $request = $this->request;
         $url = $request->getCurrentRequest()->getSchemeAndHttpHost();
-        $link = $router->generate('admin_coupon_link',['id' => $coupon->getId()]);
-        $coupon->setLink(sprintf("%s%s",$url, $link));
+        $link = $router->generate('admin_coupon_link', ['id' => $coupon->getId()]);
+        $coupon->setLink(sprintf("%s%s", $url, $link));
     }
 
     /**
@@ -405,6 +424,36 @@ class SerializeListener implements EventSubscriberInterface
     public function setAppUserManager($appUserManager)
     {
         $this->appUserManager = $appUserManager;
+        return $this;
+    }
+
+    /**
+     * @param SegementManager $segementManager
+     * @return SerializeListener
+     */
+    public function setSegementManager($segementManager)
+    {
+        $this->segementManager = $segementManager;
+        return $this;
+    }
+
+    /**
+     * @param PushSettingManager $pushSettingManager
+     * @return SerializeListener
+     */
+    public function setPushSettingManager($pushSettingManager)
+    {
+        $this->pushSettingManager = $pushSettingManager;
+        return $this;
+    }
+
+    /**
+     * @param MessageDeliveryManager $messageDeliveryManager
+     * @return SerializeListener
+     */
+    public function setMessageDeliveryManager($messageDeliveryManager)
+    {
+        $this->messageDeliveryManager = $messageDeliveryManager;
         return $this;
     }
 
