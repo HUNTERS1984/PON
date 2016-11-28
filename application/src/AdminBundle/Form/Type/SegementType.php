@@ -1,16 +1,16 @@
 <?php
 
-namespace CoreBundle\Form\Type;
+namespace AdminBundle\Form\Type;
 
-
-use CoreBundle\Entity\CouponType;
+use CoreBundle\Entity\Segement;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CouponTypeType extends AbstractType
+class SegementType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
@@ -18,8 +18,8 @@ class CouponTypeType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => CouponType::class,
-                'csrf_protection'   => false
+                'data_class' => Segement::class,
+                'segments' => []
             ]
         );
     }
@@ -30,11 +30,13 @@ class CouponTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, [
+            ->add('title', ChoiceType::class, [
+                'label' => false,
                 'required' => true,
-            ])
-            ->add('iconUrl', TextType::class, [
-                'required' => true,
+                'choices'  => array_flip($options['segments']),
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ]);
     }
 }

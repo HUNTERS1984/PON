@@ -158,6 +158,14 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\SocialProfile"]
         calls:
             - [setSocialProfileFinder, ["@fos_elastica.finder.app.socialProfile"]]
+            
+    pon.manager.segement:
+        class: CoreBundle\Manager\SegementManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Segement"]
+        calls:
+            - [setSegementFinder, ["@fos_elastica.finder.app.segement"]]
 
     pon.manager.post:
         class: CoreBundle\Manager\PostManager

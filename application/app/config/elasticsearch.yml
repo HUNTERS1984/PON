@@ -396,3 +396,31 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         finder: ~
+
+                segement:
+                    mappings:
+                        id: ~
+                        title: ~
+                        store:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                                deletedAt:
+                                    type: date
+                                appUser:
+                                    type: object
+                                    properties:
+                                        id: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        deletedAt:
+                            type: date
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\Segement
+                        provider: ~
+                        listener: ~
+                        finder: ~

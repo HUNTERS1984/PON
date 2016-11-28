@@ -2,36 +2,19 @@
 
 namespace CoreBundle\Manager;
 
-use CoreBundle\Entity\Store;
+use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Segement;
-use CoreBundle\Paginator\Pagination;
+use CoreBundle\Entity\Store;
+use Elastica\Filter\Missing;
 use Elastica\Query;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 class SegementManager extends AbstractManager
 {
     /**
-     * @var Pagination
-     */
-    protected $pagination;
-
-    /**
-     * @var TransformedFinder $segementFinder
+     * @var TransformedFinder $storeFinder
      */
     protected $segementFinder;
-
-    /**
-     * @var Pagination $pagination
-     */
-    public function setPagination(Pagination $pagination)
-    {
-        $this->pagination = $pagination;
-    }
-
-    public function dummy(Segement $segement)
-    {
-        $this->save($segement);
-    }
 
     /**
      * @param Segement $segement
@@ -40,8 +23,7 @@ class SegementManager extends AbstractManager
      */
     public function createSegement(Segement $segement)
     {
-        $segement
-            ->setCreatedAt(new \DateTime());
+        $segement->setCreatedAt(new \DateTime());
         return $this->saveSegement($segement);
     }
 
@@ -61,16 +43,60 @@ class SegementManager extends AbstractManager
      *
      * @return boolean
      */
-    public function deleteSegment(Segement $segement)
+    public function deleteSegement(Segement $segement)
     {
         $segement
             ->setDeletedAt(new \DateTime());
         return $this->saveSegement($segement);
     }
 
+    public function getSegementFromClient(AppUser $user)
+    {
+        $storeIds = array_map(function (Store $store) {
+            return $store->getId();
+        }, $user->getStores()->toArray());
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['updatedAt' => ['order' => 'desc']]);
+        $query->setSize(1000);
+
+        $query->setQuery(new Query\Terms('store.id',$storeIds));
+
+        $results = $this->segementFinder->find($query);
+
+        $segements = [];
+        foreach($results as $item) {
+            /** @var Segement $segement */
+            $segement = $item;
+            $segements[$segement->getId()] = $segement->getTitle();
+        }
+        return $segements;
+
+    }
+
+    public function getSegementFromAdmin()
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['updatedAt' => ['order' => 'desc']]);
+        $query->setSize(1000);
+
+        $results = $this->segementFinder->find($query);
+        $segements = [];
+        foreach($results as $item) {
+            /** @var Segement $segement */
+            $segement = $item;
+            $segements[$segement->getId()] = $segement->getTitle();
+        }
+        return $segements;
+
+    }
+
+
     /**
-     * @param mixed $segementFinder
-     * @return SegementManager
+     * @param TransformedFinder $segementFinder
+     * @return Segement
      */
     public function setSegementFinder($segementFinder)
     {

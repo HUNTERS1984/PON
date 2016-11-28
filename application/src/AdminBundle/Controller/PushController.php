@@ -4,7 +4,11 @@ namespace AdminBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use CoreBundle\Manager\PushSettingManager;
+use AdminBundle\Form\Type\PushType;
+use CoreBundle\Entity\AppUser;
+use CoreBundle\Manager\SegementManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,10 +27,14 @@ class PushController extends Controller
         $user = $this->getUser();
 
         if ($this->isGranted('ROLE_ADMIN')) {
+            $segements = $this->getSegementManager()->getSegementFromAdmin();
             $result = $this->getManager()->getPushSettingManagerFromAdmin($params);
         } else {
             $result = $this->getManager()->getPushSettingManagerFromClient($params, $user);
+            $segements = $this->getSegementManager()->getSegementFromClient($user);
         }
+        
+        $form = $this->createPush($request, $segements);
 
         return $this->render(
             'AdminBundle:Push:index.html.twig',
@@ -34,7 +42,8 @@ class PushController extends Controller
                 'pushs' => $result['data'],
                 'pagination' => $result['pagination'],
                 'query' => ($params['query']),
-                'params' => $params
+                'params' => $params,
+                'form' => $form->createView()
             ]
         );
     }
@@ -50,5 +59,35 @@ class PushController extends Controller
     public function createAction(Request $request)
     {
         return $this->render('AdminBundle:Push:create.html.twig');
+    }
+
+    /**
+     * @param Request $request
+     * @param array $segements
+     *
+     * @return FormInterface
+     */
+    public function createPush(Request $request, $segements)
+    {
+
+        $form = $this
+            ->createForm(PushType::class, null, [
+                'segements' => $segements
+            ])
+            ->handleRequest($request);
+
+        if ($form->isValid()) {
+
+        }
+
+        return $form;
+    }
+
+    /**
+     * @return SegementManager
+     */
+    public function getSegementManager()
+    {
+        return $this->get('pon.manager.segement');
     }
 }

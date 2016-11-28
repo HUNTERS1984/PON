@@ -1,0 +1,50 @@
+{% form_theme form with ['AdminBundle:Form:fields.html.twig', _self] %}
+
+<div class="col-md-12">
+    <a class="arrow_down collapsed" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        <span>新しくプッシュ通知を配信</span>
+    </a>
+    <div class="collapse" id="collapseExample">
+        <div class="down_con">
+
+            {{ form_start(form, {'attr': {'class': 'submitModal','data-ajax-redirect': path('admin_summary'),'data-ajax-url': path("admin_summary_create"), 'enctype': 'multipart/form-data'  }}) }}
+            {{ form_errors(form) }}
+            <div class="col-md-12">
+                {{ form_row(form.title) }}
+                {{ form_row(form.message) }}
+                {{ form_row(form.json) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.segement) }}
+                <div class="form-group">
+                    <a href="" class="link_create"><i class="fa fa-plus" aria-hidden="true"></i> セグメントを作成する</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="配信時間指定">配信時間指定</label>
+                            <select class="form-control">
+                                <option>時間を指定して配信</option>
+                                <option>Option one</option>
+                                <option>Option two</option>
+                                <option>Option three</option>
+                                <option>Option four</option>
+                            </select>
+                        </div>
+                    </div>
+                    {{ form_row(form.deliveryTime) }}
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="button_send">
+                    <button type="button" class="btn btn-primary btn-send" data-toggle="modal" data-target="#myModal">
+                        このプッシュ通知を配信
+                    </button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
