@@ -17,6 +17,18 @@
             </a>
         </li>
         <li class="menu--item">
+            <a href="{{ path('admin_category') }}" class="menu--link {% if active_menu|default('') == "category" %}active{% endif %}" title="カテゴリ">
+                <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
+                <span class="menu--label">カテゴリ</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a href="{{ path('admin_store') }}" class="menu--link {% if active_menu|default('') == "store" %}active{% endif %}" title="格納">
+                <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
+                <span class="menu--label">格納</span>
+            </a>
+        </li>
+        <li class="menu--item">
             <a href="{{ path('admin_summary') }}" class="menu--link {% if active_menu|default('') == "summary" %}active{% endif %}" title="クーポン一覧">
                 <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
                 <span class="menu--label">クーポン一覧</span>

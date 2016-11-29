@@ -1,6 +1,7 @@
 <?php
 
 namespace CoreBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Category

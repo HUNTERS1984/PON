@@ -177,6 +177,10 @@ fos_elastica:
                         id: ~
                         name: ~
                         iconUrl: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\Category
