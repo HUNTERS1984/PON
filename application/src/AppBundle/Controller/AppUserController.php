@@ -288,6 +288,136 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     }
 
     /**
+     * Instagram SignIn
+     * @ApiDoc(
+     *  section="User",
+     *  resource=false,
+     *  description="This api is used to signin (DONE)",
+     *  requirements={
+     *      {
+     *          "name"="instagram_access_token",
+     *          "dataType"="string",
+     *          "description"="access_token of instagram"
+     *      }
+     *  },
+     *  statusCodes = {
+     *     201 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   },
+     *   views = { "app"}
+     * )
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @Post("/instagram/signin", name="app_instagram_signin")
+     * @return Response
+     */
+    public function postInstagramSingInAction(Request $request)
+    {
+        $accessToken = $request->get('instagram_access_token');
+        $result = $this->getManager()->instagramLogin($accessToken);
+
+        if(!$result['status']) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found', $result['message']
+            ));
+        }
+        try {
+            $request->request->set('username', $result['username']);
+            $request->request->set('password', $result['password']);
+            $request->request->set('client_id',$this->getParameter('client_id'));
+            $request->request->set('client_secret',$this->getParameter('client_secret'));
+            $request->request->set('grant_type',$this->getParameter('grant_type'));
+            $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+        } catch (OAuth2ServerException $e) {
+            $content = json_decode($e->getHttpResponse()->getContent());
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found', $content->error_description
+            ));
+        }
+
+        /**@var AppUser $appUser*/
+        $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
+        $appUser->setBasePath($request->getSchemeAndHttpHost());
+        if(!$appUser || !is_null($appUser->getDeletedAt())) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.not_found'
+            ));
+        }
+
+        $result = [
+            'token' => json_decode($token->getContent(),true)['access_token'],
+            'user' =>  $appUser
+        ];
+
+        return  $this->view(BaseResponse::getData($result));
+    }
+
+    /**
+     * Instagram Update Token
+     * @ApiDoc(
+     *  section="User",
+     *  resource=false,
+     *  description="This api is used to update token (DONE)",
+     *  requirements={
+     *      {
+     *          "name"="instagram_access_token",
+     *          "dataType"="string",
+     *          "description"="access_token of instagram"
+     *      }
+     *  },
+     *  statusCodes = {
+     *     201 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *   views = { "app"}
+     * )
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @Post("/instagram/token", name="app_instagram_update_token")
+     * @return Response
+     */
+    public function postInstagramUpdateTokenAction(Request $request)
+    {
+        $accessToken = $request->get('instagram_access_token');
+        /** @var AppUser $user */
+        $user = $this->getUser();
+        $result = $this->getManager()->getInstagramAccess($accessToken);
+        if(!$result['status']) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.instagram.access_token.not_found', $result['message']
+            ));
+        }
+
+        $response = $result['response'];
+        $instagramUser = $response->data;
+
+        /** @var SocialProfile $socialProfile */
+        $socialProfile = $this->getSocialProfileManager()->getSocialProfile($user, 1);
+
+        if(!$user->getFacebookId()) {
+            $user->setFacebookId($instagramUser->id);
+        }
+
+        if(!$socialProfile) {
+            $socialProfile = new SocialProfile();
+            $socialProfile
+                ->setSocialType(3)
+                ->setAppUser($user)
+                ->setSocialId($instagramUser->id)
+                ->setSocialToken($accessToken);
+            $this->getSocialProfileManager()->createSocialProfile($socialProfile);
+        }else{
+            $this->getSocialProfileManager()->saveSocialProfile($socialProfile);
+        }
+
+        return  $this->view(BaseResponse::getData($result));
+    }
+
+    /**
      * Twitter SignIn
      * @ApiDoc(
      *  section="User",
@@ -457,6 +587,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      *          "name"="address",
      *          "dataType"="string",
      *          "description"="address of app user"
+     *      },
+     *     {
+     *          "name"="password",
+     *          "dataType"="string",
+     *          "description"="password of app"
      *      }
      *  },
      *  parameters={
@@ -482,7 +617,6 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      */
     public function postProfileAction(Request $request)
     {
-        $manager = $this->getManager();
         /**@var AppUser $appUser*/
         $appUser = $this->getUser();
         $fileUpload = null;
@@ -496,7 +630,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             break;
         }
         $appUser->setBasePath($request->getSchemeAndHttpHost());
-        $appUser = $this->get('pon.utils.data')->setData($request->request->all(), $appUser);
+        $data = $request->request->all();
+        $appUser = $this->get('pon.utils.data')->setData($data, $appUser);
+        if(!empty($data['password'])) {
+            $appUser->setPlainPassword($data['password']);
+        }
 
         if($fileUpload) {
             $appUser->setFile($fileUpload);
@@ -509,6 +647,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         if($fileUpload) {
             $appUser->upload();
         }
+
 
 
         $this->getManager()->saveAppUser($appUser);

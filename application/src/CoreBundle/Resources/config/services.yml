@@ -3,6 +3,10 @@ services:
         class: Facebook\Facebook
         arguments: ["%facebook_config%"]
 
+    pon.manager.instagram:
+        class: MetzWeb\Instagram\Instagram
+        arguments: ["%instagram_config%"]
+
     pon.manager.twitter:
         class: Abraham\TwitterOAuth\TwitterOAuth
         arguments: ["%twitter_consumer_key%", "%twitter_consumer_secret%"]
@@ -15,6 +19,7 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setFacebookManager, ["@pon.manager.facebook"]]
+            - [setInstagramManager, ["@pon.manager.instagram"]]
             - [setSampleImagePath, ["%sample_image_path%"]]
             - [setTwitterManager, ["@pon.manager.twitter"]]
             - [setAppUserFinder, ["@fos_elastica.finder.app.appUser"]]

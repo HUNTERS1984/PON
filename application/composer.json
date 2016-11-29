@@ -36,7 +36,8 @@
         "friendsofsymfony/elastica-bundle": "^3.2",
         "facebook/graph-sdk": "^5.3",
         "abraham/twitteroauth": "^0.6.4",
-        "ikwattro/faker-extra": "^1.0"
+        "ikwattro/faker-extra": "^1.0",
+        "cosenary/instagram": "^2.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
