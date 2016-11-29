@@ -22,6 +22,14 @@ admin_summary_edit:
     path:     /summary/edit/{id}
     defaults: { _controller: AdminBundle:Summary:edit }
 
+admin_category:
+    path:     /category
+    defaults: { _controller: AdminBundle:Category:index }
+
+admin_store:
+    path:     /store
+    defaults: { _controller: AdminBundle:Store:index }
+
 admin_push:
     path:     /push
     defaults: { _controller: AdminBundle:Push:index }

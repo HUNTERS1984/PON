@@ -50,6 +50,5 @@ parameters:
     image_path: '%uploads_path%/image'
     base_image_upload: 'uploads/image/'
     sample_image_path: '%kernel.root_dir%/../web/samples/image'
-    user_avatar_path: '%uploads_path%/user/avatar'
 
 

@@ -267,13 +267,11 @@ class StoreManager extends AbstractManager
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-        $orderBy = isset($params['order_by']) ? $params['order_by'] : 'desc';
-        $sortBy = isset($params['sort_by']) && in_array($params['sort_by'], ['title', 'createdAt']) ? $params['sort_by'] : 'updatedAt';
         $queryString = isset($params['query']) ? $params['query'] : '';
 
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
-        $query->addSort([$sortBy => ['order' => $orderBy]]);
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
 
         $boolQuery = new Query\BoolQuery();
         if (!empty($queryString)) {
@@ -293,7 +291,7 @@ class StoreManager extends AbstractManager
         $transformedPartialResults = $pagination->getResults($offset, $limit);
         $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
-        return $this->pagination->response($results, $total, $limit, $offset, $sortBy, $orderBy);
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**

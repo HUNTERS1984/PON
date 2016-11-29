@@ -15,7 +15,7 @@ class CategoryManager extends AbstractManager
 {
     /**
      * @var Pagination
-    */
+     */
     protected $pagination;
 
     /**
@@ -25,7 +25,7 @@ class CategoryManager extends AbstractManager
 
     /**
      * @var Pagination $pagination
-    */
+     */
     public function setPagination(Pagination $pagination)
     {
         $this->pagination = $pagination;
@@ -80,7 +80,7 @@ class CategoryManager extends AbstractManager
     {
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
-        $query->setQuery(new Term(['id'=> ['value' => $id]]));
+        $query->setQuery(new Term(['id' => ['value' => $id]]));
         $result = $this->categoryFinder->find($query);
         return !empty($result) ? $result[0] : null;
     }
@@ -88,17 +88,35 @@ class CategoryManager extends AbstractManager
     /**
      * Get Categories
      * @param array $params
-     * 
+     *
      * @return array
      */
     public function getCategories($params)
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
 
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
-        $query->addSort(['name' => ['order' => 'asc']]);
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+        $boolQuery = new Query\BoolQuery();
+
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['name']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery
+                ->addMust($multiMatchQuery);
+        } else {
+            $boolQuery
+                ->addMust(new Query\MatchAll());
+        }
+
+        $query->setQuery($boolQuery);
 
         $pagination = $this->categoryFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults($offset, $limit);
@@ -119,18 +137,18 @@ class CategoryManager extends AbstractManager
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
 
         $conditions = [];
-        if(isset($params['name'])) {
+        if (isset($params['name'])) {
             $conditions = [
                 'name' => [
                     'type' => 'like',
-                    'value' => "%".$params['name']."%"
+                    'value' => "%" . $params['name'] . "%"
                 ]
             ];
         }
 
         $conditions['deletedAt'] = [
             'type' => 'is',
-            'value' =>  'NULL'
+            'value' => 'NULL'
         ];
 
         $orderBy = ['createdAt' => 'DESC'];

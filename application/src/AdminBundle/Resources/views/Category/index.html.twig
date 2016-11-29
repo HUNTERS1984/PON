@@ -1,0 +1,83 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+{% block title %}Category{% endblock %}
+{% set active_menu = 'category' %}
+
+{% set count = pagination.item_total %}
+
+{% block page_content %}
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            var $modal = $('#load_popup_modal_show_id');
+            $('.click_to_load_modal_popup').on('click', function(event){
+                event.preventDefault();
+                var link = $(this).attr('href');
+                $modal.load(link,{},
+                        function(){
+                            $modal.modal('show');
+                        });
+
+            });
+
+            $modal.on('hidden.bs.modal', function () {
+                $modal.html('');
+            });
+
+        });
+
+    </script>
+
+
+    <!-- wrapp_search_btn -->
+    <div class="wrapp_search_btn">
+        <form method="GET" action="{{ path('admin_category') }}">
+            <div class="row">
+                <div class="col-md-6">
+                    <form class="form-group">
+                        <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="">
+                    </form>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa fa-search"></i>
+                        検索
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- //wrapp_search_btn -->
+
+
+    <!-- wrapp wrapp_summary -->
+    <div class="wrapp_summary">
+        {% if pagination.page_total == 0 %}
+            <div class="media">
+                No Records.
+            </div>
+        {% else %}
+            {% for cate in categories %}
+                <div class="media">
+                    <div class="media-left">
+                        {#<center><img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt=""></center>#}
+                        <center><img width="171px" height="172px" class="media-object" src="{{ asset(category_avatar_path~cate.iconUrl) }}" alt=""></center>
+                    </div>
+                    <div class="media-body">
+                        <div class="top-media">
+                            <h4 class="media-heading">{{ cate.name }}</h4>
+                        </div>
+                        <div class="top-media">
+                            <span >
+                              作成日: {{ cate.createdAt|date("Y.m.d") }}
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    {% include 'AdminBundle:Pager:pagination.html.twig' with {pagination: pagination, route: path(app.request.attributes.get('_route')) } %}
+    <!--/ wrapp wrapp_summary -->
+{% endblock %}
+
