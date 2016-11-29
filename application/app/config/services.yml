@@ -6,6 +6,11 @@ parameters:
        app_id: '%facebook_client_id%'
        app_secret: '%facebook_client_secret%'
 
+   instagram_config:
+      apiKey: '%instagram_client_id%'
+      apiSecret: '%instagram_client_secret%'
+      apiCallback: 'http://localhost'
+
    coupon_types:
       1: SNS
       2: Store

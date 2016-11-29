@@ -37,6 +37,11 @@ class AppUser extends BaseUser
     /**
      * @var string
      */
+    private $instagramId;
+
+    /**
+     * @var string
+     */
     private $twitterId;
 
 
@@ -878,5 +883,23 @@ class AppUser extends BaseUser
     public function getStores()
     {
         return $this->stores;
+    }
+
+    /**
+     * @param string $instagramId
+     * @return AppUser
+     */
+    public function setInstagramId(string $instagramId)
+    {
+        $this->instagramId = $instagramId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstagramId()
+    {
+        return $this->instagramId;
     }
 }

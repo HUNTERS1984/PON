@@ -77,6 +77,10 @@ CoreBundle\Entity\AppUser:
             type: string
             length: 255
             nullable: TRUE
+        instagramId:
+            type: string
+            length: 255
+            nullable: TRUE
         twitterId:
             type: string
             length: 255

@@ -121,6 +121,12 @@ security:
             fos_oauth: true                            # OAuth2 protected resource
             stateless: true                            # Do no set session cookies
             anonymous: true                           # Anonymous access is not allowed
+        api_instagram_signin:
+            security: true
+            pattern: ^/api/v1/instagram/signin                               # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: true                           # Anonymous access is not allowed
         api_facebook_signin:
             security: true
             pattern: ^/api/v1/facebook/signin                               # All URLs are protected

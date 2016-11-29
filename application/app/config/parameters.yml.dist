@@ -31,6 +31,9 @@ parameters:
     twitter_consumer_key: 002neLhPbyLMt6rBP68wVVstN
     twitter_consumer_secret: u2Cp1LFDin1zeQXxqXdgQEddZP06wsEPMxotStnThe7OsBVK43
 
+    instagram_client_id: cd9f614f85f44238ace18045a51c44d1
+    instagram_client_secret: d839149848c04447bd379ce8bff4d890
+
     elasticsearch_host: '%elasticsearch.host%'
     elasticsearch_port: 9200
     elasticsearch_index: pon
