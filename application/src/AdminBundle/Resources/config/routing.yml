@@ -10,6 +10,10 @@ admin_coupon_link:
     path:     /coupon/link/{id}
     defaults: { _controller: AdminBundle:Coupon:link }
 
+admin_app_user:
+    path:     /user
+    defaults: { _controller: AdminBundle:AppUser:index }
+
 admin_summary:
     path:     /summary
     defaults: { _controller: AdminBundle:Summary:index }
