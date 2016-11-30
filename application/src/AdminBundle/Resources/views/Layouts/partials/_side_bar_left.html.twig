@@ -17,6 +17,12 @@
             </a>
         </li>
         <li class="menu--item">
+            <a href="{{ path('admin_app_user') }}" class="menu--link {% if active_menu|default('') == "app_user" %}active{% endif %}" title="ユーザー管理">
+                <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
+                <span class="menu--label">ユーザー管理</span>
+            </a>
+        </li>
+        <li class="menu--item">
             <a href="{{ path('admin_category') }}" class="menu--link {% if active_menu|default('') == "category" %}active{% endif %}" title="カテゴリ">
                 <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
                 <span class="menu--label">カテゴリ</span>

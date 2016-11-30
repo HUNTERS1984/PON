@@ -10,6 +10,21 @@ fos_elastica:
                         id: ~
                         username: ~
                         roles: ~
+                        usernameCanonical: ~
+                        email: ~
+                        emailCanonical: ~
+                        name: ~
+                        enabled: ~
+                        address: ~
+                        company: ~
+                        tel: ~
+                        avatarUrl: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        deletedAt:
+                            type: date
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\AppUser
