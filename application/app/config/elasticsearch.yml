@@ -87,7 +87,7 @@ fos_elastica:
                         id: ~
                         couponId:
                             type: string
-                            index_analyzer: keyword_analyzer
+                            index: not_analyzed
                         title: ~
                         expiredTime:
                             type: date

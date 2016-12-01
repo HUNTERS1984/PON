@@ -527,7 +527,7 @@ class CouponManager extends AbstractManager
         $date = new \DateTime();
         $boolQuery
             ->addMust(new Term(['appUser.id' => ['value' => $user->getId()]]))
-            ->addMust(new Term(['code' => ['value' => $code]]))
+            ->addMust(new Match(['code', $code]))
             ->addMust(new Term(['status' => ['value' => 1]]))
             ->addMust(new Range('expiredTime',['gte' => $date->format(\DateTime::ISO8601)]));
 
@@ -683,7 +683,7 @@ class CouponManager extends AbstractManager
         $query = new Query();
         $boolQuery = new BoolQuery();
         $boolQuery->addMust(new Term(['status' => ['value' => 2]]));
-        $boolQuery->addMust(new Term(['code' => ['value' => $code]]));
+        $boolQuery->addMust(new Match(['code', $code]));
         $query->setQuery($boolQuery);
         $result = $this->useListFinder->find($query);
         return !empty($result) ? $result[0] : null;
