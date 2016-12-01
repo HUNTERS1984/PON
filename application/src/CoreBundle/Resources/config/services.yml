@@ -81,7 +81,6 @@ services:
             factory_method:   getEntityManager
             arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Segement"]
             calls:
-                - [setPagination, ["@pon.paginator.pagination"]]
                 - [setSegementFinder, ["@fos_elastica.finder.app.segement"]]
 
     pon.manager.push_setting:

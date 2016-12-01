@@ -43,8 +43,7 @@ class PushSettingDummy extends BaseDummy implements IDummy
         $pushSetting->setMessage($message);
         $pushSetting->setStatus($status);
         $pushSetting->setJson($json);
-        $pushSetting->setTime(new \DateTime());
-        $pushSetting->setDate(new \DateTime());
+        $pushSetting->setDeliveryTime(new \DateTime());
 
         $pushSetting = $this->pushSettingManager->createPushSetting($pushSetting);
         return $pushSetting;

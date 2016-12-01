@@ -307,15 +307,24 @@ fos_elastica:
                 segement:
                     mappings:
                         id: ~
+                        title: ~
                         store:
                             type: object
                             properties:
                                 id: ~
                                 title: ~
-                                avatar_url: ~
                                 deletedAt:
                                     type: date
-                        title: ~
+                                appUser:
+                                    type: object
+                                    properties:
+                                        id: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        deletedAt:
+                            type: date
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\Segement
@@ -393,34 +402,6 @@ fos_elastica:
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\SocialProfile
-                        provider: ~
-                        listener: ~
-                        finder: ~
-
-                segement:
-                    mappings:
-                        id: ~
-                        title: ~
-                        store:
-                            type: object
-                            properties:
-                                id: ~
-                                title: ~
-                                deletedAt:
-                                    type: date
-                                appUser:
-                                    type: object
-                                    properties:
-                                        id: ~
-                        createdAt:
-                            type: date
-                        updatedAt:
-                            type: date
-                        deletedAt:
-                            type: date
-                    persistence:
-                        driver: orm
-                        model: CoreBundle\Entity\Segement
                         provider: ~
                         listener: ~
                         finder: ~
