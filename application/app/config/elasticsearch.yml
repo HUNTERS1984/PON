@@ -87,7 +87,7 @@ fos_elastica:
                         id: ~
                         couponId:
                             type: string
-                            index: keyword_analyzer
+                            index_analyzer: keyword_analyzer
                         title: ~
                         expiredTime:
                             type: date
@@ -149,7 +149,7 @@ fos_elastica:
                                 imageUrl: ~
                                 photoId:
                                     type: string
-                                    index: keyword_analyzer
+                                    index_analyzer: keyword_analyzer
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\StorePhoto
@@ -165,7 +165,7 @@ fos_elastica:
                                 id: ~
                                 couponId:
                                     type: string
-                                    index: keyword_analyzer
+                                    index_analyzer: keyword_analyzer
                                 title: ~
                         photo:
                             type: object
@@ -174,7 +174,7 @@ fos_elastica:
                                 imageUrl: ~
                                 photoId:
                                     type: string
-                                    index: keyword_analyzer
+                                    index_analyzer: keyword_analyzer
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\CouponUserPhoto
@@ -190,7 +190,7 @@ fos_elastica:
                                 id: ~
                                 couponId:
                                     type: string
-                                    index: keyword_analyzer
+                                    index_analyzer: keyword_analyzer
                                 title: ~
                         photo:
                             type: object
@@ -199,7 +199,7 @@ fos_elastica:
                                 imageUrl: ~
                                 photoId:
                                     type: string
-                                    index: keyword_analyzer
+                                    index_analyzer: keyword_analyzer
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\CouponPhoto
@@ -232,7 +232,7 @@ fos_elastica:
                                 id: ~
                                 couponId:
                                     type: string
-                                    index: keyword_analyzer
+                                    index_analyzer: keyword_analyzer
                                 title: ~
                                 hashTag: ~
                                 deletedAt:
@@ -271,7 +271,7 @@ fos_elastica:
                         status: ~
                         code:
                             type: string
-                            index: keyword_analyzer
+                            index_analyzer: keyword_analyzer
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\UseList
@@ -312,7 +312,7 @@ fos_elastica:
                                 id: ~
                                 couponId:
                                     type: string
-                                    index: keyword_analyzer
+                                    index_analyzer: keyword_analyzer
                                 title: ~
                                 imageUrl: ~
                                 deletedAt:
