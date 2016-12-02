@@ -47,6 +47,12 @@ class DummyDataCommand extends ContainerAwareCommand
         $output->writeln("Finished Dump Category...");
 
         $output->writeln("");
+        $output->writeln("Starting Dump NewsCategory...");
+        $this->dummyNewsCategory($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump NewsCategory...");
+
+        $output->writeln("");
         $output->writeln("Starting Dump Store...");
         $this->dummyStore($output);
         $output->writeln("");
@@ -76,12 +82,17 @@ class DummyDataCommand extends ContainerAwareCommand
         $output->writeln("");
         $output->writeln("Finished Dump MessageDelivery...");
 
-
         $output->writeln("");
         $output->writeln("Starting Dump Coupon...");
         $this->dummyCoupon($output);
         $output->writeln("");
         $output->writeln("Finished Dump Coupon...");
+
+        $output->writeln("");
+        $output->writeln("Starting Dump News...");
+        $this->dummyNews($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump News...");
 
         $output->writeln("");
         $output->writeln("Starting Dump UseList...");
@@ -145,6 +156,19 @@ class DummyDataCommand extends ContainerAwareCommand
 
         for ($i = 0; $i < 5; $i++) {
             $this->getContainer()->get('pon.dummy.category')->generate($output);
+            $progress->advance();
+        }
+        $progress->finish();
+    }
+
+    public function dummyNewsCategory(OutputInterface $output)
+    {
+        $progress = new ProgressBar($output, 5);
+        $progress->setRedrawFrequency(1);
+        $progress->start();
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->getContainer()->get('pon.dummy.news_category')->generate($output);
             $progress->advance();
         }
         $progress->finish();
@@ -230,6 +254,23 @@ class DummyDataCommand extends ContainerAwareCommand
             $progress->advance();
             $output->writeln("");
             $output->writeln(sprintf("Finished dummy Coupon %s", $i + 1));
+            $output->writeln("");
+        }
+        $progress->finish();
+    }
+
+    public function dummyNews(OutputInterface $output)
+    {
+        $progress = new ProgressBar($output, 50);
+        $progress->setRedrawFrequency(1);
+        $progress->start();
+        $output->writeln("");
+        for ($i = 0; $i < 50; $i++) {
+            $output->writeln(sprintf("Begin dummy News %s", $i + 1));
+            $this->getContainer()->get('pon.dummy.news')->generate($output);
+            $progress->advance();
+            $output->writeln("");
+            $output->writeln(sprintf("Finished dummy News %s", $i + 1));
             $output->writeln("");
         }
         $progress->finish();

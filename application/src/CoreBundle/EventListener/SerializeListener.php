@@ -7,6 +7,8 @@ use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\CouponPhoto;
 use CoreBundle\Entity\CouponUserPhoto;
+use CoreBundle\Entity\News;
+use CoreBundle\Entity\NewsPhoto;
 use CoreBundle\Entity\Segement;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\StorePhoto;
@@ -19,6 +21,7 @@ use CoreBundle\Manager\SegementManager;
 use CoreBundle\Manager\PushSettingManager;
 use CoreBundle\Manager\MessageDeliveryManager;
 use CoreBundle\Manager\StoreManager;
+use CoreBundle\Manager\NewsManager;
 use CoreBundle\Manager\UseListManager;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
@@ -37,6 +40,11 @@ class SerializeListener implements EventSubscriberInterface
      * @var StoreManager $storeManager
      */
     private $storeManager;
+
+    /**
+     * @var NewsManager $newsManager
+     */
+    private $newsManager;
 
     /**
      * @var CouponManager $couponManager
@@ -111,6 +119,11 @@ class SerializeListener implements EventSubscriberInterface
     /**
      * @var string
      */
+    private $baseNewsAvatarPath;
+
+    /**
+     * @var string
+     */
     private $baseImagePath;
 
     /**
@@ -121,6 +134,10 @@ class SerializeListener implements EventSubscriberInterface
         $object = $event->getObject();
         if ($object instanceof Store) {
             $this->preStoreSerialize($object);
+        }
+
+        if ($object instanceof News) {
+            $this->preNewsSerialize($object);
         }
 
         if ($object instanceof Coupon) {
@@ -201,6 +218,15 @@ class SerializeListener implements EventSubscriberInterface
     }
 
     /**
+     * @param News $news
+     */
+    public function preNewsSerialize(News $news)
+    {
+        $this->setNewsPhoto($news);
+        $this->setAvatarNews($news);
+    }
+
+    /**
      * @param Category $category
      */
     public function preCategorySerialize(Category $category)
@@ -261,6 +287,15 @@ class SerializeListener implements EventSubscriberInterface
         $store->setAvatarUrl($avatarUrl);
     }
 
+    /**
+     * @param News $news
+     */
+    public function setAvatarNews(News $news)
+    {
+        $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseNewsAvatarPath, $news->getImageUrl());
+        $news->setImageUrl($avatarUrl);
+    }
+
     public function getUrl()
     {
         return $this->request->getCurrentRequest()->getSchemeAndHttpHost();
@@ -277,6 +312,18 @@ class SerializeListener implements EventSubscriberInterface
             return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $storePhoto->getPhoto()->getImageUrl());
         }, $store->getStorePhotos()->toArray());
         $store->setStorePhotoUrls($photoUrls);
+    }
+
+    /**
+     * @param News $news
+     */
+    public function setNewsPhoto(News $news)
+    {
+        /** @var RequestStack $request */
+        $request = $this->request;
+        $photoUrls = array_map(function (NewsPhoto $newsPhoto) {
+            return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $newsPhoto->getPhoto()->getImageUrl());
+        }, $news->getNewsPhotos()->toArray());
     }
 
     /**
@@ -437,6 +484,16 @@ class SerializeListener implements EventSubscriberInterface
     }
 
     /**
+     * @param NewsManager $newsManager
+     * @return SerializeListener
+     */
+    public function setNewsManager($newsManager)
+    {
+        $this->newsManager = $newsManager;
+        return $this;
+    }
+
+    /**
      * @param mixed $couponManager
      * @return SerializeListener
      */
@@ -571,6 +628,16 @@ class SerializeListener implements EventSubscriberInterface
     public function setBaseStoreAvatarPath(string $baseStoreAvatarPath): SerializeListener
     {
         $this->baseStoreAvatarPath = $baseStoreAvatarPath;
+        return $this;
+    }
+
+    /**
+     * @param string $baseNewsAvatarPath
+     * @return SerializeListener
+     */
+    public function setBaseNewsAvatarPath(string $baseNewsAvatarPath): SerializeListener
+    {
+        $this->baseNewsAvatarPath = $baseNewsAvatarPath;
         return $this;
     }
 

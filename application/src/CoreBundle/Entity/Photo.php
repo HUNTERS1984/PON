@@ -44,6 +44,11 @@ class Photo
     private $storePhotos;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $newsPhotos;
+
+    /**
      * @var UploadedFile
      */
     private $imageFile;
@@ -60,6 +65,7 @@ class Photo
     {
         $this->couponPhotos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->storePhotos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->newsPhotos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -235,6 +241,41 @@ class Photo
     {
         return $this->storePhotos;
     }
+
+    /**
+     * Add newsPhoto
+     *
+     * @param \CoreBundle\Entity\NewsPhoto $newsPhoto
+     *
+     * @return Photo
+     */
+    public function addNewsPhoto(\CoreBundle\Entity\NewsPhoto $newsPhoto)
+    {
+        $this->newsPhotos[] = $newsPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Remove newsPhoto
+     *
+     * @param \CoreBundle\Entity\NewsPhoto $newsPhoto
+     */
+    public function removeNewsPhoto(\CoreBundle\Entity\NewsPhoto $newsPhoto)
+    {
+        $this->newsPhotos->removeElement($newsPhoto);
+    }
+
+    /**
+     * Get newsPhotos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNewsPhotos()
+    {
+        return $this->newsPhotos;
+    }
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */

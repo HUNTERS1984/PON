@@ -115,6 +115,16 @@ services:
             - [setAvatarDir, ["%category_avatar_path%"]]
             - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
 
+    pon.manager.news_category:
+        class: CoreBundle\Manager\NewsCategoryManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\NewsCategory"]
+        calls:
+            - [setPagination, ["@pon.paginator.pagination"]]
+            - [setSampleImagePath, ["%sample_image_path%"]]
+            - [setNewsCategoryFinder, ["@fos_elastica.finder.app.newsCategory"]]
+
     pon.manager.coupon_photo:
         class: CoreBundle\Manager\CouponPhotoManager
         factory_service:  doctrine
@@ -126,6 +136,12 @@ services:
         factory_service:  doctrine
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\StorePhoto"]
+
+    pon.manager.news_photo:
+        class: CoreBundle\Manager\NewsPhotoManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\NewsPhoto"]
 
     pon.manager.coupon_user_photo:
         class: CoreBundle\Manager\CouponUserPhotoManager
@@ -185,6 +201,8 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\News"]
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
+            - [setSampleImagePath, ["%sample_image_path%"]]
+            - [setNewsFinder, ["@fos_elastica.finder.app.news"]]
 
     pon.dummy.client:
         class: CoreBundle\DummyData\ClientDummy
@@ -209,6 +227,11 @@ services:
         calls:
             - [setManager, ["@pon.manager.category"]]
             - [setAvatarDirPath, ["%category_avatar_path%"]]
+    pon.dummy.news_category:
+        class: CoreBundle\DummyData\NewsCategoryDummy
+        calls:
+            - [setManager, ["@pon.manager.news_category"]]
+            - [setAvatarDirPath, ["%news_category_avatar_path%"]]
     pon.dummy.store:
         class: CoreBundle\DummyData\StoreDummy
         calls:
@@ -218,6 +241,17 @@ services:
             - [setAvatarDirPath, ["%store_avatar_path%"]]
             - [setImageDirPath, ["%image_path%"]]
             - [setStorePhotoManager, ["@pon.manager.store_photo"]]
+
+    pon.dummy.news:
+            class: CoreBundle\DummyData\NewsDummy
+            calls:
+                - [setManager, ["@pon.manager.news"]]
+                - [setStoreManager, ["@pon.manager.store"]]
+                - [setNewsCategoryManager, ["@pon.manager.news_category"]]
+                - [setPhotoManager, ["@pon.manager.photo"]]
+                - [setAvatarDirPath, ["%news_avatar_path%"]]
+                - [setImageDirPath, ["%image_path%"]]
+                - [setNewsPhotoManager, ["@pon.manager.news_photo"]]
 
     pon.dummy.segement:
         class: CoreBundle\DummyData\SegementDummy
@@ -278,6 +312,7 @@ services:
         calls:
             - [setSecurityContext, ["@security.token_storage"]]
             - [setStoreManager, ["@pon.manager.store"]]
+            - [setStoreManager, ["@pon.manager.news"]]
             - [setCouponManager, ["@pon.manager.coupon"]]
             - [setAppUserManager, ["@pon.manager.app_user"]]
             - [setSegementManager, ["@pon.manager.segement"]]
@@ -291,7 +326,9 @@ services:
             - [setRequest, ["@request_stack"]]
             - [setBaseCouponAvatarPath,["%base_coupon_avatar_path%"]]
             - [setBaseStoreAvatarPath,["%base_store_avatar_path%"]]
+            - [setBaseNewsAvatarPath,["%base_news_avatar_path%"]]
             - [setBaseCategoryAvatarPath,["%base_category_avatar_path%"]]
+            - [setBaseNewsCategoryAvatarPath,["%base_news_category_avatar_path%"]]
             - [setBaseImagePath,["%base_image_upload%"]]
         tags:
             - { name: jms_serializer.event_subscriber}

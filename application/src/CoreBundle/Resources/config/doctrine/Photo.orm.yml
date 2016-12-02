@@ -13,6 +13,9 @@ CoreBundle\Entity\Photo:
             mappedBy: photo
             cascade: ["persist"]
             orphanRemoval: true
+        newsPhotos:
+            targetEntity: NewsPhoto
+            mappedBy: photo
         couponUserPhotos:
             targetEntity: CouponUserPhoto
             mappedBy: photo
