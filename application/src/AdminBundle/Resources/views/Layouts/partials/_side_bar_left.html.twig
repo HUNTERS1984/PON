@@ -65,6 +65,12 @@
             </a>
         </li>
         <li class="menu--item">
+            <a href="{{ path('admin_news_category') }}" class="menu--link {% if active_menu|default('') == "news-category" %}active{% endif %}" title="カテゴリ">
+                <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
+                <span class="menu--label">新着 カテゴリ</span>
+            </a>
+        </li>
+        <li class="menu--item">
             <a href="{{ path('admin_news') }}" class="menu--link {% if active_menu|default('') == "news" %}active{% endif %}" title="お知らせ・新着">
                 <i class="menu--icon  fa fa-fw fa fa-newspaper-o"></i>
                 <span class="menu--label">お知らせ・新着</span>

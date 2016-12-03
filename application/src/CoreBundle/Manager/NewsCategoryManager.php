@@ -81,4 +81,45 @@ class NewsCategoryManager extends AbstractManager
         return $this;
     }
 
+    /**
+     * Get NewsCategories
+     * @param array $params
+     *
+     * @return array
+     */
+    public function getNewsCategories($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+        $boolQuery = new Query\BoolQuery();
+
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['name']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery
+                ->addMust($multiMatchQuery);
+        } else {
+            $boolQuery
+                ->addMust(new Query\MatchAll());
+        }
+
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->newsCategoryFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+
 }
