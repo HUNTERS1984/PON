@@ -27,34 +27,37 @@
         {% if widget == 'single_text' %}
             {{ block('field_widget') }}
         {% else %}
-            <div class="col-md-4">
-                <div class="form-group">
-                    {{  form_widget(form.date.year, {'attr': {'class': 'form-control'}}) }}
+            <div class="delivery_time">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{  form_widget(form.date.year, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{  form_widget(form.date.month, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{  form_widget(form.date.day, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{  form_widget(form.time.hour, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{  form_widget(form.time.minute, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    {{  form_widget(form.time.second, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
-            <div class="col-md-4">
-                 <div class="form-group">
-                    {{  form_widget(form.date.month, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    {{  form_widget(form.date.day, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    {{  form_widget(form.time.hour, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    {{  form_widget(form.time.minute, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="col-md-4">
-                {{  form_widget(form.time.second, {'attr': {'class': 'form-control'}}) }}
-            </div>
+
         {% endif %}
     {% endspaceless %}
 {% endblock %}

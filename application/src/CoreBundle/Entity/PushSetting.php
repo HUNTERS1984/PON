@@ -33,6 +33,11 @@ class PushSetting
     private $status;
 
     /**
+     * @var string
+     */
+    private $type;
+
+    /**
      * @var \DateTime
      */
     private $deliveryTime;
@@ -357,6 +362,24 @@ class PushSetting
     public function getSegement()
     {
         return $this->segement;
+    }
+
+    /**
+     * @param string $type
+     * @return PushSetting
+     */
+    public function setType(string $type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
 

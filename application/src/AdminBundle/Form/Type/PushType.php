@@ -33,6 +33,13 @@ class PushType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $deliveryTimes = [
+            '今すぐ送信してください' => 'now',
+            '時間を指定して配信' => 'special'
+        ];
+
+        $segements = array_merge([null=> 'お店から1キロ以内のユーザー'],$options['segements']);
+
         $builder
             ->add('title', TextType::class, [
                 'label' => 'タイトル',
@@ -60,19 +67,40 @@ class PushType extends AbstractType
                     'placeholder' => 'JSON'
                 ]
             ])
-            ->add('segement', SegementType::class, [
-                'label' => '配信先のセグメント',
-                'segments' => $options['segements'],
-                'required' => false
+            ->add('segement', ChoiceType::class, [
+                'label' => false,
+                'required' => true,
+                'choices' => $segements,
+                'choice_label' => function ($value) {
+                    if(!is_object($value)) {
+                        return $value;
+                    }
+                    return $value ? $value->getTitle() : null;
+                },
+                'choice_value' => function ($value) {
+                    if(!is_object($value)) {
+                        return null;
+                    }
+                    return $value ? $value->getId() : null;
+                },
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('deliveryTime', DateTimeType::class, [
                 'label' => false,
                 'format' => 'y-M-d H:i:s',
                 'with_seconds' => true,
-                'years' => range(date('Y'), date('Y') + 10),
+                'years' => range(date('Y'), date('Y') + 10)
+            ])
+            ->add('type', ChoiceType::class, [
+                'required' => true,
+                'label' => '配信時間指定',
+                'choices' => $deliveryTimes,
                 'attr' => [
-                    'class' => 'select_day',
-                ],
+                    'class' => 'form-control push_delivery_time',
+                    'children' => true
+                ]
             ]);
     }
 }

@@ -50,18 +50,6 @@
             </div>
 
 
-            <!-- Modal -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog modal_push" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <img src="{{ asset('backend/images/check_push.png') }}" alt="">
-                            <p>プッシュ通知を送信しました</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- drop push -->
             {% include 'AdminBundle:Push:create.html.twig' with {form: form} %}
             <!-- //drop push -->

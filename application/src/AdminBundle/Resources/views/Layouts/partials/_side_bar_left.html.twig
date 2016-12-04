@@ -1,8 +1,8 @@
 <nav class="vertical_nav">
     <ul class="profile">
-        <li><img src="{{ asset('backend/images/avatar.png') }}" alt=""></li>
+        <li><img src="{{ asset(user_avatar_path ~ app.user.avatarUrl) }}" alt=""></li>
         <li>
-            <strong>ユーザーネーム</strong>
+            <strong>{{ app.user.username }}</strong>
             <p><i class="fa fa-circle"></i> オンライン</p>
         </li>
     </ul>

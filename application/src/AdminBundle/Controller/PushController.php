@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Controller;
 
+use CoreBundle\Entity\PushSetting;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use CoreBundle\Manager\PushSettingManager;
 use AdminBundle\Form\Type\PushType;
@@ -48,6 +49,8 @@ class PushController extends Controller
         );
     }
 
+
+
     /**
      * @return PushSettingManager
      */
@@ -58,7 +61,32 @@ class PushController extends Controller
 
     public function createAction(Request $request)
     {
-        return $this->render('AdminBundle:Push:create.html.twig');
+        if(!$request->isXmlHttpRequest() ) {
+            return $this->getFailureMessage('クーポンの作成に失敗しました');
+        }
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $segements = $this->getSegementManager()->getSegementFromAdmin();
+        } else {
+            $segements = $this->getSegementManager()->getSegementFromClient($this->getUser());
+        }
+
+        $form = $this->createPush($request, $segements);
+
+        if (count($errors = $form->getErrors(true)) > 0) {
+            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+        }
+
+        /** @var PushSetting $pushSetting */
+        $pushSetting = $form->getData();
+        $pushSetting->setStatus(1);
+        $pushSetting = $this->getManager()->createPushSetting($pushSetting);
+
+        if (!$pushSetting) {
+            return $this->getFailureMessage('クーポンの作成に失敗しました');
+        }
+
+        return $this->getSuccessMessage();
     }
 
     /**
@@ -69,18 +97,31 @@ class PushController extends Controller
      */
     public function createPush(Request $request, $segements)
     {
-
         $form = $this
             ->createForm(PushType::class, null, [
                 'segements' => $segements
             ])
             ->handleRequest($request);
 
-        if ($form->isValid()) {
-
-        }
-
         return $form;
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    public function getSuccessMessage($message = '')
+    {
+        return new Response(json_encode(['status' => true, 'message' => $message]));
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    public function getFailureMessage($message = '')
+    {
+        return new Response(json_encode(['status' => false, 'message' => $message]));
     }
 
     /**

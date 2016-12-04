@@ -43,7 +43,18 @@ class PushSettingDummy extends BaseDummy implements IDummy
         $pushSetting->setMessage($message);
         $pushSetting->setStatus($status);
         $pushSetting->setJson($json);
-        $pushSetting->setDeliveryTime(new \DateTime());
+        $type = $faker->randomElement(['now', 'special']);
+
+        $now = new \DateTime();
+        if($type == 'special') {
+            $days = $faker->numberBetween(1, 10);
+            $now->modify("+$days days");
+            $pushSetting->setDeliveryTime($now);
+        }else{
+            $pushSetting->setDeliveryTime($now);
+        }
+        $pushSetting->setType($type);
+
 
         $pushSetting = $this->pushSettingManager->createPushSetting($pushSetting);
         return $pushSetting;

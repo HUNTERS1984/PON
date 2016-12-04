@@ -29,11 +29,24 @@ class SegementType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $segements = array_merge([null=> 'お店から1キロ以内のユーザー'],$options['segments']);
         $builder
             ->add('title', ChoiceType::class, [
                 'label' => false,
                 'required' => true,
-                'choices'  => array_flip($options['segments']),
+                'choices' => $segements,
+                'choice_label' => function ($value) {
+                    if(!is_object($value)) {
+                        return $value;
+                    }
+                    return $value ? $value->getTitle() : null;
+                },
+                'choice_value' => function ($value) {
+                    if(!is_object($value)) {
+                        return null;
+                    }
+                    return $value ? $value->getId() : null;
+                },
                 'attr' => [
                     'class' => 'form-control'
                 ]

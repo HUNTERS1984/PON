@@ -83,13 +83,8 @@ class SegementManager extends AbstractManager
         $query->setSize(1000);
 
         $results = $this->segementFinder->find($query);
-        $segements = [];
-        foreach($results as $item) {
-            /** @var Segement $segement */
-            $segement = $item;
-            $segements[$segement->getId()] = $segement->getTitle();
-        }
-        return $segements;
+        
+        return $results;
 
     }
 
