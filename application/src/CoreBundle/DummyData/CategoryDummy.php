@@ -20,22 +20,20 @@ class CategoryDummy extends BaseDummy implements IDummy
     public function generate(OutputInterface $output, $i = 0)
     {
         $faker = Factory::create('ja_JP');
-        $mod = new Category();
+        $category = new Category();
         $name = $faker->name;
 
         $file = new Filesystem();
         if(!$file->exists($this->avatarDirPath)) {
             $file->mkdir($this->avatarDirPath);
         }
-
-
-        $mod
+        
+        $category
             ->setCreatedAt(new \DateTime())
             ->setName($name)
-            ->setIconUrl($this->manager->getImage($this->avatarDirPath))
-            ->setUpdatedAt(new \DateTime());
-        $this->manager->dummy($mod);
-        return $mod;
+            ->setIconUrl($this->manager->getImage($this->avatarDirPath));
+        $this->manager->createCategory($category);
+        return $category;
     }
 
     /**
