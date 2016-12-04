@@ -109,6 +109,7 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setSampleImagePath, ["%sample_image_path%"]]
+            - [setAvatarDir, ["%category_avatar_path%"]]
             - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
 
     pon.manager.coupon_photo:

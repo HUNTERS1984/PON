@@ -30,6 +30,14 @@ admin_category:
     path:     /category
     defaults: { _controller: AdminBundle:Category:index }
 
+admin_category_create:
+    path:     /category/create
+    defaults: { _controller: AdminBundle:Category:create }
+
+admin_category_edit:
+    path:     /category/edit/{id}
+    defaults: { _controller: AdminBundle:Category:edit }
+
 admin_store:
     path:     /store
     defaults: { _controller: AdminBundle:Store:index }

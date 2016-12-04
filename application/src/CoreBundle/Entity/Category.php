@@ -2,6 +2,7 @@
 
 namespace CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Category
@@ -22,6 +23,11 @@ class Category
      * @var string
      */
     private $iconUrl;
+
+    /**
+     * @var UploadedFile
+     */
+    private $imageFile;
 
     /**
      * @var \DateTime
@@ -52,6 +58,11 @@ class Category
      * @var int
      */
     private $shopCount;
+
+    /**
+     * @var string
+     */
+    private $categoryId;
 
     /**
      * Constructor
@@ -292,5 +303,41 @@ class Category
     public function getShopCount()
     {
         return $this->shopCount;
+    }
+
+    /**
+     * @param UploadedFile $imageFile
+     * @return Category
+     */
+    public function setImageFile(UploadedFile $imageFile)
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param string $categoryId
+     * @return Category
+     */
+    public function setCategoryId($categoryId)
+    {
+        $this->categoryId = $categoryId;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoryId()
+    {
+        return $this->categoryId;
     }
 }
