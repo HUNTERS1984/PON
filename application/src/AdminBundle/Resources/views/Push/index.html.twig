@@ -78,7 +78,8 @@
                                 <span class="deliver_push"> {% if push.status == 0 %}配信されます{% else %} 正常に配信 {% endif %}</span>
                             </div>
                         </div>
-                        <a href="" class="link_blue">
+
+                        <a href="{{ path('admin_push_edit',{id:push.id}) }}" data-modal="load_popup_modal_show_id" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
                             <i class="fa fa-pencil"></i>
                         </a>
                     </div>
