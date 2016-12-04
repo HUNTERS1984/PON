@@ -33,14 +33,14 @@ class PushSetting
     private $status;
 
     /**
-     * @var \DateTime
+     * @var string
      */
-    private $time;
+    private $type;
 
     /**
      * @var \DateTime
      */
-    private $date;
+    private $deliveryTime;
 
     /**
      * @var \DateTime
@@ -189,13 +189,13 @@ class PushSetting
     /**
      * Set time
      *
-     * @param \DateTime $time
+     * @param \DateTime $deliveryTime
      *
      * @return PushSetting
      */
-    public function setTime($time)
+    public function setDeliveryTime($deliveryTime)
     {
-        $this->time = $time;
+        $this->deliveryTime = $deliveryTime;
 
         return $this;
     }
@@ -205,33 +205,9 @@ class PushSetting
      *
      * @return \DateTime
      */
-    public function getTime()
+    public function getDeliveryTime()
     {
-        return $this->time;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return PushSetting
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
+        return $this->deliveryTime;
     }
 
     /**
@@ -386,6 +362,24 @@ class PushSetting
     public function getSegement()
     {
         return $this->segement;
+    }
+
+    /**
+     * @param string $type
+     * @return PushSetting
+     */
+    public function setType(string $type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
 

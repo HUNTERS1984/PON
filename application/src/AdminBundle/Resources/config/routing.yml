@@ -38,6 +38,10 @@ admin_push:
     path:     /push
     defaults: { _controller: AdminBundle:Push:index }
 
+admin_push_create:
+    path:     /push/create
+    defaults: { _controller: AdminBundle:Push:create }
+
 admin_create:
     path:     /push/create
     defaults: { _controller: AdminBundle:Push:create }

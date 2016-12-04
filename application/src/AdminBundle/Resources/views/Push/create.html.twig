@@ -1,0 +1,54 @@
+{% form_theme form with ['AdminBundle:Form:fields.html.twig', _self] %}
+
+<!-- Modal -->
+<div class="modal fade" id="pushModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal_push" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src="{{ asset('backend/images/check_push.png') }}" alt="">
+                <p>プッシュ通知を送信しました</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12">
+    <a class="arrow_down collapsed" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        <span>新しくプッシュ通知を配信</span>
+    </a>
+    <div class="collapse" id="collapseExample">
+        <div class="down_con">
+
+            {{ form_start(form, {'attr': {'class': 'submitModal','data-modal':'#pushModal','data-ajax-redirect': path('admin_push'),'data-ajax-url': path("admin_push_create"), 'enctype': 'multipart/form-data'  }}) }}
+            {{ form_errors(form) }}
+            <div class="col-md-12">
+                {{ form_row(form.title) }}
+                {{ form_row(form.message) }}
+                {{ form_row(form.json) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.segement) }}
+                <div class="form-group">
+                    <a href="" class="link_create"><i class="fa fa-plus" aria-hidden="true"></i> セグメントを作成する</a>
+                </div>
+            </div>
+            <div class="col-md-6 delivery_time_ability">
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form_row(form.type) }}
+                    </div>
+                    {{ form_row(form.deliveryTime) }}
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="button_send">
+                    <button type="submit" class="btn btn-primary btn-send">
+                        このプッシュ通知を配信
+                    </button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

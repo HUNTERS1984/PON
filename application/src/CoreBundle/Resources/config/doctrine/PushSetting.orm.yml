@@ -41,9 +41,10 @@ CoreBundle\Entity\PushSetting:
         status:
             type: string
             length: 20
-        time:
-            type: datetime
-        date:
+        type:
+            type: string
+            length: 10
+        deliveryTime:
             type: datetime
         createdAt:
             type: datetime

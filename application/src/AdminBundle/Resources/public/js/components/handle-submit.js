@@ -6,6 +6,7 @@
             var defaultOptions = {
                 ajaxUrl: '',
                 ajaxRedirect: '',
+                modal: ''
             };
 
             options = $.extend(true, {}, defaultOptions, $element.data(), opts);
@@ -26,10 +27,17 @@
                 processData: false,
                 success: function (response) {
                     response = $.parseJSON(response);
+
+                    if(options.modal != '') {
+                        $(options.modal).modal('show');
+                    }
+
                     if(!response.status) {
                         $('#error_message').html(response.message);
                         return false;
                     }
+
+
 
                     if(response.status) {
                         window.location.href = options.ajaxRedirect;

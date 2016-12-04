@@ -71,6 +71,24 @@ var App = function () {
         }
     };
 
+    var handleDeliveryTimeVisibility = function ($element) {
+        $element.find('.delivery_time_ability').each(function () {
+            var $container = $(this),
+                $selectBox = $container.find('.push_delivery_time'),
+                $block = $container.find('.delivery_time');
+            $selectBox.change(setDeliveryTimeVisibility);
+            setDeliveryTimeVisibility();
+
+            function setDeliveryTimeVisibility() {
+                if ($selectBox.val() == 'now') {
+                    $block.hide();
+                } else {
+                    $block.show();
+                }
+            }
+        });
+    };
+
 
     //* END:CORE HANDLERS *//
 
@@ -84,6 +102,7 @@ var App = function () {
             handlePhotoCollection($document);
             handleSubmitModal($document);
             handleOpenModalPopup($document);
+            handleDeliveryTimeVisibility($document);
         },
 
         //main function to initiate core javascript after ajax complete
@@ -93,6 +112,7 @@ var App = function () {
             handlePhotoCollection($document);
             handleSubmitModal($document);
             handleOpenModalPopup($document);
+            handleDeliveryTimeVisibility($document);
         },
 
         //init main components
@@ -102,6 +122,7 @@ var App = function () {
             handlePhotoCollection($element);
             handleSubmitModal($element);
             handleOpenModalPopup($element);
+            handleDeliveryTimeVisibility($element);
         }
     };
 

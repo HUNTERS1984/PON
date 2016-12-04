@@ -191,7 +191,7 @@ class SummaryController extends Controller
                 }
             }
 
-            $this->getManager()->saveCoupon($coupon);
+            $coupon = $this->getManager()->saveCoupon($coupon);
 
             if (!$coupon) {
                 return $this->getFailureMessage('クーポンの作成に失敗しました');
