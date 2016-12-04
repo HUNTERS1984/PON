@@ -14,6 +14,9 @@ CoreBundle\Entity\Category:
             generator:
                 strategy: AUTO
     fields:
+        categoryId:
+            type: string
+            length: 100
         name:
             type: string
             length: 100

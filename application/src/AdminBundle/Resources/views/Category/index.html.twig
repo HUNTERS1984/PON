@@ -5,46 +5,31 @@
 {% set count = pagination.item_total %}
 
 {% block page_content %}
-    <script type="text/javascript">
-
-        $(document).ready(function(){
-            var $modal = $('#load_popup_modal_show_id');
-            $('.click_to_load_modal_popup').on('click', function(event){
-                event.preventDefault();
-                var link = $(this).attr('href');
-                $modal.load(link,{},
-                        function(){
-                            $modal.modal('show');
-                        });
-
-            });
-
-            $modal.on('hidden.bs.modal', function () {
-                $modal.html('');
-            });
-
-        });
-
-    </script>
-
 
     <!-- wrapp_search_btn -->
     <div class="wrapp_search_btn">
-        <form method="GET" action="{{ path('admin_category') }}">
-            <div class="row">
-                <div class="col-md-6">
-                    <form class="form-group">
-                        <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="">
-                    </form>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary btn-sm">
-                        <i class="fa fa-search"></i>
-                        検索
-                    </button>
-                </div>
+        <div class="row">
+            <div class="col-md-8">
+                <form method="GET" action="{{ path('admin_category') }}">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-search"></i>
+                                検索
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+            <div class="col-md-4">
+                <ul class="btn_search_right">
+                    <li><a data-toggle="modal" data-target=".bs-example-modal-lg" class="click_to_load_modal_popup" href="{{ path('admin_category_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいカテゴリを追加</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
     <!-- //wrapp_search_btn -->
 
@@ -56,19 +41,20 @@
                 No Records.
             </div>
         {% else %}
-            {% for cate in categories %}
+            {% for category in categories %}
                 <div class="media">
                     <div class="media-left">
                         {#<center><img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt=""></center>#}
-                        <center><img width="171px" height="172px" class="media-object" src="{{ asset(category_avatar_path~cate.iconUrl) }}" alt=""></center>
+                        <center><img width="171px" height="172px" class="media-object" src="{{ asset(category_avatar_path~category.iconUrl) }}" alt=""></center>
                     </div>
                     <div class="media-body">
                         <div class="top-media">
-                            <h4 class="media-heading">{{ cate.name }}</h4>
+                            <h4 class="media-heading">{{ category.name }}</h4>
+                            <a href="{{ path('admin_category_edit',{id:category.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
                         </div>
                         <div class="top-media">
                             <span >
-                              作成日: {{ cate.createdAt|date("Y.m.d") }}
+                              作成日: {{ category.createdAt|date("Y.m.d") }}
                             </span>
                         </div>
                     </div>

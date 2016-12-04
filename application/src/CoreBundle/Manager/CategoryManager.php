@@ -52,10 +52,13 @@ class CategoryManager extends AbstractManager
      *
      * @return Category
      */
-    public function createCouponType(Category $category)
+    public function createCategory(Category $category)
     {
+        if(!$category->getCategoryId()) {
+            $category->setCategoryId($this->createID('CA'));
+        }
         $category->setCreatedAt(new \DateTime());
-        $this->saveCategory($category);
+        return $this->saveCategory($category);
     }
 
     /**
@@ -63,7 +66,7 @@ class CategoryManager extends AbstractManager
      *
      * @return boolean
      */
-    public function deleteCouponType(Category $category)
+    public function deleteCategory(Category $category)
     {
         $category
             ->setDeletedAt(new \DateTime());
