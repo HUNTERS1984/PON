@@ -28,14 +28,12 @@ class PushController extends Controller
         $user = $this->getUser();
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            $segements = $this->getSegementManager()->getSegementFromAdmin();
             $result = $this->getManager()->getPushSettingManagerFromAdmin($params);
         } else {
             $result = $this->getManager()->getPushSettingManagerFromClient($params, $user);
-            $segements = $this->getSegementManager()->getSegementFromClient($user);
         }
         
-        $form = $this->createPush($request, $segements);
+        $form = $this->createPush($request, $this->getSegements());
 
         return $this->render(
             'AdminBundle:Push:index.html.twig',
@@ -59,19 +57,13 @@ class PushController extends Controller
         return $this->get('pon.manager.push_setting');
     }
 
-    public function createAction(Request $request)
+    public function updateAction(Request $request)
     {
         if(!$request->isXmlHttpRequest() ) {
-            return $this->getFailureMessage('クーポンの作成に失敗しました');
+            return $this->getFailureMessage('プッシュ設定の作成に失敗しました');
         }
 
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $segements = $this->getSegementManager()->getSegementFromAdmin();
-        } else {
-            $segements = $this->getSegementManager()->getSegementFromClient($this->getUser());
-        }
-
-        $form = $this->createPush($request, $segements);
+        $form = $this->createPush($request, $this->getSegements());
 
         if (count($errors = $form->getErrors(true)) > 0) {
             return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
@@ -83,22 +75,53 @@ class PushController extends Controller
         $pushSetting = $this->getManager()->createPushSetting($pushSetting);
 
         if (!$pushSetting) {
-            return $this->getFailureMessage('クーポンの作成に失敗しました');
+            return $this->getFailureMessage('プッシュ設定の作成に失敗しました');
         }
 
         return $this->getSuccessMessage();
     }
 
+    public function getSegements()
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $segements = $this->getSegementManager()->getSegementFromAdmin();
+        } else {
+            $segements = $this->getSegementManager()->getSegementFromClient($this->getUser());
+        }
+
+        return $segements;
+    }
+
+    public function editAction(Request $request, $id)
+    {
+        $pushSetting = $this->getManager()->getPushSetting($id);
+        if (!$pushSetting) {
+            throw $this->createNotFoundException('プッシュが見つかりませんでした');
+        }
+
+        $form = $this->createPush($request, $this->getSegements(), $pushSetting);
+
+        return $this->render(
+            'AdminBundle:Push:edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'pushSetting' => $pushSetting
+            ]
+        );
+
+    }
+
     /**
      * @param Request $request
      * @param array $segements
+     * @param mixed $data
      *
      * @return FormInterface
      */
-    public function createPush(Request $request, $segements)
+    public function createPush(Request $request, $segements, $data = null)
     {
         $form = $this
-            ->createForm(PushType::class, null, [
+            ->createForm(PushType::class, $data, [
                 'segements' => $segements
             ])
             ->handleRequest($request);

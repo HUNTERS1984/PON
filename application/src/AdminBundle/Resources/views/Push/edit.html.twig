@@ -1,0 +1,48 @@
+{% form_theme form with ['AdminBundle:Form:fields.html.twig', _self] %}
+
+<div id="frmEditCoupon">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal_coupon">
+            {{ form_start(form, {'attr': {'class': 'submitModal','data-modal':'#pushModal','data-ajax-redirect': path('admin_push'),'data-ajax-url': path("admin_push_update"), 'enctype': 'multipart/form-data'  }}) }}
+            {{ form_errors(form) }}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">クーポンを編集</h4>
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <div class="col-md-12">
+                        {{ form_row(form.title) }}
+                        {{ form_row(form.message) }}
+                        {{ form_row(form.json) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.segement) }}
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 delivery_time_ability">
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form_row(form.type) }}
+                            </div>
+                            {{ form_row(form.deliveryTime) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-delete" aria-label="Close" data-dismiss="modal">削除</button>
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+
+</div>
+
+{% block scripts_footer %}
+    <script src="{{ asset('backend/js/admin.js') }}"></script>
+    <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
+{% endblock %}

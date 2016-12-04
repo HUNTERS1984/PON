@@ -54,10 +54,25 @@ var App = function () {
     };
 
     var handleOpenModalPopup = function($element) {
-        $element.find('*[class=click_to_load_modal_popup]').each(function () {
-            $(this).modalPopup({
-                onRowAdded: App.initComponents
-            });
+        // $element.find('*[class=click_to_load_modal_popup]').each(function () {
+        //     $(this).modalPopup({
+        //         onRowAdded: App.initComponents
+        //     });
+        // });
+
+        var $modal = $('#load_popup_modal_show_id');
+        $('.click_to_load_modal_popup').on('click', function(event){
+            event.preventDefault();
+            var link = $(this).attr('href');
+            $modal.load(link,{},
+                function(){
+                    $modal.modal('show');
+                });
+
+        });
+
+        $modal.on('hidden.bs.modal', function () {
+            $modal.html('');
         });
     }
 

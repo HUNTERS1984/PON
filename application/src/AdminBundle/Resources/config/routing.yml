@@ -38,9 +38,13 @@ admin_push:
     path:     /push
     defaults: { _controller: AdminBundle:Push:index }
 
-admin_push_create:
-    path:     /push/create
+admin_push_update:
+    path:     /push/update
     defaults: { _controller: AdminBundle:Push:create }
+
+admin_push_edit:
+    path:     /push/edit/{id}
+    defaults: { _controller: AdminBundle:Push:edit }
 
 admin_create:
     path:     /push/create

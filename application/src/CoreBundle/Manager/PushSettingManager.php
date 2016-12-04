@@ -166,4 +166,19 @@ class PushSettingManager extends AbstractManager
         return $this->pagination->response($results, $total, $limit, $offset);
     }
 
+    /**
+     * get PushSetting
+     *
+     * @param $id
+     * @return null | PushSetting
+     */
+    public function getPushSetting($id)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Query\Term(['id' => ['value' => $id]]));
+        $result = $this->pushSettingFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
 }

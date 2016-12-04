@@ -20,7 +20,7 @@
     <div class="collapse" id="collapseExample">
         <div class="down_con">
 
-            {{ form_start(form, {'attr': {'class': 'submitModal','data-modal':'#pushModal','data-ajax-redirect': path('admin_push'),'data-ajax-url': path("admin_push_create"), 'enctype': 'multipart/form-data'  }}) }}
+            {{ form_start(form, {'attr': {'class': 'submitModal','data-modal':'#pushModal','data-ajax-redirect': path('admin_push'),'data-ajax-url': path("admin_push_update"), 'enctype': 'multipart/form-data'  }}) }}
             {{ form_errors(form) }}
             <div class="col-md-12">
                 {{ form_row(form.title) }}
