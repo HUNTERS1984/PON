@@ -48,6 +48,10 @@ class StoreManager extends AbstractManager
      */
     public function createStore(Store $store)
     {
+        if(!$store->getStoreId()) {
+            $store->setStoreId($this->createID('ST'));
+        }
+
         $store->setCreatedAt(new \DateTime());
         $store->setImpression(0);
         return $this->saveStore($store);

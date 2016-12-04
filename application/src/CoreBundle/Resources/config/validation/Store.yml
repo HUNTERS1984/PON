@@ -27,7 +27,3 @@ CoreBundle\Entity\Store:
         category:
             - NotBlank:
                 message: store.category.not_blank
-            - Valid: ~
-        user:
-            - NotBlank:
-                message: store.user.not_blank

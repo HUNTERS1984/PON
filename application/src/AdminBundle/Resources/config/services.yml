@@ -11,8 +11,15 @@ services:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\CollectionType }
 
     pon.form.type.store:
-        class: AdminBundle\Form\Type\StoreType
+        class: AdminBundle\Form\Type\StoreSearchType
         calls:
             - [setManager, ['@pon.manager.store']]
         tags:
-            -  { name: form.type, alias:'store' }
+            -  { name: form.type, alias:'store_search' }
+
+    pon.form.type.category:
+        class: AdminBundle\Form\Type\CategorySearchType
+        calls:
+            - [setManager, ['@pon.manager.category']]
+        tags:
+            -  { name: form.type, alias:'category_search' }

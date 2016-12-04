@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="{{ asset('backend/plugins/select2/css/select2.min.css') }}"/>
+{% form_theme form with ['AdminBundle:Form:fields.html.twig', _self] %}
+<div id="frm">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal_coupon">
+            {{ form_start(form, {'attr': {'class': 'submitModal','data-ajax-redirect': path('admin_store'),'data-ajax-url': path("admin_store_create"), 'enctype': 'multipart/form-data'  }}) }}
+            {{ form_errors(form) }}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">ストアを作成する</h4>
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <div class="col-md-12">
+                        <div class="row wrapp_avar_btn">
+                            <div class="col-md-3"><img width="200px" height="200px" src="" alt=""></div>
+                            <div class="col-md-4">
+                                <div class="btn_upload_image">
+                                    <span>{{ form_label(form.imageFile) }}</span>
+                                    {{ form_widget(form.imageFile) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-setting">
+                            {{ form_row(form.title) }}
+                            {{ form_row(form.category) }}
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        {{ form_row(form.operationStartTime) }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{ form_row(form.operationEndTime) }}
+                                    </div>
+                                </div>
+                            </div>
+                            {{ form_row(form.latitude) }}
+                            {{ form_row(form.longitude) }}
+                            {{ form_row(form.aveBill) }}
+                            {{ form_row(form.tel) }}
+                            {{ form_row(form.address) }}
+                            {{ form_row(form.closeDate) }}
+                            {{ form_row(form.helpText) }}
+                            {{ form_widget(form.storePhotos) }}
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-setting">
+                            <span id="error_message" class="error text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-delete" data-dismiss="modal">削除</button>
+                <button type="submit" class="btn btn-primary btn-change">変更</button>
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+
+</div>
+
+{% block scripts_footer %}
+    <script src="{{ asset('backend/js/admin.js') }}"></script>
+    <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
+{% endblock %}

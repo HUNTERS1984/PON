@@ -128,7 +128,7 @@ class CouponType extends AbstractType
                 'label' => 'アカウントイメージの変更',
                 'required' => false
             ])
-            ->add('store', StoreType::class, [
+            ->add('store', StoreSearchType::class, [
                 'label' => false,
                 'store_label' => 'ショップ',
             ]);

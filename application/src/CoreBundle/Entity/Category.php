@@ -340,4 +340,14 @@ class Category
     {
         return $this->categoryId;
     }
+
+    /**
+     * @param int $id
+     * @return Category
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+        return $this;
+    }
 }
