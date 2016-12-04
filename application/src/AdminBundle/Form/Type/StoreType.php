@@ -2,35 +2,19 @@
 
 namespace AdminBundle\Form\Type;
 
-use AdminBundle\Form\Type\Common\SelectBoxType;
 use CoreBundle\Entity\Store;
-use CoreBundle\Manager\StoreManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StoreType extends AbstractType
 {
-    /**
-     * @var StoreManager $manager
-     */
-    protected $manager;
-
-    /**
-     * @param StoreManager $manager
-     *
-     * @return $this
-     */
-    public function setManager($manager)
-    {
-        $this->manager = $manager;
-
-        return $this;
-    }
-
-
     /**
      * {@inheritdoc}
      */
@@ -38,9 +22,7 @@ class StoreType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => Store::class,
-                'show_category' => true,
-                'store_label' => 'ショップ'
+                'data_class' => Store::class
             ]
         );
     }
@@ -51,35 +33,96 @@ class StoreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', SelectBoxType::class, [
+            ->add('title', TextType::class, [
+                'label' => 'タイトル',
                 'required' => true,
-                'label' => $options['store_label'],
-                'min_length_to_search' => 3,
-                'ajax-url' => 'admin_store_search',
-                'placeholder' => 'Enter shop name',
-                'choice_label' => function ($value) {
-                    if ($value) {
-                        /** @var Store $store */
-                        $store = $this->manager->getStore($value);
-                        return $store ? "{$store->getTitle()}" : '';
-                    }
-
-                    return '';
-                },
                 'attr' => [
-                    'data-toggle' => 'store',
-                    'class' => 'form-control select2',
+                    'class' => 'form-control',
+                    'placeholder' => 'タイトル'
                 ]
+            ])
+            ->add('operationStartTime', DateTimeType::class, [
+                'label' => '操作開始時刻',
+                'format' => 'y-M-d H:i',
+                'required' => true,
+            ])
+            ->add('operationEndTime', DateTimeType::class, [
+                'label' => '操作終了時刻',
+                'format' => 'y-M-d H:i',
+                'required' => true,
+            ])
+            ->add('imageFile', FileType::class, [
+                'label' => '店舗イメージを変更する',
+                'required' => false
+            ])
+            ->add('tel', TextType::class, [
+                'label' => '電話',
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => '電話'
+                ],
+                'required' => true
+            ])
+            ->add('latitude', TextType::class, [
+                'label' => 'latitude',
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'latitude'
+                ],
+                'required' => true
+            ])
+            ->add('longitude', TextType::class, [
+                'label' => 'longitude',
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'longitude'
+                ],
+                'required' => true
+            ])
+            ->add('address', TextType::class, [
+                'label' => '住所',
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => '住所'
+                ],
+                'required' => true
+            ])
+            ->add('aveBill', NumberType::class, [
+                'label' => '平均予算',
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => '平均予算'
+                ],
+                'required' => true
+            ])
+            ->add('closeDate', TextareaType::class, [
+                'label' => 'アクセス',
+                'attr' => [
+                    'rows' => '5',
+                    'class' => 'form-control',
+                    'placeholder' => 'アクセス'
+                ],
+            ])
+            ->add('helpText', TextareaType::class, [
+                'label' => '説明',
+                'attr' => [
+                    'rows' => '5',
+                    'class' => 'form-control',
+                    'placeholder' => '説明'
+                ],
+            ])
+            ->add('category', CategorySearchType::class, [
+                'label' => false,
+                'store_label' => 'ショップ',
+            ])
+            ->add('storePhotos', CollectionType::class, [
+                'label' => 'ショップ写真',
+                'required' => false,
+                'entry_type' => StorePhotoType::class,
+                'by_reference' => false,
+                'show_when_empty' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
             ]);
-
-        $builder->get('id')->resetViewTransformers();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-
     }
 }

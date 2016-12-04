@@ -3,7 +3,7 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Form\Type\CouponType;
-use AdminBundle\Form\Type\StoreType;
+use AdminBundle\Form\Type\StoreSearchType;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\CouponPhoto;
@@ -129,7 +129,7 @@ class SummaryController extends Controller
 
         if ($this->isGranted('ROLE_ADMIN')) {
             $form
-                ->add('store', StoreType::class, [
+                ->add('store', StoreSearchType::class, [
                     'label' => false,
                     'store_label' => 'ショップ',
                 ]);

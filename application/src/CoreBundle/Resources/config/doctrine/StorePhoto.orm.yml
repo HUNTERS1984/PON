@@ -6,13 +6,16 @@ CoreBundle\Entity\StorePhoto:
         store:
             targetEntity: Store
             inversedBy: storePhotos
-            cascade: ["all"]
+            cascade: ["persist"]
+            orphanRemoval: true
             joinColumn:
                 name: store_id
                 referencedColumnName: id
         photo:
             targetEntity: Photo
             inversedBy: storePhotos
+            cascade: ["persist","remove"]
+            orphanRemoval: true
             joinColumn:
                 name: photo_id
                 referencedColumnName: id

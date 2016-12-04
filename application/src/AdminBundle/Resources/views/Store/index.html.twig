@@ -5,46 +5,31 @@
 {% set count = pagination.item_total %}
 
 {% block page_content %}
-    <script type="text/javascript">
-
-        $(document).ready(function(){
-            var $modal = $('#load_popup_modal_show_id');
-            $('.click_to_load_modal_popup').on('click', function(event){
-                event.preventDefault();
-                var link = $(this).attr('href');
-                $modal.load(link,{},
-                function(){
-                    $modal.modal('show');
-                });
-
-            });
-
-            $modal.on('hidden.bs.modal', function () {
-                $modal.html('');
-            });
-
-        });
-
-    </script>
-
 
     <!-- wrapp_search_btn -->
     <div class="wrapp_search_btn">
-        <form method="GET" action="{{ path('admin_store') }}">
         <div class="row">
-            <div class="col-md-6">
-                <form class="form-group">
-                    <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="">
+            <div class="col-md-8">
+                <form method="GET" action="{{ path('admin_store') }}">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-search"></i>
+                                検索
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary btn-sm">
-                    <i class="fa fa-search"></i>
-                    検索
-                </button>
+            <div class="col-md-4">
+                <ul class="btn_search_right">
+                    <li><a data-toggle="modal" data-target=".bs-example-modal-lg" class="click_to_load_modal_popup" href="{{ path('admin_store_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいショップを追加</a></li>
+                </ul>
             </div>
         </div>
-        </form>
     </div>
     <!-- //wrapp_search_btn -->
 
@@ -65,18 +50,16 @@
                     <div class="media-body">
                         <div class="top-media">
                             <h4 class="media-heading">{{ store.title }}</h4>
+                            <a href="{{ path('admin_store_edit',{id:store.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
                         </div>
                         <div class="top-media">
                             <span class="media-heading"><b>カテゴリ名: </b> {{ store.category.name }}</span>
                         </div>
                         <div class="top-media">
-                            <span class="media-heading"><b>ストア名: </b> {{ store.appUser.username }}</span>
+                            <span class="media-heading"><b>操作開始時刻: </b> {{ store.operationStartTime|date("H:i") }}</span>
                         </div>
                         <div class="top-media">
-                            <span class="media-heading"><b>操作開始時刻: </b> {{ store.operationStartTime|date("Y.m.d") }}</span>
-                        </div>
-                        <div class="top-media">
-                            <span class="media-heading"><b>操作終了時刻: </b> {{ store.operationEndTime|date("Y.m.d") }}</span>
+                            <span class="media-heading"><b>操作終了時刻: </b> {{ store.operationEndTime|date("H:i") }}</span>
                         </div>
                     </div>
                 </div>

@@ -3,10 +3,13 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Form\Type\CategoryType;
+use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Category;
+use CoreBundle\Serializator\Serializer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use CoreBundle\Manager\CategoryManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 class CategoryController extends Controller
@@ -123,6 +126,25 @@ class CategoryController extends Controller
     }
 
     /**
+     * Search Category
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function searchAction(Request $request)
+    {
+        /** @var AppUser $user */
+        $user = $this->getUser();
+        $params = $request->query->all();
+        $params['query'] = isset($params['q']) ? $params['q'] : '';
+        $result = $this->getManager()->getCategories($params);
+
+        $response = new JsonResponse();
+        $data = $this->getSerializer()->serialize($result, ['list']);
+        return $response->setData($data);
+    }
+
+    /**
      * @param string $message
      * @return Response
      */
@@ -146,5 +168,13 @@ class CategoryController extends Controller
     public function getManager()
     {
         return $this->get('pon.manager.category');
+    }
+
+    /**
+     * @return Serializer
+     */
+    public function getSerializer()
+    {
+        return $this->get('pon.serializator.serializer');
     }
 }

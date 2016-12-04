@@ -26,7 +26,8 @@ CoreBundle\Entity\Store:
         storePhotos:
             targetEntity: StorePhoto
             mappedBy: store
-            cascade: ["all"]
+            cascade: ["persist"]
+            orphanRemoval: true
     manyToOne:
         category:
             targetEntity: Category
@@ -47,6 +48,9 @@ CoreBundle\Entity\Store:
             generator:
                 strategy: AUTO
     fields:
+        storeId:
+            type: string
+            length: 100
         title:
             type: string
             length: 255
@@ -74,10 +78,13 @@ CoreBundle\Entity\Store:
         closeDate:
             type: string
             length: 255
+            nullable: TRUE
         aveBill:
             type: integer
+            nullable: TRUE
         helpText:
             type: text
+            nullable: TRUE
         createdAt:
             type: datetime
         updatedAt:

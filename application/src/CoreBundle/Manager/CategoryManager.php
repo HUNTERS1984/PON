@@ -2,6 +2,7 @@
 
 namespace CoreBundle\Manager;
 
+use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Category;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Aggregation\Nested;
@@ -126,39 +127,6 @@ class CategoryManager extends AbstractManager
         $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset);
-    }
-
-    /**
-     * List Category
-     * @param array $params
-     *
-     * @return array
-     */
-    public function listCategory($params)
-    {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-
-        $conditions = [];
-        if (isset($params['name'])) {
-            $conditions = [
-                'name' => [
-                    'type' => 'like',
-                    'value' => "%" . $params['name'] . "%"
-                ]
-            ];
-        }
-
-        $conditions['deletedAt'] = [
-            'type' => 'is',
-            'value' => 'NULL'
-        ];
-
-        $orderBy = ['createdAt' => 'DESC'];
-
-        $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
-
-        return $this->pagination->render($query, $limit, $offset);
     }
 
     /**

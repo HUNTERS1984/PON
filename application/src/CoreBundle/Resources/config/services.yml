@@ -73,7 +73,9 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setSampleImagePath, ["%sample_image_path%"]]
+            - [setAvatarDir, ["%store_avatar_path%"]]
             - [setStoreFinder, ["@fos_elastica.finder.app.store"]]
+            - [setImageDir, ["%image_path%"]]
 
     pon.manager.segement:
             class: CoreBundle\Manager\SegementManager

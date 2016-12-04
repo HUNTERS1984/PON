@@ -1,6 +1,7 @@
 <?php
 
 namespace CoreBundle\Entity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Store
@@ -120,6 +121,16 @@ class Store
      * @var array
     */
     private $storePhotoUrls;
+
+    /**
+     * @var UploadedFile
+     */
+    private $imageFile;
+
+    /**
+     * @var string
+     */
+    private $storeId;
 
     /**
      * Constructor
@@ -836,5 +847,41 @@ class Store
     public function getSegements()
     {
         return $this->segements;
+    }
+
+    /**
+     * @param UploadedFile $imageFile
+     * @return Store
+     */
+    public function setImageFile(UploadedFile $imageFile)
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param string $storeId
+     * @return Store
+     */
+    public function setStoreId($storeId)
+    {
+        $this->storeId = $storeId;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStoreId()
+    {
+        return $this->storeId;
     }
 }

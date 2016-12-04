@@ -42,6 +42,14 @@ admin_store:
     path:     /store
     defaults: { _controller: AdminBundle:Store:index }
 
+admin_store_create:
+    path:     /store/create
+    defaults: { _controller: AdminBundle:Store:create }
+
+admin_store_edit:
+    path:     /store/edit/{id}
+    defaults: { _controller: AdminBundle:Store:edit }
+
 admin_push:
     path:     /push
     defaults: { _controller: AdminBundle:Push:index }
@@ -101,3 +109,7 @@ admin_forgot:
 admin_store_search:
     path:     /store/search
     defaults: { _controller: AdminBundle:Store:search }
+
+admin_category_search:
+    path:     /category/search
+    defaults: { _controller: AdminBundle:Category:search }
