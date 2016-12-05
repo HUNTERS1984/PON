@@ -27,6 +27,11 @@ fos_elastica:
                         company: ~
                         tel: ~
                         avatarUrl: ~
+                        store:
+                            type: object
+                                properties:
+                                    id: ~
+                                    title: ~
                         createdAt:
                             type: date
                         updatedAt:
@@ -64,12 +69,6 @@ fos_elastica:
                                 id: ~
                                 name: ~
                                 iconUrl: ~
-                        appUser:
-                            type: object
-                            properties:
-                                id: ~
-                                username: ~
-                                email: ~
                         createdAt:
                             type: date
                         updatedAt:

@@ -18,9 +18,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class StoreDummy extends BaseDummy implements IDummy
 {
-    /** @var AppUserManager $appUserManager */
-    private $appUserManager;
-
     /** @var CategoryManager $categoryManager */
     private $categoryManager;
 
@@ -50,9 +47,6 @@ class StoreDummy extends BaseDummy implements IDummy
         $name = $faker->name;
         $categoryId = $faker->numberBetween(1, 5);
         $category = $this->categoryManager->findOneById($categoryId);
-        $userId = $faker->numberBetween(51, 100);
-        /**@var AppUser $user */
-        $user = $this->appUserManager->findOneById($userId);
 
         $file = new Filesystem();
         if(!$file->exists($this->avatarDirPath)) {
@@ -95,8 +89,7 @@ class StoreDummy extends BaseDummy implements IDummy
             ->setCloseDate("土曜日と日曜日")
             ->setAveBill($faker->numberBetween(1,100))
             ->setHelpText($faker->paragraph(3))
-            ->setCategory($category)
-            ->setAppUser($user);
+            ->setCategory($category);
 
         /** @var Store $store*/
         $store = $this->manager->createStore($store);
@@ -131,16 +124,6 @@ class StoreDummy extends BaseDummy implements IDummy
         $store = $this->manager->saveStore($store);
 
         return $store;
-    }
-
-    /**
-     * @param mixed $appUserManager
-     * @return StoreDummy
-     */
-    public function setAppUserManager($appUserManager)
-    {
-        $this->appUserManager = $appUserManager;
-        return $this;
     }
 
     /**

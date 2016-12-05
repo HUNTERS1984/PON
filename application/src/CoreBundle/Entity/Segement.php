@@ -215,4 +215,3 @@ class Segement
         return $this->store;
     }
 }
-

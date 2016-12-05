@@ -2,6 +2,13 @@ CoreBundle\Entity\AppUser:
     type: entity
     table: null
     repositoryClass: CoreBundle\Repository\AppUserRepository
+    manyToOne:
+        store:
+            targetEntity: Store
+            inversedBy: appUsers
+            joinColumn:
+                name: store_id
+                referencedColumnName: id
     oneToMany:
         socialProfiles:
             targetEntity: SocialProfile
@@ -23,10 +30,7 @@ CoreBundle\Entity\AppUser:
             targetEntity: FollowList
             mappedBy: appUser
             cascade: ["persist"]
-        stores:
-            targetEntity: Store
-            mappedBy: appUser
-            cascade: ["all"]
+
     id:
         id:
             type: integer

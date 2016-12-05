@@ -212,7 +212,6 @@ services:
         calls:
             - [setManager, ["@pon.manager.store"]]
             - [setCategoryManager, ["@pon.manager.category"]]
-            - [setAppUserManager, ["@pon.manager.app_user"]]
             - [setPhotoManager, ["@pon.manager.photo"]]
             - [setAvatarDirPath, ["%store_avatar_path%"]]
             - [setImageDirPath, ["%image_path%"]]

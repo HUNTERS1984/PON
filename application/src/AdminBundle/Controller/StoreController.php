@@ -87,7 +87,6 @@ class StoreController extends Controller
             }
 
             $store->setCategory($category);
-            $store->setAppUser($this->getUser());
             $store->setStoreId($this->getManager()->createID('ST'));
             if ($fileUpload = $store->getImageFile()) {
                 $fileUrl = $this->getManager()->uploadAvatar($fileUpload, $store->getStoreId());

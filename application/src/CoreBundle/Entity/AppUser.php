@@ -971,4 +971,33 @@ class AppUser extends BaseUser
     {
         return $this->newsNumber;
     }
+    /**
+     * @var \CoreBundle\Entity\Store
+     */
+    private $store;
+
+
+    /**
+     * Set store
+     *
+     * @param \CoreBundle\Entity\Store $store
+     *
+     * @return AppUser
+     */
+    public function setStore(\CoreBundle\Entity\Store $store = null)
+    {
+        $this->store = $store;
+
+        return $this;
+    }
+
+    /**
+     * Get store
+     *
+     * @return \CoreBundle\Entity\Store
+     */
+    public function getStore()
+    {
+        return $this->store;
+    }
 }
