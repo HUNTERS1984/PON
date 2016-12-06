@@ -283,10 +283,8 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
                 'coupon.not_blank.latitude_longitude'
             ));
         }
-
-        $user = $this->getUser();
-
-        $result = $this->getManager()->getFeaturedStore($type, $params, $user);
+        
+        $result = $this->getManager()->getFeaturedStore($type, $params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 
         $faker = Factory::create('ja_JP');
