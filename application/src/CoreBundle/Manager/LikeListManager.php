@@ -59,17 +59,22 @@ class LikeListManager extends AbstractManager
         return $this->saveLikeList($likeCoupon);
     }
 
+    public function unLikeCoupon(LikeList $likeList)
+    {
+        return $this->delete($likeList);
+    }
+
     /**
      * is like
      *
      * @param AppUser $user
      * @param Coupon $coupon
-     * @return bool
+     * @return LikeList
      */
     public function isLike(AppUser $user = null, Coupon $coupon)
     {
         if (!$user) {
-            return false;
+            return null;
         }
         $couponQuery = new Term(['coupon.id' => $coupon->getId()]);
         $userQuery = new Term(['appUser.id' => $user->getId()]);
@@ -78,7 +83,7 @@ class LikeListManager extends AbstractManager
             ->addMust($couponQuery)
             ->addMust($userQuery);
         $result = $this->likListFinder->find($query);
-        return !empty($result);
+        return !empty($result) ? $result[0] : null;
     }
 
     public function getFavoriteCoupons(AppUser $appUser, $params)

@@ -10,7 +10,7 @@ CoreBundle\Entity\Coupon:
         likeLists:
             targetEntity: LikeList
             mappedBy: coupon
-            cascade: ["all"]
+            cascade: ["persist"]
         couponPhotos:
             targetEntity: CouponPhoto
             mappedBy: coupon
