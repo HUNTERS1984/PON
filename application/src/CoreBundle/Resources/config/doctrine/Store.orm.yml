@@ -6,7 +6,7 @@ CoreBundle\Entity\Store:
         followLists:
             targetEntity: FollowList
             mappedBy: store
-            cascade: ["all"]
+            cascade: ["persist"]
         pushSettings:
             targetEntity: PushSetting
             mappedBy: store

@@ -72,7 +72,12 @@ class FollowListManager extends AbstractManager
             ->addMust($userQuery);
         $result = $this->followListFinder->find($query);
 
-        return !empty($result);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    public function unFollowStore(FollowList $followList)
+    {
+        return $this->delete($followList);
     }
 
     /**

@@ -22,7 +22,7 @@ CoreBundle\Entity\AppUser:
         followLists:
             targetEntity: FollowList
             mappedBy: appUser
-            cascade: ["all"]
+            cascade: ["persist"]
         stores:
             targetEntity: Store
             mappedBy: appUser
