@@ -75,6 +75,23 @@ class FollowListManager extends AbstractManager
         return !empty($result) ? $result[0] : null;
     }
 
+    /**
+     * get follow number
+     *
+     * @param AppUser $user
+     * @return integer
+     */
+    public function getFollowNumber(AppUser $user)
+    {
+        $userQuery = new Term(['appUser.id'=> $user->getId()]);
+
+        $query = new BoolQuery();
+        $query
+            ->addMust($userQuery);
+        $pagination = $this->followListFinder->createPaginatorAdapter($query);
+        return $pagination->getTotalHits();
+    }
+
     public function unFollowStore(FollowList $followList)
     {
         return $this->delete($followList);

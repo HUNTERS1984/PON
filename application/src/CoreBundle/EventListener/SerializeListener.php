@@ -130,8 +130,47 @@ class SerializeListener implements EventSubscriberInterface
         if ($object instanceof Category) {
             $this->preCategorySerialize($object);
         }
+
+        if($object instanceof AppUser) {
+            $this->preAppUserSerialize($object);
+        }
     }
 
+    /**
+     * @param AppUser $appUser
+     */
+    public function preAppUserSerialize(AppUser $appUser)
+    {
+        $this->setFollowNumber($appUser);
+        $this->setUsedNumber($appUser);
+        $this->setNewsNumber($appUser);
+    }
+
+    /**
+     * @param AppUser $appUser
+     */
+    public function setFollowNumber(AppUser &$appUser)
+    {
+        $followNumber = $this->followListManager->getFollowNumber($appUser);
+        $appUser->setFollowNumber($followNumber);
+    }
+
+    /**
+     * @param AppUser $appUser
+     */
+    public function setUsedNumber(AppUser &$appUser)
+    {
+        $usedNumber = $this->useListManager->getUsedNumber($appUser);
+        $appUser->setUsedNumber($usedNumber);
+    }
+
+    /**
+     * @param AppUser $appUser
+     */
+    public function setNewsNumber(AppUser &$appUser)
+    {
+        $appUser->setNewsNumber(10);
+    }
 
     /**
      * getUser

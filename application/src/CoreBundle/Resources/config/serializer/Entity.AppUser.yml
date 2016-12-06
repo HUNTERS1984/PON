@@ -32,6 +32,15 @@ CoreBundle\Entity\AppUser:
         role:
             expose: true
             groups: [view]
+        followNumber:
+            expose : true
+            groups: [view]
+        usedNumber:
+            expose : true
+            groups: [view]
+        newsNumber:
+                    expose : true
+                    groups: [view]
         createdAt:
             expose: true
             groups: [view]
