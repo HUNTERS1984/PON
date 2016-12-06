@@ -353,7 +353,7 @@ class SerializeListener implements EventSubscriberInterface
         }
 
         $isFollow = $this->followListManager->isFollow($user, $store);
-        $store->setFollow($isFollow);
+        $store->setFollow($isFollow ? true: false);
     }
 
     /**

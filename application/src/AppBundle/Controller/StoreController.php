@@ -474,14 +474,73 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
             ));
         }
 
-        $isFollow = $this->getFollowListManager()->isFollow($user, $store);
-        if(!$isFollow) {
+        $followList = $this->getFollowListManager()->isFollow($user, $store);
+        if(!$followList) {
             $store = $this->getFollowListManager()->followStore($user, $store);
             if(!$store) {
                 return $this->view($this->get('pon.exception.exception_handler')->throwError(
                     'store.follow.not_success'
                 ));
             }
+        }
+
+        return $this->view(BaseResponse::getData([]), 200);
+    }
+
+    /**
+     * UnFollow Shop
+     * @ApiDoc(
+     *  section="Shop",
+     *  resource=false,
+     *  description="This api is used to unfollow shop (DONE)",
+     *  requirements={
+     *      {
+     *          "name"="id",
+     *          "dataType"="string",
+     *          "description"="id of shop"
+     *      }
+     *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   },
+     *   views = { "app"}
+     * )
+     *
+     * @Post("/unfollow/shops/{id}", name="unfollow_shop")
+     * @return Response
+     */
+    public function postUnFollowShopAction($id, Request $request)
+    {
+        $user = $this->getUser();
+        $store = $this->getManager()->getStore($id);
+        if (!$store) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'store.not_found'
+            ));
+        }
+
+        $followList = $this->getFollowListManager()->isFollow($user, $store);
+
+        if (!$followList) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.like.not_exists'
+            ));
+        }
+
+        $result = $this->getFollowListManager()->unFollowStore($followList);
+        if (!$result) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.unfollow.not_success'
+            ));
         }
 
         return $this->view(BaseResponse::getData([]), 200);

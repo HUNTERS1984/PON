@@ -6,14 +6,14 @@ CoreBundle\Entity\FollowList:
         store:
             targetEntity: Store
             inversedBy: followLists
-            cascade: ["all"]
+            cascade: ["persist"]
             joinColumn:
                 name: store_id
                 referencedColumnName: id
         appUser:
             targetEntity: AppUser
             inversedBy: followLists
-            cascade: ["all"]
+            cascade: ["persist"]
             joinColumn:
                 name: app_user_id
                 referencedColumnName: id
