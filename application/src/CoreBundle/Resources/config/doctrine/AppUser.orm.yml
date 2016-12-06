@@ -18,7 +18,7 @@ CoreBundle\Entity\AppUser:
         likeLists:
             targetEntity: LikeList
             mappedBy: appUser
-            cascade: ["all"]
+            cascade: ["persist"]
         followLists:
             targetEntity: FollowList
             mappedBy: appUser

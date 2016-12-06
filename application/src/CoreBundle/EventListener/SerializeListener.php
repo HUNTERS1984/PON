@@ -270,7 +270,7 @@ class SerializeListener implements EventSubscriberInterface
         $coupons = $this->couponManager->getSimilarCoupon($coupon);
         $user = $this->getUser();
         $similarCoupons = array_map(function (Coupon $coupon) use ($user) {
-            $isLike = $this->likeListManager->isLike($user, $coupon);
+            $isLike = $this->likeListManager->isLike($user, $coupon)? true : false;
             $isCanUse = $this->useListManager->isCanUse($user, $coupon);
             $type = $coupon->getType();
             $couponType = ['id' => $type, 'name' => $this->couponTypes[$type]];
@@ -339,7 +339,7 @@ class SerializeListener implements EventSubscriberInterface
     {
         $user = $this->getUser();
         $isLike = $this->likeListManager->isLike($user, $coupon);
-        $coupon->setLike($isLike);
+        $coupon->setLike($isLike ? true : false);
     }
 
     /**

@@ -642,14 +642,72 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ));
         }
 
-        $isLike = $this->getLikeListManager()->isLike($user, $coupon);
-        if (!$isLike) {
+        $likeList = $this->getLikeListManager()->isLike($user, $coupon);
+        if (!$likeList) {
             $coupon = $this->getLikeListManager()->likeCoupon($user, $coupon);
             if (!$coupon) {
                 return $this->view($this->get('pon.exception.exception_handler')->throwError(
                     'coupon.like.not_success'
                 ));
             }
+        }
+
+        return $this->view(BaseResponse::getData([]), 200);
+    }
+
+    /**
+     * Like Coupon
+     * @ApiDoc(
+     *  section="Coupon",
+     *  resource=false,
+     *  description="This api is used to unlike coupon (DONE)",
+     *  requirements={
+     *      {
+     *          "name"="id",
+     *          "dataType"="string",
+     *          "description"="id of coupon"
+     *      }
+     *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   },
+     *   views = { "app"}
+     * )
+     *
+     * @Post("/unlike/coupons/{id}", name="unlike_coupon")
+     * @return Response
+     */
+    public function postUnLikeCouponAction($id, Request $request)
+    {
+        $user = $this->getUser();
+        $coupon = $this->getManager()->getCoupon($id);
+        if (!$coupon) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.not_found'
+            ));
+        }
+
+        $likeList = $this->getLikeListManager()->isLike($user, $coupon);
+        if (!$likeList) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.like.not_exists'
+            ));
+        }
+
+        $result = $this->getLikeListManager()->unLikeCoupon($likeList);
+        if (!$result) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'coupon.unlike.not_success'
+            ));
         }
 
         return $this->view(BaseResponse::getData([]), 200);
