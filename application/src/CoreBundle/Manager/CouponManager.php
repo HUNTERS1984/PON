@@ -515,6 +515,21 @@ class CouponManager extends AbstractManager
     /**
      * get coupon
      *
+     * @param $couponId
+     * @return null | Coupon
+     */
+    public function getCouponByCouponId($couponId)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Match('couponId', $couponId));
+        $result = $this->couponFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
+     * get coupon
+     *
      * @param AppUser $user
      * @param string $code
      *
