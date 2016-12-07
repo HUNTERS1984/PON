@@ -14,13 +14,17 @@ class AppUserController extends Controller
      * List all User
      *
      * @return Response
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_CLIENT')")
      */
     public function indexAction(Request $request)
     {
         $params = $request->query->all();
         $params['query'] = isset($params['query']) ? $params['query'] : '';
-        $result = $this->getManager()->getAppUserManagerFromAdmin($params);
+        if($this->isGranted('ROLE_ADMIN')) {
+            $result = $this->getManager()->getAppUserManagerFromAdmin($params);
+        }else{
+            $result = $this->getManager()->getAppUserManagerFromClient($params, $this->getUser());
+        }
 
         return $this->render(
             'AdminBundle:AppUser:index.html.twig',

@@ -352,7 +352,7 @@ class UseListManager extends AbstractManager
                 ->addMust($statusQuery);
         }
 
-        $boolQuery->addMust(new Query\Term(['coupon.store.appUser.id'=> $user->getId()]));
+        $boolQuery->addMust(new Query\Term(['coupon.store.id'=> $user->getStore()->getId()]));
         $query->setQuery($boolQuery);
 
         $pagination = $this->useListFinder->createPaginatorAdapter($query);

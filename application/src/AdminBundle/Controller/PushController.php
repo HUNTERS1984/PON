@@ -47,8 +47,6 @@ class PushController extends Controller
         );
     }
 
-
-
     /**
      * @return PushSettingManager
      */
@@ -72,6 +70,9 @@ class PushController extends Controller
         /** @var PushSetting $pushSetting */
         $pushSetting = $form->getData();
         $pushSetting->setStatus(1);
+        if(!$this->isGranted("ROLE_ADMIN")) {
+            $pushSetting->setStore($this->getUser()->getStore());
+        }
         $pushSetting = $this->getManager()->createPushSetting($pushSetting);
 
         if (!$pushSetting) {

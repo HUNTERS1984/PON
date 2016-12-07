@@ -195,6 +195,7 @@ services:
         calls:
             - [setManager, ["@pon.manager.app_user"]]
             - [setAvatarDirPath, ["%user_avatar_path%"]]
+            - [setStoreManager, ["@pon.manager.store"]]
 
     pon.dummy.use_list:
         class: CoreBundle\DummyData\UseCouponDummy

@@ -649,7 +649,7 @@ class CouponManager extends AbstractManager
             $boolQuery->addMust(new Term(['status' => ['value' => $status]]));
         }
 
-        $boolQuery->addMust(new Term(['store.appUser.id' => $user->getId()]));
+        $boolQuery->addMust(new Term(['store.id' => $user->getStore()->getId()]));
 
         $query->setQuery($boolQuery);
 

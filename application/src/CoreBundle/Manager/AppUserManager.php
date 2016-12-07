@@ -482,7 +482,7 @@ class AppUserManager extends AbstractManager
         }
         $boolQuery
             ->addMust(new Query\Match('roles', 'ROLE_CLIENT'))
-            ->addMust(new Query\Match('roles', 'ROLE_CLIENT'));
+            ->addMust(new Query\Term(['store.id' => ['value' => $user->getStore()->getId()]]));
         $query->setQuery($boolQuery);
 
         $pagination = $this->appUserFinder->createPaginatorAdapter($query);

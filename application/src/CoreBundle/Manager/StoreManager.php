@@ -329,7 +329,7 @@ class StoreManager extends AbstractManager
             $boolQuery->addMust(new Query\MatchAll());
         }
 
-        $boolQuery->addMust(new Query\Term(['appUser.id' => $user->getId()]));
+        $boolQuery->addMust(new Query\Term(['id' => $user->getStore()->getId()]));
 
         $query->setQuery($boolQuery);
 

@@ -3,6 +3,7 @@
 namespace CoreBundle\DummyData;
 
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -14,6 +15,9 @@ class AppUserDummy extends BaseDummy implements IDummy
      * @var string $avatarDirPath
      */
     protected $avatarDirPath;
+
+    /** @var StoreManager */
+    private $storeManager;
 
 
     /**
@@ -29,6 +33,7 @@ class AppUserDummy extends BaseDummy implements IDummy
         $user
             ->setCreatedAt(new \DateTime())
             ->setUsername($email)
+            ->setStore(null)
             ->setAvatarUrl($this->manager->getImage($this->avatarDirPath))
             ->setName($faker->name)
             ->setPlainPassword('admin')
@@ -60,6 +65,7 @@ class AppUserDummy extends BaseDummy implements IDummy
         $user
             ->setCreatedAt(new \DateTime())
             ->setUsername($email)
+            ->setStore(null)
             ->setAvatarUrl($this->manager->getImage($this->avatarDirPath))
             ->setName($faker->name)
             ->setPlainPassword('admin')
@@ -88,8 +94,12 @@ class AppUserDummy extends BaseDummy implements IDummy
         $user = new AppUser();
         $email = 'store_' . $i . '@pon.dev';
 
+        $storeId = $faker->numberBetween(1,10);
+        $store = $this->storeManager->findOneById($storeId);
+
         $user
             ->setCreatedAt(new \DateTime())
+            ->setStore($store)
             ->setUsername($email)
             ->setAvatarUrl($this->manager->getImage($this->avatarDirPath))
             ->setName($faker->name)
@@ -118,4 +128,15 @@ class AppUserDummy extends BaseDummy implements IDummy
         $this->avatarDirPath = $avatarDirPath;
         return $this;
     }
+
+    /**
+     * @param StoreManager $storeManager
+     * @return AppUserDummy
+     */
+    public function setStoreManager($storeManager)
+    {
+        $this->storeManager = $storeManager;
+        return $this;
+    }
+
 }

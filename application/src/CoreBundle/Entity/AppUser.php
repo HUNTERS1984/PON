@@ -789,12 +789,6 @@ class AppUser extends BaseUser
     private $tel;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $stores;
-
-
-    /**
      * Set locale
      *
      * @param string $locale
@@ -864,40 +858,6 @@ class AppUser extends BaseUser
     public function getTel()
     {
         return $this->tel;
-    }
-
-    /**
-     * Add store
-     *
-     * @param \CoreBundle\Entity\Store $store
-     *
-     * @return AppUser
-     */
-    public function addStore(\CoreBundle\Entity\Store $store)
-    {
-        $this->stores[] = $store;
-
-        return $this;
-    }
-
-    /**
-     * Remove store
-     *
-     * @param \CoreBundle\Entity\Store $store
-     */
-    public function removeStore(\CoreBundle\Entity\Store $store)
-    {
-        $this->stores->removeElement($store);
-    }
-
-    /**
-     * Get stores
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getStores()
-    {
-        return $this->stores;
     }
 
     /**
