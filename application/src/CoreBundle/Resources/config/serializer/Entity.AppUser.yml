@@ -7,15 +7,6 @@ CoreBundle\Entity\AppUser:
         plainPassword:
             expose : true
             groups: [view]
-        temporaryHash:
-            expose : true
-            groups: [view]
-        androidPushKey:
-            expose: true
-            groups: [view]
-        applePushKey:
-            expose: true
-            groups: [view]
         name:
             expose: true
             groups: [use_list,view]

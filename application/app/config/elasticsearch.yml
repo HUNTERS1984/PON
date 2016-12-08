@@ -16,11 +16,10 @@ fos_elastica:
                 appUser:
                     mappings:
                         id: ~
+                        appUserId: ~
                         username: ~
                         roles: ~
-                        usernameCanonical: ~
                         email: ~
-                        emailCanonical: ~
                         name: ~
                         enabled: ~
                         address: ~

@@ -14,20 +14,6 @@ class AppUser extends BaseUser
      * @var int
      */
     protected $id;
-    /**
-     * @var string
-     */
-    private $temporaryHash;
-
-    /**
-     * @var string
-     */
-    private $androidPushKey;
-
-    /**
-     * @var string
-     */
-    private $applePushKey;
 
     /**
      * @var string
@@ -85,78 +71,10 @@ class AppUser extends BaseUser
      */
     private $newsNumber;
 
-
     /**
-     * Set temporaryHash
-     *
-     * @param string $temporaryHash
-     *
-     * @return AppUser
+     * @var string
      */
-    public function setTemporaryHash($temporaryHash)
-    {
-        $this->temporaryHash = $temporaryHash;
-
-        return $this;
-    }
-
-    /**
-     * Get temporaryHash
-     *
-     * @return string
-     */
-    public function getTemporaryHash()
-    {
-        return $this->temporaryHash;
-    }
-
-    /**
-     * Set androidPushKey
-     *
-     * @param string $androidPushKey
-     *
-     * @return AppUser
-     */
-    public function setAndroidPushKey($androidPushKey)
-    {
-        $this->androidPushKey = $androidPushKey;
-
-        return $this;
-    }
-
-    /**
-     * Get androidPushKey
-     *
-     * @return string
-     */
-    public function getAndroidPushKey()
-    {
-        return $this->androidPushKey;
-    }
-
-    /**
-     * Set applePushKey
-     *
-     * @param string $applePushKey
-     *
-     * @return AppUser
-     */
-    public function setApplePushKey($applePushKey)
-    {
-        $this->applePushKey = $applePushKey;
-
-        return $this;
-    }
-
-    /**
-     * Get applePushKey
-     *
-     * @return string
-     */
-    public function getApplePushKey()
-    {
-        return $this->applePushKey;
-    }
+    private $appUserId;
 
     /**
      * Set createdAt
@@ -526,6 +444,11 @@ class AppUser extends BaseUser
     /**
      * @var UploadedFile
      */
+    private $imageFile;
+
+    /**
+     * @var UploadedFile
+     */
     private $file;
 
     public function getAbsolutePath()
@@ -773,10 +696,6 @@ class AppUser extends BaseUser
     {
         return $this->twitterId;
     }
-    /**
-     * @var string
-     */
-    private $locale;
 
     /**
      * @var string
@@ -787,30 +706,6 @@ class AppUser extends BaseUser
      * @var string
      */
     private $tel;
-
-    /**
-     * Set locale
-     *
-     * @param string $locale
-     *
-     * @return AppUser
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-
-        return $this;
-    }
-
-    /**
-     * Get locale
-     *
-     * @return string
-     */
-    public function getLocale()
-    {
-        return $this->locale;
-    }
 
     /**
      * Set company
@@ -959,5 +854,41 @@ class AppUser extends BaseUser
     public function getStore()
     {
         return $this->store;
+    }
+
+    /**
+     * @param string $appUserId
+     * @return AppUser
+     */
+    public function setAppUserId(string $appUserId)
+    {
+        $this->appUserId = $appUserId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAppUserId()
+    {
+        return $this->appUserId;
+    }
+
+    /**
+     * @param UploadedFile $imageFile
+     * @return AppUser
+     */
+    public function setImageFile(UploadedFile $imageFile)
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 }

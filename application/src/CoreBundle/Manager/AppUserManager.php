@@ -60,6 +60,10 @@ class AppUserManager extends AbstractManager
      */
     public function createAppUser(AppUser $appUser)
     {
+        if(!$appUser->getAppUserId()) {
+            $appUser->setAppUserId($this->createID('US'));
+        }
+
         $appUser
             ->setEnabled(true)
             ->setCreatedAt(new \DateTime());

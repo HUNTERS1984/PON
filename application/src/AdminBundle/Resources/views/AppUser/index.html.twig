@@ -19,15 +19,26 @@
     <!-- wrapp_search_btn -->
     <div class="wrapp_search_btn">
         <div class="row">
-            <form  method="GET" action="{{ path('admin_app_user') }}"  class="form-group" role="form">
-                <div class=" col-md-5 form-group ">
-                    <input type="text" value="{{ params.query }}" name="query" id="search" class="form-control has-feedback-left" id="" placeholder="サーチ">
-                </div>
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-white"><i class="fa fa-search"></i></button>
-                </div>
-                <!-- form-group -->
-            </form>
+            <div class="col-md-8">
+                <form method="GET" action="{{ path('admin_app_user') }}">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-search"></i>
+                                検索
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <ul class="btn_search_right">
+                    <li><a data-toggle="modal" data-target=".bs-example-modal-lg" class="click_to_load_modal_popup" href="{{ path('admin_app_user_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいユーザーを追加</a></li>
+                </ul>
+            </div>
         </div>
     </div>
     <!-- //wrapp_search_btn -->

@@ -39,16 +39,11 @@ class AppUserDummy extends BaseDummy implements IDummy
             ->setPlainPassword('admin')
             ->setEmail($email)
             ->setEnabled(true)
-            ->setAndroidPushKey($faker->md5)
-            ->setApplePushKey($faker->md5)
-            ->setTemporaryHash(substr($faker->md5, 0, 4))
             ->setRoles([$role])
-            ->setLocale($faker->locale)
             ->setCompany($faker->company)
             ->setAddress($faker->address)
-            ->setTel($faker->phoneNumber)
-            ->setUpdatedAt(new \DateTime());
-        $this->manager->dummy($user);
+            ->setTel($faker->phoneNumber);
+        $this->manager->createAppUser($user);
         return $user;
     }
 
@@ -71,16 +66,11 @@ class AppUserDummy extends BaseDummy implements IDummy
             ->setPlainPassword('admin')
             ->setEmail($email)
             ->setEnabled(true)
-            ->setAndroidPushKey($faker->md5)
-            ->setApplePushKey($faker->md5)
-            ->setTemporaryHash(substr($faker->md5, 0, 4))
             ->setRoles([$role])
-            ->setLocale($faker->locale)
             ->setCompany($faker->company)
             ->setAddress($faker->address)
-            ->setTel($faker->phoneNumber)
-            ->setUpdatedAt(new \DateTime());
-        $this->manager->dummy($user);
+            ->setTel($faker->phoneNumber);
+        $this->manager->createAppUser($user);
         return $user;
     }
 
@@ -106,16 +96,11 @@ class AppUserDummy extends BaseDummy implements IDummy
             ->setPlainPassword('admin')
             ->setEmail($email)
             ->setEnabled(true)
-            ->setAndroidPushKey($faker->md5)
-            ->setApplePushKey($faker->md5)
-            ->setTemporaryHash($faker->md5)
             ->setRoles(['ROLE_CLIENT'])
-            ->setLocale($faker->locale)
             ->setCompany($faker->company)
             ->setAddress($faker->address)
-            ->setTel($faker->phoneNumber)
-            ->setUpdatedAt(new \DateTime());
-        $this->manager->dummy($user);
+            ->setTel($faker->phoneNumber);
+        $this->manager->createAppUser($user);
         return $user;
     }
 

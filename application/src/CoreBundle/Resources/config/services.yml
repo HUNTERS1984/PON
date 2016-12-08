@@ -23,6 +23,7 @@ services:
             - [setSampleImagePath, ["%sample_image_path%"]]
             - [setTwitterManager, ["@pon.manager.twitter"]]
             - [setAppUserFinder, ["@fos_elastica.finder.app.appUser"]]
+            - [setAvatarDir, ["%user_avatar_path%"]]
 
     pon.manager.client:
         class: CoreBundle\Manager\ClientManager

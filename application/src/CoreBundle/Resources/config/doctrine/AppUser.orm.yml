@@ -38,18 +38,9 @@ CoreBundle\Entity\AppUser:
             generator:
                 strategy: AUTO
     fields:
-        temporaryHash:
+        appUserId:
             type: string
-            length: 60
-            nullable: TRUE
-        androidPushKey:
-            type: string
-            length: 255
-            nullable: TRUE
-        applePushKey:
-            type: string
-            length: 255
-            nullable: TRUE
+            length: 100
         name:
             type: string
             length: 100
@@ -60,10 +51,6 @@ CoreBundle\Entity\AppUser:
         address:
             type: string
             length: 255
-            nullable: TRUE
-        locale:
-            type: string
-            length: 5
             nullable: TRUE
         company:
             type: string
