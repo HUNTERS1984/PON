@@ -29,11 +29,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.aliases = %w(pon.dev)
 
     config.vm.define "default" do |default|
-    default.vm.synced_folder ".", "/var/www", type: "nfs",:linux__nfs_options => ["no_root_squash"], :map_uid => 0, :map_gid => 0, :nfs => { :mount_options => ["dmode=777","fmode=777", 'nolock,vers=3,udp,noatime'] }
 
-    default.nfs.map_uid = Process.uid
-    default.nfs.map_gid = Process.gid
-
+    default.vm.synced_folder ".", "/var/www", type: "nfs",:mount_options => ['nolock,vers=3,udp,noatime']
     default.ssh.insert_key = false
     default.ssh.shell = "bash -l"
     default.ssh.keep_alive = true
