@@ -1,6 +1,5 @@
 #!/bin/bash
 
-chmod -R 777 $(pwd)/vagrant/data
 
 yes |  cp -rf $(pwd)/vagrant/bin/clean.sh /usr/local/bin/clean &&  chmod a+x /usr/local/bin/clean
 yes |  cp -rf $(pwd)/vagrant/bin/mysql.sh /usr/local/bin/mysql &&  chmod a+x /usr/local/bin/mysql
@@ -16,7 +15,9 @@ yes |   cp -rf $(pwd)/vagrant/bin/queue.sh /usr/local/bin/queue &&  chmod a+x /u
 
 mkdir -p $(pwd)/application/bower_components
 mkdir -p $(pwd)/application/node_modules
+mkdir -p $(pwd)/vagrant/data
 
+chmod -R 777 $(pwd)/vagrant/data
 chmod -R 777 $(pwd)/application/var/sessions
 chmod -R 777 $(pwd)/application/var/cache
 chmod -R 777 $(pwd)/application/web/uploads
@@ -50,3 +51,4 @@ chmod -R 777 $(pwd)/application/var/cache
 chmod -R 777 $(pwd)/application/web/uploads
 chmod -R 777 $(pwd)/application/bower_components
 chmod -R 777 $(pwd)/application/node_modules
+chmod -R 777 $(pwd)/vagrant/data
