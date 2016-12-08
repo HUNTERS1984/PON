@@ -44,3 +44,9 @@ docker-compose up -d --build
 /usr/local/bin/gulp admin
 
 /usr/local/bin/cache
+
+chmod -R 777 $(pwd)/application/var/sessions
+chmod -R 777 $(pwd)/application/var/cache
+chmod -R 777 $(pwd)/application/web/uploads
+chmod -R 777 $(pwd)/application/bower_components
+chmod -R 777 $(pwd)/application/node_modules
