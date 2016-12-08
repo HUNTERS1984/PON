@@ -41,7 +41,7 @@ docker-compose up -d --build
 
 /usr/local/bin/bower install
 
-/usr/local/bin/gulp admin
+/usr/local/bin/gulp
 
 /usr/local/bin/cache
 
