@@ -223,10 +223,9 @@ class UseListManager extends AbstractManager
     public function getUsedNumber(AppUser $user)
     {
         $userQuery = new Term(['appUser.id'=> $user->getId()]);
-        $statusQuery = new Term(['status' => 1]);
+        $statusQuery = new Term(['status' => 3]);
 
         $query = new Query();
-        $query->setPostFilter(new Missing('coupon.deletedAt'));
         $mainQuery = new BoolQuery();
         $mainQuery
             ->addMust($userQuery)
