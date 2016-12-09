@@ -183,14 +183,20 @@ class UseListManager extends AbstractManager
         if (!$user) {
             return false;
         }
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('coupon.deletedAt'));
+
         $couponQuery = new Term(['coupon.id' => $coupon->getId()]);
         $userQuery = new Term(['appUser.id' => $user->getId()]);
         $statusQuery = new Term(['status' => 1]);
-        $query = new BoolQuery();
-        $query
+        $mainQuery = new BoolQuery();
+        $mainQuery
             ->addMust($couponQuery)
             ->addMust($userQuery)
             ->addMust($statusQuery);
+
+        $query->setQuery($mainQuery);
         $result = $this->useListFinder->find($query);
         return !empty($result);
     }
@@ -217,10 +223,15 @@ class UseListManager extends AbstractManager
     public function getUsedNumber(AppUser $user)
     {
         $userQuery = new Term(['appUser.id'=> $user->getId()]);
+        $statusQuery = new Term(['status' => 1]);
 
-        $query = new BoolQuery();
-        $query
-            ->addMust($userQuery);
+        $query = new Query();
+        $query->setPostFilter(new Missing('coupon.deletedAt'));
+        $mainQuery = new BoolQuery();
+        $mainQuery
+            ->addMust($userQuery)
+            ->addMust($statusQuery);
+        $query->setQuery($mainQuery);
         $pagination = $this->useListFinder->createPaginatorAdapter($query);
         return $pagination->getTotalHits();
     }
