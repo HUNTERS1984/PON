@@ -70,6 +70,21 @@ class AppUser extends BaseUser
      */
     private $posts;
 
+    /**
+     * @var integer
+    */
+    private $followNumber;
+
+    /**
+     * @var integer
+    */
+    private  $usedNumber;
+
+    /**
+     * @var integer
+     */
+    private $newsNumber;
+
 
     /**
      * Set temporaryHash
@@ -901,5 +916,59 @@ class AppUser extends BaseUser
     public function getInstagramId()
     {
         return $this->instagramId;
+    }
+
+    /**
+     * @param integer $followNumber
+     * @return AppUser
+     */
+    public function setFollowNumber($followNumber)
+    {
+        $this->followNumber = $followNumber;
+        return $this;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getFollowNumber()
+    {
+        return $this->followNumber;
+    }
+
+    /**
+     * @param integer $usedNumber
+     * @return AppUser
+     */
+    public function setUsedNumber($usedNumber)
+    {
+        $this->usedNumber = $usedNumber;
+        return $this;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getUsedNumber()
+    {
+        return $this->usedNumber;
+    }
+
+    /**
+     * @param int $newsNumber
+     * @return AppUser
+     */
+    public function setNewsNumber(int $newsNumber): AppUser
+    {
+        $this->newsNumber = $newsNumber;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNewsNumber(): int
+    {
+        return $this->newsNumber;
     }
 }

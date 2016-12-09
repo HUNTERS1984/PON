@@ -209,6 +209,23 @@ class UseListManager extends AbstractManager
     }
 
     /**
+     * get used number
+     *
+     * @param AppUser $user
+     * @return integer
+     */
+    public function getUsedNumber(AppUser $user)
+    {
+        $userQuery = new Term(['appUser.id'=> $user->getId()]);
+
+        $query = new BoolQuery();
+        $query
+            ->addMust($userQuery);
+        $pagination = $this->useListFinder->createPaginatorAdapter($query);
+        return $pagination->getTotalHits();
+    }
+
+    /**
      * Approve Coupon
      * @param UseList $useList
      *
