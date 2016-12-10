@@ -60,6 +60,10 @@ class AppUserManager extends AbstractManager
      */
     public function createAppUser(AppUser $appUser)
     {
+        if(!$appUser->getAppUserId()) {
+            $appUser->setAppUserId($this->createID('US'));
+        }
+
         $appUser
             ->setEnabled(true)
             ->setCreatedAt(new \DateTime());
@@ -439,9 +443,50 @@ class AppUserManager extends AbstractManager
             $multiMatchQuery->setAnalyzer('standard');
             $multiMatchQuery->setQuery($queryString);
             $boolQuery->addMust($multiMatchQuery);
-        } else {
-            $boolQuery->addMust(new Query\MatchAll());
         }
+        $roleQuery = new Query\BoolQuery();
+        $roleQuery
+            ->addShould(new Query\Match('roles', 'ROLE_CLIENT'))
+            ->addShould(new Query\Match('roles', 'ROLE_ADMIN'));
+
+        $boolQuery->addMust($roleQuery);
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->appUserFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * List App User From Admin
+     * @param array $params
+     *
+     * @return array
+     */
+    public function getAppUserManagerFromClient($params, AppUser $user)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+        $boolQuery = new Query\BoolQuery();
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['username','email','company','address']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery->addMust($multiMatchQuery);
+        }
+        $boolQuery
+            ->addMust(new Query\Match('roles', 'ROLE_CLIENT'))
+            ->addMust(new Query\Term(['store.id' => ['value' => $user->getStore()->getId()]]));
         $query->setQuery($boolQuery);
 
         $pagination = $this->appUserFinder->createPaginatorAdapter($query);

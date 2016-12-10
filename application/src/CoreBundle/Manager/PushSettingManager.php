@@ -156,7 +156,7 @@ class PushSettingManager extends AbstractManager
                 ->addMust(new Query\MatchAll())
                 ->addMust($statusQuery);
         }
-        $boolQuery->addMust(new Query\Term(['store.appUser.id' => $user->getId()]));
+        $boolQuery->addMust(new Query\Term(['store.id' => $user->getStore()->getId()]));
         $query->setQuery($boolQuery);
 
         $pagination = $this->pushSettingFinder->createPaginatorAdapter($query);

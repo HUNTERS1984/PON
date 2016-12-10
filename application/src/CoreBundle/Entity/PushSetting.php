@@ -382,4 +382,3 @@ class PushSetting
         return $this->type;
     }
 }
-

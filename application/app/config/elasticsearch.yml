@@ -16,17 +16,21 @@ fos_elastica:
                 appUser:
                     mappings:
                         id: ~
+                        appUserId: ~
                         username: ~
                         roles: ~
-                        usernameCanonical: ~
                         email: ~
-                        emailCanonical: ~
                         name: ~
                         enabled: ~
                         address: ~
                         company: ~
                         tel: ~
                         avatarUrl: ~
+                        store:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
                         createdAt:
                             type: date
                         updatedAt:
@@ -64,12 +68,6 @@ fos_elastica:
                                 id: ~
                                 name: ~
                                 iconUrl: ~
-                        appUser:
-                            type: object
-                            properties:
-                                id: ~
-                                username: ~
-                                email: ~
                         createdAt:
                             type: date
                         updatedAt:
@@ -110,12 +108,6 @@ fos_elastica:
                                 longitude: ~
                                 address: ~
                                 impression: ~
-                                appUser:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        username: ~
-                                        email: ~
                                 category:
                                     type: object
                                     properties:
@@ -250,10 +242,6 @@ fos_elastica:
                                                 id: ~
                                                 name: ~
                                                 iconUrl: ~
-                                        appUser:
-                                            type: object
-                                            properties:
-                                                id: ~
                         appUser:
                             type: object
                             properties:
@@ -341,10 +329,6 @@ fos_elastica:
                                 title: ~
                                 deletedAt:
                                     type: date
-                                appUser:
-                                    type: object
-                                    properties:
-                                        id: ~
                         createdAt:
                             type: date
                         updatedAt:
@@ -369,10 +353,6 @@ fos_elastica:
                                 avatar_url: ~
                                 deletedAt:
                                     type: date
-                                appUser:
-                                    type: object
-                                    properties:
-                                        id: ~
                         segement:
                             type: object
                             properties:

@@ -47,16 +47,16 @@ class DummyDataCommand extends ContainerAwareCommand
         $output->writeln("Finished Dump Category...");
 
         $output->writeln("");
-        $output->writeln("Starting Dump AppUser...");
-        $this->dummyAppUser($output);
-        $output->writeln("");
-        $output->writeln("Finished Dump AppUser...");
-
-        $output->writeln("");
         $output->writeln("Starting Dump Store...");
         $this->dummyStore($output);
         $output->writeln("");
         $output->writeln("Finished Dump Store...");
+
+        $output->writeln("");
+        $output->writeln("Starting Dump AppUser...");
+        $this->dummyAppUser($output);
+        $output->writeln("");
+        $output->writeln("Finished Dump AppUser...");
 
         $output->writeln("");
         $output->writeln("Starting Dump Segement...");

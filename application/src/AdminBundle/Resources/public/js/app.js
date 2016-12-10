@@ -110,6 +110,24 @@ var App = function () {
         });
     };
 
+    var handleStoreVisibility = function ($element) {
+        $element.find('.form-role-store').each(function () {
+            var $container = $(this),
+                $selectBox = $container.find('.form-role'),
+                $block = $container.find('.form-store');
+            $selectBox.change(setStoreVisibility);
+            setStoreVisibility();
+
+            function setStoreVisibility() {
+                if ($selectBox.val() == 'ROLE_CLIENT') {
+                    $block.show();
+                } else {
+                    $block.hide();
+                }
+            }
+        });
+    };
+
 
     //* END:CORE HANDLERS *//
 
@@ -125,6 +143,7 @@ var App = function () {
             handleSubmitModal($document);
             handleOpenModalPopup($document);
             handleDeliveryTimeVisibility($document);
+            handleStoreVisibility($document);
         },
 
         //main function to initiate core javascript after ajax complete
@@ -136,6 +155,7 @@ var App = function () {
             handleSubmitModal($document);
             handleOpenModalPopup($document);
             handleDeliveryTimeVisibility($document);
+            handleStoreVisibility($document);
         },
 
         //init main components
@@ -147,6 +167,7 @@ var App = function () {
             handleSubmitModal($element);
             handleOpenModalPopup($element);
             handleDeliveryTimeVisibility($element);
+            handleStoreVisibility($element);
         }
     };
 

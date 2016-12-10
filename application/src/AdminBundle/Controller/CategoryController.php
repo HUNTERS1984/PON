@@ -80,7 +80,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Edut Category Action
+     * Edit Category Action
      *
      * @return Response
      * @Security("is_granted('ROLE_ADMIN')")

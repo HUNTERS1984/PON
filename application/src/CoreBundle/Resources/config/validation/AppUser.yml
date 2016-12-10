@@ -38,24 +38,6 @@ CoreBundle\Entity\AppUser:
                 max: 180
                 minMessage: app_user.password.min_message
                 maxMessage: app_user.password.max_message
-        temporaryHash:
-            - Length:
-                min: 1
-                max: 5
-                minMessage: app_user.temporary_hash.min_message
-                maxMessage: app_user.temporary_hash.max_message
-        androidPushKey:
-            - Length:
-                min: 1
-                max: 255
-                minMessage: app_user.android_push_key.min_message
-                maxMessage: app_user.android_push_key.max_message
-        androidPushKey:
-            - Length:
-                min: 1
-                max: 255
-                minMessage: app_user.apple_push_key.min_message
-                maxMessage: app_user.android_push_key.max_message
         address:
             - Length:
                 min: 1

@@ -52,16 +52,13 @@ class SegementManager extends AbstractManager
 
     public function getSegementFromClient(AppUser $user)
     {
-        $storeIds = array_map(function (Store $store) {
-            return $store->getId();
-        }, $user->getStores()->toArray());
 
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
         $query->addSort(['updatedAt' => ['order' => 'desc']]);
         $query->setSize(1000);
 
-        $query->setQuery(new Query\Terms('store.id',$storeIds));
+        $query->setQuery(new Query\Term(['store.id' => ['value' => $user->getStore()->getId()]]));
 
         $results = $this->segementFinder->find($query);
 

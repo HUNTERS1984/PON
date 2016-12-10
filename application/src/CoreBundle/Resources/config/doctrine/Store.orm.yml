@@ -3,6 +3,10 @@ CoreBundle\Entity\Store:
     table: null
     repositoryClass: CoreBundle\Repository\StoreRepository
     oneToMany:
+        appUsers:
+            targetEntity: AppUser
+            mappedBy: store
+            cascade: ["all"]
         followLists:
             targetEntity: FollowList
             mappedBy: store
@@ -34,12 +38,6 @@ CoreBundle\Entity\Store:
             inversedBy: stores
             joinColumn:
                 name: category_id
-                referencedColumnName: id
-        appUser:
-            targetEntity: AppUser
-            inversedBy: stores
-            joinColumn:
-                name: app_user_id
                 referencedColumnName: id
     id:
         id:

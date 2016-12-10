@@ -23,6 +23,7 @@ services:
             - [setSampleImagePath, ["%sample_image_path%"]]
             - [setTwitterManager, ["@pon.manager.twitter"]]
             - [setAppUserFinder, ["@fos_elastica.finder.app.appUser"]]
+            - [setAvatarDir, ["%user_avatar_path%"]]
 
     pon.manager.client:
         class: CoreBundle\Manager\ClientManager
@@ -195,6 +196,7 @@ services:
         calls:
             - [setManager, ["@pon.manager.app_user"]]
             - [setAvatarDirPath, ["%user_avatar_path%"]]
+            - [setStoreManager, ["@pon.manager.store"]]
 
     pon.dummy.use_list:
         class: CoreBundle\DummyData\UseCouponDummy
@@ -212,7 +214,6 @@ services:
         calls:
             - [setManager, ["@pon.manager.store"]]
             - [setCategoryManager, ["@pon.manager.category"]]
-            - [setAppUserManager, ["@pon.manager.app_user"]]
             - [setPhotoManager, ["@pon.manager.photo"]]
             - [setAvatarDirPath, ["%store_avatar_path%"]]
             - [setImageDirPath, ["%image_path%"]]

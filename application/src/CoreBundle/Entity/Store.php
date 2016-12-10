@@ -741,35 +741,7 @@ class Store
     {
         return $this->storePhotoUrls;
     }
-    /**
-     * @var \CoreBundle\Entity\AppUser
-     */
-    private $appUser;
 
-
-    /**
-     * Set appUser
-     *
-     * @param \CoreBundle\Entity\AppUser $appUser
-     *
-     * @return Store
-     */
-    public function setAppUser(\CoreBundle\Entity\AppUser $appUser = null)
-    {
-        $this->appUser = $appUser;
-
-        return $this;
-    }
-
-    /**
-     * Get appUser
-     *
-     * @return \CoreBundle\Entity\AppUser
-     */
-    public function getAppUser()
-    {
-        return $this->appUser;
-    }
     /**
      * @var integer
      */
@@ -883,5 +855,44 @@ class Store
     public function getStoreId()
     {
         return $this->storeId;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $appUsers;
+
+
+    /**
+     * Add appUser
+     *
+     * @param \CoreBundle\Entity\AppUser $appUser
+     *
+     * @return Store
+     */
+    public function addAppUser(\CoreBundle\Entity\AppUser $appUser)
+    {
+        $this->appUsers[] = $appUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove appUser
+     *
+     * @param \CoreBundle\Entity\AppUser $appUser
+     */
+    public function removeAppUser(\CoreBundle\Entity\AppUser $appUser)
+    {
+        $this->appUsers->removeElement($appUser);
+    }
+
+    /**
+     * Get appUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAppUsers()
+    {
+        return $this->appUsers;
     }
 }

@@ -2,6 +2,13 @@ CoreBundle\Entity\AppUser:
     type: entity
     table: null
     repositoryClass: CoreBundle\Repository\AppUserRepository
+    manyToOne:
+        store:
+            targetEntity: Store
+            inversedBy: appUsers
+            joinColumn:
+                name: store_id
+                referencedColumnName: id
     oneToMany:
         socialProfiles:
             targetEntity: SocialProfile
@@ -23,10 +30,7 @@ CoreBundle\Entity\AppUser:
             targetEntity: FollowList
             mappedBy: appUser
             cascade: ["persist"]
-        stores:
-            targetEntity: Store
-            mappedBy: appUser
-            cascade: ["all"]
+
     id:
         id:
             type: integer
@@ -34,18 +38,9 @@ CoreBundle\Entity\AppUser:
             generator:
                 strategy: AUTO
     fields:
-        temporaryHash:
+        appUserId:
             type: string
-            length: 60
-            nullable: TRUE
-        androidPushKey:
-            type: string
-            length: 255
-            nullable: TRUE
-        applePushKey:
-            type: string
-            length: 255
-            nullable: TRUE
+            length: 100
         name:
             type: string
             length: 100
@@ -56,10 +51,6 @@ CoreBundle\Entity\AppUser:
         address:
             type: string
             length: 255
-            nullable: TRUE
-        locale:
-            type: string
-            length: 5
             nullable: TRUE
         company:
             type: string
