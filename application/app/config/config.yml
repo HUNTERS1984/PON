@@ -50,6 +50,7 @@ twig:
         user_avatar_path: %base_user_avatar_path%
         category_avatar_path: %base_category_avatar_path%
         store_avatar_path: %base_store_avatar_path%
+        genders: %genders%
 
 # Doctrine Configuration
 doctrine:

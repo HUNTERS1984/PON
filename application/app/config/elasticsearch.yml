@@ -25,6 +25,7 @@ fos_elastica:
                         address: ~
                         company: ~
                         tel: ~
+                        gender: ~
                         avatarUrl: ~
                         store:
                             type: object

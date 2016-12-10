@@ -86,6 +86,14 @@ admin_customer:
     path:     /customer
     defaults: { _controller: AdminBundle:Customer:index }
 
+admin_customer_active:
+    path:     /user/customer/{id}
+    defaults: { _controller: AdminBundle:Customer:active }
+
+admin_customer_view:
+    path:     /user/customer/{id}/view
+    defaults: { _controller: AdminBundle:Customer:view }
+
 admin_news:
     path:     /news
     defaults: { _controller: AdminBundle:News:index }

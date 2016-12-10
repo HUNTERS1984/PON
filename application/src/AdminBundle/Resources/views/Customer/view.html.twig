@@ -1,0 +1,35 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="col-xs-9">
+                <div class="btn-group btn-group-justified">
+                    <a href="#" class="btn btn-default btn_tab_breadcrumbs active" role="button">基本情報</a>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+        </div>
+        <div class="modal-body us_poup">
+            <div class="col-xs-3">
+                <img src="{{ asset('backend/images/img_table_poup.jpg') }}" class="img-responsive" alt="">
+            </div>
+            <div class="col-xs-3 us_poup_left">
+                <p>ユーザーID</p>
+                <p>ユーザーネーム</p>
+                <p>性別</p>
+                <p>Eメール</p>
+                <p>状態</p>
+                <p>最終ログイン</p>
+            </div>
+            <div class="col-xs-6 us_poup_right">
+                <p>{{ customer.appUserId }}</p>
+                <p>{{ customer.userName }}</p>
+                <p>{{ genders[customer.gender] }}</p>
+                <p>{{ customer.email }}</p>
+                <p>{% if customer.isEnabled %}有効{% else %}無効{% endif %}</p>
+                <p>{{ customer.lastLogin|date("Y.m.d") }}</p>
+            </div>
+        </div>
+    </div>
+</div>

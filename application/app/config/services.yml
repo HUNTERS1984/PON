@@ -14,3 +14,8 @@ parameters:
    coupon_types:
       1: SNS
       2: Store
+
+   genders:
+      0: 女性
+      1: 男性
+      2: その他
