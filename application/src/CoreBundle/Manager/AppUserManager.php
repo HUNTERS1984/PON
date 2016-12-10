@@ -460,7 +460,7 @@ class AppUserManager extends AbstractManager
     }
 
     /**
-     * List App User From Admin
+     * List App User From Client
      * @param array $params
      *
      * @return array
@@ -486,6 +486,82 @@ class AppUserManager extends AbstractManager
         }
         $boolQuery
             ->addMust(new Query\Match('roles', 'ROLE_CLIENT'))
+            ->addMust(new Query\Term(['store.id' => ['value' => $user->getStore()->getId()]]));
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->appUserFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * List Customer From Admin
+     * @param array $params
+     *
+     * @return array
+     */
+    public function getCustomerFromAdmin($params)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+        $boolQuery = new Query\BoolQuery();
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['username','email','company','address']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery->addMust($multiMatchQuery);
+        }
+        $roleQuery = new Query\BoolQuery();
+        $roleQuery
+            ->addShould(new Query\Match('roles', 'ROLE_APP'));
+
+        $boolQuery->addMust($roleQuery);
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->appUserFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * List Customer From Client
+     * @param array $params
+     *
+     * @return array
+     */
+    public function getCustomerFromClient($params, AppUser $user)
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+        $boolQuery = new Query\BoolQuery();
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['username','email','company','address']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery->addMust($multiMatchQuery);
+        }
+        $boolQuery
+            ->addMust(new Query\Match('roles', 'ROLE_APP'))
             ->addMust(new Query\Term(['store.id' => ['value' => $user->getStore()->getId()]]));
         $query->setQuery($boolQuery);
 
