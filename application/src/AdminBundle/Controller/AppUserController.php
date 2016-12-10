@@ -4,6 +4,7 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Form\Type\AppUserType;
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Manager\StoreManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use CoreBundle\Manager\AppUserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,9 +23,9 @@ class AppUserController extends Controller
     {
         $params = $request->query->all();
         $params['query'] = isset($params['query']) ? $params['query'] : '';
-        if($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $result = $this->getManager()->getAppUserManagerFromAdmin($params);
-        }else{
+        } else {
             $result = $this->getManager()->getAppUserManagerFromClient($params, $this->getUser());
         }
 
@@ -42,11 +43,20 @@ class AppUserController extends Controller
      * Create User Action
      *
      * @return Response
-     * @Security("is_granted('ROLE_CLIENT')")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function createAction(Request $request)
     {
-        $form = $this->createForm(AppUserType::class);
+        $form = $this->createForm(
+            AppUserType::class,
+            null,
+            [
+                'roles' => [
+                    'ROLE_ADMIN' => 'ROLE_ADMIN',
+                    'ROLE_CLIENT' => 'ROLE_CLIENT'
+                ]
+            ]
+        );
 
         $form = $form->handleRequest($request);
 
@@ -54,12 +64,21 @@ class AppUserController extends Controller
 
             /** @var AppUser $appUser */
             $appUser = $form->getData();
+
+            if($this->isGranted('ROLE_CLIENT') && !$this->isGranted('ROLE_ADMIN')) {
+                $store = $this->getStoreManager()->getStore($appUser->getStore()->getId());
+                if (!$store) {
+                    return $this->getFailureMessage('店を見つけることができませんでした！');
+                }
+                $appUser->setStore($store);
+            }
+
             $appUser->setAppUserId($this->getManager()->createID('US'));
             if ($fileUpload = $appUser->getImageFile()) {
                 $fileUrl = $this->getManager()->uploadAvatar($fileUpload, $appUser->getAppUserId());
                 $appUser->setAvatarUrl($fileUrl);
             }
-
+            $appUser->setRoles([$appUser->getRole()]);
             $appUser = $this->getManager()->createAppUser($appUser);
 
             if (!$appUser) {
@@ -78,6 +97,90 @@ class AppUserController extends Controller
                 'form' => $form->createView()
             ]
         );
+
+    }
+
+    /**
+     * Edit AppUser Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function editAction(Request $request, $id)
+    {
+        $appUser = $this->getManager()->getAppUser($id);
+        if (!$appUser) {
+            throw $this->createNotFoundException('ユーザーは見つかりませんでした。');
+        }
+        $form = $this->createForm(
+            AppUserType::class,
+            $appUser,
+            [
+                'roles' => [
+                    'ROLE_ADMIN' => 'ROLE_ADMIN',
+                    'ROLE_CLIENT' => 'ROLE_CLIENT'
+                ]
+            ])->handleRequest($request);
+
+        if ($request->isXmlHttpRequest() && $form->isValid()) {
+
+            /** @var AppUser $appUser */
+            $appUser = $form->getData();
+
+            if($this->isGranted('ROLE_CLIENT') && !$this->isGranted('ROLE_ADMIN')) {
+                $store = $this->getStoreManager()->getStore($appUser->getStore()->getId());
+                if (!$store) {
+                    return $this->getFailureMessage('店を見つけることができませんでした！');
+                }
+                $appUser->setStore($store);
+            }
+
+            if ($fileUpload = $appUser->getImageFile()) {
+                $fileUrl = $this->getManager()->uploadAvatar($fileUpload, $appUser->getAppUserId());
+                $appUser->setAvatarUrl($fileUrl);
+            }
+
+            $appUser->setRoles([$appUser->getRole()]);
+            $appUser = $this->getManager()->saveAppUser($appUser);
+
+            if (!$appUser) {
+                return $this->getFailureMessage('ユーザーの作成に失敗しました');
+            }
+            return $this->getSuccessMessage();
+        }
+
+        if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
+            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+        }
+
+        return $this->render(
+            'AdminBundle:AppUser:edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'appUser' => $appUser
+            ]
+        );
+
+    }
+
+    /**
+     * Active AppUser Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function activeAction($id)
+    {
+        $appUser = $this->getManager()->getAppUser($id);
+        if (!$appUser) {
+            throw $this->createNotFoundException('ユーザーは見つかりませんでした。');
+        }
+
+        $enabled = $appUser->isEnabled()? false: true;
+        $appUser->setEnabled($enabled);
+
+        $this->getManager()->saveAppUser($appUser);
+        return $this->redirectToRoute('admin_app_user');
 
     }
 
@@ -105,5 +208,13 @@ class AppUserController extends Controller
     public function getManager()
     {
         return $this->get('pon.manager.app_user');
+    }
+
+    /**
+     * @return StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->get('pon.manager.store');
     }
 }

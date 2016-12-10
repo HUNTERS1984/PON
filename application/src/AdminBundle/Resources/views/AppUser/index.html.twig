@@ -73,61 +73,51 @@
                 <tr>
                     <th>アバター</th>
                     <th>ユーザー名</th>
+                    <th>役割</th>
                     <th>Eメール</th>
-                    <th>住所</th>
-                    <th>会社</th>
                     <th>電話</th>
                     <th>作成日</th>
-                    <th>有効</th>
+                    <th>状態</th>
+                    <th>アクション</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% if pagination.page_total == 0 %}
                 <tr class="active">
-                    <td align="center" colspan="9">No Records.</td>
+                    <td align="center" colspan="7">No Records.</td>
                 </tr>
                 {% else %}
                     {% for item in users %}
                     <tr {% if loop.index is divisible by(2) %}class="active"{% endif %}>
-
                         <td>
-                            <a href="" data-toggle="modal" data-target="#myModal2">
-                                <img src="{{ asset(user_avatar_path ~ item.avatarUrl) }}" alt="" height="42" width="42">
-                            </a>
+                            <img src="{{ asset(user_avatar_path ~ item.avatarUrl) }}" alt="" height="42" width="42">
                         </td>
                         <td>
-                            <a href="#">
-                                {{ item.username }}
-                            </a>
+                            {{ item.username }}
                         </td>
                         <td>
-                            <a href="#">
-                                {{ item.email }}
-                            </a>
+                            {% if item.roles[0] is defined %}{{ item.roles[0] }} {% endif %}
                         </td>
                         <td>
-                            <a href="#">
-                                {{ item.address }}
-                            </a>
+                            {{ item.email }}
                         </td>
                         <td>
-                            <a href="#">
-                                {{ item.company }}
-                            </a>
+                            {{ item.tel }}
                         </td>
                         <td>
-                            <a href="#">
-                                {{ item.tel }}
-                            </a>
-                        </td>
-                        <td>
-                            <a href="#">
-                                {{ item.createdAt|date("Y.m.d") }}
-                            </a>
+                            {{ item.createdAt|date("Y.m.d") }}
                         </td>
 
-
-                        <td><a href="" title="" class="red">{% if item.enabled == 0 %} 偽 {% else %} 真実{% endif %}</a></td>
+                        <td>
+                            {% if item.isEnabled %}
+                                <a href="{{ path('admin_app_user_active',{id:item.id}) }}" title="" class="blue">有効</a>
+                            {% else %}
+                                <a href="{{ path('admin_app_user_active',{id:item.id}) }}" title="" class="red">無効</a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('admin_app_user_edit',{id:item.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
+                        </td>
                     </tr>
                     {% endfor %}
 

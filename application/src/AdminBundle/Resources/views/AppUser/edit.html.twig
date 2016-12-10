@@ -3,7 +3,7 @@
 <div id="frm">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content modal_coupon">
-            {{ form_start(form, {'attr': {'class': 'submitModal','data-ajax-redirect': path('admin_app_user'),'data-ajax-url': path("admin_app_user_create"), 'enctype': 'multipart/form-data'  }}) }}
+            {{ form_start(form, {'attr': {'class': 'submitModal','data-ajax-redirect': path('admin_app_user'),'data-ajax-url': path("admin_app_user_edit",{id: appUser.id}), 'enctype': 'multipart/form-data'  }}) }}
             {{ form_errors(form) }}
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -13,7 +13,7 @@
                 <div class="">
                     <div class="col-md-12">
                         <div class="row wrapp_avar_btn">
-                            <div class="col-md-3"><img width="200px" height="200px" src="" alt=""></div>
+                            <div class="col-md-3"><img width="200px" height="200px" src="{{ asset(user_avatar_path~ appUser.avatarUrl) }}" alt=""></div>
                             <div class="col-md-4">
                                 <div class="btn_upload_image">
                                     <span>{{ form_label(form.imageFile) }}</span>

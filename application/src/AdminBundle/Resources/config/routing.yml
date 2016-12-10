@@ -18,6 +18,14 @@ admin_app_user_create:
     path:     /user/create
     defaults: { _controller: AdminBundle:AppUser:create }
 
+admin_app_user_edit:
+    path:     /user/edit/{id}
+    defaults: { _controller: AdminBundle:AppUser:edit }
+
+admin_app_user_active:
+    path:     /user/active/{id}
+    defaults: { _controller: AdminBundle:AppUser:active }
+
 admin_summary:
     path:     /summary
     defaults: { _controller: AdminBundle:Summary:index }

@@ -77,6 +77,11 @@ class AppUser extends BaseUser
     private $appUserId;
 
     /**
+     * @var string
+     */
+    private $role;
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -146,6 +151,24 @@ class AppUser extends BaseUser
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+
+    /**
+     * @param string $role
+     * @return AppUser
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
     }
 
     /**

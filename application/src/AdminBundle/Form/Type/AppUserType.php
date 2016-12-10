@@ -22,7 +22,8 @@ class AppUserType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => AppUser::class
+                'data_class' => AppUser::class,
+                'roles' => ['ROLE_CLIENT']
             ]
         );
     }
@@ -33,20 +34,22 @@ class AppUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, [
+            ->add('userName', TextType::class, [
                 'label' => 'ユーザー名',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'ユーザー名'
+                    'placeholder' => 'ユーザー名',
+                    'autocomplete' => 'off',
                 ]
             ])
-            ->add('password', PasswordType::class, [
+            ->add('plainPassword', PasswordType::class, [
                 'label' => 'パスワード',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'パスワード'
+                    'placeholder' => 'パスワード',
+                    'autocomplete' => 'off',
                 ]
             ])
             ->add('name', TextType::class, [
@@ -62,7 +65,8 @@ class AppUserType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Eメール'
+                    'placeholder' => 'Eメール',
+                    'autocomplete' => 'off',
                 ]
             ])
             ->add('gender', ChoiceType::class, [
@@ -76,6 +80,22 @@ class AppUserType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ]
+            ])
+            ->add('role', ChoiceType::class,[
+                'required' => true,
+                'label' => '役割',
+                'choices'  => $options['roles'],
+                'attr' => [
+                    'class' => 'form-control form-role'
+                ]
+            ])
+            ->add('store', StoreSearchType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-store'
+                ],
+                'store_label' => 'ショップ',
             ])
             ->add('tel', TextType::class, [
                 'label' => '電話',
