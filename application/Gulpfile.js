@@ -62,6 +62,7 @@ gulp.task('admin-scripts', function () {
             dir.admin_path + '/js/vertical-responsive-menu.min.js',
             dir.admin_path + '/js/jquery.canvasjs.min.js',
             dir.admin_path + 'js/components/store-select.js',
+            dir.admin_path + 'js/components/news-category-select.js',
             dir.admin_path + 'js/components/category-select.js',
             dir.admin_path + 'js/components/collection-form-type.js',
             dir.admin_path + 'js/components/photo-collection-form-type.js',

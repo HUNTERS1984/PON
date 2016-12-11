@@ -8,34 +8,3 @@ CoreBundle\Entity\News:
                 max: 255
                 minMessage: news.title.min_message
                 maxMessage: news.title.max_message
-        message:
-            - Length:
-                min: 1
-                max: 255
-                minMessage: news.news.min_message
-                maxMessage: news.news.max_message
-        json:
-            - Length:
-                min: 1
-                max: 255
-                minMessage: news.json.min_message
-                maxMessage: news.json.max_message
-        type:
-            - NotBlank:
-                message: news.type.not_blank
-            - Type:
-                type: integer
-                message: news.type.integer
-        time:
-            - NotBlank:
-                message: news.time.not_blank
-            - Date:
-                message: news.time.date
-        date:
-            - NotBlank:
-               message: news.date.not_blank
-            - Date:
-               message: news.date.date
-        store:
-            - NotBlank:
-                message: news.store.not_blank

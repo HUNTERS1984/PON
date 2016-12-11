@@ -23,3 +23,10 @@ services:
             - [setManager, ['@pon.manager.category']]
         tags:
             -  { name: form.type, alias:'category_search' }
+
+    pon.form.type.news_category:
+        class: AdminBundle\Form\Type\NewsCategorySearchType
+        calls:
+            - [setManager, ['@pon.manager.news_category']]
+        tags:
+            -  { name: form.type, alias:'news_category_search' }

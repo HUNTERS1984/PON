@@ -102,6 +102,14 @@ admin_news:
     path:     /news
     defaults: { _controller: AdminBundle:News:index }
 
+admin_news_create:
+    path:     /news/create
+    defaults: { _controller: AdminBundle:News:create }
+
+admin_news_edit:
+    path:     /news/edit/{id}
+    defaults: { _controller: AdminBundle:News:edit }
+
 admin_setting:
     path:     /setting
     defaults: { _controller: AdminBundle:Setting:index }
@@ -137,3 +145,7 @@ admin_store_search:
 admin_category_search:
     path:     /category/search
     defaults: { _controller: AdminBundle:Category:search }
+
+admin_news_category_search:
+    path:     /news_category/search
+    defaults: { _controller: AdminBundle:NewsCategory:search }
