@@ -72,7 +72,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $appUser->setPlainPassword($data['password']);
         $appUser->setEmail($data['email']);
         $appUser->setPassword($data['password']);
-        if($error = $this->get('pon.exception.exception_handler')->validate($appUser)) {
+        if ($error = $this->get('pon.exception.exception_handler')->validate($appUser)) {
             return $this->view($error);
         }
 
@@ -81,14 +81,14 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         try {
             $request->request->set('username', $appUser->getUsername());
             $request->request->set('password', $data['password']);
-            $request->request->set('client_id',$this->getParameter('client_id'));
-            $request->request->set('client_secret',$this->getParameter('client_secret'));
-            $request->request->set('grant_type',$this->getParameter('grant_type'));
-            $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+            $request->request->set('client_id', $this->getParameter('client_id'));
+            $request->request->set('client_secret', $this->getParameter('client_secret'));
+            $request->request->set('grant_type', $this->getParameter('grant_type'));
+            $token = $this->get('fos_oauth_server.server')->grantAccessToken($request);
 
-            $accessToken = json_decode($token->getContent(),true)['access_token'];
+            $accessToken = json_decode($token->getContent(), true)['access_token'];
             $result['token'] = $accessToken;
-            return  $this->view(BaseResponse::getData($result));
+            return $this->view(BaseResponse::getData($result));
         } catch (OAuth2ServerException $e) {
             $content = json_decode($e->getHttpResponse()->getContent());
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
@@ -128,10 +128,10 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     public function postSingInAction(Request $request)
     {
         try {
-            $request->request->set('client_id',$this->getParameter('client_id'));
-            $request->request->set('client_secret',$this->getParameter('client_secret'));
-            $request->request->set('grant_type',$this->getParameter('grant_type'));
-            $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+            $request->request->set('client_id', $this->getParameter('client_id'));
+            $request->request->set('client_secret', $this->getParameter('client_secret'));
+            $request->request->set('grant_type', $this->getParameter('grant_type'));
+            $token = $this->get('fos_oauth_server.server')->grantAccessToken($request);
         } catch (OAuth2ServerException $e) {
             $content = json_decode($e->getHttpResponse()->getContent());
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
@@ -139,21 +139,21 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             ));
         }
 
-        /**@var AppUser $appUser*/
+        /**@var AppUser $appUser */
         $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
         $appUser->setBasePath($request->getSchemeAndHttpHost());
-        if(!$appUser || !is_null($appUser->getDeletedAt())) {
+        if (!$appUser || !is_null($appUser->getDeletedAt())) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
             ));
         }
 
         $result = [
-          'token' => json_decode($token->getContent(),true)['access_token'],
-          'user' =>  $appUser
+            'token' => json_decode($token->getContent(), true)['access_token'],
+            'user' => $appUser
         ];
 
-        return  $this->view(BaseResponse::getData($result));
+        return $this->view(BaseResponse::getData($result));
     }
 
     /**
@@ -184,7 +184,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $accessToken = $request->get('facebook_access_token');
         $result = $this->getManager()->facebookLogin($accessToken);
 
-        if(!$result['status']) {
+        if (!$result['status']) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found', $result['message']
             ));
@@ -192,10 +192,10 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         try {
             $request->request->set('username', $result['username']);
             $request->request->set('password', $result['password']);
-            $request->request->set('client_id',$this->getParameter('client_id'));
-            $request->request->set('client_secret',$this->getParameter('client_secret'));
-            $request->request->set('grant_type',$this->getParameter('grant_type'));
-            $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+            $request->request->set('client_id', $this->getParameter('client_id'));
+            $request->request->set('client_secret', $this->getParameter('client_secret'));
+            $request->request->set('grant_type', $this->getParameter('grant_type'));
+            $token = $this->get('fos_oauth_server.server')->grantAccessToken($request);
         } catch (OAuth2ServerException $e) {
             $content = json_decode($e->getHttpResponse()->getContent());
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
@@ -203,21 +203,21 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             ));
         }
 
-        /**@var AppUser $appUser*/
+        /**@var AppUser $appUser */
         $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
         $appUser->setBasePath($request->getSchemeAndHttpHost());
-        if(!$appUser || !is_null($appUser->getDeletedAt())) {
+        if (!$appUser || !is_null($appUser->getDeletedAt())) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
             ));
         }
 
         $result = [
-            'token' => json_decode($token->getContent(),true)['access_token'],
-            'user' =>  $appUser
+            'token' => json_decode($token->getContent(), true)['access_token'],
+            'user' => $appUser
         ];
 
-        return  $this->view(BaseResponse::getData($result));
+        return $this->view(BaseResponse::getData($result));
     }
 
     /**
@@ -255,7 +255,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /** @var AppUser $user */
         $user = $this->getUser();
         $result = $this->getManager()->getFacebookAccess($accessToken);
-        if(!$result['status']) {
+        if (!$result['status']) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.facebook.access_token.not_found', $result['message']
             ));
@@ -268,11 +268,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /** @var SocialProfile $socialProfile */
         $socialProfile = $this->getSocialProfileManager()->getSocialProfile($user, 1);
 
-        if(!$user->getFacebookId()) {
+        if (!$user->getFacebookId()) {
             $user->setFacebookId($facebookUser->getId());
         }
 
-        if(!$socialProfile) {
+        if (!$socialProfile) {
             $socialProfile = new SocialProfile();
             $socialProfile
                 ->setSocialType(1)
@@ -280,11 +280,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
                 ->setSocialId($facebookUser->getId())
                 ->setSocialToken($accessToken);
             $this->getSocialProfileManager()->createSocialProfile($socialProfile);
-        }else{
+        } else {
             $this->getSocialProfileManager()->saveSocialProfile($socialProfile);
         }
 
-        return  $this->view(BaseResponse::getData($result));
+        return $this->view(BaseResponse::getData($result));
     }
 
     /**
@@ -315,7 +315,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $accessToken = $request->get('instagram_access_token');
         $result = $this->getManager()->instagramLogin($accessToken);
 
-        if(!$result['status']) {
+        if (!$result['status']) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found', $result['message']
             ));
@@ -323,10 +323,10 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         try {
             $request->request->set('username', $result['username']);
             $request->request->set('password', $result['password']);
-            $request->request->set('client_id',$this->getParameter('client_id'));
-            $request->request->set('client_secret',$this->getParameter('client_secret'));
-            $request->request->set('grant_type',$this->getParameter('grant_type'));
-            $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+            $request->request->set('client_id', $this->getParameter('client_id'));
+            $request->request->set('client_secret', $this->getParameter('client_secret'));
+            $request->request->set('grant_type', $this->getParameter('grant_type'));
+            $token = $this->get('fos_oauth_server.server')->grantAccessToken($request);
         } catch (OAuth2ServerException $e) {
             $content = json_decode($e->getHttpResponse()->getContent());
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
@@ -334,21 +334,21 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             ));
         }
 
-        /**@var AppUser $appUser*/
+        /**@var AppUser $appUser */
         $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
         $appUser->setBasePath($request->getSchemeAndHttpHost());
-        if(!$appUser || !is_null($appUser->getDeletedAt())) {
+        if (!$appUser || !is_null($appUser->getDeletedAt())) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
             ));
         }
 
         $result = [
-            'token' => json_decode($token->getContent(),true)['access_token'],
-            'user' =>  $appUser
+            'token' => json_decode($token->getContent(), true)['access_token'],
+            'user' => $appUser
         ];
 
-        return  $this->view(BaseResponse::getData($result));
+        return $this->view(BaseResponse::getData($result));
     }
 
     /**
@@ -386,7 +386,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /** @var AppUser $user */
         $user = $this->getUser();
         $result = $this->getManager()->getInstagramAccess($accessToken);
-        if(!$result['status']) {
+        if (!$result['status']) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.instagram.access_token.not_found', $result['message']
             ));
@@ -398,11 +398,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /** @var SocialProfile $socialProfile */
         $socialProfile = $this->getSocialProfileManager()->getSocialProfile($user, 1);
 
-        if(!$user->getFacebookId()) {
+        if (!$user->getFacebookId()) {
             $user->setFacebookId($instagramUser->id);
         }
 
-        if(!$socialProfile) {
+        if (!$socialProfile) {
             $socialProfile = new SocialProfile();
             $socialProfile
                 ->setSocialType(3)
@@ -410,11 +410,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
                 ->setSocialId($instagramUser->id)
                 ->setSocialToken($accessToken);
             $this->getSocialProfileManager()->createSocialProfile($socialProfile);
-        }else{
+        } else {
             $this->getSocialProfileManager()->saveSocialProfile($socialProfile);
         }
 
-        return  $this->view(BaseResponse::getData($result));
+        return $this->view(BaseResponse::getData($result));
     }
 
     /**
@@ -451,7 +451,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $accessTokenSecret = $request->get('twitter_access_token_secret');
         $result = $this->getManager()->twitterLogin($accessToken, $accessTokenSecret);
 
-        if(!$result['status']) {
+        if (!$result['status']) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found', $result['message']
             ));
@@ -459,10 +459,10 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         try {
             $request->request->set('username', $result['username']);
             $request->request->set('password', $result['password']);
-            $request->request->set('client_id',$this->getParameter('client_id'));
-            $request->request->set('client_secret',$this->getParameter('client_secret'));
-            $request->request->set('grant_type',$this->getParameter('grant_type'));
-            $token =  $this->get('fos_oauth_server.server')->grantAccessToken($request);
+            $request->request->set('client_id', $this->getParameter('client_id'));
+            $request->request->set('client_secret', $this->getParameter('client_secret'));
+            $request->request->set('grant_type', $this->getParameter('grant_type'));
+            $token = $this->get('fos_oauth_server.server')->grantAccessToken($request);
         } catch (OAuth2ServerException $e) {
             $content = json_decode($e->getHttpResponse()->getContent());
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
@@ -470,21 +470,21 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
             ));
         }
 
-        /**@var AppUser $appUser*/
+        /**@var AppUser $appUser */
         $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
         $appUser->setBasePath($request->getSchemeAndHttpHost());
-        if(!$appUser || !is_null($appUser->getDeletedAt())) {
+        if (!$appUser || !is_null($appUser->getDeletedAt())) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
             ));
         }
 
         $result = [
-            'token' => json_decode($token->getContent(),true)['access_token'],
-            'user' =>  $appUser
+            'token' => json_decode($token->getContent(), true)['access_token'],
+            'user' => $appUser
         ];
 
-        return  $this->view(BaseResponse::getData($result));
+        return $this->view(BaseResponse::getData($result));
     }
 
     /**
@@ -529,7 +529,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /** @var AppUser $user */
         $user = $this->getUser();
         $result = $this->getManager()->getTwitterAccess($accessToken, $accessTokenSecret);
-        if(!$result['status']) {
+        if (!$result['status']) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.twitter.access_token.not_found', $result['message']
             ));
@@ -541,11 +541,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /** @var SocialProfile $socialProfile */
         $socialProfile = $this->getSocialProfileManager()->getSocialProfile($user, 2);
 
-        if(!$user->getTwitterId()) {
+        if (!$user->getTwitterId()) {
             $user->setTwitterId($twitter->id);
         }
 
-        if(!$socialProfile) {
+        if (!$socialProfile) {
             $socialProfile = new SocialProfile();
             $socialProfile
                 ->setSocialType(2)
@@ -554,11 +554,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
                 ->setSocialToken($accessToken)
                 ->setSocialSecret($accessTokenSecret);
             $this->getSocialProfileManager()->createSocialProfile($socialProfile);
-        }else{
+        } else {
             $this->getSocialProfileManager()->saveSocialProfile($socialProfile);
         }
 
-        return  $this->view(BaseResponse::getData($result));
+        return $this->view(BaseResponse::getData($result));
     }
 
     /**
@@ -617,11 +617,11 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      */
     public function postProfileAction(Request $request)
     {
-        /**@var AppUser $appUser*/
+        /**@var AppUser $appUser */
         $appUser = $this->getUser();
         $fileUpload = null;
         foreach ($_FILES as $file) {
-            if($file['size'] <= 0){
+            if ($file['size'] <= 0) {
                 break;
             }
             $fileUpload = new UploadedFile($file['tmp_name'],
@@ -632,23 +632,108 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         $appUser->setBasePath($request->getSchemeAndHttpHost());
         $data = $request->request->all();
         $appUser = $this->get('pon.utils.data')->setData($data, $appUser);
-        if(!empty($data['password'])) {
+        if (!empty($data['password'])) {
             $appUser->setPlainPassword($data['password']);
         }
 
-        if($fileUpload) {
+        if ($fileUpload) {
             $appUser->setFile($fileUpload);
         }
 
-        if($error =  $this->get('pon.exception.exception_handler')->validate($appUser)) {
+        if ($error = $this->get('pon.exception.exception_handler')->validate($appUser)) {
             return $error;
         }
 
-        if($fileUpload) {
+        if ($fileUpload) {
             $appUser->upload();
         }
 
 
+        $this->getManager()->saveAppUser($appUser);
+        return $this->view(BaseResponse::getData($appUser), 200);
+    }
+
+    /**
+     * Change Password
+     * @ApiDoc(
+     *  section="User",
+     *  resource=false,
+     *  description="This api is used to change password of app user (DONE)",
+     *  requirements={
+     *     {
+     *          "name"="old_password",
+     *          "dataType"="string",
+     *          "description"="old password of app"
+     *      },
+     *     {
+     *          "name"="new_password",
+     *          "dataType"="string",
+     *          "description"="new password of app"
+     *      },
+     *     {
+     *          "name"="confirm_password",
+     *          "dataType"="string",
+     *          "description"="confirm password of app"
+     *      }
+     *  },
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   },
+     *   views = { "app"}
+     * )
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @Put("/password", name="update_password")
+     * @return Response
+     */
+    public function putPasswordAction(Request $request)
+    {
+        /**@var AppUser $appUser */
+        $appUser = $this->getUser();
+        $data = $request->request->all();
+
+        if (empty($oldPassword = $data['old_password'])) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.old_password.blank'
+            ));
+        }
+
+        if (empty($newPassword = $data['new_password'])) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.new_password.blank'
+            ));
+        }
+
+        if (empty($confirmPassword = $data['confirm_password'])) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.confirm_password.blank'
+            ));
+        }
+
+        if ($newPassword !== $confirmPassword) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.confirm_password.not_same_new_password'
+            ));
+        }
+
+        $password = $this->get('security.password_encoder')
+            ->encodePassword($appUser, $oldPassword);
+
+        if ($password !== $appUser->getPassword()) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'app_user.old_password.in_valid'
+            ));
+        }
+
+        $appUser->setPlainPassword($confirmPassword);
 
         $this->getManager()->saveAppUser($appUser);
         return $this->view(BaseResponse::getData($appUser), 200);
@@ -679,14 +764,14 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     {
         $appUser = $this->getUser();
 
-        if(!$appUser) {
+        if (!$appUser) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
             ));
         }
 
         $token = $this->get('security.token_storage')->getToken();
-        $accessToken = $this->get('fos_oauth_server.access_token_manager')->findTokenBy(['token'=> $token->getToken()]);
+        $accessToken = $this->get('fos_oauth_server.access_token_manager')->findTokenBy(['token' => $token->getToken()]);
         $this->get('fos_oauth_server.access_token_manager')->deleteToken($accessToken);
 
         return $this->view(BaseResponse::getData([]));
@@ -742,7 +827,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
      */
     public function getProfileAction(Request $request)
     {
-        /**@var AppUser $appUser*/
+        /**@var AppUser $appUser */
         $appUser = $this->getUser();
         $appUser->setBasePath($request->getSchemeAndHttpHost());
         return $this->view(BaseResponse::getData($appUser));
@@ -766,7 +851,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
 
     /**
      * @return Serializer
-    */
+     */
     public function getSerializer()
     {
         return $this->get('pon.serializator.serializer');
