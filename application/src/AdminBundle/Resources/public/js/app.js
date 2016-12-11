@@ -35,6 +35,12 @@ var App = function () {
         }
     };
 
+    var handleNewsCategorySelect = function ($element) {
+        if ($().select2) {
+            $element.find('select[data-toggle=news_category]').newsCategorySelect();
+        }
+    };
+
     var handleCategorySelect = function ($element) {
         if ($().select2) {
             $element.find('select[data-toggle=category]').categorySelect();
@@ -137,6 +143,7 @@ var App = function () {
         init: function () {
             handleInit();
             handleStoreSelect($document);
+            handleNewsCategorySelect($document);
             handleCategorySelect($document);
             handleCollection($document);
             handlePhotoCollection($document);
@@ -149,6 +156,7 @@ var App = function () {
         //main function to initiate core javascript after ajax complete
         initAjax: function () {
             handleStoreSelect($document);
+            handleNewsCategorySelect($document);
             handleCategorySelect($document);
             handleCollection($document);
             handlePhotoCollection($document);
@@ -161,6 +169,7 @@ var App = function () {
         //init main components
         initComponents: function ($element) {
             handleStoreSelect($element);
+            handleNewsCategorySelect($element);
             handleCategorySelect($element);
             handleCollection($element);
             handlePhotoCollection($element);

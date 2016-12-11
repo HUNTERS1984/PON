@@ -168,4 +168,20 @@ class NewsManager extends AbstractManager
         return $this->pagination->response($results, $total, $limit, $offset);
     }
 
+    /**
+     * get News
+     *
+     * @param $id
+     * @return null | News
+     */
+    public function getNews($id)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Query\Term(['id' => ['value' => $id]]));
+        $result = $this->newsFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+
 }

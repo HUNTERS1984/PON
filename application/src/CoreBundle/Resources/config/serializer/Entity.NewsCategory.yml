@@ -1,0 +1,9 @@
+CoreBundle\Entity\NewsCategory:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose : true
+            groups: [list]
+        name:
+            expose : true
+            groups: [list]

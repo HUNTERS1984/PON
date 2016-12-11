@@ -21,7 +21,7 @@
             <div class="col-md-6 col-xs-6">
                 <form method="GET" action="{{ path('admin_news') }}">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-10">
                             <form class="form-group">
                                 <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="ユーザー名/ハッシュタグを入力してください">
                             </form>
@@ -35,9 +35,15 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-6 col-xs-6">
+            <div class="col-md-4">
+                <ul class="btn_search_right">
+                    <li><a data-toggle="modal" data-target=".bs-example-modal-lg" class="click_to_load_modal_popup" href="{{ path('admin_news_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいニュースを追加</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-xs-6">
                 {% include 'AdminBundle:Pager:pagination_news.html.twig' with {pagination: pagination, route: path(app.request.attributes.get('_route')) } %}
             </div>
+
         </div>
     </div>
     <!-- //wrapp_search_btn -->
@@ -50,18 +56,20 @@
                 No Records.
             </div>
         {% else %}
-            {% for new in news %}
+            {% for item in news %}
                 <div class="col-md-12">
                     <div class="content_news">
                         <div class="top_news">
-                            <h2>{{ new.store.title }}</h2>
+                            <h2>{{ item.title }}</h2>
                             <span class="date_news">
-                                  {{ new.createdAt|date("Y.m.d") }}
+                                {{ item.createdAt|date("Y.m.d") }}
+                                <a href="{{ path('admin_news_edit',{id:item.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
                             </span>
+
                         </div>
                         <div class="bottom_news">
                             <p>
-                                {{ new.introduction }}
+                                {{ item.introduction }}
                             </p>
                         </div>
                     </div>

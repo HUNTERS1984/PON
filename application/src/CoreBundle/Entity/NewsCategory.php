@@ -44,7 +44,7 @@ class NewsCategory
     private $deletedAt;
 
     /**
-     * @var\Doctrine\Common\Collections\Collection
+     * @var \Doctrine\Common\Collections\Collection
     */
     private $news;
 
@@ -271,5 +271,15 @@ class NewsCategory
     public function getNewsCategoryId()
     {
         return $this->newsCategoryId;
+    }
+
+    /**
+     * @param int $id
+     * @return NewsCategory
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+        return $this;
     }
 }

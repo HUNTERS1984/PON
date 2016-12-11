@@ -312,7 +312,7 @@ services:
         calls:
             - [setSecurityContext, ["@security.token_storage"]]
             - [setStoreManager, ["@pon.manager.store"]]
-            - [setStoreManager, ["@pon.manager.news"]]
+            - [setNewsManager, ["@pon.manager.news"]]
             - [setCouponManager, ["@pon.manager.coupon"]]
             - [setAppUserManager, ["@pon.manager.app_user"]]
             - [setSegementManager, ["@pon.manager.segement"]]
@@ -326,9 +326,7 @@ services:
             - [setRequest, ["@request_stack"]]
             - [setBaseCouponAvatarPath,["%base_coupon_avatar_path%"]]
             - [setBaseStoreAvatarPath,["%base_store_avatar_path%"]]
-            - [setBaseNewsAvatarPath,["%base_news_avatar_path%"]]
             - [setBaseCategoryAvatarPath,["%base_category_avatar_path%"]]
-            - [setBaseNewsCategoryAvatarPath,["%base_news_category_avatar_path%"]]
             - [setBaseImagePath,["%base_image_upload%"]]
         tags:
             - { name: jms_serializer.event_subscriber}
