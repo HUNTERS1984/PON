@@ -3,15 +3,14 @@
 namespace AdminBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use CoreBundle\Manager\NewsManager;
+use CoreBundle\Manager\NewsCategoryManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-class NewsController extends Controller
+class NewsCategoryController extends Controller
 {
     /**
-     * List all News
+     * List all Category
      *
      * @return Response
      * @Security("is_granted('ROLE_CLIENT')")
@@ -20,17 +19,12 @@ class NewsController extends Controller
     {
         $params = $request->query->all();
         $params['query'] = isset($params['query']) ? $params['query'] : '';
-        $user = $this->getUser();
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $result = $this->getManager()->getNewsManagerFromAdmin($params);
-        } else {
-            $result = $this->getManager()->getNewsManagerFromClient($params, $user);
-        }
+        $result = $this->getManager()->getNewsCategories($params);
 
         return $this->render(
-            'AdminBundle:News:index.html.twig',
+            'AdminBundle:NewsCategory:index.html.twig',
             [
-                'news' => $result['data'],
+                'new_categories' => $result['data'],
                 'pagination' => $result['pagination'],
                 'params' => $params
             ]
@@ -38,10 +32,10 @@ class NewsController extends Controller
     }
 
     /**
-     * @return NewsManager
+     * @return NewsCategoryManager
      */
     public function getManager()
     {
-        return $this->get('pon.manager.news');
+        return $this->get('pon.manager.news_category');
     }
 }

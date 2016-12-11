@@ -2,8 +2,7 @@
 
 namespace CoreBundle\Manager;
 
-use CoreBundle\Entity\AppUser;
-use CoreBundle\Entity\Category;
+use CoreBundle\Entity\NewsCategory;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Aggregation\Nested;
 use Elastica\Aggregation\ValueCount;
@@ -12,7 +11,7 @@ use Elastica\Query;
 use Elastica\Query\Term;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 
-class CategoryManager extends AbstractManager
+class NewsCategoryManager extends AbstractManager
 {
     /**
      * @var Pagination
@@ -20,9 +19,9 @@ class CategoryManager extends AbstractManager
     protected $pagination;
 
     /**
-     * @var TransformedFinder $categoryFinder
+     * @var TransformedFinder $newsCategoryFinder
      */
-    protected $categoryFinder;
+    protected $newsCategoryFinder;
 
     /**
      * @var Pagination $pagination
@@ -33,64 +32,61 @@ class CategoryManager extends AbstractManager
     }
 
     /**
-     * @param Category $category
+     * @param NewsCategory $newsCategory
      *
-     * @return Category
+     * @return NewsCategory
      */
-    public function saveCategory(Category $category)
+    public function saveNewsCategory(NewsCategory $newsCategory)
     {
-        $category->setUpdatedAt(new \DateTime());
-        return $this->save($category);
+        $newsCategory->setUpdatedAt(new \DateTime());
+        return $this->save($newsCategory);
     }
 
     /**
-     * @param Category $category
+     * @param NewsCategory $newsCategory
      *
-     * @return Category
+     * @return NewsCategory
      */
-    public function createCategory(Category $category)
+    public function createNewsCategory(NewsCategory $newsCategory)
     {
-        if(!$category->getCategoryId()) {
-            $category->setCategoryId($this->createID('CA'));
+        if(!$newsCategory->getNewsCategoryId()) {
+            $newsCategory->setNewsCategoryId($this->createID('NC'));
         }
-        $category->setCreatedAt(new \DateTime());
-        return $this->saveCategory($category);
+
+        $newsCategory->setCreatedAt(new \DateTime());
+        $this->saveNewsCategory($newsCategory);
     }
 
     /**
-     * @param Category $category
+     * @param NewsCategory $newsCategory
      *
      * @return boolean
      */
-    public function deleteCategory(Category $category)
+    public function deleteNewsCategory(NewsCategory $newsCategory)
     {
-        $category
+        $newsCategory
             ->setDeletedAt(new \DateTime());
-        return $this->saveCategory($category);
+        return $this->saveNewsCategory($newsCategory);
     }
 
+
     /**
-     * get coupon
-     *
-     * @param $id
-     * @return null | Category
+     * @param TransformedFinder $newsCategoryFinder
+     * @return NewsCategoryManager
      */
-    public function getCategory($id)
+    public function setNewsCategoryFinder($newsCategoryFinder)
     {
-        $query = new Query();
-        $query->setPostFilter(new Missing('deletedAt'));
-        $query->setQuery(new Term(['id' => ['value' => $id]]));
-        $result = $this->categoryFinder->find($query);
-        return !empty($result) ? $result[0] : null;
+        $this->newsCategoryFinder = $newsCategoryFinder;
+        return $this;
     }
 
     /**
-     * Get Categories
+     * Get NewsCategories
      * @param array $params
      *
      * @return array
      */
-    public function getCategories($params)
+    public function getNewsCategories($params)
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
@@ -117,21 +113,12 @@ class CategoryManager extends AbstractManager
 
         $query->setQuery($boolQuery);
 
-        $pagination = $this->categoryFinder->createPaginatorAdapter($query);
+        $pagination = $this->newsCategoryFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults($offset, $limit);
         $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset);
     }
 
-    /**
-     * @param TransformedFinder $categoryFinder
-     * @return CategoryManager
-     */
-    public function setCategoryFinder($categoryFinder)
-    {
-        $this->categoryFinder = $categoryFinder;
-        return $this;
-    }
 
 }

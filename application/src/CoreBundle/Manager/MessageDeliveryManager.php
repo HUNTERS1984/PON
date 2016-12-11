@@ -28,11 +28,6 @@ class MessageDeliveryManager extends AbstractManager
         $this->pagination = $pagination;
     }
 
-    public function dummy(MessageDelivery $messageDelivery)
-    {
-        $this->save($messageDelivery);
-    }
-
     /**
      * @param MessageDelivery $messageDelivery
      *

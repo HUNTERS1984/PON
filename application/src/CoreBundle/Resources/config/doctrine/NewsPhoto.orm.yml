@@ -1,0 +1,29 @@
+CoreBundle\Entity\NewsPhoto:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\NewsPhotoRepository
+    manyToOne:
+        news:
+            targetEntity: News
+            inversedBy: newsPhotos
+            cascade: ["persist"]
+            orphanRemoval: true
+            joinColumn:
+                name: news_id
+                referencedColumnName: id
+        photo:
+            targetEntity: Photo
+            inversedBy: newsPhotos
+            cascade: ["persist","remove"]
+            orphanRemoval: true
+            joinColumn:
+                name: photo_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+    lifecycleCallbacks: {  }

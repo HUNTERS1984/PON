@@ -2,6 +2,12 @@ CoreBundle\Entity\News:
     type: entity
     table: null
     repositoryClass: CoreBundle\Repository\NewsRepository
+    oneTomany:
+        newsPhotos:
+            targetEntity: NewsPhoto
+            mappedBy: news
+            cascade: ["persist"]
+            orphanRemoval: true
     manyToOne:
         store:
             targetEntity: Store
@@ -9,6 +15,13 @@ CoreBundle\Entity\News:
             joinColumn:
                 name: store_id
                 referencedColumnName: id
+        newsCategory:
+                    targetEntity: NewsCategory
+                    inversedBy: news
+                    joinColumn:
+                        name: news_category_id
+                        referencedColumnName: id
+
     id:
         id:
             type: integer
@@ -16,23 +29,22 @@ CoreBundle\Entity\News:
             generator:
                 strategy: AUTO
     fields:
+        newsId:
+            type: string
+            length: 100
         title:
             type: string
             length: 255
-        message:
+        imageUrl:
             type: string
             length: 255
             nullable: TRUE
-        json:
-            type: string
-            length: 20
+        description:
+            type: text
             nullable: TRUE
-        type:
-            type: integer
-        time:
-            type: datetime
-        date:
-            type: datetime
+        introduction:
+            type: text
+            nullable: TRUE
         createdAt:
             type: datetime
         updatedAt:

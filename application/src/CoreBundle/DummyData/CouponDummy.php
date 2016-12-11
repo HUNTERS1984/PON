@@ -14,7 +14,6 @@ use Faker\Factory;
 use Ikwattro\FakerExtra\Provider\Hashtag;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 class CouponDummy extends BaseDummy implements IDummy
 {
@@ -63,15 +62,6 @@ class CouponDummy extends BaseDummy implements IDummy
 明が入ります説明が入ります..説明が入ります説明が入り
 ます説明が入ります説明が入ります説明が入ります説明が
 入ります説明が入ります説明が入ります';
-
-        $file = new Filesystem();
-        if(!$file->exists($this->avatarDirPath)) {
-            $file->mkdir($this->avatarDirPath);
-        }
-
-        if(!$file->exists($this->imageDirPath)) {
-            $file->mkdir($this->imageDirPath);
-        }
 
         $coupon = new Coupon();
         $coupon

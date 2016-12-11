@@ -81,6 +81,37 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         finder: ~
+                news:
+                    mappings:
+                        id: ~
+                        newsId: ~
+                        title: ~
+                        introduction: ~
+                        description: ~
+                        imageUrl: ~
+                        newsCategory:
+                            type: object
+                            properties:
+                                id: ~
+                                name: ~
+                                iconUrl: ~
+                        store:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        deletedAt:
+                            type: date
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\News
+                        provider: ~
+                        listener: ~
+                        finder: ~
                 coupon:
                     mappings:
                         id: ~
@@ -150,6 +181,26 @@ fos_elastica:
                         listener: ~
                         finder: ~
 
+                newsPhoto:
+                    mappings:
+                        news:
+                            type: object
+                            properties:
+                                id: ~
+                                title: ~
+                        photo:
+                            type: object
+                            properties:
+                                id: ~
+                                imageUrl: ~
+                                photoId: ~
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\NewsPhoto
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
                 couponUserPhoto:
                     mappings:
                         coupon:
@@ -212,6 +263,48 @@ fos_elastica:
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\Category
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                newsCategory:
+                    mappings:
+                        id: ~
+                        newsCategoryId: ~
+                        name: ~
+                        iconUrl: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\NewsCategory
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                newsPhoto:
+                    mappings:
+                        news:
+                            type: object
+                            properties:
+                                id: ~
+                                newsId:
+                                    type: string
+                                    index_analyzer: keyword_analyzer
+                                title: ~
+                        photo:
+                            type: object
+                            properties:
+                                id: ~
+                                imageUrl: ~
+                                photoId:
+                                    type: string
+                                    index_analyzer: keyword_analyzer
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\NewsPhoto
                         provider: ~
                         listener: ~
                         finder: ~

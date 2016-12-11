@@ -1,0 +1,33 @@
+CoreBundle\Entity\NewsCategory:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\NewsCategoryRepository
+    oneToMany:
+        news:
+            targetEntity: News
+            mappedBy: newsCategory
+            cascade: ["all"]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        newsCategoryId:
+            type: string
+            length: 100
+        name:
+            type: string
+            length: 100
+        iconUrl:
+            type: string
+            length: 255
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+        deletedAt:
+            type: datetime
+            nullable: TRUE
+    lifecycleCallbacks: {  }

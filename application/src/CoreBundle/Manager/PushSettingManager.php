@@ -30,11 +30,6 @@ class PushSettingManager extends AbstractManager
         $this->pagination = $pagination;
     }
 
-    public function dummy(PushSetting $pushSetting)
-    {
-        $this->save($pushSetting);
-    }
-
     /**
      * @param PushSetting $pushSetting
      *

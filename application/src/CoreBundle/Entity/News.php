@@ -20,27 +20,17 @@ class News
     /**
      * @var string
      */
-    private $message;
+    private $imageUrl;
 
     /**
      * @var string
      */
-    private $json;
+    private $introduction;
 
     /**
-     * @var integer
+     * @var string
      */
-    private $type;
-
-    /**
-     * @var \DateTime
-     */
-    private $time;
-
-    /**
-     * @var \DateTime
-     */
-    private $date;
+    private $description;
 
     /**
      * @var \DateTime
@@ -62,6 +52,15 @@ class News
      */
     private $store;
 
+    /**
+     * @var \CoreBundle\Entity\NewsCategory
+     */
+    private $newsCategory;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $newsPhoto;
 
     /**
      * Get id
@@ -98,123 +97,75 @@ class News
     }
 
     /**
-     * Set message
+     * Set imageUrl
      *
-     * @param string $message
+     * @param string $imageUrl
      *
      * @return News
      */
-    public function setMessage($message)
+    public function setImageUrl($imageUrl)
     {
-        $this->message = $message;
+        $this->imageUrl = $imageUrl;
 
         return $this;
     }
 
     /**
-     * Get message
+     * Get imageUrl
      *
      * @return string
      */
-    public function getMessage()
+    public function getImageUrl()
     {
-        return $this->message;
+        return $this->imageUrl;
     }
 
     /**
-     * Set json
+     * Set introduction
      *
-     * @param string $json
+     * @param string $introduction
      *
      * @return News
      */
-    public function setJson($json)
+    public function setIntroduction($introduction)
     {
-        $this->json = $json;
+        $this->introduction = $introduction;
 
         return $this;
     }
 
     /**
-     * Get json
+     * Get introduction
      *
      * @return string
      */
-    public function getJson()
+    public function getIntroduction()
     {
-        return $this->json;
+        return $this->introduction;
     }
 
     /**
-     * Set type
+     * Set description
      *
-     * @param integer $type
+     * @param string $description
      *
      * @return News
      */
-    public function setType($type)
+    public function setDescription($description)
     {
-        $this->type = $type;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get type
+     * Get description
      *
-     * @return integer
+     * @return string
      */
-    public function getType()
+    public function getDescription()
     {
-        return $this->type;
-    }
-
-    /**
-     * Set time
-     *
-     * @param \DateTime $time
-     *
-     * @return News
-     */
-    public function setTime($time)
-    {
-        $this->time = $time;
-
-        return $this;
-    }
-
-    /**
-     * Get time
-     *
-     * @return \DateTime
-     */
-    public function getTime()
-    {
-        return $this->time;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return News
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
+        return $this->description;
     }
 
     /**
@@ -290,6 +241,30 @@ class News
     }
 
     /**
+     * Set newsCategory
+     *
+     * @param \CoreBundle\Entity\NewsCategory $newsCategory
+     *
+     * @return News
+     */
+    public function setNewsCategory(\CoreBundle\Entity\NewsCategory $newsCategory = null)
+    {
+        $this->newsCategory = $newsCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get newsCategory
+     *
+     * @return \CoreBundle\Entity\NewsCategory
+     */
+    public function getNewsCategory()
+    {
+        return $this->newsCategory;
+    }
+
+    /**
      * Set store
      *
      * @param \CoreBundle\Entity\Store $store
@@ -311,5 +286,69 @@ class News
     public function getStore()
     {
         return $this->store;
+    }
+
+    /**
+     * Add newsPhoto
+     *
+     * @param \CoreBundle\Entity\NewsPhoto $newsPhoto
+     *
+     * @return News
+     */
+    public function addNewsPhoto(\CoreBundle\Entity\NewsPhoto $newsPhoto)
+    {
+        $this->newsPhoto[] = $newsPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Remove newsPhoto
+     *
+     * @param \CoreBundle\Entity\NewsPhoto $newsPhoto
+     */
+    public function removeNewsPhoto(\CoreBundle\Entity\NewsPhoto $newsPhoto)
+    {
+        $this->newsPhoto->removeElement($newsPhoto);
+    }
+
+    /**
+     * Get newsPhotos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNewsPhotos()
+    {
+        return $this->newsPhoto;
+    }
+
+    /**
+     * @var string
+     */
+    private $newsId;
+
+
+    /**
+     * Set newsId
+     *
+     * @param string $newsId
+     *
+     * @return News
+     */
+    public function setNewsId($newsId)
+    {
+        $this->newsId = $newsId;
+
+        return $this;
+    }
+
+    /**
+     * Get newsId
+     *
+     * @return string
+     */
+    public function getNewsId()
+    {
+        return $this->newsId;
     }
 }

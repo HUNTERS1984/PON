@@ -36,11 +36,6 @@ class StoreManager extends AbstractManager
         $this->pagination = $pagination;
     }
 
-    public function dummy(Store $store)
-    {
-        $this->save($store);
-    }
-
     /**
      * @param Store $store
      *

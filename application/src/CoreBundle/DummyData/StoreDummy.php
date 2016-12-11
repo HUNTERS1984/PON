@@ -14,7 +14,6 @@ use CoreBundle\Manager\UserManager;
 use Faker\Factory;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 class StoreDummy extends BaseDummy implements IDummy
 {
@@ -47,15 +46,6 @@ class StoreDummy extends BaseDummy implements IDummy
         $name = $faker->name;
         $categoryId = $faker->numberBetween(1, 5);
         $category = $this->categoryManager->findOneById($categoryId);
-
-        $file = new Filesystem();
-        if(!$file->exists($this->avatarDirPath)) {
-            $file->mkdir($this->avatarDirPath);
-        }
-
-        if(!$file->exists($this->imageDirPath)) {
-            $file->mkdir($this->imageDirPath);
-        }
         
         $arrayGeo = [
             [10.785871, 106.6851],

@@ -46,6 +46,10 @@ admin_category_create:
     path:     /category/create
     defaults: { _controller: AdminBundle:Category:create }
 
+admin_news_category:
+    path:     /news-category
+    defaults: { _controller: AdminBundle:NewsCategory:index }
+
 admin_category_edit:
     path:     /category/edit/{id}
     defaults: { _controller: AdminBundle:Category:edit }

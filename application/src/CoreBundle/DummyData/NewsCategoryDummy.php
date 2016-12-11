@@ -2,12 +2,14 @@
 
 namespace CoreBundle\DummyData;
 
-use CoreBundle\Entity\Category;
+use CoreBundle\Entity\NewsCategory;
+use CoreBundle\Manager\NewsCategoryManager;
 use Faker\Factory;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CategoryDummy extends BaseDummy implements IDummy
+class NewsCategoryDummy extends BaseDummy implements IDummy
 {
+
     /***
      * @var string $avatarDirPath
      */
@@ -19,20 +21,20 @@ class CategoryDummy extends BaseDummy implements IDummy
     public function generate(OutputInterface $output, $i = 0)
     {
         $faker = Factory::create('ja_JP');
-        $category = new Category();
+        $mod = new NewsCategory();
         $name = $faker->name;
 
-        $category
+        $mod
             ->setCreatedAt(new \DateTime())
             ->setName($name)
             ->setIconUrl($this->manager->getImage($this->avatarDirPath));
-        $this->manager->createCategory($category);
-        return $category;
+        $this->manager->createNewsCategory($mod);
+        return $mod;
     }
 
     /**
      * @param string $avatarDirPath
-     * @return CategoryDummy
+     * @return NewsCategoryDummy
      */
     public function setAvatarDirPath($avatarDirPath)
     {

@@ -6,7 +6,6 @@ use CoreBundle\Entity\AppUser;
 use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 class AppUserDummy extends BaseDummy implements IDummy
 {

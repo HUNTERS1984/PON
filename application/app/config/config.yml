@@ -49,8 +49,10 @@ twig:
         coupon_avatar_path: %base_coupon_avatar_path%
         user_avatar_path: %base_user_avatar_path%
         category_avatar_path: %base_category_avatar_path%
+        news_category_avatar_path: %base_news_category_avatar_path%
         store_avatar_path: %base_store_avatar_path%
         genders: %genders%
+        news_avatar_path: %base_news_avatar_path%
 
 # Doctrine Configuration
 doctrine:
