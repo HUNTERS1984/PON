@@ -55,7 +55,7 @@ class NewsCategoryManager extends AbstractManager
         }
 
         $newsCategory->setCreatedAt(new \DateTime());
-        $this->saveNewsCategory($newsCategory);
+        return $this->saveNewsCategory($newsCategory);
     }
 
     /**

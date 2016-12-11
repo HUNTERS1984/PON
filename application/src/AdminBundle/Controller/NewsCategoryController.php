@@ -2,7 +2,9 @@
 
 namespace AdminBundle\Controller;
 
+use AdminBundle\Form\Type\NewsCategoryType;
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Entity\NewsCategory;
 use CoreBundle\Serializator\Serializer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use CoreBundle\Manager\NewsCategoryManager;
@@ -55,6 +57,101 @@ class NewsCategoryController extends Controller
         $response = new JsonResponse();
         $data = $this->getSerializer()->serialize($result, ['list']);
         return $response->setData($data);
+    }
+
+    /**
+     * Create News Category Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function createAction(Request $request)
+    {
+        $form = $this->createForm(NewsCategoryType::class);
+
+        $form = $form->handleRequest($request);
+
+        if ($request->isXmlHttpRequest() && $form->isValid()) {
+
+            /** @var NewsCategory $newsCategory */
+            $newsCategory = $form->getData();
+            $newsCategory = $this->getManager()->createNewsCategory($newsCategory);
+
+            if (!$newsCategory) {
+                return $this->getFailureMessage('カテゴリの作成に失敗しました');
+            }
+            return $this->getSuccessMessage();
+        }
+
+        if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
+            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+        }
+
+        return $this->render(
+            'AdminBundle:NewsCategory:create.html.twig',
+            [
+                'form' => $form->createView()
+            ]
+        );
+
+    }
+
+    /**
+     * Edit News Category Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function editAction(Request $request, $id)
+    {
+        $newsCategory = $this->getManager()->getNewsCategory($id);
+        if (!$newsCategory) {
+            throw $this->createNotFoundException('カテゴリが見つかりませんでした。');
+        }
+        $form = $this->createForm(NewsCategoryType::class, $newsCategory)->handleRequest($request);
+
+        if ($request->isXmlHttpRequest() && $form->isValid()) {
+
+            /** @var NewsCategory $newsCategory */
+            $newsCategory = $form->getData();
+            $newsCategory = $this->getManager()->saveNewsCategory($newsCategory);
+
+            if (!$newsCategory) {
+                return $this->getFailureMessage('カテゴリの作成に失敗しました');
+            }
+            return $this->getSuccessMessage();
+        }
+
+        if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
+            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+        }
+
+        return $this->render(
+            'AdminBundle:NewsCategory:edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'newsCategory' => $newsCategory
+            ]
+        );
+
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    public function getSuccessMessage($message = '')
+    {
+        return new Response(json_encode(['status' => true, 'message' => $message]));
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    public function getFailureMessage($message = '')
+    {
+        return new Response(json_encode(['status' => false, 'message' => $message]));
     }
 
     /**
