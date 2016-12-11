@@ -16,62 +16,59 @@
 {% endblock %}
 
 {% block page_content %}
-    <!-- wrapp_search_btn -->
     <div class="wrapp_search_btn">
-        <form method="GET" action="{{ path('admin_news') }}">
-            <div class="row">
-                <div class="col-md-6">
-                    <form class="form-group">
-                        <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="ユーザー名/ハッシュタグを入力してください">
-                        <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
-                    </form>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary btn-sm">
-                        <i class="fa fa-search"></i>
-                        検索
-                    </button>
-                </div>
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <form method="GET" action="{{ path('admin_news') }}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form class="form-group">
+                                <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="ユーザー名/ハッシュタグを入力してください">
+                            </form>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-search"></i>
+                                検索
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+            <div class="col-md-6 col-xs-6">
+                {% include 'AdminBundle:Pager:pagination_news.html.twig' with {pagination: pagination, route: path(app.request.attributes.get('_route')) } %}
+            </div>
+        </div>
     </div>
     <!-- //wrapp_search_btn -->
 
     <!-- wrapp_news -->
     <div class="wrapp_news">
+        <div class="row">
         {% if pagination.page_total == 0 %}
-            <div class="media">
+            <div class="col-md-12">
                 No Records.
             </div>
         {% else %}
             {% for new in news %}
-                <div class="media">
-                    <div class="media-left">
-                        <center><img width="171px" height="172px" class="media-object" src="{{ asset(news_avatar_path~new.imageUrl) }}" alt=""></center>
-                    </div>
-                    <div class="media-body">
-                        <div class="top-media">
-                            <h4 class="media-heading">{{ new.title }}</h4>
+                <div class="col-md-12">
+                    <div class="content_news">
+                        <div class="top_news">
+                            <h2>{{ new.store.title }}</h2>
+                            <span class="date_news">
+                                  {{ new.createdAt|date("Y.m.d") }}
+                            </span>
                         </div>
-                        <div class="top-media">
-                            <span class="left">期限: {{ new.createdAt|date("Y.m.d") }}</span>
-                        </div>
-                        <div class="top-media">
-                            <span class="left"> カテゴリー: {{ new.newsCategory.name }}</span>
-                            <span class="right">格納:{{ new.store.title }}</span>
-
-                        </div>
-                        <div class="top-media">
-                            <span class="left">導入: {{ new.introduction }}</span>
-                        </div>
-                        <div class="top-media">
-                            <span class="left">{{ new.description }}</span>
+                        <div class="bottom_news">
+                            <p>
+                                {{ new.introduction }}
+                            </p>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         {% endif %}
+        </div>
     </div>
-    {% include 'AdminBundle:Pager:pagination.html.twig' with {pagination: pagination, route: path(app.request.attributes.get('_route')) } %}
     <!-- /wrapp_news -->
 {% endblock %}

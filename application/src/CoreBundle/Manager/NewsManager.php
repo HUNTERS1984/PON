@@ -113,7 +113,7 @@ class NewsManager extends AbstractManager
         $boolQuery = new Query\BoolQuery();
         if (!empty($queryString)) {
             $multiMatchQuery = new Query\MultiMatch();
-            $multiMatchQuery->setFields(['title','newsCategory.name']);
+            $multiMatchQuery->setFields(['title','description','introduction','newsCategory.name']);
             $multiMatchQuery->setType('cross_fields');
             $multiMatchQuery->setAnalyzer('standard');
             $multiMatchQuery->setQuery($queryString);
@@ -147,7 +147,7 @@ class NewsManager extends AbstractManager
         $boolQuery = new Query\BoolQuery();
         if (!empty($queryString)) {
             $multiMatchQuery = new Query\MultiMatch();
-            $multiMatchQuery->setFields(['title','newsCategory.name']);
+            $multiMatchQuery->setFields(['title','description','introduction','newsCategory.name']);
             $multiMatchQuery->setType('cross_fields');
             $multiMatchQuery->setAnalyzer('standard');
             $multiMatchQuery->setQuery($queryString);
