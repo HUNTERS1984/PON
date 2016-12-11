@@ -60,6 +60,11 @@ abstract class AbstractManager
      */
     public function getImage($destinationPath)
     {
+        $file = new Filesystem();
+        if(!$file->exists($destinationPath)) {
+            $file->mkdir($destinationPath);
+        }
+
         $faker = Factory::create('ja_JP');
         $files = glob($this->sampleImagePath."/*.jpg");
         $fileSystem = new Filesystem();

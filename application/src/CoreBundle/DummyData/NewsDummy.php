@@ -13,7 +13,6 @@ use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 class NewsDummy extends BaseDummy implements IDummy
 {
@@ -53,14 +52,6 @@ class NewsDummy extends BaseDummy implements IDummy
         $newsCategory = $this->newsCategoryManager->findOneById($categoryId);
         $storeId = $faker->numberBetween(1, 10);
         $store = $this->storeManager->findOneById($storeId);
-        $file = new Filesystem();
-        if(!$file->exists($this->avatarDirPath)) {
-            $file->mkdir($this->avatarDirPath);
-        }
-
-        if(!$file->exists($this->imageDirPath)) {
-            $file->mkdir($this->imageDirPath);
-        }
 
         $news
             ->setTitle($name)
@@ -90,10 +81,7 @@ class NewsDummy extends BaseDummy implements IDummy
                 ->setPhoto($photo)
                 ->setNews($news);
 
-            $newsPhoto = $this->newsPhotoManager->save($newsPhoto, false);
-
-            //NEED TO REVIEW AGAIN
-           // $news->addNewsPhoto($newsPhoto);
+            $this->newsPhotoManager->save($newsPhoto, false);
             $progress->advance();
         }
         $progress->finish();
@@ -101,8 +89,7 @@ class NewsDummy extends BaseDummy implements IDummy
         $output->writeln("Finished Creating Photo...");
         $output->writeln("");
 
-        //NEED TO REVIEW AGAIN
-        //$news = $this->manager->saveNews($news);
+        $news = $this->manager->saveNews($news);
 
         return $news;
     }

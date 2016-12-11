@@ -31,11 +31,6 @@ class NewsCategoryManager extends AbstractManager
         $this->pagination = $pagination;
     }
 
-    public function dummy(NewsCategory $newsCategory)
-    {
-        $this->save($newsCategory);
-    }
-
     /**
      * @param NewsCategory $newsCategory
      *
@@ -54,6 +49,10 @@ class NewsCategoryManager extends AbstractManager
      */
     public function createNewsCategory(NewsCategory $newsCategory)
     {
+        if(!$newsCategory->getNewsCategoryId()) {
+            $newsCategory->setNewsCategoryId($this->createID('NC'));
+        }
+
         $newsCategory->setCreatedAt(new \DateTime());
         $this->saveNewsCategory($newsCategory);
     }

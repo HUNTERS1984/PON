@@ -6,7 +6,6 @@ use CoreBundle\Entity\NewsCategory;
 use CoreBundle\Manager\NewsCategoryManager;
 use Faker\Factory;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 class NewsCategoryDummy extends BaseDummy implements IDummy
 {
@@ -25,18 +24,11 @@ class NewsCategoryDummy extends BaseDummy implements IDummy
         $mod = new NewsCategory();
         $name = $faker->name;
 
-        $file = new Filesystem();
-        if(!$file->exists($this->avatarDirPath)) {
-            $file->mkdir($this->avatarDirPath);
-        }
-
-
         $mod
             ->setCreatedAt(new \DateTime())
             ->setName($name)
-            ->setIconUrl($this->manager->getImage($this->avatarDirPath))
-            ->setUpdatedAt(new \DateTime());
-        $this->manager->dummy($mod);
+            ->setIconUrl($this->manager->getImage($this->avatarDirPath));
+        $this->manager->createNewsCategory($mod);
         return $mod;
     }
 

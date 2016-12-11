@@ -84,6 +84,7 @@ fos_elastica:
                 news:
                     mappings:
                         id: ~
+                        newsId: ~
                         title: ~
                         introduction: ~
                         description: ~
@@ -99,12 +100,6 @@ fos_elastica:
                             properties:
                                 id: ~
                                 title: ~
-                                appUser:
-                                    type: object
-                                    properties:
-                                        id: ~
-                                        username: ~
-                                        email: ~
                         createdAt:
                             type: date
                         updatedAt:
@@ -275,6 +270,7 @@ fos_elastica:
                 newsCategory:
                     mappings:
                         id: ~
+                        newsCategoryId: ~
                         name: ~
                         iconUrl: ~
                         createdAt:
@@ -284,6 +280,31 @@ fos_elastica:
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\NewsCategory
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                newsPhoto:
+                    mappings:
+                        news:
+                            type: object
+                            properties:
+                                id: ~
+                                newsId:
+                                    type: string
+                                    index_analyzer: keyword_analyzer
+                                title: ~
+                        photo:
+                            type: object
+                            properties:
+                                id: ~
+                                imageUrl: ~
+                                photoId:
+                                    type: string
+                                    index_analyzer: keyword_analyzer
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\NewsPhoto
                         provider: ~
                         listener: ~
                         finder: ~

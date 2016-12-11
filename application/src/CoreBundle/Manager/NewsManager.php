@@ -28,11 +28,6 @@ class NewsManager extends AbstractManager
         $this->pagination = $pagination;
     }
 
-    public function dummy(News $news)
-    {
-        $this->save($news);
-    }
-
     /**
      * @param News $news
      *
@@ -40,8 +35,11 @@ class NewsManager extends AbstractManager
      */
     public function createNews(News $news)
     {
+        if(!$news->getNewsId()) {
+            $news->setNewsId($this->createID('NE'));
+        }
         $news->setCreatedAt(new \DateTime());
-        $this->saveNews($news);
+        return $this->saveNews($news);
     }
 
     /**
@@ -115,7 +113,7 @@ class NewsManager extends AbstractManager
         $boolQuery = new Query\BoolQuery();
         if (!empty($queryString)) {
             $multiMatchQuery = new Query\MultiMatch();
-            $multiMatchQuery->setFields(['title']);
+            $multiMatchQuery->setFields(['title','newsCategory.name']);
             $multiMatchQuery->setType('cross_fields');
             $multiMatchQuery->setAnalyzer('standard');
             $multiMatchQuery->setQuery($queryString);
@@ -149,7 +147,7 @@ class NewsManager extends AbstractManager
         $boolQuery = new Query\BoolQuery();
         if (!empty($queryString)) {
             $multiMatchQuery = new Query\MultiMatch();
-            $multiMatchQuery->setFields(['appUser.username','coupon.hashTag', 'status']);
+            $multiMatchQuery->setFields(['title','newsCategory.name']);
             $multiMatchQuery->setType('cross_fields');
             $multiMatchQuery->setAnalyzer('standard');
             $multiMatchQuery->setQuery($queryString);
@@ -160,7 +158,7 @@ class NewsManager extends AbstractManager
                 ->addMust(new Query\MatchAll());
         }
 
-        $boolQuery->addMust(new Query\Term(['store.appUser.id'=> $user->getId()]));
+        $boolQuery->addMust(new Query\Term(['store.id'=> $user->getStore()->getId()]));
         $query->setQuery($boolQuery);
 
         $pagination = $this->newsFinder->createPaginatorAdapter($query);

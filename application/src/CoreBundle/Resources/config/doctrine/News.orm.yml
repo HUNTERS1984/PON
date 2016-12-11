@@ -6,7 +6,8 @@ CoreBundle\Entity\News:
         newsPhotos:
             targetEntity: NewsPhoto
             mappedBy: news
-            cascade: ["all"]
+            cascade: ["persist"]
+            orphanRemoval: true
     manyToOne:
         store:
             targetEntity: Store
@@ -28,6 +29,9 @@ CoreBundle\Entity\News:
             generator:
                 strategy: AUTO
     fields:
+        newsId:
+            type: string
+            length: 100
         title:
             type: string
             length: 255

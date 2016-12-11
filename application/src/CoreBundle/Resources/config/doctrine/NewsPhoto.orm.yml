@@ -6,13 +6,16 @@ CoreBundle\Entity\NewsPhoto:
         news:
             targetEntity: News
             inversedBy: newsPhotos
-            cascade: ["all"]
+            cascade: ["persist"]
+            orphanRemoval: true
             joinColumn:
                 name: news_id
                 referencedColumnName: id
         photo:
             targetEntity: Photo
             inversedBy: newsPhotos
+            cascade: ["persist","remove"]
+            orphanRemoval: true
             joinColumn:
                 name: photo_id
                 referencedColumnName: id

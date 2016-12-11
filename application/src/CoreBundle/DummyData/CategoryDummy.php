@@ -5,7 +5,6 @@ namespace CoreBundle\DummyData;
 use CoreBundle\Entity\Category;
 use Faker\Factory;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 class CategoryDummy extends BaseDummy implements IDummy
 {
@@ -23,11 +22,6 @@ class CategoryDummy extends BaseDummy implements IDummy
         $category = new Category();
         $name = $faker->name;
 
-        $file = new Filesystem();
-        if(!$file->exists($this->avatarDirPath)) {
-            $file->mkdir($this->avatarDirPath);
-        }
-        
         $category
             ->setCreatedAt(new \DateTime())
             ->setName($name)

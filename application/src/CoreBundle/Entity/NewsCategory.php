@@ -243,4 +243,33 @@ class NewsCategory
     {
         return $this->news;
     }
+    /**
+     * @var string
+     */
+    private $newsCategoryId;
+
+
+    /**
+     * Set newsCategoryId
+     *
+     * @param string $newsCategoryId
+     *
+     * @return NewsCategory
+     */
+    public function setNewsCategoryId($newsCategoryId)
+    {
+        $this->newsCategoryId = $newsCategoryId;
+
+        return $this;
+    }
+
+    /**
+     * Get newsCategoryId
+     *
+     * @return string
+     */
+    public function getNewsCategoryId()
+    {
+        return $this->newsCategoryId;
+    }
 }

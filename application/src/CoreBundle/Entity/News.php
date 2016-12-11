@@ -322,4 +322,33 @@ class News
         return $this->newsPhoto;
     }
 
+    /**
+     * @var string
+     */
+    private $newsId;
+
+
+    /**
+     * Set newsId
+     *
+     * @param string $newsId
+     *
+     * @return News
+     */
+    public function setNewsId($newsId)
+    {
+        $this->newsId = $newsId;
+
+        return $this;
+    }
+
+    /**
+     * Get newsId
+     *
+     * @return string
+     */
+    public function getNewsId()
+    {
+        return $this->newsId;
+    }
 }

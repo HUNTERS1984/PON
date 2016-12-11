@@ -35,11 +35,6 @@ class AppUserManager extends AbstractManager
      */
     protected $appUserFinder;
 
-    public function dummy(AppUser $user)
-    {
-        $this->save($user);
-    }
-
     /**
      * @var Pagination
      */

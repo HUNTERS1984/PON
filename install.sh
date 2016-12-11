@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 yes |  cp -rf $(pwd)/vagrant/bin/clean.sh /usr/local/bin/clean &&  chmod a+x /usr/local/bin/clean
 yes |  cp -rf $(pwd)/vagrant/bin/mysql.sh /usr/local/bin/mysql &&  chmod a+x /usr/local/bin/mysql
 yes |  cp -rf $(pwd)/vagrant/bin/mysqldump.sh /usr/local/bin/mysqldump &&  chmod a+x /usr/local/bin/mysqldump
@@ -26,25 +25,25 @@ chmod -R 777 $(pwd)/application/node_modules
 
 docker-compose up -d --build
 
-/usr/local/bin/queue
+/usr/local/bin/queue $1
 
-/usr/local/bin/composer install --no-interaction
+/usr/local/bin/composer $1 install --no-interaction
 
-/usr/local/bin/console doctrine:schema:drop --force
+/usr/local/bin/console $1 doctrine:schema:drop --force
 
-/usr/local/bin/console doctrine:schema:update --force
+/usr/local/bin/console $1 doctrine:schema:update --force
 
-/usr/local/bin/console fos:elastica:reset
+/usr/local/bin/console $1 fos:elastica:reset
 
-/usr/local/bin/console dummy:data
+/usr/local/bin/console $1 dummy:data
 
-/usr/local/bin/npm install --no-optional
+/usr/local/bin/npm $1 install --no-optional
 
-/usr/local/bin/bower install
+/usr/local/bin/bower $1 install
 
-/usr/local/bin/gulp
+/usr/local/bin/gulp $1
 
-/usr/local/bin/cache
+/usr/local/bin/cache $1
 
 chmod -R 777 $(pwd)/application/var/sessions
 chmod -R 777 $(pwd)/application/var/cache
