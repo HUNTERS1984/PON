@@ -50,6 +50,14 @@ admin_news_category:
     path:     /news-category
     defaults: { _controller: AdminBundle:NewsCategory:index }
 
+admin_news_category_create:
+    path:     /news-category/create
+    defaults: { _controller: AdminBundle:NewsCategory:create }
+
+admin_news_category_edit:
+    path:     /news-category/edit/{id}
+    defaults: { _controller: AdminBundle:NewsCategory:edit }
+
 admin_category_edit:
     path:     /category/edit/{id}
     defaults: { _controller: AdminBundle:Category:edit }
@@ -147,5 +155,5 @@ admin_category_search:
     defaults: { _controller: AdminBundle:Category:search }
 
 admin_news_category_search:
-    path:     /news_category/search
+    path:     /news-category/search
     defaults: { _controller: AdminBundle:NewsCategory:search }
