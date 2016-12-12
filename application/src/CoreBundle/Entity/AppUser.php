@@ -82,6 +82,16 @@ class AppUser extends BaseUser
     private $role;
 
     /**
+     * @var string
+     */
+    private $newPassword;
+
+    /**
+     * @var string
+     */
+    private $confirmPassword;
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -913,5 +923,41 @@ class AppUser extends BaseUser
     public function getImageFile()
     {
         return $this->imageFile;
+    }
+
+    /**
+     * @param string $newPassword
+     * @return AppUser
+     */
+    public function setNewPassword(string $newPassword)
+    {
+        $this->newPassword = $newPassword;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNewPassword()
+    {
+        return $this->newPassword;
+    }
+
+    /**
+     * @param string $confirmPassword
+     * @return AppUser
+     */
+    public function setConfirmPassword(string $confirmPassword)
+    {
+        $this->confirmPassword = $confirmPassword;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfirmPassword()
+    {
+        return $this->confirmPassword;
     }
 }

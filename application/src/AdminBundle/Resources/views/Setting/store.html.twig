@@ -1,0 +1,81 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+{% block title %}Setting{% endblock %}
+{% set active_menu = 'setting' %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">アカウント設定</span></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% form_theme form with ['AdminBundle:Form:fields.html.twig', _self] %}
+{% block page_content %}
+    <link rel="stylesheet" href="{{ asset('backend/plugins/select2/css/select2.min.css') }}"/>
+    <!-- wrapp_tab -->
+    <div class="wrapp_tab">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" >
+                <a href="{{ path("admin_setting") }}" aria-controls="tab1" role="tab">アカウント情報</a>
+            </li>
+            <li role="presentation" class="active">
+                <a  href="#tab2" aria-controls="tab2" role="tab">ブランド情報</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="tab2">
+                {{ form_start(form, {'attr': {'class': 'submitModal','data-ajax-redirect': path('admin_setting_store'),'data-ajax-url': path("admin_setting_store"), 'enctype': 'multipart/form-data'  }}) }}
+                {{ form_errors(form) }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row wrapp_avar_btn avatar">
+                                <div class="col-md-2"><img style="border-radius: 50%;" width="127px" height="127px" src="{{ asset(store_avatar_path~ store.avatarUrl) }}" alt=""></div>
+                                <div class="col-md-8">
+                                    <div class="btn_upload_image">
+                                        <span>{{ form_label(form.imageFile) }}</span>
+                                        {{ form_widget(form.imageFile) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-setting">
+                                {{ form_row(form.title) }}
+                                {{ form_row(form.category) }}
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            {{ form_row(form.operationStartTime) }}
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ form_row(form.operationEndTime) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_row(form.latitude) }}
+                                {{ form_row(form.longitude) }}
+                                {{ form_row(form.aveBill) }}
+                                {{ form_row(form.tel) }}
+                                {{ form_row(form.address) }}
+                                {{ form_row(form.closeDate) }}
+                                {{ form_row(form.helpText) }}
+                                {{ form_widget(form.storePhotos) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <center><button type="submit" class="btn btn-setting">保存</button></center>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_tab -->
+{% endblock %}
+
+{% block scripts_footer %}
+    <script src="{{ asset('backend/js/admin.js') }}"></script>
+    <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
+{% endblock %}

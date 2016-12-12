@@ -122,6 +122,10 @@ admin_setting:
     path:     /setting
     defaults: { _controller: AdminBundle:Setting:index }
 
+admin_setting_store:
+    path:     /setting/store
+    defaults: { _controller: AdminBundle:Setting:editStore }
+
 admin_help:
     path:     /help
     defaults: { _controller: AdminBundle:Help:index }
