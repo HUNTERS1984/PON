@@ -76,18 +76,16 @@ class NewsManager extends AbstractManager
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
 
-        $conditions = [];
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['updatedAt' => ['order' => 'desc']]);
+        $query->setQuery(new Query\MatchAll());
 
-        $conditions['deletedAt'] = [
-            'type' => 'is',
-            'value' => 'NULL'
-        ];
-
-        $orderBy = ['createdAt' => 'DESC'];
-
-        $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
-
-        return $this->pagination->render($query, $limit, $offset);
+        $pagination = $this->newsFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
     }
 
     /**

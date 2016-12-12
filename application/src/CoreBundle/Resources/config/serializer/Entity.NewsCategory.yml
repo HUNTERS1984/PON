@@ -3,7 +3,7 @@ CoreBundle\Entity\NewsCategory:
     properties:
         id:
             expose : true
-            groups: [list]
+            groups: [list_news_category,list]
         name:
             expose : true
-            groups: [list]
+            groups: [list_news_category,list]

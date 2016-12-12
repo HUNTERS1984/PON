@@ -3,31 +3,27 @@ CoreBundle\Entity\News:
     properties:
         id:
             expose : true
-            groups: [view]
+            groups: [list_news,view_news]
         title:
             expose : true
-            groups: [view,create_news]
-        message:
+            groups: [list_news,view_news]
+        introduction:
             expose: true
-            groups: [view,create_news]
-        json:
-            expose: true
-            groups: [view,create_news]
-        type:
-            expose: true
-            groups: [view,create_news]
-        time:
-            expose: true
-            groups: [view,create_news]
-        date:
-            expose: true
-            groups: [view,create_news]
+            groups: [list_news,view_news]
         store:
             expose: true
-            groups: [view]
+            groups: [list_news,view_news]
+            serialized_name: shop
+        newsCategory:
+            expose: true
+            groups: [list_news,view_news]
+            serialized_name: category
         createdAt:
             expose: true
-            groups: [view]
+            groups: [list_news,view_news]
+        description:
+            expose: true
+            groups: [view_news]
         updatedAt:
             expose: true
-            groups: [view]
+            groups: [view_news]

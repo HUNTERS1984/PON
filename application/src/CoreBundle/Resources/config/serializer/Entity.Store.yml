@@ -3,10 +3,10 @@ CoreBundle\Entity\Store:
     properties:
         id:
             expose : true
-            groups: [store_featured,view,view_coupon, list,list_coupon_store]
+            groups: [list_news_store,store_featured,view,view_coupon, list,list_coupon_store]
         title:
             expose : true
-            groups: [store_featured,view,view_coupon,list,list_coupon_store]
+            groups: [list_news_store,store_featured,view,view_coupon,list,list_coupon_store]
         operationStartTime:
             expose: true
             groups: [view,view_coupon,list]
