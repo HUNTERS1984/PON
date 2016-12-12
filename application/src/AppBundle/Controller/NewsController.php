@@ -6,6 +6,7 @@ use CoreBundle\Manager\NewsManager;
 use CoreBundle\Manager\StoreManager;
 use Faker\Factory;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -17,11 +18,83 @@ use CoreBundle\Utils\Response as BaseResponse;
 class NewsController extends FOSRestController  implements ClassResourceInterface
 {
     /**
+     * View Detail News
+     * @ApiDoc(
+     *  section="News",
+     *  resource=false,
+     *  description="This api is used to view news",
+     *  requirements={
+     *      {
+     *          "name"="id",
+     *          "dataType"="integer",
+     *          "requirement"="\d+",
+     *          "description"="Id of news"
+     *      }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   },
+     *   views = { "app"}
+     * )
+     *  @Get("/news/{id}")
+     *  @View(serializerGroups={"view_news","list_news_store","list_news_category"}, serializerEnableMaxDepthChecks=true)
+     * @return Response
+     */
+    public function getAction($id)
+    {
+        $news = $this->getManager()->getNews($id);
+        if (!$news) {
+            return $this->view($this->get('pon.exception.exception_handler')->throwError(
+                'news.not_found'
+            ));
+        }
+
+        return $this->view(BaseResponse::getData($news));
+
+        $faker = Factory::create('ja_JP');
+        $newsPhotoUrl = [];
+        for ($i = 1; $i < $id; $i++) {
+            $newsPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
+        }
+
+        $introduction = '説明が入ります説明が入ります説明が入ります説明が入り
+ます説明が入ります説明が入ります説明が入ります説明が
+入ります説明が入ります説明が入ります説明が入ります説
+明が入ります説明が入ります説明が入ります説明が入りま
+す説明が入ります..説明が入ります説明が入ります説明が
+入ります説明が入ります説明が入ります説明が入ります説
+明が入ります説明が入ります..説明が入ります説明が入り
+ます説明が入ります説明が入ります説明が入ります説明が
+入ります説明が入ります説明が入ります';
+
+        $data = [
+            'id' => (int)$id,
+            'title' => $faker->name,
+            'created_at' => new \DateTime(),
+            'introduction' => $introduction,
+            'shop' => [
+                'id' => $faker->numberBetween(1, 200),
+                'title' => $faker->company
+            ],
+            'category' => [
+                'id' => $faker->randomElement([1, 2]),
+                'name' => $faker->name,
+                'icon_url' => $faker->imageUrl(46, 46, 'food')
+            ],
+            'description' => $introduction,
+            'news_photo_url' => $newsPhotoUrl
+        ];
+
+        return $this->view(BaseResponse::getData($data));
+    }
+
+    /**
      * Get List News
      * @ApiDoc(
      *  section="News",
      *  resource=false,
-     *  description="This api is used to list news",
+     *  description="This api is used to list news (DONE)",
      *  headers={
      *         {
      *             "name"="Authorization",
@@ -39,10 +112,15 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
      *   views = { "app"}
      * )
      * @Get("/news")
+     * @View(serializerGroups={"list_news","list_news_store","list_news_category"}, serializerEnableMaxDepthChecks=true)
      * @return Response
      */
     public function getNewsListAction(Request $request)
     {
+        $params = $request->query->all();
+        $result = $this->getManager()->listNews($params);
+        return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
+
         $faker = Factory::create('ja_JP');
         $data = [];
         $introduction = '説明が入ります説明が入ります説明が入ります説明が入り
@@ -59,7 +137,6 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
                 [
                     'id' => $i + 1,
                     'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
                     'created_at' => new \DateTime(),
                     'introduction' => $introduction,
                     'shop' => [
@@ -91,69 +168,6 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
             ]
         ]));
 
-    }
-
-    /**
-     * View Detail News
-     * @ApiDoc(
-     *  section="News",
-     *  resource=false,
-     *  description="This api is used to view news",
-     *  requirements={
-     *      {
-     *          "name"="id",
-     *          "dataType"="integer",
-     *          "requirement"="\d+",
-     *          "description"="Id of news"
-     *      }
-     *  },
-     *  statusCodes = {
-     *     200 = "Returned when successful",
-     *     401="Returned when the user is not authorized"
-     *   },
-     *   views = { "app"}
-     * )
-     *  @Get("/news/{id}")
-     * @return Response
-     */
-    public function getAction($id)
-    {
-        $faker = Factory::create('ja_JP');
-        $newsPhotoUrl = [];
-        for ($i = 1; $i < $id; $i++) {
-            $newsPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
-        }
-
-        $introduction = '説明が入ります説明が入ります説明が入ります説明が入り
-ます説明が入ります説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります説明が入ります説
-明が入ります説明が入ります説明が入ります説明が入りま
-す説明が入ります..説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります説明が入ります説
-明が入ります説明が入ります..説明が入ります説明が入り
-ます説明が入ります説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります';
-
-        $data = [
-            'id' => (int)$id,
-            'title' => $faker->name,
-            'image_url' => $faker->imageUrl(640, 480, 'food'),
-            'created_at' => new \DateTime(),
-            'introduction' => $introduction,
-            'shop' => [
-                'id' => $faker->numberBetween(1, 200),
-                'title' => $faker->company
-            ],
-            'category' => [
-                'id' => $faker->randomElement([1, 2]),
-                'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(46, 46, 'food')
-            ],
-            'description' => $introduction,
-            'news_photo_url' => $newsPhotoUrl
-        ];
-
-        return $this->view(BaseResponse::getData($data));
     }
 
     /**
