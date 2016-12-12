@@ -101,6 +101,44 @@
     {% endspaceless %}
 {% endblock %}
 
+
+{% block _setting_store_operationStartTime_widget %}
+    {% spaceless %}
+        {% if widget == 'single_text' %}
+            {{ block('field_widget') }}
+        {% else %}
+            <div >
+                <div class="col-md-12">
+                    {{  form_widget(form.date.year, {'attr': {'class': 'form-control hide'}}) }}
+                    {{  form_widget(form.date.month, {'attr': {'class': 'form-control hide'}}) }}
+                    {{  form_widget(form.date.day, {'attr': {'class': 'form-control hide'}}) }}
+
+                    {{  form_widget(form.time.hour, {'attr': {'class': 'form-control'}}) }} - {{  form_widget(form.time.minute, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block _setting_store_operationEndTime_widget %}
+    {% spaceless %}
+        {% if widget == 'single_text' %}
+            {{ block('field_widget') }}
+        {% else %}
+            <div >
+                <div class="col-md-12">
+                    {{  form_widget(form.date.year, {'attr': {'class': 'form-control hide'}}) }}
+                    {{  form_widget(form.date.month, {'attr': {'class': 'form-control hide'}}) }}
+                    {{  form_widget(form.date.day, {'attr': {'class': 'form-control hide'}}) }}
+                    {{  form_widget(form.time.hour, {'attr': {'class': 'form-control'}}) }} - {{  form_widget(form.time.minute, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
 {% block select_box_widget %}
     {% set attr = attr|merge({'data-placeholder': placeholder|trans}) %}
     {% if ajax_url %}
@@ -119,6 +157,10 @@
 {% endblock %}
 
 {% block _store_storePhotos_widget %}
+    {{ _self.photo_item(form, prototype_name, show_when_empty, allow_add, allow_delete, disabled) }}
+{% endblock %}
+
+{% block _setting_store_storePhotos_widget %}
     {{ _self.photo_item(form, prototype_name, show_when_empty, allow_add, allow_delete, disabled) }}
 {% endblock %}
 
