@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use CoreBundle\Entity\Category;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\User;
-use CoreBundle\Form\Type\StoreType;
 use CoreBundle\Manager\CategoryManager;
 use CoreBundle\Manager\FollowListManager;
 use CoreBundle\Manager\StoreManager;
@@ -71,91 +70,6 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         $store = $this->getManager()->saveStore($store);
 
         return $this->view(BaseResponse::getData($store));
-
-        $user = $this->getUser();
-        $faker = Factory::create('ja_JP');
-        $data = [
-            'id' => (int)$id,
-            'title' => $faker->company,
-            'operation_start_time' =>  '08:00',
-            'operation_end_time' => '23:00',
-            'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-            'is_follow' => $faker->randomElement([true, false]),
-            'tel' => $faker->phoneNumber,
-            'latitude' => '35.911594',
-            'longitude' => '137.746582',
-            'address' => $faker->address,
-            'close_date' => "Saturday and Sunday",
-            'ave_bill' => $faker->numberBetween(100, 200),
-            'help_text' => $faker->paragraph(2),
-            'shop_photo_url' => [
-                $faker->imageUrl(640, 480, 'food'),
-                $faker->imageUrl(640, 480, 'food'),
-                $faker->imageUrl(640, 480, 'food'),
-                $faker->imageUrl(640, 480, 'food')
-            ],
-            'category' => [
-                'id' => $faker->randomElement([1, 2]),
-                'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(46, 46, 'food')
-            ],
-            'coupons' => [
-                [
-                    'id' => 1,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'need_login' => $needLogin = $faker->randomElement([true, false]),
-                    'can_use' => (!$needLogin) || ($needLogin && $user)  ? true : false,
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                    ],
-                ],
-                [
-                    'id' => 2,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'need_login' => $needLogin = $faker->randomElement([true, false]),
-                    'can_use' => (!$needLogin) || ($needLogin && $user)  ? true : false,
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                    ],
-                ],
-                [
-                    'id' => 3,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'need_login' => $needLogin = $faker->randomElement([true, false]),
-                    'can_use' => (!$needLogin) || ($needLogin && $user)  ? true : false,
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                    ],
-                ],
-                [
-                    'id' => 4,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'need_login' => $needLogin = $faker->randomElement([true, false]),
-                    'can_use' => (!$needLogin) || ($needLogin && $user)  ? true : false,
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                    ],
-                ],
-            ]
-        ];
-
-        return $this->view(BaseResponse::getData($data));
     }
 
     /**
@@ -217,27 +131,6 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
         $result = $this->getManager()->getFeaturedStore($type, $params, $category);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-        $faker = Factory::create('ja_JP');
-        $data = [];
-        for ($i = 0; $i < 20; $i++) {
-            $data[] =
-                [
-                    'id' => $i+1,
-                    'title' => $faker->company,
-                    'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                    'is_follow' => $faker->randomElement([true, false]),
-                ];
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
-
     }
 
     /**
@@ -286,27 +179,6 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         
         $result = $this->getManager()->getFeaturedStore($type, $params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-        $faker = Factory::create('ja_JP');
-        $data = [];
-        for ($i = 0; $i < 20; $i++) {
-            $data[] =
-                [
-                    'id' => $i+1,
-                    'title' => $faker->company,
-                    'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                    'is_follow' => $faker->randomElement([true, false]),
-                ];
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
-
     }
 
     /**
@@ -355,26 +227,6 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
         $result = $this->getManager()->getNewestStore($params, $category);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-        $faker = Factory::create('ja_JP');
-        $data = [];
-        for ($i = 0; $i < 20; $i++) {
-            $data[] =
-                [
-                    'id' => $i+1,
-                    'title' => $faker->company,
-                    'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                    'is_follow' => $faker->randomElement([true, false]),
-                ];
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
     }
 
     /**
@@ -409,26 +261,6 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
         $params = $request->query->all();
         $result = $this->getFollowListManager()->getFollowShops($user, $params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-        $faker = Factory::create('ja_JP');
-        $data = [];
-        for ($i = 0; $i < 20; $i++) {
-            $data[] =
-                [
-                    'id' => $i+1,
-                    'title' => $faker->company,
-                    'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                    'is_follow' => true,
-                ];
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
     }
 
     /**
@@ -590,114 +422,6 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
         $result = $this->getManager()->filterShopByMap($params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-        $user = $this->getUser();
-        $faker = Factory::create('ja_JP');
-        $data = [];
-        $j = 0;
-        $arrayGeo = [
-            [10.785871, 106.6851],
-            [10.784338, 106.684574],
-            [10.788322, 106.685196],
-            [10.786783, 106.683758],
-            [10.785076, 106.682965],
-            [10.785919, 106.686226],
-            [10.839665, 106.779503],
-            [10.839812, 106.780339],
-            [10.840795, 106.778982],
-            [10.840592, 106.777550],
-        ];
-        for ($i = 0; $i < 10; $i++) {
-            $data[] = [
-                'id' => $i+1,
-                'title' => $faker->company,
-                'operation_start_time' =>  '08:00',
-                'operation_end_time' => '23:00',
-                'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                'is_follow' => $faker->randomElement([true, false]),
-                'tel' => $faker->phoneNumber,
-                'latitude' => (string)$arrayGeo[$i][0],
-                'longitude' => (string)$arrayGeo[$i][1],
-                'address' => $faker->address,
-                'close_date' => "Saturday and Sunday",
-                'ave_bill' => $faker->numberBetween(100, 200),
-                'help_text' => $faker->paragraph(2),
-                'shop_photo_url' => [
-                    $faker->imageUrl(640, 480, 'food'),
-                    $faker->imageUrl(640, 480, 'food'),
-                    $faker->imageUrl(640, 480, 'food'),
-                    $faker->imageUrl(640, 480, 'food')
-                ],
-                'category' => [
-                    'id' => $faker->randomElement([1, 2]),
-                    'name' => $faker->name,
-                    'icon_url' => $faker->imageUrl(46, 46, 'food')
-                ],
-                'coupons' => [
-                    [
-                        'id' => 1,
-                        'title' => $faker->name,
-                        'image_url' => $faker->imageUrl(640, 480, 'food'),
-                        'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([true, false]),
-                        'need_login' => $needLogin = $faker->randomElement([true, false]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? true : false,
-                        'coupon_type' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name,
-                        ],
-                    ],
-                    [
-                        'id' => 2,
-                        'title' => $faker->name,
-                        'image_url' => $faker->imageUrl(640, 480, 'food'),
-                        'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([true, false]),
-                        'need_login' => $needLogin = $faker->randomElement([true, false]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? true : false,
-                        'coupon_type' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name,
-                        ],
-                    ],
-                    [
-                        'id' => 3,
-                        'title' => $faker->name,
-                        'image_url' => $faker->imageUrl(640, 480, 'food'),
-                        'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([true, false]),
-                        'need_login' => $needLogin = $faker->randomElement([true, false]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? true : false,
-                        'coupon_type' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name,
-                        ],
-                    ],
-                    [
-                        'id' => 4,
-                        'title' => $faker->name,
-                        'image_url' => $faker->imageUrl(640, 480, 'food'),
-                        'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([true, false]),
-                        'need_login' => $needLogin = $faker->randomElement([true, false]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user)  ? true : false,
-                        'coupon_type' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name,
-                        ],
-                    ],
-                ]
-            ];
-            $j = $j + 5;
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 10,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
     }
 
     /**

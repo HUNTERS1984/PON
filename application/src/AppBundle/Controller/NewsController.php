@@ -51,42 +51,6 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
         }
 
         return $this->view(BaseResponse::getData($news));
-
-        $faker = Factory::create('ja_JP');
-        $newsPhotoUrl = [];
-        for ($i = 1; $i < $id; $i++) {
-            $newsPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
-        }
-
-        $introduction = '説明が入ります説明が入ります説明が入ります説明が入り
-ます説明が入ります説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります説明が入ります説
-明が入ります説明が入ります説明が入ります説明が入りま
-す説明が入ります..説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります説明が入ります説
-明が入ります説明が入ります..説明が入ります説明が入り
-ます説明が入ります説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります';
-
-        $data = [
-            'id' => (int)$id,
-            'title' => $faker->name,
-            'created_at' => new \DateTime(),
-            'introduction' => $introduction,
-            'shop' => [
-                'id' => $faker->numberBetween(1, 200),
-                'title' => $faker->company
-            ],
-            'category' => [
-                'id' => $faker->randomElement([1, 2]),
-                'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(46, 46, 'food')
-            ],
-            'description' => $introduction,
-            'news_photo_url' => $newsPhotoUrl
-        ];
-
-        return $this->view(BaseResponse::getData($data));
     }
 
     /**
@@ -120,54 +84,6 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
         $params = $request->query->all();
         $result = $this->getManager()->listNews($params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-        $faker = Factory::create('ja_JP');
-        $data = [];
-        $introduction = '説明が入ります説明が入ります説明が入ります説明が入り
-ます説明が入ります説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります説明が入ります説
-明が入ります説明が入ります説明が入ります説明が入りま
-す説明が入ります..説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります説明が入ります説
-明が入ります説明が入ります..説明が入ります説明が入り
-ます説明が入ります説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります';
-        for ($i = 0; $i < 20; $i++) {
-            $data[] =
-                [
-                    'id' => $i + 1,
-                    'title' => $faker->name,
-                    'created_at' => new \DateTime(),
-                    'introduction' => $introduction,
-                    'shop' => [
-                        'id' => $faker->numberBetween(1, 200),
-                        'title' => $faker->company
-                    ],
-                    'category' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(46, 46, 'food')
-                    ],
-                ];
-        }
-
-        return $this->view(BaseResponse::getData($data, [
-            "limit"=> 20,
-            "offset"=> 0,
-            "item_total"=> 20,
-            "page_total"=> 1,
-            "current_page"=> 1,
-            "first_page"=> 1,
-            "is_first_page"=> true,
-            "is_last_page"=> false,
-            "last_page"=> 1,
-            "next_page"=> 1,
-            "previous_page"=> 1,
-            "pages"=> [
-                1
-            ]
-        ]));
-
     }
 
     /**
