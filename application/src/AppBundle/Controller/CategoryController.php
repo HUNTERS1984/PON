@@ -55,23 +55,6 @@ class CategoryController extends FOSRestController implements ClassResourceInter
         $result = $this->getManager()->getCategories($params);
 
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-        $faker = Factory::create('ja_JP');
-
-        for ($i = 0; $i < 20; $i++) {
-            $data[] = [
-                'id' => $i+1,
-                'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(640, 480, 'food')
-            ];
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
     }
 
     /**
@@ -105,25 +88,6 @@ class CategoryController extends FOSRestController implements ClassResourceInter
         $params = $request->query->all();
         $result = $this->getManager()->getCategories($params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-        $faker = Factory::create('ja_JP');
-
-        for ($i = 0; $i < 20; $i++) {
-            $data[] = [
-                'id' => $i+1,
-                'name' => $faker->name,
-                'shop_count' => $faker->numberBetween(1, 100),
-                'icon_url' => $faker->imageUrl(640, 480, 'food')
-            ];
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
     }
 
 

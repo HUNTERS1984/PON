@@ -73,95 +73,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 
         $result = $this->getManager()->getFeaturedCoupon($type, $params, $user);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-        $faker = Factory::create('ja_JP');
-        $user = $this->getUser();
-        $data = [];
-        $j = 0;
-        for ($i = 0; $i < 20; $i++) {
-            $data[] = [
-                'id' => $i + 1,
-                'name' => $faker->name,
-                'icon_url' => $faker->imageUrl(46, 46, 'food'),
-                'coupons' => [
-                    [
-                        'id' => $j + 1,
-                        'title' => $faker->name,
-                        'image_url' => $faker->imageUrl(640, 480, 'food'),
-                        'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([true, false]),
-                        'need_login' => $needLogin = $faker->randomElement([true, false]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user) ? true : false,
-                        'coupon_type' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name
-                        ]
-                    ],
-                    [
-                        'id' => $j + 2,
-                        'title' => $faker->name,
-                        'image_url' => $faker->imageUrl(640, 480, 'food'),
-                        'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([true, false]),
-                        'need_login' => $needLogin = $faker->randomElement([true, false]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user) ? true : false,
-                        'coupon_type' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name
-                        ]
-                    ],
-                    [
-                        'id' => $j + 3,
-                        'title' => $faker->name,
-                        'image_url' => $faker->imageUrl(640, 480, 'food'),
-                        'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([true, false]),
-                        'need_login' => $needLogin = $faker->randomElement([true, false]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user) ? true : false,
-                        'coupon_type' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name
-                        ]
-                    ],
-                    [
-                        'id' => $j + 4,
-                        'title' => $faker->name,
-                        'image_url' => $faker->imageUrl(640, 480, 'food'),
-                        'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([true, false]),
-                        'need_login' => $needLogin = $faker->randomElement([true, false]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user) ? true : false,
-                        'coupon_type' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name
-                        ]
-                    ],
-                    [
-                        'id' => $j + 5,
-                        'title' => $faker->name,
-                        'image_url' => $faker->imageUrl(640, 480, 'food'),
-                        'expired_time' => new \DateTime(),
-                        'is_like' => $faker->randomElement([true, false]),
-                        'need_login' => $needLogin = $faker->randomElement([true, false]),
-                        'can_use' => (!$needLogin) || ($needLogin && $user) ? true : false,
-                        'coupon_type' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name
-                        ]
-                    ],
-                ]
-
-            ];
-            $j = $j + 5;
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
     }
 
     /**
@@ -225,39 +136,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
 
-        $faker = Factory::create('ja_JP');
-        $user = $this->getUser();
-        $data = [
-            'id' => $category,
-            'name' => $faker->name,
-            'icon_url' => $faker->imageUrl(46, 46, 'food')
-        ];
-        $coupons = [];
-        for ($i = 0; $i < 20; $i++) {
-            $coupons[] =
-                [
-                    'id' => $i + 1,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'need_login' => $needLogin = $faker->randomElement([true, false]),
-                    'can_use' => (!$needLogin) || ($needLogin && $user) ? true : false,
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name
-                    ]
-                ];
-        }
-        $data['coupons'] = $coupons;
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
     }
 
     /**
@@ -303,123 +181,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         $coupon = $this->getManager()->saveCoupon($coupon);
 
         return $this->view(BaseResponse::getData($coupon));
-
-        $user = $this->getUser();
-        $faker = Factory::create('ja_JP');
-        $couponPhotoUrl = [];
-        $userPhotoUrl = [];
-        for ($i = 1; $i < $id; $i++) {
-            $couponPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
-            $userPhotoUrl[] = $faker->imageUrl(640, 480, 'food');
-        }
-
-        $needLogin = $faker->randomElement([true, false]);
-        $canUse = (!$needLogin) || ($needLogin && $user) ? true : false;
-
-        if (!$canUse) {
-            return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                'coupon.need_to_login'
-            ));
-        }
-
-        $description = '説明が入ります説明が入ります説明が入ります説明が入り
-ます説明が入ります説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります説明が入ります説
-明が入ります説明が入ります説明が入ります説明が入りま
-す説明が入ります..説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります説明が入ります説
-明が入ります説明が入ります..説明が入ります説明が入り
-ます説明が入ります説明が入ります説明が入ります説明が
-入ります説明が入ります説明が入ります';
-
-        $data = [
-            'id' => (int)$id,
-            'title' => $faker->name,
-            'expired_time' => new \DateTime(),
-            'image_url' => $faker->imageUrl(640, 480, 'food'),
-            'is_like' => $faker->randomElement([true, false]),
-            'need_login' => $needLogin,
-            'can_use' => $canUse,
-            'code' => $faker->ean13,
-            'description' => $description,
-            'shop' => [
-                'id' => $faker->numberBetween(1, 200),
-                'title' => $faker->company,
-                'operation_start_time' => '08:00',
-                'operation_end_time' => '23:00',
-                'avatar_url' => $faker->imageUrl(640, 480, 'food'),
-                'is_follow' => $faker->randomElement([true, false]),
-                'tel' => $faker->phoneNumber,
-                'latitude' => '35.911594',
-                'longitude' => '137.746582',
-                'address' => $faker->address,
-                'close_date' => "Saturday and Sunday",
-                'ave_bill' => $faker->numberBetween(100, 200),
-                'category' => [
-                    'id' => $faker->randomElement([1, 2]),
-                    'name' => $faker->name,
-                    'icon_url' => $faker->imageUrl(46, 46, 'food')
-                ]
-            ],
-            'coupon_type' => [
-                'id' => $faker->randomElement([1, 2]),
-                'name' => $faker->name,
-            ],
-            'coupon_photo_url' => $couponPhotoUrl,
-            'user_photo_url' => $userPhotoUrl,
-            'similar_coupon' => [
-                [
-                    'id' => 1,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'can_use' => $faker->randomElement([true, false]),
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                    ],
-                ],
-                [
-                    'id' => 2,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'can_use' => $faker->randomElement([true, false]),
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                    ],
-                ],
-                [
-                    'id' => 3,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'can_use' => $faker->randomElement([true, false]),
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                    ],
-                ],
-                [
-                    'id' => 4,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'can_use' => $faker->randomElement([true, false]),
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                    ],
-                ],
-            ],
-        ];
-
-        return $this->view(BaseResponse::getData($data));
     }
 
     /**
@@ -454,44 +215,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         $params = $request->query->all();
         $result = $this->getLikeListManager()->getFavoriteCoupons($user, $params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-
-        $faker = Factory::create('ja_JP');
-        $data = [];
-        for ($i = 0; $i < 20; $i++) {
-            $data[] =
-                [
-                    'id' => $i + 1,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => true,
-                    'need_login' => $needLogin = $faker->randomElement([true, false]),
-                    'can_use' => (!$needLogin) || ($needLogin && $user) ? true : false,
-                    'shop' => [
-                        'id' => $faker->numberBetween(1, 200),
-                        'title' => $faker->company,
-                        'category' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(46, 46, 'food')
-                        ]
-                    ],
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(46, 46, 'food')
-                    ],
-                ];
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
     }
 
     /**
@@ -527,44 +250,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         $params = $request->query->all();
         $result = $this->getUseListManager()->getUsedCoupons($user, $params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-        $user = $this->getUser();
-        $faker = Factory::create('ja_JP');
-        $data = [];
-        for ($i = 0; $i < 20; $i++) {
-            $data[] =
-                [
-                    'id' => $i + 1,
-                    'title' => $faker->name,
-                    'image_url' => $faker->imageUrl(640, 480, 'food'),
-                    'expired_time' => new \DateTime(),
-                    'is_like' => $faker->randomElement([true, false]),
-                    'need_login' => $needLogin = $faker->randomElement([true, false]),
-                    'can_use' => (!$needLogin) || ($needLogin && $user) ? true : false,
-                    'shop' => [
-                        'id' => $faker->numberBetween(1, 200),
-                        'title' => $faker->company,
-                        'category' => [
-                            'id' => $faker->randomElement([1, 2]),
-                            'name' => $faker->name,
-                            'icon_url' => $faker->imageUrl(46, 46, 'food')
-                        ]
-                    ],
-                    'coupon_type' => [
-                        'id' => $faker->randomElement([1, 2]),
-                        'name' => $faker->name,
-                        'icon_url' => $faker->imageUrl(46, 46, 'food')
-                    ],
-                ];
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
-
     }
 
     /**
@@ -888,29 +573,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         $params = $request->query->all();
         $result = $this->getManager()->listRequestCoupons($params);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
-
-        $faker = Factory::create('ja_JP');
-        $data = [];
-        for ($i = 0; $i < 20; $i++) {
-            $data[] =
-                [
-                    'coupon' => [
-                        'title' => $faker->name
-                    ],
-                    'code' => $faker->ean13,
-                    'user' => [
-                        'username' => $faker->userName,
-                        'name' => $faker->name
-                    ]
-                ];
-        }
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
     }
 
     /**
@@ -954,23 +616,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         return $this->view(BaseResponse::getData($data));
-
-        $faker = Factory::create('ja_JP');
-        $data = [
-            'title' => $faker->name,
-            'code' => $code,
-            'user' => [
-                'username' => $faker->userName,
-                'name' => $faker->name
-            ]
-        ];
-        return $this->view(BaseResponse::getData($data, [
-            'limit' => 20,
-            'offset' => 0,
-            'item_total' => 20,
-            'page_total' => 1,
-            'current_page' => 1
-        ]));
     }
 
     /**
@@ -1017,26 +662,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
 
         $this->getUseListManager()->acceptCoupon($useList);
         return $this->view(BaseResponse::getData([]), 200);
-
-        $appUser = $this->getUser();
-        $coupon = $this->getManager()->getCoupon($id);
-        if (!$coupon) {
-            return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                'coupon.not_found'
-            ));
-        }
-
-        $isLike = $this->getLikeListManager()->isLike($user, $coupon);
-        if (!$isLike) {
-            $coupon = $this->getManager()->likeCoupon($user, $coupon);
-            if (!$coupon) {
-                return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                    'coupon.like.not_success'
-                ));
-            }
-        }
-
-        return $this->view(BaseResponse::getData([]), 200);
     }
 
     /**
@@ -1082,26 +707,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         $this->getUseListManager()->declineCoupon($useList);
-        return $this->view(BaseResponse::getData([]), 200);
-
-        $appUser = $this->getUser();
-        $coupon = $this->getManager()->getCoupon($id);
-        if (!$coupon) {
-            return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                'coupon.not_found'
-            ));
-        }
-
-        $isLike = $this->getLikeListManager()->isLike($user, $coupon);
-        if (!$isLike) {
-            $coupon = $this->getManager()->likeCoupon($user, $coupon);
-            if (!$coupon) {
-                return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                    'coupon.like.not_success'
-                ));
-            }
-        }
-
         return $this->view(BaseResponse::getData([]), 200);
     }
 
