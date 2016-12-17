@@ -6,7 +6,10 @@ RUN apt-get update -y
 RUN apt-get install git -y
 
 RUN apt-get install -y zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libmemcached-dev libxml2-dev supervisor
-RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql zip iconv mcrypt gd bcmath sockets opcache soap mbstring
+RUN docker-php-ext-configure bcmath --enable-bcmath \
+    && docker-php-ext-configure mbstring --enable-mbstring \
+    && docker-php-ext-configure soap --enable-soap
+RUN docker-php-ext-install pdo pdo_mysql zip iconv mcrypt gd mbstring bcmath sockets opcache soap
 
 RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
     && mkdir -p /usr/src/php/ext/memcached \

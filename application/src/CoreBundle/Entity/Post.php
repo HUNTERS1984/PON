@@ -11,26 +11,15 @@ class Post
      * @var integer
      */
     private $id;
-
     /**
-     * @var integer
+     * @var string
      */
-    private $socialUserId;
+    private $message;
 
     /**
      * @var string
      */
-    private $socialMediaId;
-
-    /**
-     * @var string
-     */
-    private $caption;
-
-    /**
-     * @var string
-     */
-    private $description;
+    private $postId;
 
     /**
      * @var \DateTime
@@ -60,22 +49,12 @@ class Post
     /**
      * @var string
      */
-    private $socialUserName;
-
-    /**
-     * @var string
-     */
-    private $socialAvatar;
-
-    /**
-     * @var string
-     */
-    private $imageUrl;
-
-    /**
-     * @var string
-     */
     private $url;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $postPhotos;
 
     /**
      * @var \CoreBundle\Entity\AppUser
@@ -83,16 +62,11 @@ class Post
     private $appUser;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $tags;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->postPhotos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -106,99 +80,51 @@ class Post
     }
 
     /**
-     * Set socialUserId
+     * Set message
      *
-     * @param integer $socialUserId
+     * @param string $message
      *
      * @return Post
      */
-    public function setSocialUserId($socialUserId)
+    public function setMessage($message)
     {
-        $this->socialUserId = $socialUserId;
+        $this->message = $message;
 
         return $this;
     }
 
     /**
-     * Get socialUserId
-     *
-     * @return integer
-     */
-    public function getSocialUserId()
-    {
-        return $this->socialUserId;
-    }
-
-    /**
-     * Set socialMediaId
-     *
-     * @param string $socialMediaId
-     *
-     * @return Post
-     */
-    public function setSocialMediaId($socialMediaId)
-    {
-        $this->socialMediaId = $socialMediaId;
-
-        return $this;
-    }
-
-    /**
-     * Get socialMediaId
+     * Get message
      *
      * @return string
      */
-    public function getSocialMediaId()
+    public function getMessage()
     {
-        return $this->socialMediaId;
+        return $this->message;
     }
 
     /**
-     * Set caption
+     * Set postId
      *
-     * @param string $caption
+     * @param string $postId
      *
      * @return Post
      */
-    public function setCaption($caption)
+    public function setPostId($postId)
     {
-        $this->caption = $caption;
+        $this->postId = $postId;
 
         return $this;
     }
 
     /**
-     * Get caption
+     * Get postId
      *
      * @return string
      */
-    public function getCaption()
+    public function getPostId()
     {
-        return $this->caption;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Post
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
+        return $this->postId;
     }
 
     /**
@@ -322,78 +248,6 @@ class Post
     }
 
     /**
-     * Set socialUserName
-     *
-     * @param string $socialUserName
-     *
-     * @return Post
-     */
-    public function setSocialUserName($socialUserName)
-    {
-        $this->socialUserName = $socialUserName;
-
-        return $this;
-    }
-
-    /**
-     * Get socialUserName
-     *
-     * @return string
-     */
-    public function getSocialUserName()
-    {
-        return $this->socialUserName;
-    }
-
-    /**
-     * Set socialAvatar
-     *
-     * @param string $socialAvatar
-     *
-     * @return Post
-     */
-    public function setSocialAvatar($socialAvatar)
-    {
-        $this->socialAvatar = $socialAvatar;
-
-        return $this;
-    }
-
-    /**
-     * Get socialAvatar
-     *
-     * @return string
-     */
-    public function getSocialAvatar()
-    {
-        return $this->socialAvatar;
-    }
-
-    /**
-     * Set imageUrl
-     *
-     * @param string $imageUrl
-     *
-     * @return Post
-     */
-    public function setImageUrl($imageUrl)
-    {
-        $this->imageUrl = $imageUrl;
-
-        return $this;
-    }
-
-    /**
-     * Get imageUrl
-     *
-     * @return string
-     */
-    public function getImageUrl()
-    {
-        return $this->imageUrl;
-    }
-
-    /**
      * Set url
      *
      * @param string $url
@@ -415,6 +269,40 @@ class Post
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * Add postPhoto
+     *
+     * @param \CoreBundle\Entity\PostPhoto $postPhoto
+     *
+     * @return Post
+     */
+    public function addPostPhoto(\CoreBundle\Entity\PostPhoto $postPhoto)
+    {
+        $this->postPhotos[] = $postPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Remove postPhoto
+     *
+     * @param \CoreBundle\Entity\PostPhoto $postPhoto
+     */
+    public function removePostPhoto(\CoreBundle\Entity\PostPhoto $postPhoto)
+    {
+        $this->postPhotos->removeElement($postPhoto);
+    }
+
+    /**
+     * Get postPhotos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPostPhotos()
+    {
+        return $this->postPhotos;
     }
 
     /**
@@ -440,38 +328,33 @@ class Post
     {
         return $this->appUser;
     }
+    /**
+     * @var string
+     */
+    private $snsId;
+
 
     /**
-     * Add tag
+     * Set snsId
      *
-     * @param \CoreBundle\Entity\Tag $tag
+     * @param string $snsId
      *
      * @return Post
      */
-    public function addTag(\CoreBundle\Entity\Tag $tag)
+    public function setSnsId($snsId)
     {
-        $this->tags[] = $tag;
+        $this->snsId = $snsId;
 
         return $this;
     }
 
     /**
-     * Remove tag
+     * Get snsId
      *
-     * @param \CoreBundle\Entity\Tag $tag
+     * @return string
      */
-    public function removeTag(\CoreBundle\Entity\Tag $tag)
+    public function getSnsId()
     {
-        $this->tags->removeElement($tag);
-    }
-
-    /**
-     * Get tags
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTags()
-    {
-        return $this->tags;
+        return $this->snsId;
     }
 }

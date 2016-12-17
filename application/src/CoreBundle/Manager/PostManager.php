@@ -4,6 +4,9 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\Post;
 use CoreBundle\Paginator\Pagination;
+use Elastica\Filter\Missing;
+use Elastica\Query;
+use FOS\ElasticaBundle\Finder\TransformedFinder;
 
 class PostManager extends AbstractManager
 {
@@ -11,6 +14,11 @@ class PostManager extends AbstractManager
      * @var Pagination
     */
     protected $pagination;
+
+    /**
+     * @var TransformedFinder
+    */
+    protected $postFinder;
 
     /**
      * @var Pagination $pagination
@@ -27,8 +35,12 @@ class PostManager extends AbstractManager
      */
     public function createPost(Post $post)
     {
+        if(!$post->getPostId()) {
+            $post->setPostId($this->createID('PO'));
+        }
+
         $post->setCreatedAt(new \DateTime());
-        $this->savePost($post);
+        return $this->savePost($post);
     }
 
     /**
@@ -55,6 +67,36 @@ class PostManager extends AbstractManager
     }
 
     /**
+     * get Post
+     *
+     * @param $id
+     * @return null | Post
+     */
+    public function getPost($id)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Query\Term(['id' => ['value' => $id]]));
+        $result = $this->postFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
+     * get Post
+     *
+     * @param $snsId
+     * @return null | Post
+     */
+    public function getPostBySNSId($snsId)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Query\Term(['snsId' => ['value' => $snsId]]));
+        $result = $this->postFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
      * List Post
      * @param array $params
      *
@@ -77,6 +119,16 @@ class PostManager extends AbstractManager
         $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
 
         return $this->pagination->render($query, $limit, $offset);
+    }
+
+    /**
+     * @param TransformedFinder $postFinder
+     * @return PostManager
+     */
+    public function setPostFinder($postFinder)
+    {
+        $this->postFinder = $postFinder;
+        return $this;
     }
 
 }

@@ -8,6 +8,7 @@ use CoreBundle\Entity\SocialProfile;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query;
+use Elastica\Search;
 use Facebook\Facebook;
 use Facebook\FacebookResponse;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
@@ -153,13 +154,15 @@ class AppUserManager extends AbstractManager
         $appUser->setName($facebookUser->getName());
         $password = md5($accessToken);
         $appUser->setPlainPassword($password);
-
+        $date = new \DateTime();
+        $date->modify("-1 day");
         if($isNull) {
             $socialProfile = new SocialProfile();
             $socialProfile
                 ->setSocialType(1)
                 ->setCreatedAt(new \DateTime())
                 ->setUpdatedAt(new \DateTime())
+                ->setRequestedAt($date)
                 ->setAppUser($appUser)
                 ->setSocialId($facebookUser->getId())
                 ->setSocialToken($accessToken);
@@ -184,6 +187,7 @@ class AppUserManager extends AbstractManager
                     ->setCreatedAt(new \DateTime())
                     ->setUpdatedAt(new \DateTime())
                     ->setSocialType(1)
+                    ->setRequestedAt($date)
                     ->setAppUser($appUser)
                     ->setSocialId($facebookUser->getId())
                     ->setSocialToken($accessToken);
@@ -621,5 +625,13 @@ class AppUserManager extends AbstractManager
     {
         $this->instagramManager = $instagramManager;
         return $this;
+    }
+
+    /**
+     * @return TransformedFinder
+     */
+    public function getAppUserFinder()
+    {
+        return $this->appUserFinder;
     }
 }

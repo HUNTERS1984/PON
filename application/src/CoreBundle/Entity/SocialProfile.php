@@ -254,4 +254,33 @@ class SocialProfile
     {
         return $this->appUser;
     }
+    /**
+     * @var \DateTime
+     */
+    private $requestedAt;
+
+
+    /**
+     * Set requestedAt
+     *
+     * @param \DateTime $requestedAt
+     *
+     * @return SocialProfile
+     */
+    public function setRequestedAt($requestedAt)
+    {
+        $this->requestedAt = $requestedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get requestedAt
+     *
+     * @return \DateTime
+     */
+    public function getRequestedAt()
+    {
+        return $this->requestedAt;
+    }
 }

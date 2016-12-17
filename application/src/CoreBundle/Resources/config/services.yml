@@ -131,6 +131,12 @@ services:
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\CouponPhoto"]
 
+    pon.manager.post_photo:
+        class: CoreBundle\Manager\PostPhotoManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\PostPhoto"]
+
     pon.manager.store_photo:
         class: CoreBundle\Manager\StorePhotoManager
         factory_service:  doctrine
@@ -177,6 +183,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\SocialProfile"]
         calls:
             - [setSocialProfileFinder, ["@fos_elastica.finder.app.socialProfile"]]
+            - [setSocialProfileType, ["@fos_elastica.index.app.socialProfile"]]
             
     pon.manager.segement:
         class: CoreBundle\Manager\SegementManager
@@ -192,6 +199,7 @@ services:
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Post"]
         calls:
+            - [setPostFinder, ["@fos_elastica.finder.app.post"]]
             - [setPagination, ["@pon.paginator.pagination"]]
 
     pon.manager.news:
@@ -297,16 +305,6 @@ services:
     pon.paginator.pagination:
         class: CoreBundle\Paginator\Pagination
 
-    pon.queue.consumer.scrapping:
-            class: CoreBundle\Queue\Consumer\ScrappingConsumer
-
-    pon.queue.producer.scrapping:
-        class: CoreBundle\Queue\Producer\DelayedProducer
-        arguments:
-            - "@old_sound_rabbit_mq.connection.default"
-            - expire_offer
-            - delay
-
     pon.listener.serialize:
         class: CoreBundle\EventListener\SerializeListener
         calls:
@@ -345,3 +343,51 @@ services:
             - [setCouponManager, ["@pon.manager.coupon"]]
         tags:
             - { name: kernel.event_subscriber }
+
+    pon.sns.facebook_driver:
+        class: CoreBundle\SNS\Facebook\FacebookDriver
+        arguments: ["@pon.manager.facebook"]
+        tags:
+            - { name: sns }
+
+    pon.sns.twitter_driver:
+        class: CoreBundle\SNS\Facebook\TwitterDriver
+        tags:
+            #- { name: sns }
+
+    pon.sns.instagram_driver:
+        class: CoreBundle\SNS\Facebook\InstagramDriver
+        tags:
+            #- { name: sns }
+
+    pon.sns.line_driver:
+        class: CoreBundle\SNS\Facebook\LineDriver
+        tags:
+            #- { name: sns }
+
+    pon.sns.client:
+        class: CoreBundle\SNS\Client
+
+    pon.queue.consumer.scrapping:
+        class: CoreBundle\Queue\Consumer\ScrappingConsumer
+        arguments: ['@service_container']
+        lazy: true
+        calls:
+            - [setSNSClient, ["@pon.sns.client"]]
+            - [setAppUserManager, ["@pon.manager.app_user"]]
+            - [setSocialProfileManager, ["@pon.manager.social_profile"]]
+            - [setLogger, ["@monolog.logger.scrapping"]]
+            - [setPostManager, ["@pon.manager.post"]]
+            - [setPostPhotoManager, ["@pon.manager.post_photo"]]
+            - [setPhotoManager, ["@pon.manager.photo"]]
+
+    pon.queue.consumer.sync_post:
+        class: CoreBundle\Queue\Consumer\SyncPostConsumer
+        calls:
+            - [setLogger, ["@monolog.logger.sync_post"]]
+
+    pon.transformer.elastica_to_app_user:
+        class: CoreBundle\Transformer\ElasticaToAppUserTransformer
+        arguments: ['@doctrine', '', {  }]
+        calls:
+            - [setPropertyAccessor, ['@fos_elastica.property_accessor']]

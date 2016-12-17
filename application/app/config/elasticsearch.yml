@@ -490,9 +490,37 @@ fos_elastica:
                             properties:
                                 id: ~
                                 username: ~
+                                deletedAt:
+                                    type: date
                         socialType: ~
                         socialId: ~
                         socialToken: ~
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        requestedAt:
+                            type: date
+                        deletedAt:
+                            type: date
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\SocialProfile
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                post:
+                    mappings:
+                        id: ~
+                        message: ~
+                        postId: ~
+                        snsId: ~
+                        createdTime:
+                            type: date
+                        status:
+                            type: integer
+                        url: ~
                         createdAt:
                             type: date
                         updatedAt:
@@ -501,7 +529,31 @@ fos_elastica:
                             type: date
                     persistence:
                         driver: orm
-                        model: CoreBundle\Entity\SocialProfile
+                        model: CoreBundle\Entity\Post
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
+                postPhoto:
+                    mappings:
+                        post:
+                            type: object
+                            properties:
+                                id: ~
+                                postId:
+                                    type: string
+                                    index_analyzer: keyword_analyzer
+                        photo:
+                            type: object
+                            properties:
+                                id: ~
+                                imageUrl: ~
+                                photoId:
+                                    type: string
+                                    index_analyzer: keyword_analyzer
+                    persistence:
+                        driver: orm
+                        model: CoreBundle\Entity\PostPhoto
                         provider: ~
                         listener: ~
                         finder: ~

@@ -189,6 +189,15 @@ abstract class AbstractManager
     }
 
     /**
+     * @param $entity
+     * @return EntityInterface
+     */
+    public function refresh($entity)
+    {
+        $this->objectManager->refresh($entity);
+    }
+
+    /**
      * Get Query
      * @param array $criticals
      * @param array $orderBys

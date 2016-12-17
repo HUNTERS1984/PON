@@ -1,0 +1,53 @@
+public function getUsers()
+    {
+        /** @var IndexManager $mngr*/
+        $mngr = $this->getContainer()->get('fos_elastica.index_manager');
+        /** @var Search $search */
+        $search = $mngr->getIndex('app')->createSearch();
+        $search->addType('appUser');
+        $options = array(
+            \Elastica\Search::OPTION_SEARCH_TYPE => \Elastica\Search::OPTION_SEARCH_TYPE_SCAN,
+            \Elastica\Search::OPTION_SCROLL => '30s',
+            \Elastica\Search::OPTION_SIZE => '50',
+        );
+        $resultSet = $search->search(new MatchAll(), $options);
+        $total = $resultSet->getTotalHits();
+        $countArticles = 0;
+
+        // get the first scroll id
+        $scrollId = $resultSet->getResponse()->getScrollId();
+
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        while ($countArticles <= $total) {
+            // get the data set for the given scroll id (the scroll id is valid 30 seconds)
+            $search1 = $mngr->getIndex('app')->createSearch();
+            $search1->addType('appUser');
+            $options = array(
+                \Elastica\Search::OPTION_SCROLL_ID => $scrollId,
+                \Elastica\Search::OPTION_SCROLL => '30s'
+            );
+
+            $resultSet = $search->search(null, $options);
+
+            // and get the scroll id for the next data set
+            $scrollId = $resultSet->getResponse()->getScrollId();
+
+            $users = $resultSet->getResults();
+            // if there is no more article to fetch
+            if (count($users) == 0) {
+                break;
+            }
+
+            // transforms each result into Doctrine object (optional)
+            /** @var ElasticaToAppUserTransformer $transformer*/
+            $transformer = $this->getContainer()->get('pon.transformer.elastica_to_app_user');
+            $users = $transformer->transform($users);
+
+            // insert the objects into the csv file
+            foreach ($users as $user) {
+                echo '<pre>'.print_r($user,true).'</pre>';
+                $countArticles++;
+            }
+            $em->clear();
+        }
+    }

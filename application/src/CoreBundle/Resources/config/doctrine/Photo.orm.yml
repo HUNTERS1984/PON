@@ -8,6 +8,11 @@ CoreBundle\Entity\Photo:
             mappedBy: photo
             cascade: ["persist"]
             orphanRemoval: true
+        postPhotos:
+            targetEntity: PostPhoto
+            mappedBy: photo
+            cascade: ["persist"]
+            orphanRemoval: true
         storePhotos:
             targetEntity: StorePhoto
             mappedBy: photo
