@@ -29,6 +29,7 @@ class FacebookDriver extends AbstractDriver
     public function listPost(\DateTime $from, \DateTime $to)
     {
         $service = new Post($this->getAccessToken(), $this->facebookManager);
+        $service->setPrefix($this->getPrefix());
 
         return $service->listPost($from, $to);
     }

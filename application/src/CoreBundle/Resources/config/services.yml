@@ -13,6 +13,7 @@ services:
 
     pon.manager.app_user:
         class: CoreBundle\Manager\AppUserManager
+        lazy: true
         factory_service:  doctrine
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\AppUser"]
@@ -133,6 +134,7 @@ services:
 
     pon.manager.post_photo:
         class: CoreBundle\Manager\PostPhotoManager
+        lazy: true
         factory_service:  doctrine
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\PostPhoto"]
@@ -172,12 +174,14 @@ services:
 
     pon.manager.photo:
         class: CoreBundle\Manager\PhotoManager
+        lazy: true
         factory_service:  doctrine
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Photo"]
 
     pon.manager.social_profile:
         class: CoreBundle\Manager\SocialProfileManager
+        lazy: true
         factory_service:  doctrine
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\SocialProfile"]
@@ -195,6 +199,7 @@ services:
 
     pon.manager.post:
         class: CoreBundle\Manager\PostManager
+        lazy: true
         factory_service:  doctrine
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Post"]
@@ -347,21 +352,29 @@ services:
     pon.sns.facebook_driver:
         class: CoreBundle\SNS\Facebook\FacebookDriver
         arguments: ["@pon.manager.facebook"]
+        calls:
+            - [setPrefix, ["fb_"]]
         tags:
-            - { name: sns }
+            #- { name: sns }
 
     pon.sns.twitter_driver:
-        class: CoreBundle\SNS\Facebook\TwitterDriver
+        class: CoreBundle\SNS\Twitter\TwitterDriver
+        arguments: ["@pon.manager.twitter"]
+        calls:
+            - [setPrefix, ["tw_"]]
         tags:
             #- { name: sns }
 
     pon.sns.instagram_driver:
-        class: CoreBundle\SNS\Facebook\InstagramDriver
+        class: CoreBundle\SNS\Instagram\InstagramDriver
+        arguments: ["@pon.manager.instagram"]
+        calls:
+            - [setPrefix, ["it_"]]
         tags:
-            #- { name: sns }
+            - { name: sns }
 
     pon.sns.line_driver:
-        class: CoreBundle\SNS\Facebook\LineDriver
+        class: CoreBundle\SNS\Line\LineDriver
         tags:
             #- { name: sns }
 
@@ -384,6 +397,9 @@ services:
     pon.queue.consumer.sync_post:
         class: CoreBundle\Queue\Consumer\SyncPostConsumer
         calls:
+            - [setPostManager, ["@pon.manager.post"]]
+            - [setCouponManager, ["@pon.manager.coupon"]]
+            - [setUseListManager, ["@pon.manager.use_list"]]
             - [setLogger, ["@monolog.logger.sync_post"]]
 
     pon.transformer.elastica_to_app_user:

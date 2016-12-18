@@ -8,12 +8,12 @@ class PostType extends BasePostType
 {
     /**
      * @var boolean
-    */
+     */
     private $published;
 
     /**
      * @var string
-    */
+     */
     private $privacy;
 
     /**
@@ -23,6 +23,7 @@ class PostType extends BasePostType
     public function setPublished($published)
     {
         $this->published = $published;
+
         return $this;
     }
 
@@ -41,6 +42,7 @@ class PostType extends BasePostType
     public function setPrivacy($privacy)
     {
         $this->privacy = $privacy;
+
         return $this;
     }
 
@@ -52,24 +54,28 @@ class PostType extends BasePostType
         return $this->privacy;
     }
 
-    public function __construct($params)
+    public function __construct($params, $prefix = '')
     {
         $images = [];
-        if(isset($params['attachments']['data'])) {
+        if (isset($params['attachments']['data'])) {
             $data = $params['attachments']['data'];
-            if(isset($data[0]['subattachments']['data'])) {
+            if (isset($data[0]['subattachments']['data'])) {
                 $data = $data[0]['subattachments']['data'];
             }
 
-            $images = array_map(function($attachment){
-                if($attachment['type'] == 'photo') {
-                    return $attachment['media']['image']['src'];
-                }
-                return '';
-            }, $data);
+            $images = array_map(
+                function ($attachment) {
+                    if ($attachment['type'] == 'photo') {
+                        return $attachment['media']['image']['src'];
+                    }
+
+                    return '';
+                },
+                $data
+            );
         }
         $this
-            ->setId($params['id'])
+            ->setId(sprintf("%s%s", $prefix, $params['id']))
             ->setCreatedAt(new \DateTime($params['created_time']))
             ->setPublished((bool)$params['is_published'])
             ->setPrivacy($params['privacy']['value'])

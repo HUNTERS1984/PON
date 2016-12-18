@@ -98,27 +98,24 @@ class PostManager extends AbstractManager
 
     /**
      * List Post
-     * @param array $params
      *
      * @return array
      */
-    public function listPost($params)
+    public function listPost()
     {
-        $limit = isset($params['page_size']) ? $params['page_size'] : 10;
-        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $query = new Query();
+        $query
+            ->setPostFilter(new Missing('deletedAt'));
+        $mainQuery = new Query\BoolQuery();
+        $mainQuery
+            ->addMust(new Query\Term(['status' => ['value' => 0]]));
+        $query->setQuery($mainQuery);
 
-        $conditions = [];
-       
-        $conditions['deletedAt'] = [
-            'type' => 'is',
-            'value' =>  'NULL'
-        ];
-
-        $orderBy = ['createdAt' => 'DESC'];
-
-        $query = $this->getQuery($conditions, $orderBy, $limit, $offset);
-
-        return $this->pagination->render($query, $limit, $offset);
+        $pagination = $this->postFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults(0, 500);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return ['data' => $results, 'total' => $total];
     }
 
     /**

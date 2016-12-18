@@ -357,4 +357,62 @@ class Post
     {
         return $this->snsId;
     }
+    /**
+     * @var string
+     */
+    private $hashTags;
+
+
+    /**
+     * Set hashTags
+     *
+     * @param string $hashTags
+     *
+     * @return Post
+     */
+    public function setHashTags($hashTags)
+    {
+        $this->hashTags = $hashTags;
+
+        return $this;
+    }
+
+    /**
+     * Get hashTags
+     *
+     * @return string
+     */
+    public function getHashTags()
+    {
+        return $this->hashTags;
+    }
+    /**
+     * @var integer
+     */
+    private $type;
+
+
+    /**
+     * Set type
+     *
+     * @param integer $type
+     *
+     * @return Post
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 }

@@ -50,6 +50,7 @@ abstract class AbstractManager
     public function setSampleImagePath($sampleImagePath)
     {
         $this->sampleImagePath = $sampleImagePath;
+
         return $this;
     }
 
@@ -61,7 +62,7 @@ abstract class AbstractManager
     public function getImage($destinationPath)
     {
         $file = new Filesystem();
-        if(!$file->exists($destinationPath)) {
+        if (!$file->exists($destinationPath)) {
             $file->mkdir($destinationPath);
         }
 
@@ -70,7 +71,8 @@ abstract class AbstractManager
         $fileSystem = new Filesystem();
         $originFile = $faker->randomElement($files);
         $baseName = $faker->md5.".jpg";
-        $fileSystem->copy($originFile,sprintf("%s/%s",$destinationPath,$baseName));
+        $fileSystem->copy($originFile, sprintf("%s/%s", $destinationPath, $baseName));
+
         return $baseName;
     }
 
@@ -81,9 +83,9 @@ abstract class AbstractManager
     public function __construct(ObjectManager $objectManager, $class)
     {
         $this->objectManager = $objectManager;
-        $this->repository    = $objectManager->getRepository($class);
-        $metadata            = $objectManager->getClassMetadata($class);
-        $this->class         = $metadata->getName();
+        $this->repository = $objectManager->getRepository($class);
+        $metadata = $objectManager->getClassMetadata($class);
+        $this->class = $metadata->getName();
     }
 
     /**
@@ -106,7 +108,7 @@ abstract class AbstractManager
     public function uploadAvatar(UploadedFile $fileUpload, $id)
     {
         $fileSystem = new Filesystem();
-        if(!$fileSystem->exists($this->avatarDir)) {
+        if (!$fileSystem->exists($this->avatarDir)) {
             $fileSystem->mkdir($this->avatarDir);
         }
         $newFile = sprintf("%s.%s", $id, $fileUpload->guessExtension());
@@ -121,7 +123,7 @@ abstract class AbstractManager
     public function uploadImage(UploadedFile $fileUpload, $id)
     {
         $fileSystem = new Filesystem();
-        if(!$fileSystem->exists($this->imageDir)) {
+        if (!$fileSystem->exists($this->imageDir)) {
             $fileSystem->mkdir($this->imageDir);
         }
         $newFile = sprintf("%s.%s", $id, $fileUpload->guessExtension());
@@ -155,13 +157,14 @@ abstract class AbstractManager
      * @param $entity
      *
      * @return boolean
-    */
+     */
     public function delete($entity, $andFlush = true)
     {
         $this->objectManager->remove($entity);
         if (true === $andFlush) {
             $this->objectManager->flush();
         }
+
         return true;
     }
 
@@ -185,6 +188,7 @@ abstract class AbstractManager
         if (true === $andFlush) {
             $this->objectManager->flush();
         }
+
         return $entity;
     }
 
@@ -195,6 +199,14 @@ abstract class AbstractManager
     public function refresh($entity)
     {
         $this->objectManager->refresh($entity);
+    }
+
+    /**
+     * @return EntityInterface
+     */
+    public function clear()
+    {
+        $this->objectManager->clear();
     }
 
     /**
@@ -272,5 +284,13 @@ abstract class AbstractManager
     public function getImageDir()
     {
         return $this->imageDir;
+    }
+
+    /**
+     * @return ObjectManager|\Doctrine\ORM\EntityManager
+     */
+    public function getObjectManager()
+    {
+        return $this->objectManager;
     }
 }

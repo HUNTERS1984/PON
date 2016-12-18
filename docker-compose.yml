@@ -60,6 +60,7 @@ services:
       - ./vagrant/docker/phpfpm/supervisord.conf:/etc/supervisor/conf.d/pon.conf
       - ./vagrant/data/logs/supervisor:/var/log/supervisor
       - ./vagrant/data/logs/app:/var/www/application/var/logs
-      - ./vagrant/app.env:/etc/supervisor/conf.d/app.env
+      - ./vagrant/data/logs/crontab:/var/www/application/var/crontab
+      - ./vagrant/app.env:/usr/share/pon/app.env
     env_file:
       - ./vagrant/app.env

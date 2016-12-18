@@ -14,6 +14,10 @@ admin_app_user:
     path:     /user
     defaults: { _controller: AdminBundle:AppUser:index }
 
+admin_app_user_test:
+    path:     /user/test
+    defaults: { _controller: AdminBundle:AppUser:test }
+
 admin_app_user_create:
     path:     /user/create
     defaults: { _controller: AdminBundle:AppUser:create }

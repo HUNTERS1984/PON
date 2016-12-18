@@ -7,6 +7,7 @@ application/var/cache
 !application/app/cache/.gitkeep
 application/var/logs/*
 !application/app/logs/.gitkeep
+application/var/crontab
 application/var/sessions/*
 !application/app/sessions/.gitkeep
 /application/app/config/parameters.yml

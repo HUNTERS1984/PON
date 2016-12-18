@@ -283,4 +283,43 @@ class SocialProfile
     {
         return $this->requestedAt;
     }
+    /**
+     * @var boolean
+     */
+    private $error;
+
+
+    /**
+     * Set error
+     *
+     * @param boolean $error
+     *
+     * @return SocialProfile
+     */
+    public function setError($error)
+    {
+        $this->error = $error;
+
+        return $this;
+    }
+
+    /**
+     * Get error
+     *
+     * @return boolean
+     */
+    public function isError()
+    {
+        return $this->error;
+    }
+
+    /**
+     * Get error
+     *
+     * @return boolean
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
 }

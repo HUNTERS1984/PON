@@ -56,7 +56,7 @@ class Client
         }
         $result = [];
         foreach($this->drivers as $driver) {
-            if($this->getDriverType($this->type)) {
+            if($this->getDriverType($this->type) == get_class($driver)) {
                 if (method_exists($driver, $method)) {
                     $result = call_user_func_array([$driver, $method], $arguments);
                     break;

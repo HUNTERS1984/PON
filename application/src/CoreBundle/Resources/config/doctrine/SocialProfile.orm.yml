@@ -28,6 +28,10 @@ CoreBundle\Entity\SocialProfile:
             type: string
             length: 255
             nullable: TRUE
+        error:
+            type: boolean
+            options:
+                default: FALSE
         requestedAt:
             type: datetime
         createdAt:

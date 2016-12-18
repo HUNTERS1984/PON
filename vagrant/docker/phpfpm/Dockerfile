@@ -5,7 +5,7 @@ ENV container=docker
 RUN apt-get update -y
 RUN apt-get install git -y
 
-RUN apt-get install -y zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libmemcached-dev libxml2-dev supervisor
+RUN apt-get install -y zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libmemcached-dev libxml2-dev supervisor cron
 RUN docker-php-ext-configure bcmath --enable-bcmath \
     && docker-php-ext-configure mbstring --enable-mbstring \
     && docker-php-ext-configure soap --enable-soap
@@ -36,6 +36,15 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/ph
 RUN mkdir -p /var/log/supervisor
 RUN chmod +x /etc/init.d/supervisor
 COPY php.ini /usr/local/etc/php/
+
+RUN mkdir -p /usr/share/crontab/
+
+# Add our crontab file
+COPY crontab.conf /usr/share/crontab/crontab.conf
+
+# Use the crontab file.
+ARG RUN_CRON=yes
+RUN if [ "$RUN_CRON" = "yes" ] ; then crontab /usr/share/crontab/crontab.conf; fi
 
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer

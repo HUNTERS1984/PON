@@ -9,11 +9,33 @@ class InstagramResponse extends AbstractResponse
 {
 
     /**
+     * @var  array|object
+     */
+    protected $response;
+
+    /**
+     * DealResponse constructor.
+     *
+     * @param mixed $response
+     */
+    public function __construct($response)
+    {
+        $this->response = $response;
+    }
+
+    /**
      * @return array
+     * @throws \Exception
      */
     public function getResult()
     {
-        // TODO: Implement getResult() method.
+        if ($this->response->meta->code != 200) {
+            throw new \Exception(sprintf('Instagram Request is Failed: %s', $this->response->meta->code));
+        }
+
+        $result = $this->response->data;
+
+        return $result;
     }
 
     /**
@@ -21,6 +43,6 @@ class InstagramResponse extends AbstractResponse
      */
     public function getStatusCode()
     {
-        // TODO: Implement getStatusCode() method.
+        return $this->response->meta->code;
     }
 }

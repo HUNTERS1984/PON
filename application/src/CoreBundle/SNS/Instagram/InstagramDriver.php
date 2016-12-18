@@ -4,18 +4,33 @@ namespace CoreBundle\SNS\Instagram;
 
 
 use CoreBundle\SNS\AbstractDriver;
+use MetzWeb\Instagram\Instagram;
 
 class InstagramDriver extends AbstractDriver
 {
     /**
-     * Get Report
+     * @var Instagram
+     */
+    private $instagramManager;
+
+    public function __construct(Instagram $manager)
+    {
+        $this->instagramManager = $manager;
+    }
+
+    /**
+     * Get Posts
      *
-     * @param array $params
+     * @param \DateTime $from
+     * @param \DateTime $to
      *
      * @return array
      */
-    public function listPost(array $params)
+    public function listPost(\DateTime $from, \DateTime $to)
     {
-        // TODO: Implement listPost() method.
+        $service = new Post($this->getAccessToken(), $this->instagramManager);
+        $service->setPrefix($this->getPrefix());
+
+        return $service->listPost($from, $to);
     }
 }

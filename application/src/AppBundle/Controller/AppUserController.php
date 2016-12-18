@@ -281,6 +281,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
                 ->setSocialToken($accessToken);
             $this->getSocialProfileManager()->createSocialProfile($socialProfile);
         } else {
+            $socialProfile->setError(false);
             $this->getSocialProfileManager()->saveSocialProfile($socialProfile);
         }
 
@@ -411,6 +412,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
                 ->setSocialToken($accessToken);
             $this->getSocialProfileManager()->createSocialProfile($socialProfile);
         } else {
+            $socialProfile->setError(false);
             $this->getSocialProfileManager()->saveSocialProfile($socialProfile);
         }
 
@@ -555,6 +557,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
                 ->setSocialSecret($accessTokenSecret);
             $this->getSocialProfileManager()->createSocialProfile($socialProfile);
         } else {
+            $socialProfile->setError(false);
             $this->getSocialProfileManager()->saveSocialProfile($socialProfile);
         }
 

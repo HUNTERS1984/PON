@@ -40,9 +40,9 @@ class ScrappingDataCommand extends ContainerAwareCommand
         $result = $this->getSocialProfiles();
         $socialProfiles = $result['data'];
         $total = $result['total'];
-
+        $date = new \DateTime();
         if($total == 0) {
-            $output->writeln("<comment>`We don't have any users to scrapping data`</comment>");
+            $output->writeln(sprintf("Time %s - <comment>`We don't have any social profiles to scrapping data`</comment>", $date->format('Y-m-d H:i:s')));
             return;
         }
 
@@ -56,14 +56,13 @@ class ScrappingDataCommand extends ContainerAwareCommand
         $progress->setRedrawFrequency(1);
         $progress->start();
         $output->writeln("");
-
         foreach($socialProfiles as $socialProfile) {
             $scrappingProducer->publish(serialize($socialProfile));
             $progress->advance();
         }
         $output->writeln("");
         $output->writeln("");
-        $output->writeln("Finished Adding <comment>`Scrapping SNS Data`</comment> to a queue for processing");
+        $output->writeln(sprintf("Time %s - Finished Adding <comment>`Scrapping SNS Data`</comment> to a queue for processing", $date->format('Y-m-d H:i:s')));
 
     }
 

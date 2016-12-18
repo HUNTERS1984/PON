@@ -15,7 +15,12 @@ abstract class AbstractDriver
     private $tokenSecret;
 
     /**
-     * Get Report
+     * @var string
+    */
+    private $prefix;
+
+    /**
+     * Get Posts
      *
      * @param \DateTime $from
      * @param \DateTime $to
@@ -58,5 +63,24 @@ abstract class AbstractDriver
     public function getTokenSecret()
     {
         return $this->tokenSecret;
+    }
+
+    /**
+     * @param string $prefix
+     * @return $this
+     */
+    public function setPrefix(string $prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
     }
 }

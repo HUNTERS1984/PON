@@ -2,8 +2,10 @@
 
 namespace CoreBundle\SNS\Facebook\Request;
 
+use CoreBundle\SNS\Exception\AuthenticationException;
 use CoreBundle\SNS\Facebook\FacebookRequest;
 use CoreBundle\SNS\Facebook\Response\PostResponse;
+use Facebook\Exceptions\FacebookAuthenticationException;
 use Facebook\Facebook;
 use Facebook\GraphNodes\GraphEdge;
 
@@ -35,10 +37,13 @@ class PostRequest extends FacebookRequest
         try {
             $response = $this->client->get('me/Posts?fields=id,message,story,created_time,type,full_picture,is_published,attachments,privacy,permalink_url&limit=500');
             return new PostResponse($response);
-        } catch(\Facebook\Exceptions\FacebookResponseException $e) {
-            throw new \Exception(sprintf("Facebook Driver: %s", $e->getMessage()));
-        } catch(\Facebook\Exceptions\FacebookSDKException $e) {
-            throw new \Exception(sprintf("Facebook Driver: %s", $e->getMessage()));
+        } catch(\Exception $e) {
+            if($e->getPrevious() instanceof FacebookAuthenticationException) {
+                throw new AuthenticationException(
+                    sprintf("Facebook Driver With ErrorCode: %s and Message Code %s", $e->getCode(), $e->getMessage())
+                );
+            }
+            throw $e;
         }
     }
 

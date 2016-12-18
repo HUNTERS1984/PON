@@ -24,9 +24,13 @@ CoreBundle\Entity\Post:
     fields:
         message:
             type: text
+        hashTags:
+            type: text
         snsId:
             type: string
             length: 100
+        type:
+            type: integer
         postId:
             type: string
             length: 100

@@ -18,7 +18,7 @@ old_sound_rabbit_mq:
             exchange_options: {name: 'scrapping', type: direct}
         sync_post:
             connection:       default
-            exchange_options: {name: 'pon.sync_post', type: direct}
+            exchange_options: {name: 'sync_post', type: direct}
     consumers:
         scrapping:
             connection:       default

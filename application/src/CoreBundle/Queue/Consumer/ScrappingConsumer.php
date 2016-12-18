@@ -14,7 +14,9 @@ use CoreBundle\Manager\PostManager;
 use CoreBundle\Manager\PostPhotoManager;
 use CoreBundle\Manager\SocialProfileManager;
 use CoreBundle\SNS\Client;
+use CoreBundle\SNS\Exception\AuthenticationException;
 use CoreBundle\SNS\Type\BasePostType;
+use Doctrine\DBAL\DBALException;
 use Monolog\Logger;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
@@ -66,15 +68,12 @@ class ScrappingConsumer implements ConsumerInterface
         /** @var SocialProfile $socialProfile */
         $socialProfile = unserialize($msg->getBody());
         try {
-            $socialProfile = $this->socialProfileManager->getSocialProfileById($socialProfile->getId());
-            if(!$socialProfile) {
-                throw new NotFoundHttpException(sprintf("Can not find SocialProfile with ID: %s", $socialProfile->getId()));
-            }
-            $posts = $this->getPosts($socialProfile);
-            foreach($posts as $post) {
-                $this->createPost($post, $socialProfile->getAppUser());
-            }
+            $this->process($socialProfile);
             $this->logger->info(sprintf("Finished Scrapping Job Successfully %s", $socialProfile->getId()));
+        }catch (DBALException $e) {
+            $this->logger->info(sprintf("Retry Connection Database %s",$socialProfile->getId()));
+            $this->socialProfileManager->getObjectManager()->getConnection()->connect();
+            $this->process($socialProfile);
         } catch (\Exception $e) {
             $this->logger->error($e->getTraceAsString());
             $this->logger->error(sprintf("Scrapping Job Was Failed %s", $socialProfile->getId()));
@@ -82,17 +81,38 @@ class ScrappingConsumer implements ConsumerInterface
         }
     }
 
-    public function createPost(BasePostType $snsPost, AppUser $appUser)
+    public function process(SocialProfile $socialProfile)
+    {
+        $this->socialProfileManager->clear();
+        /** @var SocialProfile $socialProfile */
+        $socialProfile = $this->socialProfileManager->findOneById($socialProfile->getId());
+        if(!$socialProfile) {
+            throw new NotFoundHttpException(sprintf("Can not find SocialProfile with ID: %s", $socialProfile->getId()));
+        }
+        $posts = $this->getPosts($socialProfile);
+        $this->logger->info(sprintf("Got %s Posts", count($posts)));
+        $this->updateRequestedAt($socialProfile);
+        foreach($posts as $post) {
+            $this->createPost($post, $socialProfile->getAppUser(), $socialProfile->getSocialType());
+        }
+    }
+
+    public function createPost(BasePostType $snsPost, AppUser $appUser, $type)
     {
         /** @var Post $post */
+        $this->postManager->clear();
         if(!$post = $this->postManager->findOneBy(['snsId'=> $snsPost->getId()])) {
             $post = new Post();
+            $this->appUserManager->clear();
+            $appUser = $this->appUserManager->findOneById($appUser->getId());
             $post
                 ->setStatus(0)
                 ->setAppUser($appUser)
                 ->setSnsId($snsPost->getId())
+                ->setType($type)
                 ->setUrl($snsPost->getUrl())
                 ->setCreatedTime($snsPost->getCreatedAt())
+                ->setHashTags($this->convertHashTagsToString($snsPost->getHashTags()))
                 ->setMessage($snsPost->getMessage());
             $post = $this->postManager->createPost($post);
         }else{
@@ -106,10 +126,10 @@ class ScrappingConsumer implements ConsumerInterface
                 ->setSnsId($snsPost->getId())
                 ->setUrl($snsPost->getUrl())
                 ->setCreatedTime($snsPost->getCreatedAt())
+                ->setHashTags($this->convertHashTagsToString($snsPost->getHashTags()))
                 ->setMessage($snsPost->getMessage());
             $post = $this->postManager->savePost($post);
         }
-
 
         foreach ($snsPost->getImages() as $image) {
             $postPhoto = new PostPhoto();
@@ -128,29 +148,46 @@ class ScrappingConsumer implements ConsumerInterface
         $this->postManager->refresh($post);
     }
 
+    public function convertHashTagsToString(array $hashTags)
+    {
+        return implode(',',array_map('strtolower', $hashTags));
+    }
+
     public function getPosts(SocialProfile $socialProfile)
     {
         $from = clone $socialProfile->getRequestedAt();
         $to = new \DateTime();
         $from->setTime(0,0,0);
         $to->setTime(23,59,59);
-        $posts = $this->snsClient
-            ->setType($socialProfile->getSocialType())
-            ->setAccessToken($socialProfile->getSocialToken())
-            ->setTokenSecret($socialProfile->getSocialSecret())
-            ->listPost($from, $to);
-        $this->updateRequestedAt($socialProfile);
+        $posts = [];
+        $this->logger->info(sprintf("Social Type %s - Request Parameters: %s",$socialProfile->getSocialType(),print_r([$from, $to], true)));
+        try{
+            $posts = $this->snsClient
+                ->setType($socialProfile->getSocialType())
+                ->setAccessToken($socialProfile->getSocialToken())
+                ->setTokenSecret($socialProfile->getSocialSecret())
+                ->listPost($from, $to);
+        }catch(AuthenticationException $e) {
+            $socialProfile->setError(true);
+            $this->saveSocialProfile($socialProfile);
+            throw $e;
+        }
 
         return $posts;
+    }
+
+    public function saveSocialProfile(SocialProfile $socialProfile)
+    {
+        $socialProfile = $this->socialProfileManager->saveSocialProfile($socialProfile);
+        $this->socialProfileManager->refresh($socialProfile);
+
+        return $socialProfile;
     }
 
     public function updateRequestedAt(SocialProfile $socialProfile)
     {
         $socialProfile->setRequestedAt(new \DateTime());
-        $socialProfile = $this->socialProfileManager->saveSocialProfile($socialProfile);
-        $this->socialProfileManager->refresh($socialProfile);
-
-        return $socialProfile;
+        return $this->saveSocialProfile($socialProfile);
 
     }
 

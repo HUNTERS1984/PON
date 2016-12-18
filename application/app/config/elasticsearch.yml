@@ -495,6 +495,7 @@ fos_elastica:
                         socialType: ~
                         socialId: ~
                         socialToken: ~
+                        error: ~
                         createdAt:
                             type: date
                         updatedAt:
@@ -516,8 +517,14 @@ fos_elastica:
                         message: ~
                         postId: ~
                         snsId: ~
+                        hashTags: ~
+                        type: ~
                         createdTime:
                             type: date
+                        appUser:
+                            type: object
+                            properties:
+                                id: ~
                         status:
                             type: integer
                         url: ~

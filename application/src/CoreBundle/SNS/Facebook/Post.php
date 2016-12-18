@@ -54,8 +54,24 @@ class Post extends AbstractPost
                 if($item['type'] !== 'photo') {
                     continue;
                 }
-                $post = new PostType($item);
+
+                if(!$this->validatePost($item)) {
+                    continue;
+                }
+
+                $item['message'] = !empty($item['message']) ? $item['message'] : $item['story'];
+
+                if(empty($hashTags = $this->getHashTags($item['message']))) {
+                    continue;
+                }
+                $post = new PostType($item, $this->getPrefix());
+                $post->setHashTags($hashTags);
                 $createdAt = $post->getCreatedAt();
+
+                if($post->getPrivacy() !== 'EVERYONE') {
+
+                }
+
                 if($createdAt < $from || $createdAt > $to) {
                     return $results;
                 }
@@ -70,6 +86,35 @@ class Post extends AbstractPost
         }
 
         return $results;
+    }
+
+    public function validatePost($item)
+    {
+        if(empty($item['id'])) {
+            return false;
+        }
+
+        if(empty($item['created_time'])) {
+            return false;
+        }
+
+        if(empty($item['is_published'])) {
+            return false;
+        }
+
+        if(!isset($item['privacy']['value'])) {
+            return false;
+        }
+
+        if(!isset($item['message']) && !isset($item['story'])) {
+            return false;
+        }
+
+        if(!isset($item['permalink_url'])) {
+            return false;
+        }
+
+        return true;
     }
 
     public function getPosts()

@@ -40,9 +40,10 @@ class SocialProfileManager extends AbstractManager
     public function createSocialProfile(SocialProfile $socialProfile)
     {
         $date = new \DateTime();
-        $date->modify('-1 day');
+        $date->modify('-5 days');
         $socialProfile
             ->setRequestedAt($date)
+            ->setError(false)
             ->setCreatedAt(new \DateTime());
         return $this->saveSocialProfile($socialProfile);
     }
@@ -98,7 +99,9 @@ class SocialProfileManager extends AbstractManager
         $mainQuery = new Query\BoolQuery();
         $date = new \DateTime();
         $date->modify("-1 day");
-        $mainQuery->addMust(new Query\Range('requestedAt',['lte' => $date->format(\DateTime::ISO8601)]));
+        $mainQuery
+            ->addMustNot(new Query\Term(['error' => ['value' => true]]))
+            ->addMust(new Query\Range('requestedAt',['lte' => $date->format(\DateTime::ISO8601)]));
         $query->setQuery($mainQuery);
 
         $pagination = $this->socialProfileFinder->createPaginatorAdapter($query);

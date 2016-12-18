@@ -26,12 +26,18 @@ class BasePostType
 
     /**
      * @var array
+     */
+    private $hashTags;
+
+    /**
+     * @var array
     */
     private $images;
 
     public function __construct()
     {
         $this->images = [];
+        $this->hashTags = [];
     }
 
     /**
@@ -117,7 +123,7 @@ class BasePostType
 
     /**
      * @param string $url
-     * @return BasePostType
+     * @return $this
      */
     public function setUrl($url)
     {
@@ -131,5 +137,24 @@ class BasePostType
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * @param array $hashTags
+     * @return $this
+     */
+    public function setHashTags($hashTags)
+    {
+        $this->hashTags = $hashTags;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHashTags()
+    {
+        return $this->hashTags;
     }
 }
