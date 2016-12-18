@@ -351,4 +351,43 @@ class Photo
     {
         return $this->photoId;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $postPhotos;
+
+
+    /**
+     * Add postPhoto
+     *
+     * @param \CoreBundle\Entity\PostPhoto $postPhoto
+     *
+     * @return Photo
+     */
+    public function addPostPhoto(\CoreBundle\Entity\PostPhoto $postPhoto)
+    {
+        $this->postPhotos[] = $postPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Remove postPhoto
+     *
+     * @param \CoreBundle\Entity\PostPhoto $postPhoto
+     */
+    public function removePostPhoto(\CoreBundle\Entity\PostPhoto $postPhoto)
+    {
+        $this->postPhotos->removeElement($postPhoto);
+    }
+
+    /**
+     * Get postPhotos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPostPhotos()
+    {
+        return $this->postPhotos;
+    }
 }

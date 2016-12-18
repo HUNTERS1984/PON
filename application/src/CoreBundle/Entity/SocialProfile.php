@@ -254,4 +254,72 @@ class SocialProfile
     {
         return $this->appUser;
     }
+    /**
+     * @var \DateTime
+     */
+    private $requestedAt;
+
+
+    /**
+     * Set requestedAt
+     *
+     * @param \DateTime $requestedAt
+     *
+     * @return SocialProfile
+     */
+    public function setRequestedAt($requestedAt)
+    {
+        $this->requestedAt = $requestedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get requestedAt
+     *
+     * @return \DateTime
+     */
+    public function getRequestedAt()
+    {
+        return $this->requestedAt;
+    }
+    /**
+     * @var boolean
+     */
+    private $error;
+
+
+    /**
+     * Set error
+     *
+     * @param boolean $error
+     *
+     * @return SocialProfile
+     */
+    public function setError($error)
+    {
+        $this->error = $error;
+
+        return $this;
+    }
+
+    /**
+     * Get error
+     *
+     * @return boolean
+     */
+    public function isError()
+    {
+        return $this->error;
+    }
+
+    /**
+     * Get error
+     *
+     * @return boolean
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
 }

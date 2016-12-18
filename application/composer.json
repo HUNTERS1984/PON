@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "php": ">=5.5.9",
+        "php": "~7.0.0",
         "symfony/symfony": "3.1.*",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "^1.6",
@@ -29,15 +29,18 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "fzaninotto/faker": "^1.6",
+        "jms/serializer-bundle": "^1.1",
         "friendsofsymfony/rest-bundle": "^2.0",
         "nelmio/api-doc-bundle": "^2.13",
         "friendsofsymfony/user-bundle": "dev-master",
-        "friendsofsymfony/oauth-server-bundle": "^1.5",
+        "friendsofsymfony/oauth-server-bundle": "1.5.2",
         "friendsofsymfony/elastica-bundle": "^3.2",
         "facebook/graph-sdk": "^5.3",
         "abraham/twitteroauth": "^0.6.4",
         "ikwattro/faker-extra": "^1.0",
-        "cosenary/instagram": "^2.3"
+        "cosenary/instagram": "^2.3",
+        "php-amqplib/rabbitmq-bundle": "^1.12",
+        "symfony/proxy-manager-bridge": "^3.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

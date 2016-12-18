@@ -4,6 +4,7 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Form\Type\AppUserType;
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Manager\SocialProfileManager;
 use CoreBundle\Manager\StoreManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use CoreBundle\Manager\AppUserManager;
@@ -98,6 +99,17 @@ class AppUserController extends Controller
             ]
         );
 
+    }
+
+    public function testAction()
+    {
+        /** @var SocialProfileManager $socialProfileManager */
+        $socialProfileManager = $this->get('pon.manager.social_profile');
+        $socialProfile = $socialProfileManager->findOneById(4);
+        $date = clone $socialProfile->getRequestedAt();
+        $date->modify('-5 days');
+        $socialProfile->setRequestedAt($date);
+       $socialProfileManager->saveSocialProfile($socialProfile);
     }
 
     /**

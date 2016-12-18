@@ -7,25 +7,26 @@ old_sound_rabbit_mq:
             password: '%rabbitmq_pass%'
             vhost:    '/'
             lazy:     false
-            connection_timeout: 60
-            read_write_timeout: 60
-
-            # requires php-amqplib v2.4.1+ and PHP5.4+
+            connection_timeout: 3
+            read_write_timeout: 3
             keepalive: false
-
-            # requires php-amqplib v2.4.1+
             heartbeat: 0
-
-            #requires php_sockets.dll
-            use_socket: true # default false
+            use_socket: false
     producers:
         scrapping:
             connection:       default
             exchange_options: {name: 'scrapping', type: direct}
-            service_alias:    pon_service # no alias by default
+        sync_post:
+            connection:       default
+            exchange_options: {name: 'sync_post', type: direct}
     consumers:
         scrapping:
             connection:       default
             exchange_options: {name: 'scrapping', type: direct}
             queue_options:    {name: 'scrapping'}
             callback:         pon.queue.consumer.scrapping
+        sync_post:
+            connection:       default
+            exchange_options: {name: 'sync_post', type: direct}
+            queue_options:    {name: 'sync_post'}
+            callback:         pon.queue.consumer.sync_post

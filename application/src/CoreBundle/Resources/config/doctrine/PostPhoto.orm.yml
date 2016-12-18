@@ -1,0 +1,29 @@
+CoreBundle\Entity\PostPhoto:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\PostPhotoRepository
+    manyToOne:
+        post:
+            targetEntity: Post
+            inversedBy: postPhotos
+            cascade: ["persist"]
+            orphanRemoval: true
+            joinColumn:
+                name: post_id
+                referencedColumnName: id
+        photo:
+            targetEntity: Photo
+            inversedBy: postPhotos
+            cascade: ["persist","remove"]
+            orphanRemoval: true
+            joinColumn:
+                name: photo_id
+                referencedColumnName: id
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+    lifecycleCallbacks: {  }

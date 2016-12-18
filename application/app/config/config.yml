@@ -84,6 +84,11 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+monolog:
+    channels:
+        - scrapping
+        - sync_post
+
 # app/config/config.yml
 nelmio_api_doc: ~
 
@@ -101,7 +106,7 @@ fos_oauth_server:
     refresh_token_class: CoreBundle\Entity\RefreshToken
     auth_code_class:     CoreBundle\Entity\AuthCode
     service:
-        user_provider: fos_user.user_manager             # This property will be used when valid credentials are given to load the user upon access token creation
+        user_provider: fos_user.user_provider.username             # This property will be used when valid credentials are given to load the user upon access token creation
 
 fos_rest:
     param_fetcher_listener: true

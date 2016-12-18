@@ -8,6 +8,7 @@ use CoreBundle\Entity\SocialProfile;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query;
+use Elastica\Search;
 use Facebook\Facebook;
 use Facebook\FacebookResponse;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
@@ -153,18 +154,21 @@ class AppUserManager extends AbstractManager
         $appUser->setName($facebookUser->getName());
         $password = md5($accessToken);
         $appUser->setPlainPassword($password);
-
+        $date = new \DateTime();
+        $date->modify("-5 days");
         if($isNull) {
+            $appUser = $this->createAppUser($appUser);
             $socialProfile = new SocialProfile();
             $socialProfile
                 ->setSocialType(1)
                 ->setCreatedAt(new \DateTime())
                 ->setUpdatedAt(new \DateTime())
+                ->setRequestedAt($date)
+                ->setError(false)
                 ->setAppUser($appUser)
                 ->setSocialId($facebookUser->getId())
                 ->setSocialToken($accessToken);
             $appUser->addSocialProfile($socialProfile);
-            $this->createAppUser($appUser);
         }else{
             $hasFacebookProfile = false;
             /** @var SocialProfile $socialProfile */
@@ -172,6 +176,7 @@ class AppUserManager extends AbstractManager
                 if($socialProfile->getSocialType() == 1) {
                     $socialProfile
                         ->setUpdatedAt(new \DateTime())
+                        ->setError(false)
                         ->setSocialId($facebookUser->getId())
                         ->setSocialToken($accessToken);
                     $hasFacebookProfile = true;
@@ -184,14 +189,15 @@ class AppUserManager extends AbstractManager
                     ->setCreatedAt(new \DateTime())
                     ->setUpdatedAt(new \DateTime())
                     ->setSocialType(1)
+                    ->setRequestedAt($date)
+                    ->setError(false)
                     ->setAppUser($appUser)
                     ->setSocialId($facebookUser->getId())
                     ->setSocialToken($accessToken);
                 $appUser->addSocialProfile($socialProfile);
             }
-
-            $this->saveAppUser($appUser);
         }
+        $this->saveAppUser($appUser);
 
         return ['status' => true, 'password' => $password, 'username' => $appUser->getUsername()];
     }
@@ -223,46 +229,51 @@ class AppUserManager extends AbstractManager
         $appUser->setName($instagramUser->full_name);
         $password = md5($accessToken);
         $appUser->setPlainPassword($password);
+        $date = new \DateTime();
+        $date->modify("-5 days");
 
         if($isNull) {
+            $appUser = $this->createAppUser($appUser);
             $socialProfile = new SocialProfile();
             $socialProfile
-                ->setSocialType(1)
+                ->setSocialType(3)
                 ->setCreatedAt(new \DateTime())
                 ->setUpdatedAt(new \DateTime())
+                ->setRequestedAt($date)
+                ->setError(false)
                 ->setAppUser($appUser)
                 ->setSocialId($instagramUser->id)
                 ->setSocialToken($accessToken);
             $appUser->addSocialProfile($socialProfile);
-            $this->createAppUser($appUser);
         }else{
-            $hasFacebookProfile = false;
+            $hasInstagramProfile = false;
             /** @var SocialProfile $socialProfile */
             foreach($appUser->getSocialProfiles() as $socialProfile) {
-                if($socialProfile->getSocialType() == 1) {
+                if($socialProfile->getSocialType() == 3) {
                     $socialProfile
                         ->setUpdatedAt(new \DateTime())
+                        ->setError(false)
                         ->setSocialId($instagramUser->id)
                         ->setSocialToken($accessToken);
-                    $hasFacebookProfile = true;
+                    $hasInstagramProfile = true;
                     break;
                 }
             }
-            if(!$hasFacebookProfile) {
+            if(!$hasInstagramProfile) {
                 $socialProfile = new SocialProfile();
                 $socialProfile
                     ->setCreatedAt(new \DateTime())
                     ->setUpdatedAt(new \DateTime())
-                    ->setSocialType(1)
+                    ->setSocialType(3)
+                    ->setRequestedAt($date)
+                    ->setError(false)
                     ->setAppUser($appUser)
                     ->setSocialId($instagramUser->id)
                     ->setSocialToken($accessToken);
                 $appUser->addSocialProfile($socialProfile);
             }
-
-            $this->saveAppUser($appUser);
         }
-
+        $this->saveAppUser($appUser);
         return ['status' => true, 'password' => $password, 'username' => $appUser->getUsername()];
     }
 
@@ -324,19 +335,24 @@ class AppUserManager extends AbstractManager
         $appUser->setName($twitter->name);
         $password = md5(sprintf("%s_%s",$accessToken,$accessTokenSecret));
         $appUser->setPlainPassword($password);
+        $date = new \DateTime();
+        $date->modify("-5 days");
 
         if($isNull) {
+            $appUser = $this->createAppUser($appUser);
             $socialProfile = new SocialProfile();
             $socialProfile
                 ->setCreatedAt(new \DateTime())
                 ->setUpdatedAt(new \DateTime())
                 ->setSocialType(2)
                 ->setAppUser($appUser)
+                ->setError(false)
+                ->setRequestedAt($date)
                 ->setSocialId($twitter->id)
                 ->setSocialToken($accessToken)
                 ->setSocialSecret($accessTokenSecret);
             $appUser->addSocialProfile($socialProfile);
-            $this->createAppUser($appUser);
+
         }else{
             $hasTwitterProfile = false;
             /** @var SocialProfile $socialProfile */
@@ -344,6 +360,7 @@ class AppUserManager extends AbstractManager
                 if($socialProfile->getSocialType() == 2) {
                     $socialProfile
                         ->setUpdatedAt(new \DateTime())
+                        ->setError(false)
                         ->setSocialId($twitter->id)
                         ->setSocialToken($accessToken)
                         ->setSocialSecret($accessTokenSecret);
@@ -358,14 +375,15 @@ class AppUserManager extends AbstractManager
                     ->setUpdatedAt(new \DateTime())
                     ->setSocialType(2)
                     ->setAppUser($appUser)
+                    ->setRequestedAt($date)
+                    ->setError(false)
                     ->setSocialId($twitter->id)
                     ->setSocialToken($accessToken)
                     ->setSocialSecret($accessTokenSecret);
                 $appUser->addSocialProfile($socialProfile);
             }
-
-            $this->saveAppUser($appUser);
         }
+        $this->saveAppUser($appUser);
 
         return ['status' => true, 'password' => $password, 'username' => $appUser->getUsername()];
     }
@@ -621,5 +639,13 @@ class AppUserManager extends AbstractManager
     {
         $this->instagramManager = $instagramManager;
         return $this;
+    }
+
+    /**
+     * @return TransformedFinder
+     */
+    public function getAppUserFinder()
+    {
+        return $this->appUserFinder;
     }
 }
