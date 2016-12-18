@@ -355,7 +355,7 @@ services:
         calls:
             - [setPrefix, ["fb_"]]
         tags:
-            #- { name: sns }
+            - { name: sns }
 
     pon.sns.twitter_driver:
         class: CoreBundle\SNS\Twitter\TwitterDriver
@@ -363,7 +363,7 @@ services:
         calls:
             - [setPrefix, ["tw_"]]
         tags:
-            #- { name: sns }
+            - { name: sns }
 
     pon.sns.instagram_driver:
         class: CoreBundle\SNS\Instagram\InstagramDriver
