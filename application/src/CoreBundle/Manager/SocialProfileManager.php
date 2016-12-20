@@ -91,6 +91,23 @@ class SocialProfileManager extends AbstractManager
         return !empty($result) ? $result[0] : null;
     }
 
+    public function getSpecialSocialProfileOfUsers()
+    {
+        $query = new Query();
+        $query
+            ->setPostFilter(new Missing('appUser.deletedAt'));
+        $mainQuery = new Query\BoolQuery();
+        $mainQuery
+            ->addMustNot(new Query\Term(['error' => ['value' => true]]));
+        $query->setQuery($mainQuery);
+
+        $pagination = $this->socialProfileFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults(0, 500);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return ['data' => $results, 'total' => $total];
+    }
+
     public function getSocialProfileOfUsers()
     {
         $query = new Query();

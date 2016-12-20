@@ -248,4 +248,33 @@ class UseList
     {
         return $this->requestedAt;
     }
+    /**
+     * @var \CoreBundle\Entity\Post
+     */
+    private $post;
+
+
+    /**
+     * Set post
+     *
+     * @param \CoreBundle\Entity\Post $post
+     *
+     * @return UseList
+     */
+    public function setPost(\CoreBundle\Entity\Post $post = null)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return \CoreBundle\Entity\Post
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
 }

@@ -70,6 +70,7 @@ class ScrappingDataCommand extends ContainerAwareCommand
     {
         /** @var SocialProfileManager $manager */
         $manager = $this->getContainer()->get('pon.manager.social_profile');
-        return $manager->getSocialProfileOfUsers();
+        //return $manager->getSocialProfileOfUsers();
+        return $manager->getSpecialSocialProfileOfUsers();
     }
 }

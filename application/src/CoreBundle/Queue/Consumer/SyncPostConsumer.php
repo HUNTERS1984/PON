@@ -66,7 +66,7 @@ class SyncPostConsumer implements ConsumerInterface
             throw new \Exception(sprintf("Could not found Post With ID: %s", $id));
         }
 
-        $hashTags = $this->convertHashTagsToArray($post->getHashTags());
+        $hashTags = $post->getHashTags(); //$this->convertHashTagsToArray($post->getHashTags());
         $result = $this->findCouponByHashTag($hashTags);
         $coupons = $result['data'];
         foreach($coupons as $item) {
@@ -76,7 +76,7 @@ class SyncPostConsumer implements ConsumerInterface
                continue;
             }
 
-            $useList = $this->createUseList($post->getAppUser(), $coupon);
+            $useList = $this->createUseList($post, $coupon);
             $this->useListManager->refresh($useList);
         }
 
@@ -92,11 +92,12 @@ class SyncPostConsumer implements ConsumerInterface
         return $post;
     }
 
-    public function createUseList(AppUser $user, Coupon $coupon)
+    public function createUseList(Post $post, Coupon $coupon)
     {
         $useList = new UseList();
         $useList
-            ->setAppUser($user)
+            ->setAppUser($post->getAppUser())
+            ->setPost($post)
             ->setStatus(0)
             ->setExpiredTime($coupon->getExpiredTime())
             ->setCoupon($coupon);
@@ -116,6 +117,7 @@ class SyncPostConsumer implements ConsumerInterface
 
     public function convertHashTagsToArray($hashTags)
     {
+        $hashTags = str_replace('#','', $hashTags);
         return explode(',', $hashTags);
     }
 

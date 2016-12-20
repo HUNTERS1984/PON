@@ -681,20 +681,26 @@ class CouponManager extends AbstractManager
         return $this->pagination->response($results, $total, $limit, $offset);
     }
 
-    public function findCouponByHashTag(array $hashTags)
+    public function findCouponByHashTag($hashTags)
     {
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
         $date = new \DateTime();
         $date->setTime(23,59,59);
+        $queryString = new \Elastica\Query\QueryString();
+        $queryString->setQuery($hashTags);
+        $queryString->setAnalyzer('hashtag');
+        $queryString->setFields(array('hashTag'));
+
         $boolQuery = new BoolQuery();
         $boolQuery
             ->addMust(new Term(['status' => ['value' => 1]]))
             ->addMust(new Query\Range('expiredTime',['gte' => $date->format(\DateTime::ISO8601)]))
-            ->addMust(new Query\Terms('hashTag', $hashTags));
-        $query->setQuery($boolQuery);
-
+            ->addMust($queryString);
+        $query
+            ->setQuery($boolQuery);
         $pagination = $this->couponFinder->createPaginatorAdapter($query);
+
         $transformedPartialResults = $pagination->getResults(0, 500);
         $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();

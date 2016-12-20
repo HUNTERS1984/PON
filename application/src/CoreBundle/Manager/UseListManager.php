@@ -153,6 +153,24 @@ class UseListManager extends AbstractManager
     }
 
     /**
+     * getUseCoupon By Id
+     *
+     * @param integer $id
+     * @return UseList|null
+     */
+    public function getUseCouponById($id)
+    {
+        $mainQuery = new \Elastica\Query;
+
+        $mainQuery->setPostFilter(new Missing('coupon.deletedAt'));
+        $mainQuery->setQuery(new Term(['id' => $id]));
+
+        $result = $this->useListFinder->find($mainQuery);
+
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
      * create new approve coupon
      *
      * @param AppUser $appUser

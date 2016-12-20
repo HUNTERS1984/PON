@@ -17,6 +17,13 @@ CoreBundle\Entity\UseList:
             joinColumn:
                 name: app_user_id
                 referencedColumnName: id
+        post:
+            targetEntity: Post
+            inversedBy: useLists
+            cascade: ["all"]
+            joinColumn:
+                name: post_id
+                referencedColumnName: id
     id:
         id:
             type: integer
