@@ -1,0 +1,18 @@
+<div class="modal-dialog photo_user" role="document">
+    <div class="modal-content mana_user">
+        <div class="modal-body">
+            {% if postPhotos is not empty %}
+                <img src="{{ postPhotos[0].photo.imageUrl }}" class="img-responsive" alt="">
+            {% endif %}
+
+            <div class="meta-footer">
+                {% if post is defined and post.hashTags is defined %}
+                    <span>{{ post.hashTags|replace({',': ' '})}}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="wrapp_btn_close_poup_photo">
+        <button type="button" class="btn_mana_user" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>

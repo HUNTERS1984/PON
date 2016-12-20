@@ -7,7 +7,20 @@ fos_elastica:
             settings:
                 index:
                     analysis:
+                        char_filter:
+                            space_hashtags:
+                                type: mapping
+                                mappings: ["#=>|#"]
+                        filter:
+                            hashtag_as_alphanum:
+                                type: word_delimiter
+                                type_table: ["# => ALPHANUM", "@ => ALPHANUM"]
                         analyzer:
+                            hashtag:
+                                type: custom
+                                char_filter: space_hashtags
+                                tokenizer: whitespace
+                                filter: ["lowercase", "hashtag_as_alphanum"]
                             keyword_analyzer :
                                 type     :    custom
                                 tokenizer:    keyword
@@ -126,7 +139,9 @@ fos_elastica:
                         impression: ~
                         type: ~
                         description: ~
-                        hashTag: ~
+                        hashTag:
+                            type: string
+                            index_analyzer: hashtag
                         status:
                             type: boolean
                         size: ~
@@ -342,6 +357,10 @@ fos_elastica:
                                 id: ~
                                 username: ~
                                 name: ~
+                        post:
+                            type: object
+                            properties:
+                                id: ~
                         requestedAt:
                             type: date
                         expiredTime:

@@ -150,7 +150,12 @@ class ScrappingConsumer implements ConsumerInterface
 
     public function convertHashTagsToString(array $hashTags)
     {
-        return implode(',',array_map('strtolower', $hashTags));
+        return implode(
+            ',',
+            array_map(function($val) {
+                return sprintf("#%s",strtolower($val));
+            } , $hashTags)
+        );
     }
 
     public function getPosts(SocialProfile $socialProfile)

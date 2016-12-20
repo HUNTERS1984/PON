@@ -138,6 +138,8 @@ services:
         factory_service:  doctrine
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\PostPhoto"]
+        calls:
+            - [setPostPhotoFinder, ["@fos_elastica.finder.app.postPhoto"]]
 
     pon.manager.store_photo:
         class: CoreBundle\Manager\StorePhotoManager

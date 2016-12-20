@@ -94,11 +94,11 @@ class DummyDataCommand extends ContainerAwareCommand
         $output->writeln("");
         $output->writeln("Finished Dump News...");
 
-        $output->writeln("");
-        $output->writeln("Starting Dump UseList...");
-        $this->dummyUseList($output);
-        $output->writeln("");
-        $output->writeln("Finished Dump UseList...");
+//        $output->writeln("");
+//        $output->writeln("Starting Dump UseList...");
+//        $this->dummyUseList($output);
+//        $output->writeln("");
+//        $output->writeln("Finished Dump UseList...");
 
         $output->writeln("");
         $output->writeln("Progress Finished.");

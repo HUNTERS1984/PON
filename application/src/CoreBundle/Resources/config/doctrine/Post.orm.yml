@@ -8,6 +8,10 @@ CoreBundle\Entity\Post:
             mappedBy: post
             cascade: ["persist","remove"]
             orphanRemoval: true
+        useLists:
+            targetEntity: UseList
+            mappedBy: post
+            cascade: ["all"]
     manyToOne:
         appUser:
             targetEntity: AppUser

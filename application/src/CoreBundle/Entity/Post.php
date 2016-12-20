@@ -415,4 +415,43 @@ class Post
     {
         return $this->type;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $useLists;
+
+
+    /**
+     * Add useList
+     *
+     * @param \CoreBundle\Entity\UseList $useList
+     *
+     * @return Post
+     */
+    public function addUseList(\CoreBundle\Entity\UseList $useList)
+    {
+        $this->useLists[] = $useList;
+
+        return $this;
+    }
+
+    /**
+     * Remove useList
+     *
+     * @param \CoreBundle\Entity\UseList $useList
+     */
+    public function removeUseList(\CoreBundle\Entity\UseList $useList)
+    {
+        $this->useLists->removeElement($useList);
+    }
+
+    /**
+     * Get useLists
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUseLists()
+    {
+        return $this->useLists;
+    }
 }

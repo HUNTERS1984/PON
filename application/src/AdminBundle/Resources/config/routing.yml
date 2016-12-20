@@ -2,6 +2,18 @@ admin_management:
     path:     /management
     defaults: { _controller: AdminBundle:Management:index }
 
+admin_management_approve:
+    path:     /management/{id}/approve
+    defaults: { _controller: AdminBundle:Management:approve }
+
+admin_management_photo:
+    path:     /management/{id}/photo
+    defaults: { _controller: AdminBundle:Management:viewPhoto }
+
+admin_management_unapprove:
+    path:     /management/{id}/unapprove
+    defaults: { _controller: AdminBundle:Management:unApprove }
+
 admin_dashboard:
     path:     /
     defaults: { _controller: AdminBundle:Dashboard:index }
