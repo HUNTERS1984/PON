@@ -168,6 +168,7 @@ class ManagementController extends Controller
         $user = $this->getUserManager()->getAppUser($useList->getAppUser()->getId());
 
         $postPhotos = [];
+        $post = null;
         if($useList->getPost()) {
             $post = $this->getPostManager()->getPost($useList->getPost()->getId());
             $postPhotos = $this->getPostPhotoManager()->getPostPhotosByPost($post);
@@ -178,6 +179,7 @@ class ManagementController extends Controller
             [
                 'useList' => $useList,
                 'user' => $user,
+                'post' => $post,
                 'postPhotos' => $postPhotos,
             ]
         );

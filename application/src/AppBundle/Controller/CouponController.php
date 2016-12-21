@@ -15,6 +15,8 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -709,6 +711,91 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         $this->getUseListManager()->declineCoupon($useList);
         return $this->view(BaseResponse::getData([]), 200);
     }
+
+    /**
+     * Scrapping Data
+     * @ApiDoc(
+     *  section="Scrapping",
+     *  resource=false,
+     *  description="This api is used to scraping Data From SNS(DONE)",
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   },
+     *   views = { "client"}
+     * )
+     *
+     * @Get("/scrapping", name="scrapping")
+     * @Security("is_granted('ROLE_CLIENT')")
+     * @return Response
+     */
+    public function getScrappingCouponAction()
+    {
+        $kernel = $this->get('kernel');
+        $application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
+        $application->setAutoExit(false);
+
+        $input = new ArrayInput([
+            'command' => 'pon:scrapping',
+        ]);
+
+        $output = new BufferedOutput();
+        $application->run($input, $output);
+        $content = $output->fetch();
+
+        return $this->view(BaseResponse::getData(['message'=> $content]), 200);
+    }
+
+    /**
+     * Sync Post Data
+     * @ApiDoc(
+     *  section="Scrapping",
+     *  resource=false,
+     *  description="This api is used to Sync Post Data From SNS(DONE)",
+     *  headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="Bearer [token key]"
+     *         }
+     *  },
+     *  statusCodes = {
+     *     200 = "Returned when successful",
+     *     401="Returned when the user is not authorized",
+     *     400 = "Returned when the API has invalid input",
+     *     404 = "Returned when the The App User is not found"
+     *   },
+     *   views = { "client"}
+     * )
+     *
+     * @Get("/sync", name="sync_post")
+     * @Security("is_granted('ROLE_CLIENT')")
+     * @return Response
+     */
+    public function getSyncCouponAction()
+    {
+        $kernel = $this->get('kernel');
+        $application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
+        $application->setAutoExit(false);
+
+        $input = new ArrayInput([
+            'command' => 'pon:sync',
+        ]);
+
+        $output = new BufferedOutput();
+        $application->run($input, $output);
+        $content = $output->fetch();
+
+        return $this->view(BaseResponse::getData(['message'=> $content]), 200);
+    }
+
 
 
     /**
