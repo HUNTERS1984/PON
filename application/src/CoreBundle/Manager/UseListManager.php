@@ -232,6 +232,129 @@ class UseListManager extends AbstractManager
         return $this->saveUseList($useList);
     }
 
+    public function approveAllCouponFromAdmin($ids = [])
+    {
+        $pageIndex = 1;
+        while(true) {
+            $data = $this->getUseListToApproveFromAdmin(['page_index' => $pageIndex], $ids);
+            $pageIndex = $data['pagination']['current_page'];
+            $this->approveListCoupon($data['data']);
+            if($pageIndex >= $data['pagination']['page_total']) {
+                break;
+            }
+        }
+    }
+
+    public function approveAllCouponFromClient(AppUser $user, $ids = [])
+    {
+        $pageIndex = 1;
+        while(true) {
+            $data = $this->approveAllCouponFromClient(['page_index' => $pageIndex], $user, $ids);
+            $pageIndex = $data['pagination']['current_page'];
+            $this->approveListCoupon($data['data']);
+            if($pageIndex >= $data['pagination']['page_total']) {
+                break;
+            }
+        }
+    }
+
+    public function approveListCoupon($list)
+    {
+        foreach($list as $item)
+        {
+            $this->approveCoupon($item);
+        }
+    }
+
+    public function getUseListToApproveFromClient($params, AppUser $user, $ids = [])
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 200;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $orderBy = isset($params['order_by']) ? $params['order_by'] : 'desc';
+        $sortBy = 'updatedAt';
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort([$sortBy => ['order' => $orderBy]]);
+
+        $statusQuery = new BoolQuery();
+        $statusQuery
+            ->addShould(new Query\Term(['status'=> 0]));
+
+        $boolQuery = new Query\BoolQuery();
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['appUser.username','coupon.hashTag', 'status']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery
+                ->addMust($statusQuery)
+                ->addMust($multiMatchQuery);
+        } else {
+            $boolQuery
+                ->addMust($statusQuery);
+        }
+
+        if(!empty($ids)) {
+            $boolQuery->addMust(new Terms('id', $ids));
+        }
+
+        $boolQuery->addMust(new Query\Term(['coupon.store.id'=> $user->getStore()->getId()]));
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->useListFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+
+    public function getUseListToApproveFromAdmin($params, $ids = [])
+    {
+        $limit = isset($params['page_size']) ? $params['page_size'] : 200;
+        $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
+        $queryString = isset($params['query']) ? $params['query'] : '';
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->addSort(['createdAt' => ['order' => 'desc']]);
+
+        $statusQuery = new BoolQuery();
+        $statusQuery
+            ->addShould(new Query\Term(['status'=> 0]));
+
+        $boolQuery = new Query\BoolQuery();
+
+        if (!empty($queryString)) {
+            $multiMatchQuery = new Query\MultiMatch();
+            $multiMatchQuery->setFields(['appUser.username','coupon.hashTag', 'status']);
+            $multiMatchQuery->setType('cross_fields');
+            $multiMatchQuery->setAnalyzer('standard');
+            $multiMatchQuery->setQuery($queryString);
+            $boolQuery
+                ->addMust($statusQuery)
+                ->addMust($multiMatchQuery);
+
+        } else {
+            $boolQuery->addMust($statusQuery);
+        }
+
+        if(!empty($ids)) {
+            $boolQuery->addMust(new Terms('id', $ids));
+        }
+
+        $query->setQuery($boolQuery);
+
+        $pagination = $this->useListFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults($offset, $limit);
+        $results = $transformedPartialResults->toArray();
+        $total = $transformedPartialResults->getTotalHits();
+        return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
     /**
      * get used number
      *
@@ -262,6 +385,18 @@ class UseListManager extends AbstractManager
     public function approveCoupon(UseList $useList)
     {
         $useList->setStatus(1);
+        return $this->saveUseList($useList);
+    }
+
+    /**
+     * UnApprove Coupon
+     * @param UseList $useList
+     *
+     * @return array
+     */
+    public function unApproveCoupon(UseList $useList)
+    {
+        $useList->setStatus(0);
         return $this->saveUseList($useList);
     }
 

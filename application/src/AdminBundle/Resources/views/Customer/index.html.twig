@@ -94,7 +94,9 @@
                                 {{ customer.appUserId }}
                             </td>
                             <td>
-                                {{ genders[customer.gender] }}
+                                {% if customer.gender is not empty %}
+                                    {{ genders[customer.gender] }}
+                                {% endif %}
                             </td>
                             <td>
                                 {{ customer.lastLogin|date("Y.m.d") }}

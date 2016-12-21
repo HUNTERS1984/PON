@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Controller;
 
+use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\PostManager;
 use CoreBundle\Manager\PostPhotoManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -60,9 +61,51 @@ class ManagementController extends Controller
             throw $this->createNotFoundException('Idが見つかりません。');
         }
 
-        $useList->setStatus(1);
-        $this->getManager()->saveUseList($useList);
+        $this->getManager()->approveCoupon($useList);
         return $this->redirectToRoute('admin_management');
+
+    }
+
+    /**
+     * Approve All Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
+    public function approveAllAction()
+    {
+        if($this->isGranted('ROLE_ADMIN')) {
+            $this->getManager()->approveAllCouponFromAdmin();
+        }else{
+            $this->getManager()->approveAllCouponFromClient($this->getUser());
+        }
+
+        return $this->getSuccessMessage();
+
+    }
+
+    /**
+     * Approve Selected Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
+    public function approveSelectedAction(Request $request)
+    {
+        $ids = $request->request->get('ids');
+        if(empty($ids)) {
+            throw $this->createNotFoundException('Idが見つかりません。');
+        }
+
+        $ids = explode(',', $ids);
+
+        if($this->isGranted('ROLE_ADMIN')) {
+            $this->getManager()->approveAllCouponFromAdmin($ids);
+        }else{
+            $this->getManager()->approveAllCouponFromClient($this->getUser(), $ids);
+        }
+
+        return $this->getSuccessMessage();
 
     }
 
@@ -103,6 +146,44 @@ class ManagementController extends Controller
 
     }
 
+    /**
+     * View Photo Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
+    public function viewUserAction($id)
+    {
+        $useList = $this->getManager()->getUseCouponById($id);
+        if(!$this->isGranted('ROLE_ADMIN') &&
+            $useList->getAppUser()->getStore()->getId() != $this->getUser()->getStore()->getId()
+        ) {
+            $useList = null;
+        }
+
+        if(!$useList || !in_array($useList->getStatus(), [0,1])) {
+            throw $this->createNotFoundException('Idが見つかりません。');
+        }
+
+        $user = $this->getUserManager()->getAppUser($useList->getAppUser()->getId());
+
+        $postPhotos = [];
+        if($useList->getPost()) {
+            $post = $this->getPostManager()->getPost($useList->getPost()->getId());
+            $postPhotos = $this->getPostPhotoManager()->getPostPhotosByPost($post);
+        }
+
+        return $this->render(
+            'AdminBundle:Management:user.html.twig',
+            [
+                'useList' => $useList,
+                'user' => $user,
+                'postPhotos' => $postPhotos,
+            ]
+        );
+
+    }
+
 
     /**
      * UnApprove Action
@@ -112,7 +193,7 @@ class ManagementController extends Controller
      */
     public function unApproveAction($id)
     {
-        $useList = $this->getManager()->getUseCoupon($id);
+        $useList = $this->getManager()->getUseCouponById($id);
         if(!$this->isGranted('ROLE_ADMIN') &&
             $useList->getAppUser()->getStore()->getId() != $this->getUser()->getStore()->getId()
         ) {
@@ -123,8 +204,7 @@ class ManagementController extends Controller
             throw $this->createNotFoundException('Idが見つかりません。');
         }
 
-        $useList->setStatus(0);
-        $this->getManager()->saveUseList($useList);
+        $this->getManager()->unApproveCoupon($useList);
         return $this->redirectToRoute('admin_management');
 
     }
@@ -135,6 +215,14 @@ class ManagementController extends Controller
     public function getManager()
     {
         return $this->get('pon.manager.use_list');
+    }
+
+    /**
+     * @return AppUserManager
+    */
+    public function getUserManager()
+    {
+        return $this->get('pon.manager.app_user');
     }
 
     /**
@@ -151,5 +239,23 @@ class ManagementController extends Controller
     public function getPostPhotoManager()
     {
         return $this->get('pon.manager.post_photo');
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    public function getSuccessMessage($message = '')
+    {
+        return new Response(json_encode(['status' => true, 'message' => $message]));
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    public function getFailureMessage($message = '')
+    {
+        return new Response(json_encode(['status' => false, 'message' => $message]));
     }
 }

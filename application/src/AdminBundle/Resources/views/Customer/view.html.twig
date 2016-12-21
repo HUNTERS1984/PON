@@ -25,7 +25,12 @@
             <div class="col-xs-6 us_poup_right">
                 <p>{{ customer.appUserId }}</p>
                 <p>{{ customer.userName }}</p>
-                <p>{{ genders[customer.gender] }}</p>
+
+                <p>
+                    {% if customer.gender is not empty %}
+                        {{ genders[customer.gender] }}
+                    {% endif %}
+                </p>
                 <p>{{ customer.email }}</p>
                 <p>{% if customer.isEnabled %}有効{% else %}無効{% endif %}</p>
                 <p>{{ customer.lastLogin|date("Y.m.d") }}</p>

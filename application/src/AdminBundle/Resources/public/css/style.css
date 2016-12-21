@@ -189,9 +189,8 @@ ul.breadcrumbs_left li span.no_bre{
 .wrapp_search_btn ul.btn_search_right li{
   float: left;
   list-style: none;
-}
-.wrapp_search_btn ul.btn_search_right li:first-child{
-  background: #c8d2d6;
+  background: #18c0d4;
+
   text-align: center;
   margin-right: 12px;
   height: 34px;
@@ -199,19 +198,12 @@ ul.breadcrumbs_left li span.no_bre{
   width: 200px;
   border-radius: 3px;
 }
-.wrapp_search_btn ul.btn_search_right li:hover:first-child{
-  background: #18c0d4;
+
+.wrapp_search_btn ul.btn_search_right li:hover{
+  background: #c8d2d6;
 }
-.wrapp_search_btn ul.btn_search_right li:last-child{
-  background: #18c0d4;
-  text-align: center;
-  height: 34px;
-  line-height: 34px;
-  width: 200px;
-  border-radius: 3px;
-}
-.wrapp_search_btn ul.btn_search_right li:last-child a,
-.wrapp_search_btn ul.btn_search_right li:first-child a{
+
+.wrapp_search_btn ul.btn_search_right li a{
   color: #fff;
   text-decoration: none;
 }

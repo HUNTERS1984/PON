@@ -65,6 +65,14 @@ var App = function () {
         });
     };
 
+    var handleAjaxModal = function ($element) {
+        $element.find('*[class=ajaxModal]').each(function () {
+            $(this).ajaxModal({
+                onRowAdded: App.initComponents
+            });
+        });
+    };
+
     var handleOpenModalPopup = function($element) {
         // $element.find('*[class=click_to_load_modal_popup]').each(function () {
         //     $(this).modalPopup({
@@ -151,6 +159,7 @@ var App = function () {
             handleOpenModalPopup($document);
             handleDeliveryTimeVisibility($document);
             handleStoreVisibility($document);
+            handleAjaxModal($document);
         },
 
         //main function to initiate core javascript after ajax complete
@@ -164,6 +173,7 @@ var App = function () {
             handleOpenModalPopup($document);
             handleDeliveryTimeVisibility($document);
             handleStoreVisibility($document);
+            handleAjaxModal($document);
         },
 
         //init main components
@@ -177,6 +187,7 @@ var App = function () {
             handleOpenModalPopup($element);
             handleDeliveryTimeVisibility($element);
             handleStoreVisibility($element);
+            handleAjaxModal($element);
         }
     };
 

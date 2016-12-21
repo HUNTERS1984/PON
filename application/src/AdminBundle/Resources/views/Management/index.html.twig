@@ -47,8 +47,8 @@
             </form>
             <div class="col-md-6">
                 <ul class="btn_search_right">
-                    <li><a href="">選択したユーザーを承認</a></li>
-                    <li><a href="">すべてのユーザーを承認</a></li>
+                    <li><a class="ajaxModal" data-ajax-checked=".ckmanagement" data-ajax-checked-field="ids" data-ajax-confirm="あなたはすべてを承認するのですか？" data-ajax-url="{{ path("admin_management_approve_selected") }}"  data-ajax-redirect="{{ path("admin_management") }}" href="#">選択したユーザーを承認</a></li>
+                    <li><a class="ajaxModal"  data-ajax-confirm="あなたはすべてを承認するのですか？" data-ajax-url="{{ path("admin_management_approve_all") }}"  data-ajax-redirect="{{ path("admin_management") }}" href="#">すべてのユーザーを承認</a></li>
                 </ul>
             </div>
         </div>
@@ -64,145 +64,8 @@
         <!-- //poup user -->
 
         <!--/ poup user 2 -->
-        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content modal_pon">
-                    <div class="modal-header">
-                        <div class="row">
-                            <div class="col-xs-9">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">基本情報</a></li>
-                                    <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">PON利用情報</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-3">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="tab1">
-                            <div class="col-xs-3">
-                                <img src="{{ asset('backend/images/img_table_poup.jpg') }}" class="img-responsive" alt="">
-                            </div>
-                            <div class="col-xs-3 us_poup_left">
-                                <p>ユーザーID</p>
-                                <p>ユーザーネーム</p>
-                                <p>性別</p>
-                                <p>年代</p>
-                                <p>地域</p>
-                            </div>
-                            <div class="col-xs-6 us_poup_right">
-                                <p>12345678</p>
-                                <p>ハルク</p>
-                                <p>男性</p>
-                                <p>30代</p>
-                                <p>東京都</p>
-                            </div>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="tab2">
-                            <div class="content_us_poup">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="table-responsive">
-                                            <table  class="table table-condensed tb_ul">
-                                                <tbody>
-                                                <tr>
-                                                    <td width="25%">ユーザー属性</td>
-                                                    <td width="15%"><strong>テキスト</strong></td>
-                                                    <td width="60%">
-                                                        <ul class="nav_radio">
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_enable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>趣味趣向</td>
-                                                    <td><strong>テキスト</strong></td>
-                                                    <td>
-                                                        <ul class="nav_radio">
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_enable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>クーポン利用回数</td>
-                                                    <td><strong>12回</strong></td>
-                                                    <td>
-                                                        <ul class="nav_radio">
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_enable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>口コミ力</td>
-                                                    <td><strong>テキスト</strong></td>
-                                                    <td>
-                                                        <ul class="nav_radio">
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_enable.png') }}" alt=""></span></li>
-                                                            <li class="line_radio"><span></span></li>
-                                                            <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <h2>投稿画像</h2>
-                                        <ul class="img_poup_us">
-                                            <li><span><img src="{{ asset('backend/images/img_table_poup_2.jpg') }}" alt=""></span></li>
-                                            <li><span><img src="{{ asset('backend/images/img_table_poup_2.jpg') }}" alt=""></span></li>
-                                            <li><span><img src="{{ asset('backend/images/img_table_poup_2.jpg') }}" alt=""></span></li>
-                                            <li><span><img src="{{ asset('backend/images/img_table_poup_2.jpg') }}" alt=""></span></li>
-                                            <li class="none"><span><img src="{{ asset('backend/images/img_table_poup_2.jpg') }}" alt=""></span></li>
-                                            <li><span><img src="{{ asset('backend/images/img_table_poup_2.jpg') }}" alt=""></span></li>
-                                            <li><span><img src="{{ asset('backend/images/img_table_poup_2.jpg') }}" alt=""></span></li>
-                                            <li><span><img src="{{ asset('backend/images/img_table_poup_2.jpg') }}" alt=""></span></li>
-                                            <li><span><img src="{{ asset('backend/images/img_table_poup_2.jpg') }}" alt=""></span></li>
-                                            <li class="none"><span><img src="{{ asset('backend/images/img_table_poup_2.jpg') }}" alt=""></span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="modal fade" id="viewUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
         </div>
         <!--/ poup user 2 -->
 
@@ -229,13 +92,13 @@
                     <tr {% if loop.index is divisible by(2) %}class="active"{% endif %}>
                         <th scope="row">
                             <div>
-                                <input id="checkbox-1" class="checkbox-custom" name="checkbox-1" type="checkbox">
-                                <label for="checkbox-1" class="checkbox-custom-label"></label>
+                                <input {% if item.status == 1 %} disabled="disabled" {% endif %} id="ckm-{{ item.id }}" value="{{ item.id }}" class="checkbox-custom ckmanagement" name="ckm-{{ item.id }}" type="checkbox">
+                                <label for="ckm-{{ item.id }}" class="checkbox-custom-label"></label>
                             </div>
                         </th>
 
                         <td>
-                            <a href="" data-toggle="modal" data-target="#myModal2">
+                            <a data-toggle="modal" data-target="#viewUser" class="click_to_load_modal_popup" href="{{ path('admin_management_user',{id:item.id}) }}">
                                 <img src="{{ asset(user_avatar_path ~ item.appUser.avatarUrl) }}" alt="" height="42" width="42">
                             </a>
                         </td>

@@ -24,7 +24,6 @@ chmod -R 777 $(pwd)/application/web/uploads
 chmod -R 777 $(pwd)/application/bower_components
 chmod -R 777 $(pwd)/application/node_modules
 
-docker-compose down
 docker-compose up -d --build
 
 STATUS=0

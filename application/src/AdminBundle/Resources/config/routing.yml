@@ -10,6 +10,18 @@ admin_management_photo:
     path:     /management/{id}/photo
     defaults: { _controller: AdminBundle:Management:viewPhoto }
 
+admin_management_user:
+    path:     /management/{id}/user
+    defaults: { _controller: AdminBundle:Management:viewUser }
+
+admin_management_approve_all:
+    path:     /management/approve/all
+    defaults: { _controller: AdminBundle:Management:approveAll }
+
+admin_management_approve_selected:
+    path:     /management/approve/selected
+    defaults: { _controller: AdminBundle:Management:approveSelected }
+
 admin_management_unapprove:
     path:     /management/{id}/unapprove
     defaults: { _controller: AdminBundle:Management:unApprove }
