@@ -43,7 +43,7 @@ done
 
 /usr/local/bin/console $1 doctrine:schema:update --force
 
-/usr/local/bin/console $1 fos:elastica:reset
+#/usr/local/bin/console $1 fos:elastica:populate
 
 /usr/local/bin/npm $1 install --no-optional
 
