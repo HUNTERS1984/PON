@@ -119,7 +119,11 @@
                             <h2>投稿画像</h2>
                             <ul class="img_poup_us">
                                 {% for postPhoto in postPhotos %}
-                                    <li><span><img width="76px" height="76px" src="{{ postPhoto.photo.imageUrl }}" alt=""></span></li>
+                                    <li>
+                                        <span>
+                                            <a target="_blank" href="{{ post.url }}"><img width="76px" height="76px" src="{{ postPhoto.photo.imageUrl }}" alt=""></a>
+                                        </span>
+                                    </li>
                                 {% endfor %}
                             </ul>
                         </div>

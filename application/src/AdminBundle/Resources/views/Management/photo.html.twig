@@ -2,7 +2,7 @@
     <div class="modal-content mana_user">
         <div class="modal-body">
             {% if postPhotos is not empty %}
-                <img src="{{ postPhotos[0].photo.imageUrl }}" class="img-responsive" alt="">
+                <a target="_blank" href="{{ post.url }}"><img src="{{ postPhotos[0].photo.imageUrl }}" class="img-responsive" alt=""></a>
             {% endif %}
 
             <div class="meta-footer">
