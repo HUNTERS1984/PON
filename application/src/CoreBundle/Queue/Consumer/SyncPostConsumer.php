@@ -60,6 +60,7 @@ class SyncPostConsumer implements ConsumerInterface
     public function process(Post $post)
     {
         $this->postManager->clear();
+        $this->useListManager->clear();
         $id = $post->getId();
         /** @var Post $post */
         if(!$post = $this->postManager->findOneById($id)) {
@@ -106,7 +107,7 @@ class SyncPostConsumer implements ConsumerInterface
 
     public function hasCouponExitsInUser(AppUser $user, Coupon $coupon)
     {
-        $useList = $this->useListManager->getUseCoupon($user, $coupon);
+        $useList = $this->useListManager->findUseCoupon($user, $coupon);
         return $useList ? true: false;
     }
 
