@@ -19,6 +19,9 @@ old_sound_rabbit_mq:
         sync_post:
             connection:       default
             exchange_options: {name: 'sync_post', type: direct}
+        email:
+            connection:       default
+            exchange_options: {name: 'email', type: direct}
     consumers:
         scrapping:
             connection:       default
@@ -30,3 +33,8 @@ old_sound_rabbit_mq:
             exchange_options: {name: 'sync_post', type: direct}
             queue_options:    {name: 'sync_post'}
             callback:         pon.queue.consumer.sync_post
+        email:
+            connection:       default
+            exchange_options: {name: 'email', type: direct}
+            queue_options:    {name: 'email'}
+            callback:         pon.queue.consumer.email

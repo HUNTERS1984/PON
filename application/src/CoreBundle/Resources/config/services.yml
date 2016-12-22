@@ -25,6 +25,7 @@ services:
             - [setTwitterManager, ["@pon.manager.twitter"]]
             - [setAppUserFinder, ["@fos_elastica.finder.app.appUser"]]
             - [setAvatarDir, ["%user_avatar_path%"]]
+            - [setEmailProducer, ["@old_sound_rabbit_mq.email_producer"]]
 
     pon.manager.client:
         class: CoreBundle\Manager\ClientManager
@@ -383,6 +384,15 @@ services:
     pon.sns.client:
         class: CoreBundle\SNS\Client
 
+    pon.mailer.swift_driver:
+          class: CoreBundle\Mailer\Swift\SwiftDriver
+          arguments: ["@swiftmailer.mailer"]
+          tags:
+              - { name: pon_email }
+
+    pon.mailer.client:
+          class: CoreBundle\Mailer\Client
+
     pon.queue.consumer.scrapping:
         class: CoreBundle\Queue\Consumer\ScrappingConsumer
         arguments: ['@service_container']
@@ -403,6 +413,12 @@ services:
             - [setCouponManager, ["@pon.manager.coupon"]]
             - [setUseListManager, ["@pon.manager.use_list"]]
             - [setLogger, ["@monolog.logger.sync_post"]]
+
+    pon.queue.consumer.email:
+        class: CoreBundle\Queue\Consumer\EmailConsumer
+        calls:
+            - [setClient, ["@pon.mailer.client"]]
+            - [setLogger, ["@monolog.logger.email"]]
 
     pon.transformer.elastica_to_app_user:
         class: CoreBundle\Transformer\ElasticaToAppUserTransformer

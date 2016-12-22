@@ -88,6 +88,7 @@ monolog:
     channels:
         - scrapping
         - sync_post
+        - email
 
 # app/config/config.yml
 nelmio_api_doc: ~

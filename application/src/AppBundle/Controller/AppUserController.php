@@ -157,6 +157,49 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     }
 
     /**
+     * For got password
+     * @ApiDoc(
+     *  section="User",
+     *  resource=false,
+     *  description="This api is used to get new password (DONE)",
+     *  requirements={
+     *      {
+     *          "name"="email",
+     *          "dataType"="string",
+     *          "description"="email of app"
+     *      }
+     *  },
+     *  statusCodes = {
+     *     201 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   },
+     *  views = { "app", "client"}
+     * )
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @Post("/forgot/password", name="app_for_got")
+     * @return Response
+     */
+    public function postForGotPasswordAction(Request $request)
+    {
+        $email = $request->request->get('email');
+
+        if(!$email) {
+            $this->createNotFoundException("The Email Could Not Found");
+        }
+
+        /**@var AppUser $appUser */
+        $appUser = $this->getManager()->getAppUserByEmail($email);
+var_dump($appUser);die();
+        if(!$appUser) {
+            $this->createNotFoundException("The User Could Not Found");
+        }
+
+        $this->getManager()->sendForGotPasswordEmail($appUser);
+
+        return $this->view(BaseResponse::getData([]));
+    }
+
+    /**
      * Facebook SignIn
      * @ApiDoc(
      *  section="User",
