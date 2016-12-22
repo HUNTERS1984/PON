@@ -191,7 +191,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         /**@var AppUser $appUser */
         $appUser = $this->getManager()->getAppUserByEmail($email);
         if(!$appUser) {
-            $this->createNotFoundException("The User Could Not Found");
+            throw $this->createNotFoundException("The User Could Not Found");
         }
         $expiredTime = new \DateTime();
         $expiredTime->modify("+24 hours");
