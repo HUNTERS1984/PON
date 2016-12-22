@@ -246,8 +246,10 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setAvatarCoupon(Coupon $coupon)
     {
-        $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseCouponAvatarPath, $coupon->getImageUrl());
-        $coupon->setImageUrl($avatarUrl);
+        if (strpos($coupon->getImageUrl(), $this->getUrl()) === false) {
+            $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseCouponAvatarPath, $coupon->getImageUrl());
+            $coupon->setImageUrl($avatarUrl);
+        }
     }
 
     /**
@@ -255,8 +257,10 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setAvatarCategory(Category $category)
     {
-        $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseCategoryAvatarPath, $category->getIconUrl());
-        $category->setIconUrl($avatarUrl);
+        if (strpos($category->getIconUrl(), $this->getUrl()) === false) {
+            $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseCategoryAvatarPath, $category->getIconUrl());
+            $category->setIconUrl($avatarUrl);
+        }
     }
 
     /**
@@ -264,8 +268,10 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setAvatarStore(Store $store)
     {
-        $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseStoreAvatarPath, $store->getAvatarUrl());
-        $store->setAvatarUrl($avatarUrl);
+        if (strpos($store->getAvatarUrl(), $this->getUrl()) === false) {
+            $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseStoreAvatarPath, $store->getAvatarUrl());
+            $store->setAvatarUrl($avatarUrl);
+        }
     }
 
     public function getUrl()
@@ -281,7 +287,10 @@ class SerializeListener implements EventSubscriberInterface
         /** @var RequestStack $request */
         $request = $this->request;
         $photoUrls = array_map(function (StorePhoto $storePhoto) {
-            return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $storePhoto->getPhoto()->getImageUrl());
+            if (strpos($storePhoto->getPhoto()->getImageUrl(), $this->getUrl()) === false) {
+                return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $storePhoto->getPhoto()->getImageUrl());
+            }
+            return $storePhoto->getPhoto()->getImageUrl();
         }, $store->getStorePhotos()->toArray());
         $store->setStorePhotoUrls($photoUrls);
     }
@@ -292,7 +301,11 @@ class SerializeListener implements EventSubscriberInterface
     public function setCouponPhoto(Coupon $coupon)
     {
         $photoUrls = array_map(function (CouponPhoto $couponPhoto) {
-            return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $couponPhoto->getPhoto()->getImageUrl());
+            if (strpos($couponPhoto->getPhoto()->getImageUrl(), $this->getUrl()) === false) {
+                return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $couponPhoto->getPhoto()->getImageUrl());
+            }
+
+            return $couponPhoto->getPhoto()->getImageUrl();
         }, $coupon->getCouponPhotos()->toArray());
         $coupon->setCouponPhotoUrls($photoUrls);
     }
@@ -303,7 +316,10 @@ class SerializeListener implements EventSubscriberInterface
     public function setCouponUserPhoto(Coupon $coupon)
     {
         $photoUrls = array_map(function (CouponUserPhoto $couponUserPhoto) {
-            return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $couponUserPhoto->getPhoto()->getImageUrl());
+            if (strpos($couponUserPhoto->getPhoto()->getImageUrl(), $this->getUrl()) === false) {
+                return sprintf("%s/%s%s", $this->getUrl(), $this->baseImagePath, $couponUserPhoto->getPhoto()->getImageUrl());
+            }
+            return $couponUserPhoto->getPhoto()->getImageUrl();
         }, $coupon->getCouponUserPhotos()->toArray());
         $coupon->setCouponUserPhotoUrls($photoUrls);
     }
