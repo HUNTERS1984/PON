@@ -13,6 +13,7 @@ use Facebook\Facebook;
 use Facebook\FacebookResponse;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 use MetzWeb\Instagram\Instagram;
+use OldSound\RabbitMqBundle\RabbitMq\Producer;
 
 class AppUserManager extends AbstractManager
 {
@@ -20,6 +21,11 @@ class AppUserManager extends AbstractManager
      * @var Facebook
     */
     protected $facebookManager;
+
+    /**
+     * @var Producer
+    */
+    protected $emailProducer;
 
     /**
      * @var Instagram
@@ -90,6 +96,50 @@ class AppUserManager extends AbstractManager
         $query->setQuery(new Query\Term(['id' => ['value' => $id]]));
         $result = $this->appUserFinder->find($query);
         return !empty($result) ? $result[0] : null;
+    }
+
+    /**
+     * get app user
+     *
+     * @param $email
+     * @return null | AppUser
+     */
+    public function getAppUserByEmail($email)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $query->setQuery(new Query\Term(['email' => ['value' => $email]]));
+        $result = $this->appUserFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+    /**
+     * get app user
+     *
+     * @param $appUserId
+     * @return null | AppUser
+     */
+    public function getAppUserById($appUserId)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $appUserIdQuery = new Query\Match('appUserId', $appUserId);
+        $query->setQuery($appUserIdQuery);
+        $result = $this->appUserFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+
+    public function sendForGotPasswordEmail(AppUser $user, $subject, $body, $sender, $senderName)
+    {
+        $data = [
+            'subject' => $subject,
+            'sender' => $sender,
+            'sender_name' => $senderName,
+            'recipient' => $user->getEmail(),
+            'body' => $body,
+        ];
+        $this->emailProducer->publish(serialize($data));
     }
 
     /**
@@ -647,5 +697,16 @@ class AppUserManager extends AbstractManager
     public function getAppUserFinder()
     {
         return $this->appUserFinder;
+    }
+
+    /**
+     * @param Producer $emailProducer
+     * @return AppUserManager
+     */
+    public function setEmailProducer($emailProducer)
+    {
+        $this->emailProducer = $emailProducer;
+
+        return $this;
     }
 }

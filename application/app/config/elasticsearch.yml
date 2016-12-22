@@ -29,10 +29,14 @@ fos_elastica:
                 appUser:
                     mappings:
                         id: ~
-                        appUserId: ~
+                        appUserId:
+                            type: string
+                            index_analyzer: keyword_analyzer
                         username: ~
                         roles: ~
-                        email: ~
+                        email:
+                            type: string
+                            index_analyzer: keyword_analyzer
                         name: ~
                         enabled: ~
                         address: ~

@@ -9,6 +9,7 @@ use CoreBundle\Form\Type\AppUserType;
 use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\SocialProfileManager;
 use CoreBundle\Serializator\Serializer;
+use CoreBundle\Utils\StringGenerator;
 use Doctrine\Common\Inflector\Inflector;
 use Facebook\FacebookResponse;
 use FOS\RestBundle\Controller\Annotations\Delete;
@@ -154,6 +155,62 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         ];
 
         return $this->view(BaseResponse::getData($result));
+    }
+
+    /**
+     * For got password
+     * @ApiDoc(
+     *  section="User",
+     *  resource=false,
+     *  description="This api is used to get new password (DONE)",
+     *  requirements={
+     *      {
+     *          "name"="email",
+     *          "dataType"="string",
+     *          "description"="email of app"
+     *      }
+     *  },
+     *  statusCodes = {
+     *     201 = "Returned when successful",
+     *     401="Returned when the user is not authorized"
+     *   },
+     *  views = { "app", "client"}
+     * )
+     * @View(serializerGroups={"view"}, serializerEnableMaxDepthChecks=true)
+     * @Post("/forgot/password", name="app_for_got")
+     * @return Response
+     */
+    public function postForGotPasswordAction(Request $request)
+    {
+        $email = $request->request->get('email');
+
+        if(!$email) {
+            $this->createNotFoundException("The Email Could Not Found");
+        }
+
+        /**@var AppUser $appUser */
+        $appUser = $this->getManager()->getAppUserByEmail($email);
+        if(!$appUser) {
+            $this->createNotFoundException("The User Could Not Found");
+        }
+        $expiredTime = new \DateTime();
+        $expiredTime->modify("+24 hours");
+        $appUser
+            ->setTokenExpired($expiredTime)
+            ->setResetToken(StringGenerator::secureGenerate());
+        $subject = "[PON]パスワードリセット通知";
+        $body = $this->get('twig')->render(
+            'AppBundle:Email:forgot.html.twig',
+            [
+                'appUser' => $appUser
+            ]
+        );
+        $sender = $this->getParameter('mailer_sender');
+        $senderName = $this->getParameter('mailer_sender_name');
+        $this->getManager()->saveAppUser($appUser);
+        $this->getManager()->sendForGotPasswordEmail($appUser, $subject, $body, $sender, $senderName);
+
+        return $this->view(BaseResponse::getData([]));
     }
 
     /**
