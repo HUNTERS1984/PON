@@ -55,6 +55,8 @@ class SyncPostConsumer implements ConsumerInterface
             $this->logger->error(sprintf("Sync Post Job Was Failed With ID: %s", $post->getId()));
             $this->logger->error($e->getMessage());
         }
+
+        die();
     }
 
     public function process(Post $post)

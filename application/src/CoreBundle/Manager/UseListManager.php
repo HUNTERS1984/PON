@@ -154,7 +154,10 @@ class UseListManager extends AbstractManager
 
     public function findUseCoupon(AppUser $appUser, Coupon $coupon)
     {
-        return $this->findOneBy(['appUser.id' => $appUser->getId(), 'coupon.id' => $coupon->getId()]);
+        /** @var UseList $useList */
+        $useList = $this->findOneBy(['appUser' => $appUser, 'coupon' => $coupon]);
+
+        return !$useList || $useList->getCoupon()->getDeletedAt() ? null : $useList;
     }
 
     /**
