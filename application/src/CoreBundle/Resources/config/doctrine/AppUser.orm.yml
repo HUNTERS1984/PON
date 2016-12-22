@@ -56,6 +56,13 @@ CoreBundle\Entity\AppUser:
             type: string
             length: 255
             nullable: TRUE
+        resetToken:
+            type: string
+            length: 255
+            nullable: TRUE
+        tokenExpired:
+            type: datetime
+            nullable: TRUE
         tel:
             type: string
             length: 20

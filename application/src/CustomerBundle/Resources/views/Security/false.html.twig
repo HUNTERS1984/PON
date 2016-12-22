@@ -1,0 +1,20 @@
+{% extends "CustomerBundle:Layouts:layout_login.html.twig" %}
+
+{% block page_content %}
+    <div class="hold-transition login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="{{ path('customer_homepage') }}"><img src="{{ asset('backend/images/logo.png') }}" alt=""></a>
+            </div>
+            <!-- //login-logo -->
+
+            <div class="login-box-body">
+
+                <p class="login-box-msg">パスワードの変更に失敗しました</p>
+            </div>
+            <!-- //login-box-body -->
+        </div>
+        <!-- //login-box -->
+    </div>
+{% endblock %}
+

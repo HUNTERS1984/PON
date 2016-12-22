@@ -34,7 +34,7 @@ class EmailConsumer implements ConsumerInterface
         $bcc = !empty($data['bcc']) ? $data['bcc'] : [];
         $replyTo = !empty($data['reply_to']) ? $data['reply_to'] : null;
         try {
-            $result = $this->process($subject, $sender, $senderName, $recipient, $body, $bcc, $replyTo);
+            $result = $this->process($subject, $sender, $recipient, $body, $senderName, $bcc, $replyTo);
 
             if(!$result) {
                 $this->logger->info(sprintf("Sending Email has error"));
@@ -46,17 +46,16 @@ class EmailConsumer implements ConsumerInterface
             $this->logger->error(sprintf("Send Email Job Was Failed"));
             $this->logger->error($e->getMessage());
         }
-        die();
     }
 
-    public function process($subject, $sender, $senderName, $recipient, $body, array $bcc = [], $replyTo)
+    public function process($subject, $sender, $recipient, $body, $senderName, array $bcc = [], $replyTo)
     {
         return $this->client->sendEmail(
             $subject,
             $sender,
-            $senderName,
             $recipient,
             $body,
+            $senderName,
             $bcc,
             $replyTo
         );

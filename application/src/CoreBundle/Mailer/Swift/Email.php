@@ -4,7 +4,7 @@ namespace CoreBundle\Mailer\Swift;
 
 
 use CoreBundle\Mailer\AbstractEmail;
-use CoreBundle\Mailer\Request\EmailRequest;
+use CoreBundle\Mailer\Swift\Request\EmailRequest;
 
 class Email extends AbstractEmail
 {
@@ -47,7 +47,6 @@ class Email extends AbstractEmail
             ->setSender($this->getSender())
             ->setReplyTo($this->getReplyTo());
         $response = $this->request->send();
-
         return $response->getResult();
     }
 }

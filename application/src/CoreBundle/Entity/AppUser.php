@@ -960,4 +960,62 @@ class AppUser extends BaseUser
     {
         return $this->confirmPassword;
     }
+    /**
+     * @var string
+     */
+    private $resetToken;
+
+    /**
+     * @var \DateTime
+     */
+    private $tokenExpired;
+
+
+    /**
+     * Set resetToken
+     *
+     * @param string $resetToken
+     *
+     * @return AppUser
+     */
+    public function setResetToken($resetToken)
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    /**
+     * Get resetToken
+     *
+     * @return string
+     */
+    public function getResetToken()
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * Set tokenExpired
+     *
+     * @param \DateTime $tokenExpired
+     *
+     * @return AppUser
+     */
+    public function setTokenExpired($tokenExpired)
+    {
+        $this->tokenExpired = $tokenExpired;
+
+        return $this;
+    }
+
+    /**
+     * Get tokenExpired
+     *
+     * @return \DateTime
+     */
+    public function getTokenExpired()
+    {
+        return $this->tokenExpired;
+    }
 }

@@ -45,3 +45,8 @@ customer_contact_3:
 customer_portfolio:
     path:     /portfolio
     defaults: { _controller: CustomerBundle:Portfolio:index }
+
+
+customer_security_forgot:
+    path:     /security/{id}/forgot
+    defaults: { _controller: CustomerBundle:Security:forgot }

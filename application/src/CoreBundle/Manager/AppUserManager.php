@@ -107,22 +107,37 @@ class AppUserManager extends AbstractManager
     public function getAppUserByEmail($email)
     {
         $query = new Query();
-        $matchQuery = new Query\Match('email',$email);
-        $matchQuery->setFieldAnalyzer('email', 'keyword_analyzer');
         $query->setPostFilter(new Missing('deletedAt'));
-        $query->setQuery($matchQuery);
+        $query->setQuery(new Query\Term(['email' => ['value' => $email]]));
         $result = $this->appUserFinder->find($query);
         return !empty($result) ? $result[0] : null;
     }
 
-    public function sendForGotPasswordEmail(AppUser $user)
+    /**
+     * get app user
+     *
+     * @param $appUserId
+     * @return null | AppUser
+     */
+    public function getAppUserById($appUserId)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $appUserIdQuery = new Query\Match('appUserId', $appUserId);
+        $query->setQuery($appUserIdQuery);
+        $result = $this->appUserFinder->find($query);
+        return !empty($result) ? $result[0] : null;
+    }
+
+
+    public function sendForGotPasswordEmail(AppUser $user, $subject, $body, $sender, $senderName)
     {
         $data = [
-            'subject' => 'Test email',
-            'sender' => 'vodanhdanh2016@gmail.com',
-            'sender_name' => 'Test',
+            'subject' => $subject,
+            'sender' => $sender,
+            'sender_name' => $senderName,
             'recipient' => $user->getEmail(),
-            'body' => ' Test Email',
+            'body' => $body,
         ];
         $this->emailProducer->publish(serialize($data));
     }

@@ -9,6 +9,7 @@ use CoreBundle\Form\Type\AppUserType;
 use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\SocialProfileManager;
 use CoreBundle\Serializator\Serializer;
+use CoreBundle\Utils\StringGenerator;
 use Doctrine\Common\Inflector\Inflector;
 use Facebook\FacebookResponse;
 use FOS\RestBundle\Controller\Annotations\Delete;
@@ -189,12 +190,25 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
 
         /**@var AppUser $appUser */
         $appUser = $this->getManager()->getAppUserByEmail($email);
-var_dump($appUser);die();
         if(!$appUser) {
             $this->createNotFoundException("The User Could Not Found");
         }
-
-        $this->getManager()->sendForGotPasswordEmail($appUser);
+        $expiredTime = new \DateTime();
+        $expiredTime->modify("+24 hours");
+        $appUser
+            ->setTokenExpired($expiredTime)
+            ->setResetToken(StringGenerator::secureGenerate());
+        $subject = "[PON]パスワードリセット通知";
+        $body = $this->get('twig')->render(
+            'AppBundle:Email:forgot.html.twig',
+            [
+                'appUser' => $appUser
+            ]
+        );
+        $sender = $this->getParameter('mailer_sender');
+        $senderName = $this->getParameter('mailer_sender_name');
+        $this->getManager()->saveAppUser($appUser);
+        $this->getManager()->sendForGotPasswordEmail($appUser, $subject, $body, $sender, $senderName);
 
         return $this->view(BaseResponse::getData([]));
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace CoreBundle\Mailer\Request;
+namespace CoreBundle\Mailer\Swift\Request;
 
 use CoreBundle\Mailer\Swift\Response\EmailResponse;
 use CoreBundle\Mailer\Swift\SwiftRequest;
@@ -34,17 +34,15 @@ class EmailRequest extends SwiftRequest
             $message = \Swift_Message::newInstance();
             $message
                 ->setSubject($this->getSubject())
-                ->setFrom($this->getSender(), $this->getSenderName())
+                ->setFrom($this->getSender())
                 ->setTo($this->getRecipient())
                 ->setBcc($this->getBcc())
                 ->setBody($this->getBody(), 'text/html', 'utf-8');
-
             if ($this->getReplyTo()) {
                 $message->setReplyTo($this->getReplyTo());
             }
-
             $this->client->getTransport()->start();
-            $response = $this->client->send($message);
+            $response = $this->client->send($message, $failed);
             $this->client->getTransport()->stop();
             return new EmailResponse($response);
         } catch(\Exception $e) {

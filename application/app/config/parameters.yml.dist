@@ -13,7 +13,10 @@ parameters:
     mailer_transport:  smtp
     mailer_host:       smtp.gmail.com
     mailer_user:       vodanhdanh2016@gmail.com
-    mailer_password:   1234@56789
+    mailer_password:   smyekwrvbozbzcfx
+    mailer_sender: vodanhdanh2016@gmail.com
+    mailer_sender_name: PON
+
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt

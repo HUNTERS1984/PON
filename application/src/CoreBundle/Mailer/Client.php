@@ -9,7 +9,7 @@ use CoreBundle\Mailer\Swift\SwiftDriver;
  * Class Client
  * @package CoreBundle\Mailer
  *
- * @method AbstractDriver sendEmail($subject, $sender, $senderName, $recipient, $body, array $bcc, $replyTo)
+ * @method AbstractDriver sendEmail($subject, $sender, $recipient, $body, $senderName, array $bcc, $replyTo)
  */
 class Client
 {
