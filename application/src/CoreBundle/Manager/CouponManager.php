@@ -81,8 +81,18 @@ class CouponManager extends AbstractManager
      */
     public function saveCoupon(Coupon $coupon)
     {
+        $hashTags = $this->getHashTags($coupon->getHashTag());
+        $coupon->setHashTag($hashTags);
         $coupon->setUpdatedAt(new \DateTime());
         return $this->save($coupon);
+    }
+
+    public function getHashTags($hashTags)
+    {
+        preg_match_all('/#([^\s]+)/', $hashTags, $matches);
+        return implode(",", array_map(function($hashTag){
+            return strtolower($hashTag);
+        }, $matches[0]));
     }
 
     /**
