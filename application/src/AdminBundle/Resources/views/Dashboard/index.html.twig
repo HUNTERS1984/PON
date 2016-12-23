@@ -19,179 +19,168 @@
         <div class="span_title">最近発行したクーポン</div>
 
         <!-- Modal -->
-        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content modal_coupon_top">
-                    <form>
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">クーポンを編集</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="">
-                                <div class="col-md-12">
-                                    <div class="row wrapp_avar_btn">
-                                        <div class="col-md-3"><img src="{{ asset('backend/images/img_edit_coupon.jpg') }}" alt=""></div>
-                                        <div class="col-md-9">
-                                            <div class="btn_setting_avatar">
-                                                <a href="" class="">アカウントイメージの変更</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-setting">
-                                        <div class="form-group">
-                                            <label for="クーポンタイトル">クーポンタイトル</label>
-                                            <input type="text" class="form-control" id="クーポンタイトル" placeholder="クーポンタイトル">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="クーポンタイプ">クーポンタイプ</label>
-                                            <select class="form-control">
-                                                <option>ユーザー投稿型</option>
-                                                <option>Option one</option>
-                                                <option>Option two</option>
-                                                <option>Option three</option>
-                                                <option>Option four</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="ハッシュタグ">ハッシュタグ</label>
-                                            <textarea class="form-control" rows="5">ハッシュタグ</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="説明文">説明文</label>
-                                            <textarea class="form-control" rows="5">説明文</textarea>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="期限">期限</label>
-                                                    <div class="select_day">
-                                                        <select class="form-control sum_year">
-                                                            <option>2016年</option>
-                                                            <option>2017年</option>
-                                                            <option>2018年</option>
-                                                            <option>2019年</option>
-                                                            <option>2020年</option>
-                                                        </select>
-                                                        <select class="form-control sum_month">
-                                                            <option>7月</option>
-                                                            <option>8月</option>
-                                                            <option>9月</option>
-                                                            <option>10月</option>
-                                                            <option>11月</option>
-                                                        </select>
-                                                        <select class="form-control sum_day">
-                                                            <option>31日</option>
-                                                            <option>30日</option>
-                                                            <option>29日</option>
-                                                            <option>28日</option>
-                                                            <option>27日</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="クーポンの利用動向の測定">クーポンの利用動向の測定</label>
-                                                    <select class="form-control">
-                                                        <option>測定する</option>
-                                                        <option>Option one</option>
-                                                        <option>Option two</option>
-                                                        <option>Option three</option>
-                                                        <option>Option four</option>
-                                                    </select>
-                                                    <span>発行されたQRコードデクーポンの利用動向を測定することができます。</span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="クーポンの承認">クーポンの承認</label>
-                                                    <select class="form-control">
-                                                        <option>自動承認</option>
-                                                        <option>Option one</option>
-                                                        <option>Option two</option>
-                                                        <option>Option three</option>
-                                                        <option>Option four</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="collapse" id="collapseExample">
-                                                    <div class="well_qr">
-                                                        <div class="col-md-12">
-                                                            <strong>QRコード出力</strong>
-                                                            <div class="form-group">
-                                                                <label for="出力するのは?">出力するのは?</label>
-                                                                <select class="form-control">
-                                                                    <option>お店のクーポンページ</option>
-                                                                    <option>Option one</option>
-                                                                    <option>Option two</option>
-                                                                    <option>Option three</option>
-                                                                    <option>Option four</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input type="text" class="form-control link_web" id="" placeholder="https://www.example.com">
-                                                                <button type="submit" class="btn btn-default btn_link_web">コ ピ ー</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="wrapp_pr">
-                                                        <img src="{{ asset('backend/images/img_qr.jpg') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 btn_change_qr">
-                                                    <a class="btn btn-primary change_qr" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                                        QRコードをダウンロード
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary btn-change">変更</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        {#<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">#}
+            {#<div class="modal-dialog modal-lg" role="document">#}
+                {#<div class="modal-content modal_coupon_top">#}
+                    {#<form>#}
+                        {#<div class="modal-header">#}
+                            {#<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+                            {#<h4 class="modal-title" id="myModalLabel">クーポンを編集</h4>#}
+                        {#</div>#}
+                        {#<div class="modal-body">#}
+                            {#<div class="">#}
+                                {#<div class="col-md-12">#}
+                                    {#<div class="row wrapp_avar_btn">#}
+                                        {#<div class="col-md-3"><img src="{{ asset('backend/images/img_edit_coupon.jpg') }}" alt=""></div>#}
+                                        {#<div class="col-md-9">#}
+                                            {#<div class="btn_setting_avatar">#}
+                                                {#<a href="" class="">アカウントイメージの変更</a>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="form-setting">#}
+                                        {#<div class="form-group">#}
+                                            {#<label for="クーポンタイトル">クーポンタイトル</label>#}
+                                            {#<input type="text" class="form-control" id="クーポンタイトル" placeholder="クーポンタイトル">#}
+                                        {#</div>#}
+                                        {#<div class="form-group">#}
+                                            {#<label for="クーポンタイプ">クーポンタイプ</label>#}
+                                            {#<select class="form-control">#}
+                                                {#<option>ユーザー投稿型</option>#}
+                                                {#<option>Option one</option>#}
+                                                {#<option>Option two</option>#}
+                                                {#<option>Option three</option>#}
+                                                {#<option>Option four</option>#}
+                                            {#</select>#}
+                                        {#</div>#}
+                                        {#<div class="form-group">#}
+                                            {#<label for="ハッシュタグ">ハッシュタグ</label>#}
+                                            {#<textarea class="form-control" rows="5">ハッシュタグ</textarea>#}
+                                        {#</div>#}
+                                        {#<div class="form-group">#}
+                                            {#<label for="説明文">説明文</label>#}
+                                            {#<textarea class="form-control" rows="5">説明文</textarea>#}
+                                        {#</div>#}
+                                        {#<div class="row">#}
+                                            {#<div class="col-md-6">#}
+                                                {#<div class="form-group">#}
+                                                    {#<label for="期限">期限</label>#}
+                                                    {#<div class="select_day">#}
+                                                        {#<select class="form-control sum_year">#}
+                                                            {#<option>2016年</option>#}
+                                                            {#<option>2017年</option>#}
+                                                            {#<option>2018年</option>#}
+                                                            {#<option>2019年</option>#}
+                                                            {#<option>2020年</option>#}
+                                                        {#</select>#}
+                                                        {#<select class="form-control sum_month">#}
+                                                            {#<option>7月</option>#}
+                                                            {#<option>8月</option>#}
+                                                            {#<option>9月</option>#}
+                                                            {#<option>10月</option>#}
+                                                            {#<option>11月</option>#}
+                                                        {#</select>#}
+                                                        {#<select class="form-control sum_day">#}
+                                                            {#<option>31日</option>#}
+                                                            {#<option>30日</option>#}
+                                                            {#<option>29日</option>#}
+                                                            {#<option>28日</option>#}
+                                                            {#<option>27日</option>#}
+                                                        {#</select>#}
+                                                    {#</div>#}
+                                                {#</div>#}
+                                                {#<div class="form-group">#}
+                                                    {#<label for="クーポンの利用動向の測定">クーポンの利用動向の測定</label>#}
+                                                    {#<select class="form-control">#}
+                                                        {#<option>測定する</option>#}
+                                                        {#<option>Option one</option>#}
+                                                        {#<option>Option two</option>#}
+                                                        {#<option>Option three</option>#}
+                                                        {#<option>Option four</option>#}
+                                                    {#</select>#}
+                                                    {#<span>発行されたQRコードデクーポンの利用動向を測定することができます。</span>#}
+                                                {#</div>#}
+                                                {#<div class="form-group">#}
+                                                    {#<label for="クーポンの承認">クーポンの承認</label>#}
+                                                    {#<select class="form-control">#}
+                                                        {#<option>自動承認</option>#}
+                                                        {#<option>Option one</option>#}
+                                                        {#<option>Option two</option>#}
+                                                        {#<option>Option three</option>#}
+                                                        {#<option>Option four</option>#}
+                                                    {#</select>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="col-md-6">#}
+                                                {#<div class="collapse" id="collapseExample">#}
+                                                    {#<div class="well_qr">#}
+                                                        {#<div class="col-md-12">#}
+                                                            {#<strong>QRコード出力</strong>#}
+                                                            {#<div class="form-group">#}
+                                                                {#<label for="出力するのは?">出力するのは?</label>#}
+                                                                {#<select class="form-control">#}
+                                                                    {#<option>お店のクーポンページ</option>#}
+                                                                    {#<option>Option one</option>#}
+                                                                    {#<option>Option two</option>#}
+                                                                    {#<option>Option three</option>#}
+                                                                    {#<option>Option four</option>#}
+                                                                {#</select>#}
+                                                            {#</div>#}
+                                                            {#<div class="form-group">#}
+                                                                {#<input type="text" class="form-control link_web" id="" placeholder="https://www.example.com">#}
+                                                                {#<button type="submit" class="btn btn-default btn_link_web">コ ピ ー</button>#}
+                                                            {#</div>#}
+                                                        {#</div>#}
+                                                    {#</div>#}
+                                                {#</div>#}
+                                                {#<div class="col-md-6">#}
+                                                    {#<div class="wrapp_pr">#}
+                                                        {#<img src="{{ asset('backend/images/img_qr.jpg') }}" alt="">#}
+                                                    {#</div>#}
+                                                {#</div>#}
+                                                {#<div class="col-md-6 btn_change_qr">#}
+                                                    {#<a class="btn btn-primary change_qr" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">#}
+                                                        {#QRコードをダウンロード#}
+                                                    {#</a>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="modal-footer">#}
+                            {#<button type="button" class="btn btn-primary btn-change">変更</button>#}
+                        {#</div>#}
+                    {#</form>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
         <!-- //Modal -->
 
         <div class="category_top">
             <div class="row">
-                <div class="col-md-3">
-                    <div class="content_category_top">
-                        <img src="{{ asset('backend/images/img_top.jpg') }}" class="img_top" alt="">
-                        <h3 class="h3_title">タイトルが入ります</h3>
-                        <p><a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue">ユーザー投稿型</a></p>
-                        <p><span class="red">期限: 2016.07.31</span></p>
+                {% for coupon in coupons %}
+                    <div class="col-md-3">
+                        <div class="content_category_top">
+                            <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
+                                <img width="236px" height="141px" src="{{ asset(coupon_avatar_path~coupon.imageUrl) }}" class="img_top" alt="">
+                            </a>
+                            <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
+                                <h3 class="h3_title">
+                                    {{ coupon.title }}
+                                </h3>
+                            </a>
+
+                            <p><a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">{{ coupon_types[coupon.type] }}</a></p>
+                            <p>
+                                <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
+                                    <span class="red">期限: {{ coupon.expiredTime|date("Y.m.d") }}</span>
+                                </a>
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="content_category_top">
-                        <img src="{{ asset('backend/images/img_top.jpg') }}" class="img_top" alt="">
-                        <h3 class="h3_title">タイトルが入ります</h3>
-                        <p><a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue">ユーザー投稿型</a></p>
-                        <p><span class="red">期限: 2016.07.31</span></p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="content_category_top">
-                        <img src="{{ asset('backend/images/img_top.jpg') }}" class="img_top" alt="">
-                        <h3 class="h3_title">タイトルが入ります</h3>
-                        <p><a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue">ユーザー投稿型</a></p>
-                        <p><span class="red">期限: 2016.07.31</span></p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="content_category_top">
-                        <img src="{{ asset('backend/images/img_top.jpg') }}" class="img_top" alt="">
-                        <h3 class="h3_title">タイトルが入ります</h3>
-                        <p><a href="" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue">ユーザー投稿型</a></p>
-                        <p><span class="red">期限: 2016.07.31</span></p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
