@@ -1,0 +1,106 @@
+<link rel="stylesheet" href="{{ asset('backend/plugins/select2/css/select2.min.css') }}"/>
+{% form_theme form with ['AdminBundle:Form:fields.html.twig', _self] %}
+<div id="frm">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal_coupon">
+            {{ form_start(form, {'attr': {'class': 'submitModal','data-ajax-redirect': path('admin_dashboard'),'data-ajax-url': path("admin_qrcode_create"), 'enctype': 'multipart/form-data'  }}) }}
+            {{ form_errors(form) }}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">QRコード出力</h4>
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <div class="col-md-12">
+                        <div class="form-setting">
+                            {% if is_granted("ROLE_ADMIN") %}
+                                {{ form_row(form.store) }}
+                            {% endif %}
+                            <div class="input-group input-group-sm" style="position: relative;display: table;border-collapse: separate;">
+                                {{ form_widget(form.link) }}
+                                <div class="input-group-btn" style="position: relative;font-size: 0;white-space: nowrap;">
+                                    <a style="color: #FFFFFF;background-color: #18c0d4;border-color: #3598dc;" class="btn blue btn-copy" href="javascript:void(0)" target="_blank">
+                                        コ ピ ー
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-setting"></div>
+                        <div class="row wrapp_avar_btn">
+                            <div class="col-md-3">
+                                {% if store is not empty and store.link is not empty %}
+                                    {% set link = qrcode_data_uri(store.link, { size: 200, padding: 10 }) %}
+                                    <img width="200px" class="img_qr" height="200px" src="{{ link }}" alt="">
+                                {% else %}
+                                    {% set link =  qrcode_data_uri(url("customer_homepage"), { size: 200, padding: 10 }) %}
+                                    <img width="200px" class="img_qr"  height="200px" src="{{ link }}" alt="">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <div style="margin-top: 153px;">
+                                    <a href="{{ link }}"  id="download_qr" download="QRCode.png" class="btn btn-primary btn-change">QRコードをダウンロード</a>
+                                    <button type="submit" class="btn btn-primary btn-change">変更</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-setting">
+                            <span id="error_message" class="error text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+</div>
+
+{% block scripts_footer %}
+    <script src="{{ asset('backend/js/admin.js') }}"></script>
+    <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script type="text/javascript">
+        $('#form_store_id').on('change', function(){
+            var data = new FormData();
+            data.append("id", $(this).val());
+            $.ajax({
+                url: "{{ path("admin_qrcode_link") }}",
+                type: "POST",
+                data: data,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    response = $.parseJSON(response);
+
+                    if(!response.status) {
+                        alert(response.message);
+                        return false;
+                    }
+
+                    if(response.status) {
+                        $('.qrlink').val(response.data.store.link);
+                        $('.img_qr').attr('src',response.data.link);
+                        $('#download_qr').attr('href',response.data.link);
+                        return true;
+                    }
+                    alert('Can not process data!');
+                    return false;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(thrownError);
+                    return false;
+                }
+            });
+        });
+
+//        $('#download_qr').on('click',function(){
+//            var $img = $('.img_qr');
+//            console.log($img);
+//            console.log($img.attr('src'));
+//            $img.wrap('<a href="' + $img.attr('src') + '" download />')
+//        });
+    </script>
+{% endblock %}

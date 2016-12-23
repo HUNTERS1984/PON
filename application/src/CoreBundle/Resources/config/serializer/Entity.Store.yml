@@ -7,6 +7,9 @@ CoreBundle\Entity\Store:
         title:
             expose : true
             groups: [list_news_store,store_featured,view,view_coupon,list,list_coupon_store]
+        link:
+            expose : true
+            groups: [list_news_store,store_featured,view,view_coupon,list,list_coupon_store]
         operationStartTime:
             expose: true
             groups: [view,view_coupon,list]

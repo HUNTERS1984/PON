@@ -58,6 +58,15 @@ var App = function () {
         }
     };
 
+    var handleCopyLink = function ($element) {
+        $('.btn-copy').on('click', function(event){
+            event.preventDefault();
+            var $temp = $(".qrlink");
+            $temp.select();
+            document.execCommand("copy");
+        });
+    };
+
     var handleDeliveryTimeVisibility = function ($element) {
         $element.find('.delivery_time_ability').each(function () {
             var $container = $(this),
@@ -110,6 +119,7 @@ var App = function () {
             handleDeliveryTimeVisibility($document);
             handleStoreVisibility($document);
             handleAjaxModal($document);
+            handleCopyLink($document);
         }
     };
 

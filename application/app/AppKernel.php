@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new FOS\ElasticaBundle\FOSElasticaBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+            new Endroid\Bundle\QrCodeBundle\EndroidQrCodeBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

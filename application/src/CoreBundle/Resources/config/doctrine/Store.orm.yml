@@ -52,6 +52,10 @@ CoreBundle\Entity\Store:
         title:
             type: string
             length: 255
+        link:
+            type: string
+            length: 255
+            nullable: TRUE
         operationStartTime:
             type: datetime
         operationEndTime:
