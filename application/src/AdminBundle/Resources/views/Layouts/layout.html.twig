@@ -69,7 +69,24 @@
     </script>
 
     {% block scripts_footer %}
+    <script src="{{ asset('backend/js/admin-base.js') }}"></script>
         <script src="{{ asset('backend/js/admin.js') }}"></script>
+        <script type="text/javascript">
+            var $modal = $('#load_popup_modal_show_id');
+            $('.click_to_load_modal_popup').on('click', function(event){
+                event.preventDefault();
+                var link = $(this).attr('href');
+                $modal.load(link,{},
+                        function(){
+                            $modal.modal('show');
+                        });
+
+            });
+
+            $modal.on('hidden.bs.modal', function () {
+                $modal.html('');
+            });
+        </script>
     {% endblock %}
 
     {% block scripts_footer_inline %}{% endblock %}

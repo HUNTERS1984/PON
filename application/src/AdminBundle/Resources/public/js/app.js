@@ -3,31 +3,6 @@
  **/
 var App = function () {
     var $document = $(document);
-    // IE mode
-    var isRTL = false;
-    var isIE8 = false;
-    var isIE9 = false;
-    var isIE10 = false;
-
-    // initializes main settings
-    var handleInit = function () {
-
-        if ($('body').css('direction') === 'rtl') {
-            isRTL = true;
-        }
-
-        isIE8 = !!navigator.userAgent.match(/MSIE 8.0/);
-        isIE9 = !!navigator.userAgent.match(/MSIE 9.0/);
-        isIE10 = !!navigator.userAgent.match(/MSIE 10.0/);
-
-        if (isIE10) {
-            $('html').addClass('ie10'); // detect IE10 version
-        }
-
-        if (isIE10 || isIE9 || isIE8) {
-            $('html').addClass('ie'); // detect IE10 version
-        }
-    };
 
     var handleStoreSelect = function ($element) {
         if ($().select2) {
@@ -72,14 +47,6 @@ var App = function () {
             });
         });
     };
-
-    var handleOpenModalPopup = function($element) {
-        $element.find('*[class=click_to_load_modal_popup]').each(function () {
-            $(this).modalPopup({
-                onRowAdded: App.initComponents
-            });
-        });
-    }
 
     var handlePhotoCollection = function ($element) {
         if ($().collectionFormType) {
@@ -134,45 +101,15 @@ var App = function () {
 
         //main function to initiate the theme
         init: function () {
-            handleInit();
             handleStoreSelect($document);
             handleNewsCategorySelect($document);
             handleCategorySelect($document);
             handleCollection($document);
             handlePhotoCollection($document);
             handleSubmitModal($document);
-            handleOpenModalPopup($document);
             handleDeliveryTimeVisibility($document);
             handleStoreVisibility($document);
             handleAjaxModal($document);
-        },
-
-        //main function to initiate core javascript after ajax complete
-        initAjax: function () {
-            handleStoreSelect($document);
-            handleNewsCategorySelect($document);
-            handleCategorySelect($document);
-            handleCollection($document);
-            handlePhotoCollection($document);
-            handleSubmitModal($document);
-            handleOpenModalPopup($document);
-            handleDeliveryTimeVisibility($document);
-            handleStoreVisibility($document);
-            handleAjaxModal($document);
-        },
-
-        //init main components
-        initComponents: function ($element) {
-            handleStoreSelect($element);
-            handleNewsCategorySelect($element);
-            handleCategorySelect($element);
-            handleCollection($element);
-            handlePhotoCollection($element);
-            handleSubmitModal($element);
-            handleOpenModalPopup($element);
-            handleDeliveryTimeVisibility($element);
-            handleStoreVisibility($element);
-            handleAjaxModal($element);
         }
     };
 
