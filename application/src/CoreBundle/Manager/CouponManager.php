@@ -588,7 +588,7 @@ class CouponManager extends AbstractManager
 
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
-        $query->addSort(['createdAt' => ['order' => 'desc']]);
+        $query->addSort(['updatedAt' => ['order' => 'desc']]);
 
 
 
@@ -633,7 +633,7 @@ class CouponManager extends AbstractManager
 
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
-        $query->addSort(['createdAt' => ['order' => 'desc']]);
+        $query->addSort(['updatedAt' => ['order' => 'desc']]);
 
 
 
