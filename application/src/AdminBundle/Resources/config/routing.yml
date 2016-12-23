@@ -102,6 +102,14 @@ admin_store_edit:
     path:     /store/edit/{id}
     defaults: { _controller: AdminBundle:Store:edit }
 
+admin_qrcode_create:
+    path:     /qrcode/create
+    defaults: { _controller: AdminBundle:QRCode:create }
+
+admin_qrcode_link:
+    path:     /qrcode/link
+    defaults: { _controller: AdminBundle:QRCode:getStore }
+
 admin_push:
     path:     /push
     defaults: { _controller: AdminBundle:Push:index }

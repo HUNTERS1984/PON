@@ -9,7 +9,14 @@ RUN apt-get install -y zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt
 RUN docker-php-ext-configure bcmath --enable-bcmath \
     && docker-php-ext-configure mbstring --enable-mbstring \
     && docker-php-ext-configure soap --enable-soap
-RUN docker-php-ext-install pdo pdo_mysql zip iconv mcrypt gd mbstring bcmath sockets opcache soap
+RUN docker-php-ext-install pdo pdo_mysql zip iconv mcrypt mbstring bcmath sockets opcache soap
+
+RUN docker-php-ext-configure gd \
+        --enable-gd-native-ttf \
+        --with-freetype-dir=/usr/include/freetype2 \
+        --with-png-dir=/usr/include \
+        --with-jpeg-dir=/usr/include \
+    && docker-php-ext-install gd
 
 RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
     && mkdir -p /usr/src/php/ext/memcached \

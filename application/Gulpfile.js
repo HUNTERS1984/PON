@@ -54,22 +54,12 @@ gulp.task('admin-login-styles', function () {
 });
 
 // ADMIN-SCRIPTS
-gulp.task('admin-base-scripts', function () {
-    gulp.src([
-        dir.admin_path + '/js/jquery.min.js',
-        dir.admin_path + '/js/bootstrap.min.js',
-        dir.admin_path + '/js/vertical-responsive-menu.min.js',
-        dir.admin_path + '/js/jquery.canvasjs.min.js',
-    ])
-        .pipe(concat('admin-base.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(dir.admin_dist + 'js'));
-});
-
-
-// ADMIN-SCRIPTS
 gulp.task('admin-scripts', function () {
     gulp.src([
+            dir.admin_path + '/js/jquery.min.js',
+            dir.admin_path + '/js/bootstrap.min.js',
+            dir.admin_path + '/js/vertical-responsive-menu.min.js',
+            dir.admin_path + '/js/jquery.canvasjs.min.js',
             dir.admin_path + 'js/components/store-select.js',
             dir.admin_path + 'js/components/news-category-select.js',
             dir.admin_path + 'js/components/category-select.js',
@@ -214,7 +204,6 @@ gulp.task('admin', [
     'admin-styles',
     'admin-plugins-scripts',
     'admin-scripts',
-    'admin-base-scripts',
     'admin-images',
     'admin-login-styles'
 ]);

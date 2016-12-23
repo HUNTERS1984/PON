@@ -65,6 +65,7 @@ fos_elastica:
                     mappings:
                         id: ~
                         title: ~
+                        link: ~
                         operationStartTime:
                             type: date
                         operationEndTime:

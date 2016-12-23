@@ -895,4 +895,33 @@ class Store
     {
         return $this->appUsers;
     }
+    /**
+     * @var string
+     */
+    private $link;
+
+
+    /**
+     * Set link
+     *
+     * @param string $link
+     *
+     * @return Store
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
 }
