@@ -53,6 +53,7 @@ twig:
         store_avatar_path: %base_store_avatar_path%
         genders: %genders%
         news_avatar_path: %base_news_avatar_path%
+        reportTypes: %reportTypes%
 
 # Doctrine Configuration
 doctrine:
@@ -89,6 +90,7 @@ monolog:
         - scrapping
         - sync_post
         - email
+        - analytics
 
 # app/config/config.yml
 nelmio_api_doc: ~

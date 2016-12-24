@@ -27,6 +27,13 @@ services:
             - [setAvatarDir, ["%user_avatar_path%"]]
             - [setEmailProducer, ["@old_sound_rabbit_mq.email_producer"]]
 
+    pon.manager.analytics:
+        class: CoreBundle\Manager\AnalyticsManager
+        calls:
+            - [setClient, ["@pon.analytics.client"]]
+            - [setLogger, ["@monolog.logger.analytics"]]
+            - [setMetrics, ["ga:sessions,ga:users,ga:pageviews,ga:avgSessionDuration,ga:bounceRate,ga:exitRate"]]
+
     pon.manager.client:
         class: CoreBundle\Manager\ClientManager
         factory_service:  doctrine
@@ -385,13 +392,33 @@ services:
         class: CoreBundle\SNS\Client
 
     pon.mailer.swift_driver:
-          class: CoreBundle\Mailer\Swift\SwiftDriver
-          arguments: ["@swiftmailer.mailer"]
-          tags:
-              - { name: pon_email }
+        class: CoreBundle\Mailer\Swift\SwiftDriver
+        arguments: ["@swiftmailer.mailer"]
+        tags:
+            - { name: pon_email }
 
     pon.mailer.client:
-          class: CoreBundle\Mailer\Client
+        class: CoreBundle\Mailer\Client
+
+    pon.google.client:
+        class: Google_Client
+        calls:
+            - [setApplicationName, ["PON Analytics Reporting"]]
+            - [setAuthConfig, ["%google_service_account_path%"]]
+            - [setScopes, [["https://www.googleapis.com/auth/analytics.readonly"]]]
+
+    pon.google.service.analytics:
+        class: Google_Service_Analytics
+        arguments: ["@pon.google.client"]
+
+    pon.analytics.google_driver:
+        class: CoreBundle\Analytics\Google\GoogleDriver
+        arguments: ["@pon.google.service.analytics"]
+        tags:
+            - { name: pon_analytics }
+
+    pon.analytics.client:
+        class: CoreBundle\Analytics\Client
 
     pon.queue.consumer.scrapping:
         class: CoreBundle\Queue\Consumer\ScrappingConsumer

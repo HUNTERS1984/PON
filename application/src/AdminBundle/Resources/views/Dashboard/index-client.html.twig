@@ -1,0 +1,48 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+{% block title %}Dashboard{% endblock %}
+{% set active_menu = 'dashboard' %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">TOP</span></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% import _self as reportFunc %}
+
+{% block page_content %}
+    <!-- wrapp_top -->
+    <div class="wrapp_top">
+        <div class="span_title">最近発行したクーポン</div>
+        <div class="category_top">
+            <div class="row">
+                {% for coupon in coupons %}
+                    <div class="col-md-3">
+                        <div class="content_category_top">
+                            <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
+                                <img width="236px" height="141px" src="{{ asset(coupon_avatar_path~coupon.imageUrl) }}" class="img_top" alt="">
+                            </a>
+                            <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
+                                <h3 class="h3_title">
+                                    {{ coupon.title }}
+                                </h3>
+                            </a>
+
+                            <p><a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">{{ coupon_types[coupon.type] }}</a></p>
+                            <p>
+                                <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
+                                    <span class="red">期限: {{ coupon.expiredTime|date("Y.m.d") }}</span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_top -->
+{% endblock %}
