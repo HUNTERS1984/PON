@@ -12,6 +12,8 @@
     </div>
 {% endblock %}
 
+{% import _self as reportFunc %}
+
 {% block page_content %}
     <!-- wrapp_top -->
     <div class="wrapp_top">
@@ -186,6 +188,33 @@
 
         <div class="span_title">アクセス</div>
         <div class="wrapp_chart">
+            <div class="row">
+                <div class="col-md-4 pull-right">
+                    <a class="btn btn-primary btn-sm metric_btn {% if dimension == "nthHour"  %}active{% endif %}" value="nthHour" href="javascript:void(0);">
+                        時間別
+                    </a>
+                    <a class="btn btn-primary btn-sm metric_btn {% if dimension == "nthWeek"  %}active{% endif %}" value="nthWeek" href="javascript:void(0);">
+                        日
+                    </a>
+                    <a class="btn btn-primary btn-sm metric_btn {% if dimension == "date"  %}active{% endif %}" value="date" href="javascript:void(0);">
+                        週
+                    </a>
+                    <a class="btn btn-primary btn-sm metric_btn {% if dimension == "nthMonth"  %}active{% endif %}" value="nthMonth" href="javascript:void(0);">
+                        月
+                    </a>
+                </div>
+                <div class="col-md-2 pull-right">
+                    <select id="selectMetric" class="form-control">
+                        <option {% if type == "sessions" %}selected="selected"{% endif %} value="sessions">セッション</option>
+                        <option {% if type == "users" %}selected="selected"{% endif %} value="users">ユーザー数</option>
+                        <option {% if type == "pageviews" %}selected="selected"{% endif %} value="pageviews">スクリーンビュー</option>
+                        <option {% if type == "avgSessionDuration" %}selected="selected"{% endif %} value="avgSessionDuration">平均セッション時間</option>
+                        <option {% if type == "bounceRate" %}selected="selected"{% endif %} value="bounceRate">離脱率</option>
+                        <option {% if type == "exitRate" %}selected="selected"{% endif %} value="exitRate">新規セッション率</option>
+                    </select>
+                </div>
+
+            </div>
             <div id="chartContainer" style="height: 300px; width: 100%;"></div>
         </div>
         <div class="tab_top">
@@ -193,37 +222,73 @@
                 <div class="col-md-4 col-xs-6">
                     <div class="content_tab_top">
                         <p>ユーザー数</p>
-                        <h3>29,147</h3>
+                        <h3>
+                            {% if report is not empty %}
+                                {{ report.users|number_format(0, '.', ',') }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </h3>
                     </div>
                 </div>
                 <div class="col-md-4 col-xs-6">
                     <div class="content_tab_top">
                         <p>セッション</p>
-                        <h3>247,837</h3>
+                        <h3>
+                            {% if report is not empty %}
+                                {{ report.sessions|number_format(0, '.', ',') }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </h3>
                     </div>
                 </div>
                 <div class="col-md-4 col-xs-6">
                     <div class="content_tab_top">
                         <p>スクリーンビュー</p>
-                        <h3>1,002,719</h3>
+                        <h3>
+                            {% if report is not empty %}
+                                {{ report.pageViews|number_format(0, '.', ',') }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </h3>
                     </div>
                 </div>
                 <div class="col-md-4 col-xs-6">
                     <div class="content_tab_top">
                         <p>離脱率</p>
-                        <h3>64.07%</h3>
+                        <h3>
+                            {% if report is not empty %}
+                                {{ report.exitRate|number_format(2, '.', ',') }} %
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </h3>
                     </div>
                 </div>
                 <div class="col-md-4 col-xs-6">
                     <div class="content_tab_top">
                         <p>平均セッション時間</p>
-                        <h3>00:01:48</h3>
+                        <h3>
+                            {% if report is not empty %}
+                                {{ report.avgSessionDuration|round|date('H:i:s') }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </h3>
                     </div>
                 </div>
                 <div class="col-md-4 col-xs-6">
                     <div class="content_tab_top">
                         <p>新規セッション率</p>
-                        <h3>0.29%</h3>
+                        <h3>
+                            {% if report is not empty %}
+                                {{ report.bounceRate|number_format(2, '.', ',') }} %
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -233,27 +298,71 @@
 {% endblock %}
 
  {% block scripts_footer_inline %}
+
      <script type="text/javascript">
          $(function () {
              var options = {
                  animationEnabled: true,
+                 axisX: {
+                     labelAngle: 0
+                 },
                  data: [
                      {
                          type: "spline",
                          dataPoints: [
-                             { x: 10, y: 10 },
-                             { x: 20, y: 12 },
-                             { x: 30, y: 8 },
-                             { x: 40, y: 14 },
-                             { x: 50, y: 6 },
-                             { x: 60, y: 24 },
-                             { x: 70, y: -4 },
-                             { x: 80, y: 10 }
+                             {% if report is not empty %}
+                                {% for row in report.dataTable.rows %}
+                                    { label: "{{ row.rowColumn.columns[0].value|replace({'Date(': "", ')': "", " ":"", ",":"-"}) }}", y: {{ row.rowColumn.columns[reportTypes[type]].value }} },
+                                {% endfor %}
+                             {% endif %}
                          ]
                      }
                  ]
              };
              $("#chartContainer").CanvasJSChart(options);
          });
+
+         var serialize = function(obj) {
+             var str = [];
+             for(var p in obj)
+                 if (obj.hasOwnProperty(p)) {
+                     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                 }
+             return str.join("&");
+         }
+
+         $('#selectMetric').on('change', function(){
+             var $value = $(this).val();
+             var $vars = getUrlVars();
+             $vars['metric'] = $value;
+             var queryString = serialize($vars);
+             window.location.href = "{{ url("admin_dashboard") }}?"+queryString;
+         });
+
+         $('.metric_btn').on('click', function(){
+             $('.metric_btn').removeClass('active');
+             $(this).addClass('active');
+             var $value = $(this).attr('value');
+             var $vars = getUrlVars();
+             $vars['dimension'] = $value;
+             var queryString = serialize($vars);
+             window.location.href = "{{ url("admin_dashboard") }}?"+queryString;
+         });
+
+         function getUrlVars()
+         {
+             var vars = [], hash;
+             var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+             for(var i = 0; i < hashes.length; i++)
+             {
+                 hash = hashes[i].split('=');
+
+                 if(hash[1] != undefined) {
+                     vars[hash[0]] = hash[1];
+                 }
+             }
+             return vars;
+         }
      </script>
  {% endblock %}

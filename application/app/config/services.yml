@@ -19,3 +19,11 @@ parameters:
       0: 女性
       1: 男性
       2: その他
+
+   reportTypes:
+      sessions: 1
+      users: 2
+      pageviews: 3
+      avgSessionDuration: 4
+      bounceRate: 5
+      exitRate: 6

@@ -46,12 +46,12 @@
                 <span class="menu--label">プッシュ通知</span>
             </a>
         </li>
-        <li class="menu--item">
-            <a href="{{ path('admin_analytic') }}" class="menu--link {% if active_menu|default('') == "analytic" %}active{% endif %}" title="アクセス解析">
-                <i class="menu--icon  fa fa-fw fa fa-bar-chart"></i>
-                <span class="menu--label">アクセス解析</span>
-            </a>
-        </li>
+        {#<li class="menu--item">#}
+            {#<a href="{{ path('admin_analytic') }}" class="menu--link {% if active_menu|default('') == "analytic" %}active{% endif %}" title="アクセス解析">#}
+                {#<i class="menu--icon  fa fa-fw fa fa-bar-chart"></i>#}
+                {#<span class="menu--label">アクセス解析</span>#}
+            {#</a>#}
+        {#</li>#}
         <li class="menu--item">
             <a href="{{ path('admin_management') }}" class="menu--link {% if active_menu|default('') == "management" %}active{% endif %}" title="承認管理">
                 <i class="menu--icon  fa fa-fw fa fa-user-plus"></i>

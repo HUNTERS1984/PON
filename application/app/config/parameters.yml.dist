@@ -57,5 +57,6 @@ parameters:
     image_path: '%uploads_path%/image'
     base_image_upload: 'uploads/image/'
     sample_image_path: '%kernel.root_dir%/../web/samples/image'
+    google_service_account_path: '%kernel.root_dir%/config/google/sa.json'
 
 
