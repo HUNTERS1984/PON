@@ -12,18 +12,25 @@
 
                 <p class="login-box-msg">さあ、はじめましょう。</p>
 
-                <form method="POST" action="">
-                    <div class="form-group has-feedback">
-                        <label for="email">Eメールアドレス</label>
-                        <input class="form-control" placeholder="Email" name="email" type="text">
-                        <span class="fa fa-envelope form-control-feedback"></span>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <input class="btn btn-primary btn-block btn-flat" type="submit" value="送信">
-                    </div>
-                </form>
-                <!-- //form -->
+                {{ form_start(form) }}
 
+                <div class="form-group has-feedback">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email) }}
+                    <span class="fa fa-envelope form-control-feedback"></span>
+                </div>
+                <div>
+                    {{ form_errors(form) }}
+                    {% for message in app.session.flashBag.get('forgot_password_error') %}
+                        <li class="parsley-required">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </div>
+                <div class="form-group has-feedback">
+                    <input class="btn btn-primary btn-block btn-flat" type="submit" value="送信">
+                </div>
+                {{ form_end(form) }}
                 <div class="link-bottom">
                     <p>
                         <a href="{{ path('admin_login') }}" class="text-center-bottom">Return to login</a>

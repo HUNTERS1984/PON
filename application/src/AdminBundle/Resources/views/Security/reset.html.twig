@@ -1,0 +1,43 @@
+{% extends "AdminBundle:Layouts:layout_login.html.twig" %}
+
+{% block page_content %}
+    <div class="hold-transition login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="{{ path('customer_homepage') }}"><img src="{{ asset('backend/images/logo.png') }}" alt=""></a>
+            </div>
+            <!-- //login-logo -->
+
+            <div class="login-box-body">
+
+                <p class="login-box-msg">さあ、はじめましょう。</p>
+                {{ form_start(form) }}
+
+                    <div class="form-group has-feedback">
+                        {{ form_label(form.password.first) }}
+                        {{ form_widget(form.password.first) }}
+                        <div style="color:red;">
+                            {{ form_errors(form.password.first) }}
+                        </div>
+
+                        <span class="fa fa-lock form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        {{ form_label(form.password.second) }}
+                        {{ form_widget(form.password.second) }}
+                        {{ form_errors(form.password.second) }}
+                        <span class="fa fa-lock form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input class="btn btn-primary btn-block btn-flat" type="submit" value="次へ">
+                    </div>
+                {{ form_end(form) }}
+                <!-- //form -->
+                <!-- //link-bottom -->
+            </div>
+            <!-- //login-box-body -->
+        </div>
+        <!-- //login-box -->
+    </div>
+{% endblock %}
+

@@ -186,6 +186,10 @@ admin_forgot:
     path:     /forgot
     defaults: { _controller: AdminBundle:Security:forgot }
 
+admin_reset:
+    path:     /reset/{id}
+    defaults: { _controller: AdminBundle:Security:reset }
+
 admin_store_search:
     path:     /store/search
     defaults: { _controller: AdminBundle:Store:search }
