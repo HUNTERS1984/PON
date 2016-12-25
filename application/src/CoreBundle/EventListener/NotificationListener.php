@@ -26,6 +26,8 @@ class NotificationListener
 
     /**
      * @param NotificationEvents $eventArgs
+     *
+     * @throws \Exception
      */
     public function preCreate($eventArgs)
     {
@@ -44,6 +46,7 @@ class NotificationListener
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $this->logger->error($e->getTraceAsString());
+            throw $e;
         }
     }
 

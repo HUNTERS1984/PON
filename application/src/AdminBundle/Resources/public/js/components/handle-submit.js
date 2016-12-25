@@ -28,16 +28,14 @@
                 success: function (response) {
                     response = $.parseJSON(response);
 
-                    if(options.modal != '') {
-                        $(options.modal).modal('show');
-                    }
-
                     if(!response.status) {
                         $('#error_message').html(response.message);
                         return false;
                     }
 
-
+                    if(options.modal != '') {
+                        $(options.modal).modal('show');
+                    }
 
                     if(response.status) {
                         window.location.href = options.ajaxRedirect;

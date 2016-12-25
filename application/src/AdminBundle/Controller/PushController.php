@@ -71,7 +71,12 @@ class PushController extends Controller
         if(!$this->isGranted("ROLE_ADMIN")) {
             $pushSetting->setStore($this->getUser()->getStore());
         }
-        $pushSetting = $this->getManager()->createPushSetting($pushSetting);
+
+        try{
+            $pushSetting = $this->getManager()->createPushSetting($pushSetting);
+        }catch (\Exception $ex) {
+            return $this->getFailureMessage($ex->getMessage());
+        }
 
         if (!$pushSetting) {
             return $this->getFailureMessage('プッシュ設定の作成に失敗しました');

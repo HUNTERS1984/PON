@@ -35,6 +35,7 @@ class NotificationManager
      * @param array $segments
      * @param \DateTime $deliveryTime
      *
+     * @throws \Exception
      * @return array | null
     */
     public function send($message, array $segments = [], \DateTime $deliveryTime = null)
@@ -44,7 +45,7 @@ class NotificationManager
         }catch (\Exception $ex) {
             $this->logger->error($ex->getTraceAsString());
             $this->logger->error(sprintf("Notification Manager: %s",$ex->getMessage()));
-            return null;
+            throw $ex;
         }
 
     }
