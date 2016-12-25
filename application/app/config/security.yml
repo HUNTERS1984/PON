@@ -183,6 +183,12 @@ security:
         admin_login:
             path: /admin/login
             roles: IS_AUTHENTICATED_ANONYMOUSLY
+        admin_forgot:
+            path: /admin/forgot
+            roles: IS_AUTHENTICATED_ANONYMOUSLY
+        admin_reset:
+            path: /admin/reset
+            roles: IS_AUTHENTICATED_ANONYMOUSLY
         admin_area:
             path: ^/admin
             role: ROLE_USER
