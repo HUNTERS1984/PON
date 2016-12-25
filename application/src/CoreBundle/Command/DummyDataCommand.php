@@ -65,22 +65,10 @@ class DummyDataCommand extends ContainerAwareCommand
         $output->writeln("Finished Dump AppUser...");
 
         $output->writeln("");
-        $output->writeln("Starting Dump Segement...");
-        $this->dummySegement($output);
-        $output->writeln("");
-        $output->writeln("Finished Dump Segement...");
-
-        $output->writeln("");
         $output->writeln("Starting Dump PushSetting...");
         $this->dummyPushSetting($output);
         $output->writeln("");
         $output->writeln("Finished Dump PushSetting...");
-
-        $output->writeln("");
-        $output->writeln("Starting Dump MessageDelivery...");
-        $this->dummyMessageDelivery($output);
-        $output->writeln("");
-        $output->writeln("Finished Dump MessageDelivery...");
 
         $output->writeln("");
         $output->writeln("Starting Dump Coupon...");
@@ -191,23 +179,6 @@ class DummyDataCommand extends ContainerAwareCommand
         $progress->finish();
     }
 
-    public function dummySegement(OutputInterface $output)
-    {
-        $progress = new ProgressBar($output, 10);
-        $progress->setRedrawFrequency(1);
-        $progress->start();
-        $output->writeln("");
-        for ($i = 0; $i < 10; $i++) {
-            $output->writeln(sprintf("Begin dummy Segement %s", $i + 1));
-            $this->getContainer()->get('pon.dummy.segement')->generate($output);
-            $progress->advance();
-            $output->writeln("");
-            $output->writeln(sprintf("Finished dummy Segement %s", $i + 1));
-            $output->writeln("");
-        }
-        $progress->finish();
-    }
-
     public function dummyPushSetting(OutputInterface $output)
     {
         $progress = new ProgressBar($output, 50);
@@ -220,23 +191,6 @@ class DummyDataCommand extends ContainerAwareCommand
             $progress->advance();
             $output->writeln("");
             $output->writeln(sprintf("Finished dummy PushSetting %s", $i + 1));
-            $output->writeln("");
-        }
-        $progress->finish();
-    }
-
-    public function dummyMessageDelivery(OutputInterface $output)
-    {
-        $progress = new ProgressBar($output, 50);
-        $progress->setRedrawFrequency(1);
-        $progress->start();
-        $output->writeln("");
-        for ($i = 0; $i < 50; $i++) {
-            $output->writeln(sprintf("Begin dummy MessageDelivery %s", $i + 1));
-            $this->getContainer()->get('pon.dummy.message_delivery')->generate($output, $i + 1);
-            $progress->advance();
-            $output->writeln("");
-            $output->writeln(sprintf("Finished dummy MessageDelivery %s", $i + 1));
             $output->writeln("");
         }
         $progress->finish();

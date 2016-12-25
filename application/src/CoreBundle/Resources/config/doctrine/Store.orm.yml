@@ -15,10 +15,6 @@ CoreBundle\Entity\Store:
             targetEntity: PushSetting
             mappedBy: store
             cascade: ["all"]
-        segements:
-            targetEntity: Segement
-            mappedBy: store
-            cascade: ["all"]
         news:
             targetEntity: News
             mappedBy: store

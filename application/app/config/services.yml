@@ -27,3 +27,9 @@ parameters:
       avgSessionDuration: 4
       bounceRate: 5
       exitRate: 6
+
+   segments:
+      all: All
+      active_users: Active Users
+      engaged_users: Engaged Users
+      inactive_users: Inactive Users

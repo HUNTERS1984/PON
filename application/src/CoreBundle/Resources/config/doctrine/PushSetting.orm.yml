@@ -2,25 +2,12 @@ CoreBundle\Entity\PushSetting:
     type: entity
     table: null
     repositoryClass: CoreBundle\Repository\PushSettingRepository
-    oneToMany:
-        messageDeliveries:
-            targetEntity: MessageDelivery
-            mappedBy: pushSetting
-            cascade: ["persist"]
-            orphanRemoval: true
     manyToOne:
         store:
             targetEntity: Store
             inversedBy: pushSettings
             joinColumn:
                 name: store_id
-                referencedColumnName: id
-
-        segement:
-            targetEntity: Segement
-            inversedBy: pushSettings
-            joinColumn:
-                name: segement_id
                 referencedColumnName: id
     id:
         id:
@@ -35,12 +22,19 @@ CoreBundle\Entity\PushSetting:
         message:
             type: string
             length: 255
-        json:
+        segment:
             type: string
-            length: 20
+            length: 100
         status:
             type: string
             length: 20
+        notificationId:
+            type: string
+            length: 100
+            nullable: TRUE
+        recipientTotal:
+            type: integer
+            nullable: TRUE
         type:
             type: string
             length: 10

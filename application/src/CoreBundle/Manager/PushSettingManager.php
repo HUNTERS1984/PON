@@ -5,10 +5,12 @@ namespace CoreBundle\Manager;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\PushSetting;
+use CoreBundle\Event\NotificationEvents;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PushSettingManager extends AbstractManager
 {
@@ -21,6 +23,11 @@ class PushSettingManager extends AbstractManager
      * @var TransformedFinder $pushSettingFinder
      */
     protected $pushSettingFinder;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * @var Pagination $pagination
@@ -49,8 +56,13 @@ class PushSettingManager extends AbstractManager
      */
     public function savePushSetting(PushSetting $pushSetting)
     {
+        $notificationEvent = new NotificationEvents();
         $pushSetting->setUpdatedAt(new \DateTime());
-        return $this->save($pushSetting);
+        $notificationEvent->setPushSetting($pushSetting);
+        $this->dispatcher->dispatch(NotificationEvents::PRE_CREATE, $notificationEvent);
+        $result = $this->save($pushSetting);
+        $this->dispatcher->dispatch(NotificationEvents::POST_CREATE, $notificationEvent);
+        return $result;
     }
 
     /**
@@ -174,6 +186,17 @@ class PushSettingManager extends AbstractManager
         $query->setQuery(new Query\Term(['id' => ['value' => $id]]));
         $result = $this->pushSettingFinder->find($query);
         return !empty($result) ? $result[0] : null;
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     * @return PushSettingManager
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+
+        return $this;
     }
 
 }

@@ -8,7 +8,6 @@ use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\CouponPhoto;
 use CoreBundle\Entity\CouponUserPhoto;
 use CoreBundle\Entity\News;
-use CoreBundle\Entity\Segement;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Entity\UseList;
@@ -16,9 +15,7 @@ use CoreBundle\Manager\AppUserManager;
 use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\FollowListManager;
 use CoreBundle\Manager\LikeListManager;
-use CoreBundle\Manager\SegementManager;
 use CoreBundle\Manager\PushSettingManager;
-use CoreBundle\Manager\MessageDeliveryManager;
 use CoreBundle\Manager\StoreManager;
 use CoreBundle\Manager\NewsManager;
 use CoreBundle\Manager\UseListManager;
@@ -56,19 +53,9 @@ class SerializeListener implements EventSubscriberInterface
     private $useListManager;
 
     /**
-     * @var segementManager $segementManager
-     */
-    private $segementManager;
-
-    /**
      * @var pushSettingManager $pushSettingManager
      */
     private $pushSettingManager;
-
-    /**
-     * @var messageDeliveryManager $messageDeliveryManager
-     */
-    private $messageDeliveryManager;
 
     /**
      * @var LikeListManager $likeListManager
@@ -500,32 +487,12 @@ class SerializeListener implements EventSubscriberInterface
     }
 
     /**
-     * @param SegementManager $segementManager
-     * @return SerializeListener
-     */
-    public function setSegementManager($segementManager)
-    {
-        $this->segementManager = $segementManager;
-        return $this;
-    }
-
-    /**
      * @param PushSettingManager $pushSettingManager
      * @return SerializeListener
      */
     public function setPushSettingManager($pushSettingManager)
     {
         $this->pushSettingManager = $pushSettingManager;
-        return $this;
-    }
-
-    /**
-     * @param MessageDeliveryManager $messageDeliveryManager
-     * @return SerializeListener
-     */
-    public function setMessageDeliveryManager($messageDeliveryManager)
-    {
-        $this->messageDeliveryManager = $messageDeliveryManager;
         return $this;
     }
 
