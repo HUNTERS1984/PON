@@ -405,7 +405,7 @@ services:
 
     pon.notification.one_signal_driver:
         class: CoreBundle\Notification\OneSignal\OneSignalDriver
-        arguments: ["@pon.manager.one_signal", "OTE3NDUzOWQtMTVlZi00YjlkLTg5MzItZWM4MDgwZWU1MjFj", "8bd3dabf-927b-4e27-8568-cf22d7a586bd"]
+        arguments: ["@pon.manager.one_signal", "%onesignal_api_key%", "%onesignal_app_id%"]
         tags:
             - { name: pon_notification }
 

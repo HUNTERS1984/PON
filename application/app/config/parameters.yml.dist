@@ -40,6 +40,9 @@ parameters:
     elasticsearch_host: '%elasticsearch.host%'
     elasticsearch_port: 9200
     elasticsearch_index: pon
+     
+    onesignal_app_id: 8bd3dabf-927b-4e27-8568-cf22d7a586bd
+    onesignal_api_key: OTE3NDUzOWQtMTVlZi00YjlkLTg5MzItZWM4MDgwZWU1MjFj
 
     uploads_path: '%kernel.root_dir%/../web/uploads'
     coupon_avatar_path: '%uploads_path%/coupon/avatar'
