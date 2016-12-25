@@ -436,30 +436,6 @@ fos_elastica:
                         listener: ~
                         finder: ~
 
-                segement:
-                    mappings:
-                        id: ~
-                        title: ~
-                        store:
-                            type: object
-                            properties:
-                                id: ~
-                                title: ~
-                                deletedAt:
-                                    type: date
-                        createdAt:
-                            type: date
-                        updatedAt:
-                            type: date
-                        deletedAt:
-                            type: date
-                    persistence:
-                        driver: orm
-                        model: CoreBundle\Entity\Segement
-                        provider: ~
-                        listener: ~
-                        finder: ~
-
                 pushSetting:
                     mappings:
                         id: ~
@@ -471,11 +447,8 @@ fos_elastica:
                                 avatar_url: ~
                                 deletedAt:
                                     type: date
-                        segement:
-                            type: object
-                            properties:
-                                id: ~
                         title: ~
+                        segment: ~
                         message: ~
                         status: ~
                         createdAt:
@@ -487,21 +460,6 @@ fos_elastica:
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\PushSetting
-                        provider: ~
-                        listener: ~
-                        finder: ~
-
-                messageDelivery:
-                    mappings:
-                        id: ~
-                        pushSetting:
-                            type: object
-                            properties:
-                                id: ~
-                        status: ~
-                    persistence:
-                        driver: orm
-                        model: CoreBundle\Entity\MessageDelivery
                         provider: ~
                         listener: ~
                         finder: ~

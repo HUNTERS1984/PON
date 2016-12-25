@@ -25,11 +25,6 @@ class PushSetting
     /**
      * @var string
      */
-    private $json;
-
-    /**
-     * @var string
-     */
     private $status;
 
     /**
@@ -58,27 +53,9 @@ class PushSetting
     private $deletedAt;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $messageDeliveries;
-
-    /**
      * @var \CoreBundle\Entity\Store
      */
     private $store;
-
-    /**
-     * @var \CoreBundle\Entity\Segement
-     */
-    private $segement;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->messageDeliveries = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id
@@ -136,30 +113,6 @@ class PushSetting
     public function getMessage()
     {
         return $this->message;
-    }
-
-    /**
-     * Set json
-     *
-     * @param string $json
-     *
-     * @return PushSetting
-     */
-    public function setJson($json)
-    {
-        $this->json = $json;
-
-        return $this;
-    }
-
-    /**
-     * Get json
-     *
-     * @return string
-     */
-    public function getJson()
-    {
-        return $this->json;
     }
 
     /**
@@ -283,40 +236,6 @@ class PushSetting
     }
 
     /**
-     * Add messageDelivery
-     *
-     * @param \CoreBundle\Entity\MessageDelivery $messageDelivery
-     *
-     * @return PushSetting
-     */
-    public function addMessageDelivery(\CoreBundle\Entity\MessageDelivery $messageDelivery)
-    {
-        $this->messageDeliveries[] = $messageDelivery;
-
-        return $this;
-    }
-
-    /**
-     * Remove messageDelivery
-     *
-     * @param \CoreBundle\Entity\MessageDelivery $messageDelivery
-     */
-    public function removeMessageDelivery(\CoreBundle\Entity\MessageDelivery $messageDelivery)
-    {
-        $this->messageDeliveries->removeElement($messageDelivery);
-    }
-
-    /**
-     * Get messageDeliveries
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getMessageDeliveries()
-    {
-        return $this->messageDeliveries;
-    }
-
-    /**
      * Set store
      *
      * @param \CoreBundle\Entity\Store $store
@@ -341,30 +260,6 @@ class PushSetting
     }
 
     /**
-     * Set segement
-     *
-     * @param \CoreBundle\Entity\Segement $segement
-     *
-     * @return PushSetting
-     */
-    public function setSegement(\CoreBundle\Entity\Segement $segement = null)
-    {
-        $this->segement = $segement;
-
-        return $this;
-    }
-
-    /**
-     * Get segement
-     *
-     * @return \CoreBundle\Entity\Segement
-     */
-    public function getSegement()
-    {
-        return $this->segement;
-    }
-
-    /**
      * @param string $type
      * @return PushSetting
      */
@@ -380,5 +275,92 @@ class PushSetting
     public function getType()
     {
         return $this->type;
+    }
+    /**
+     * @var string
+     */
+    private $notificationId;
+
+
+    /**
+     * Set notificationId
+     *
+     * @param string $notificationId
+     *
+     * @return PushSetting
+     */
+    public function setNotificationId($notificationId)
+    {
+        $this->notificationId = $notificationId;
+
+        return $this;
+    }
+
+    /**
+     * Get notificationId
+     *
+     * @return string
+     */
+    public function getNotificationId()
+    {
+        return $this->notificationId;
+    }
+    /**
+     * @var integer
+     */
+    private $recipientTotal;
+
+
+    /**
+     * Set recipientTotal
+     *
+     * @param integer $recipientTotal
+     *
+     * @return PushSetting
+     */
+    public function setRecipientTotal($recipientTotal)
+    {
+        $this->recipientTotal = $recipientTotal;
+
+        return $this;
+    }
+
+    /**
+     * Get recipientTotal
+     *
+     * @return integer
+     */
+    public function getRecipientTotal()
+    {
+        return $this->recipientTotal;
+    }
+    /**
+     * @var string
+     */
+    private $segment;
+
+
+    /**
+     * Set segment
+     *
+     * @param string $segment
+     *
+     * @return PushSetting
+     */
+    public function setSegment($segment)
+    {
+        $this->segment = $segment;
+
+        return $this;
+    }
+
+    /**
+     * Get segment
+     *
+     * @return string
+     */
+    public function getSegment()
+    {
+        return $this->segment;
     }
 }

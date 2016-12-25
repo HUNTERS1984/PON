@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use CoreBundle\Manager\PushSettingManager;
 use AdminBundle\Form\Type\PushType;
 use CoreBundle\Entity\AppUser;
-use CoreBundle\Manager\SegementManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,8 +31,7 @@ class PushController extends Controller
         } else {
             $result = $this->getManager()->getPushSettingManagerFromClient($params, $user);
         }
-        
-        $form = $this->createPush($request, $this->getSegements());
+        $form = $this->createPush($request, $this->getParameter('segments'));
 
         return $this->render(
             'AdminBundle:Push:index.html.twig',
@@ -61,7 +59,7 @@ class PushController extends Controller
             return $this->getFailureMessage('プッシュ設定の作成に失敗しました');
         }
 
-        $form = $this->createPush($request, $this->getSegements());
+        $form = $this->createPush($request, $this->getParameter('segments'));
 
         if (count($errors = $form->getErrors(true)) > 0) {
             return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
@@ -82,17 +80,6 @@ class PushController extends Controller
         return $this->getSuccessMessage();
     }
 
-    public function getSegements()
-    {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $segements = $this->getSegementManager()->getSegementFromAdmin();
-        } else {
-            $segements = $this->getSegementManager()->getSegementFromClient($this->getUser());
-        }
-
-        return $segements;
-    }
-
     public function editAction(Request $request, $id)
     {
         $pushSetting = $this->getManager()->getPushSetting($id);
@@ -100,7 +87,7 @@ class PushController extends Controller
             throw $this->createNotFoundException('プッシュが見つかりませんでした');
         }
 
-        $form = $this->createPush($request, $this->getSegements(), $pushSetting);
+        $form = $this->createPush($request, $this->getParameter('segments'), $pushSetting);
 
         return $this->render(
             'AdminBundle:Push:edit.html.twig',
@@ -114,16 +101,16 @@ class PushController extends Controller
 
     /**
      * @param Request $request
-     * @param array $segements
+     * @param array $segments
      * @param mixed $data
      *
      * @return FormInterface
      */
-    public function createPush(Request $request, $segements, $data = null)
+    public function createPush(Request $request, $segments, $data = null)
     {
         $form = $this
             ->createForm(PushType::class, $data, [
-                'segements' => $segements
+                'segments' => $segments
             ])
             ->handleRequest($request);
 
@@ -146,13 +133,5 @@ class PushController extends Controller
     public function getFailureMessage($message = '')
     {
         return new Response(json_encode(['status' => false, 'message' => $message]));
-    }
-
-    /**
-     * @return SegementManager
-     */
-    public function getSegementManager()
-    {
-        return $this->get('pon.manager.segement');
     }
 }

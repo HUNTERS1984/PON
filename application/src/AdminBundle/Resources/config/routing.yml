@@ -116,7 +116,7 @@ admin_push:
 
 admin_push_update:
     path:     /push/update
-    defaults: { _controller: AdminBundle:Push:create }
+    defaults: { _controller: AdminBundle:Push:update }
 
 admin_push_edit:
     path:     /push/edit/{id}

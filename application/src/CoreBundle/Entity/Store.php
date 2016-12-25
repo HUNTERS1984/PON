@@ -781,45 +781,6 @@ class Store
         $this->id = $id;
         return $this;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $segements;
-
-
-    /**
-     * Add segement
-     *
-     * @param \CoreBundle\Entity\Segement $segement
-     *
-     * @return Store
-     */
-    public function addSegement(\CoreBundle\Entity\Segement $segement)
-    {
-        $this->segements[] = $segement;
-
-        return $this;
-    }
-
-    /**
-     * Remove segement
-     *
-     * @param \CoreBundle\Entity\Segement $segement
-     */
-    public function removeSegement(\CoreBundle\Entity\Segement $segement)
-    {
-        $this->segements->removeElement($segement);
-    }
-
-    /**
-     * Get segements
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSegements()
-    {
-        return $this->segements;
-    }
 
     /**
      * @param UploadedFile $imageFile

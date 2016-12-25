@@ -23,7 +23,7 @@ class PushType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => PushSetting::class,
-                'segements' => []
+                'segments' => []
             ]
         );
     }
@@ -38,8 +38,7 @@ class PushType extends AbstractType
             '時間を指定して配信' => 'special'
         ];
 
-        $segements = array_merge([null=> 'お店から1キロ以内のユーザー'],$options['segements']);
-
+        $segments = $options['segments'];
         $builder
             ->add('title', TextType::class, [
                 'label' => 'タイトル',
@@ -58,31 +57,10 @@ class PushType extends AbstractType
                     'placeholder' => 'メッセージ'
                 ]
             ])
-            ->add('json', TextareaType::class, [
-                'label' => 'JSON',
+            ->add('segment', ChoiceType::class, [
+                'label' => 'セグメント',
                 'required' => true,
-                'attr' => [
-                    'class' => 'form-control',
-                    'rows' => 5,
-                    'placeholder' => 'JSON'
-                ]
-            ])
-            ->add('segement', ChoiceType::class, [
-                'label' => false,
-                'required' => true,
-                'choices' => $segements,
-                'choice_label' => function ($value) {
-                    if(!is_object($value)) {
-                        return $value;
-                    }
-                    return $value ? $value->getTitle() : null;
-                },
-                'choice_value' => function ($value) {
-                    if(!is_object($value)) {
-                        return null;
-                    }
-                    return $value ? $value->getId() : null;
-                },
+                'choices' => array_flip($segments),
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -90,6 +68,7 @@ class PushType extends AbstractType
             ->add('deliveryTime', DateTimeType::class, [
                 'label' => false,
                 'format' => 'y-M-d H:i:s',
+                'data' => new \DateTime(),
                 'with_seconds' => true,
                 'years' => range(date('Y'), date('Y') + 10)
             ])

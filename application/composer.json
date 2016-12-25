@@ -42,7 +42,8 @@
         "php-amqplib/rabbitmq-bundle": "^1.12",
         "symfony/proxy-manager-bridge": "^3.2",
         "endroid/qrcode-bundle": "^2.0",
-        "google/apiclient": "^2.0"
+        "google/apiclient": "^2.0",
+        "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

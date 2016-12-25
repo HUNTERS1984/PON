@@ -34,6 +34,12 @@ services:
             - [setLogger, ["@monolog.logger.analytics"]]
             - [setMetrics, ["ga:sessions,ga:users,ga:pageviews,ga:avgSessionDuration,ga:bounceRate,ga:exitRate"]]
 
+    pon.manager.notification:
+        class: CoreBundle\Manager\NotificationManager
+        calls:
+            - [setClient, ["@pon.notification.client"]]
+            - [setLogger, ["@monolog.logger.notification"]]
+
     pon.manager.client:
         class: CoreBundle\Manager\ClientManager
         factory_service:  doctrine
@@ -87,31 +93,15 @@ services:
             - [setStoreFinder, ["@fos_elastica.finder.app.store"]]
             - [setImageDir, ["%image_path%"]]
 
-    pon.manager.segement:
-            class: CoreBundle\Manager\SegementManager
-            factory_service:  doctrine
-            factory_method:   getEntityManager
-            arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Segement"]
-            calls:
-                - [setSegementFinder, ["@fos_elastica.finder.app.segement"]]
-
     pon.manager.push_setting:
-            class: CoreBundle\Manager\PushSettingManager
-            factory_service:  doctrine
-            factory_method:   getEntityManager
-            arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\PushSetting"]
-            calls:
-                - [setPagination, ["@pon.paginator.pagination"]]
-                - [setPushSettingFinder, ["@fos_elastica.finder.app.pushSetting"]]
-
-    pon.manager.message_delivery:
-            class: CoreBundle\Manager\MessageDeliveryManager
-            factory_service:  doctrine
-            factory_method:   getEntityManager
-            arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\MessageDelivery"]
-            calls:
-                - [setPagination, ["@pon.paginator.pagination"]]
-                - [setMessageDeliveryFinder, ["@fos_elastica.finder.app.messageDelivery"]]
+        class: CoreBundle\Manager\PushSettingManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\PushSetting"]
+        calls:
+            - [setPagination, ["@pon.paginator.pagination"]]
+            - [setPushSettingFinder, ["@fos_elastica.finder.app.pushSetting"]]
+            - [setDispatcher, ["@event_dispatcher"]]
 
     pon.manager.category:
         class: CoreBundle\Manager\CategoryManager
@@ -198,14 +188,6 @@ services:
         calls:
             - [setSocialProfileFinder, ["@fos_elastica.finder.app.socialProfile"]]
             - [setSocialProfileType, ["@fos_elastica.index.app.socialProfile"]]
-            
-    pon.manager.segement:
-        class: CoreBundle\Manager\SegementManager
-        factory_service:  doctrine
-        factory_method:   getEntityManager
-        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Segement"]
-        calls:
-            - [setSegementFinder, ["@fos_elastica.finder.app.segement"]]
 
     pon.manager.post:
         class: CoreBundle\Manager\PostManager
@@ -266,34 +248,21 @@ services:
             - [setStorePhotoManager, ["@pon.manager.store_photo"]]
 
     pon.dummy.news:
-            class: CoreBundle\DummyData\NewsDummy
-            calls:
-                - [setManager, ["@pon.manager.news"]]
-                - [setStoreManager, ["@pon.manager.store"]]
-                - [setNewsCategoryManager, ["@pon.manager.news_category"]]
-                - [setPhotoManager, ["@pon.manager.photo"]]
-                - [setAvatarDirPath, ["%news_avatar_path%"]]
-                - [setImageDirPath, ["%image_path%"]]
-                - [setNewsPhotoManager, ["@pon.manager.news_photo"]]
-
-    pon.dummy.segement:
-        class: CoreBundle\DummyData\SegementDummy
+        class: CoreBundle\DummyData\NewsDummy
         calls:
-            - [setSegementManager, ["@pon.manager.segement"]]
+            - [setManager, ["@pon.manager.news"]]
             - [setStoreManager, ["@pon.manager.store"]]
+            - [setNewsCategoryManager, ["@pon.manager.news_category"]]
+            - [setPhotoManager, ["@pon.manager.photo"]]
+            - [setAvatarDirPath, ["%news_avatar_path%"]]
+            - [setImageDirPath, ["%image_path%"]]
+            - [setNewsPhotoManager, ["@pon.manager.news_photo"]]
 
     pon.dummy.push_setting:
-            class: CoreBundle\DummyData\PushSettingDummy
-            calls:
-                - [setPushSettingManager, ["@pon.manager.push_setting"]]
-                - [setStoreManager, ["@pon.manager.store"]]
-                - [setSegementManager, ["@pon.manager.segement"]]
-
-    pon.dummy.message_delivery:
-                class: CoreBundle\DummyData\MessageDeliveryDummy
-                calls:
-                    - [setMessageDeliveryManager, ["@pon.manager.message_delivery"]]
-                    - [setPushSettingManager, ["@pon.manager.push_setting"]]
+        class: CoreBundle\DummyData\PushSettingDummy
+        calls:
+            - [setPushSettingManager, ["@pon.manager.push_setting"]]
+            - [setStoreManager, ["@pon.manager.store"]]
 
     pon.dummy.coupon:
         class: CoreBundle\DummyData\CouponDummy
@@ -328,9 +297,7 @@ services:
             - [setNewsManager, ["@pon.manager.news"]]
             - [setCouponManager, ["@pon.manager.coupon"]]
             - [setAppUserManager, ["@pon.manager.app_user"]]
-            - [setSegementManager, ["@pon.manager.segement"]]
             - [setPushSettingManager, ["@pon.manager.push_setting"]]
-            - [setMessageDeliveryManager, ["@pon.manager.message_delivery"]]
             - [setCouponTypes, ["%coupon_types%"]]
             - [setUseListManager, ["@pon.manager.use_list"]]
             - [setLikeListManager, ["@pon.manager.like_list"]]
@@ -343,6 +310,16 @@ services:
             - [setBaseImagePath,["%base_image_upload%"]]
         tags:
             - { name: jms_serializer.event_subscriber}
+
+    pon.listener.notification:
+        class: CoreBundle\EventListener\NotificationListener
+        calls:
+            - [setNotificationManager, ["@pon.manager.notification"]]
+            - [setLogger, ["@monolog.logger.notification"]]
+            - [setSegments, ["%segments%"]]
+        tags:
+            - { name: kernel.event_listener, event: pon.event.notification.pre_create, method: preCreate }
+            - { name: kernel.event_listener, event: pon.event.notification.post_create, method: postCreate }
 
     pon.listener.elastica.coupon:
         class: CoreBundle\EventListener\ElasticaCouponListener
@@ -419,6 +396,21 @@ services:
 
     pon.analytics.client:
         class: CoreBundle\Analytics\Client
+
+    pon.manager.one_signal:
+        class: GuzzleHttp\Client
+        arguments:
+            -
+              base_uri: https://onesignal.com
+
+    pon.notification.one_signal_driver:
+        class: CoreBundle\Notification\OneSignal\OneSignalDriver
+        arguments: ["@pon.manager.one_signal", "OTE3NDUzOWQtMTVlZi00YjlkLTg5MzItZWM4MDgwZWU1MjFj", "8bd3dabf-927b-4e27-8568-cf22d7a586bd"]
+        tags:
+            - { name: pon_notification }
+
+    pon.notification.client:
+        class: CoreBundle\Notification\Client
 
     pon.queue.consumer.scrapping:
         class: CoreBundle\Queue\Consumer\ScrappingConsumer
