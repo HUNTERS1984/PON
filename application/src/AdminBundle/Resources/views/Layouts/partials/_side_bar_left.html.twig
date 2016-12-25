@@ -17,26 +17,14 @@
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_app_user') }}" class="menu--link {% if active_menu|default('') == "app_user" %}active{% endif %}" title="ユーザー管理">
-                <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
-                <span class="menu--label">ユーザー管理</span>
-            </a>
-        </li>
-        <li class="menu--item">
-            <a href="{{ path('admin_category') }}" class="menu--link {% if active_menu|default('') == "category" %}active{% endif %}" title="カテゴリ">
-                <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
-                <span class="menu--label">カテゴリ</span>
-            </a>
-        </li>
-        <li class="menu--item">
-            <a href="{{ path('admin_store') }}" class="menu--link {% if active_menu|default('') == "store" %}active{% endif %}" title="格納">
-                <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
-                <span class="menu--label">格納</span>
+            <a href="{{ path('admin_management') }}" class="menu--link {% if active_menu|default('') == "management" %}active{% endif %}" title="承認管理">
+                <i class="menu--icon  fa fa-fw fa fa-check-circle-o"></i>
+                <span class="menu--label">承認管理</span>
             </a>
         </li>
         <li class="menu--item">
             <a href="{{ path('admin_summary') }}" class="menu--link {% if active_menu|default('') == "summary" %}active{% endif %}" title="クーポン一覧">
-                <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
+                <i class="menu--icon  fa fa-fw fa fa fa-cubes"></i>
                 <span class="menu--label">クーポン一覧</span>
             </a>
         </li>
@@ -52,12 +40,7 @@
                 {#<span class="menu--label">アクセス解析</span>#}
             {#</a>#}
         {#</li>#}
-        <li class="menu--item">
-            <a href="{{ path('admin_management') }}" class="menu--link {% if active_menu|default('') == "management" %}active{% endif %}" title="承認管理">
-                <i class="menu--icon  fa fa-fw fa fa-user-plus"></i>
-                <span class="menu--label">承認管理</span>
-            </a>
-        </li>
+
         <li class="menu--item">
             <a href="{{ path('admin_customer') }}" class="menu--link {% if active_menu|default('') == "customer" %}active{% endif %}" title="顧客管理">
                 <i class="menu--icon  fa fa-fw fa fa-user"></i>
@@ -65,9 +48,9 @@
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_news_category') }}" class="menu--link {% if active_menu|default('') == "news-category" %}active{% endif %}" title="カテゴリ">
-                <i class="menu--icon  fa fa-fw fa fa fa-wrench"></i>
-                <span class="menu--label">新着 カテゴリ</span>
+            <a href="{{ path('admin_app_user') }}" class="menu--link {% if active_menu|default('') == "app_user" %}active{% endif %}" title="ユーザー管理">
+                <i class="menu--icon  fa fa-fw fa fa fa-users"></i>
+                <span class="menu--label">ユーザー管理</span>
             </a>
         </li>
         <li class="menu--item">
@@ -85,6 +68,26 @@
                 <span class="menu--label">アカウント設定</span>
             </a>
         </li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li class="menu--item">
+                <a href="{{ path('admin_category') }}" class="menu--link {% if active_menu|default('') == "category" %}active{% endif %}" title="カテゴリ">
+                    <i class="menu--icon  fa fa-fw fa fa fa-tags"></i>
+                    <span class="menu--label">カテゴリ</span>
+                </a>
+            </li>
+            <li class="menu--item">
+                <a href="{{ path('admin_store') }}" class="menu--link {% if active_menu|default('') == "store" %}active{% endif %}" title="格納">
+                    <i class="menu--icon  fa fa-fw fa fa fa-university"></i>
+                    <span class="menu--label">格納</span>
+                </a>
+            </li>
+            <li class="menu--item">
+                <a href="{{ path('admin_news_category') }}" class="menu--link {% if active_menu|default('') == "news-category" %}active{% endif %}" title="カテゴリ">
+                    <i class="menu--icon  fa fa-fw fa fa fa-bars"></i>
+                    <span class="menu--label">新着 カテゴリ</span>
+                </a>
+            </li>
+        {% endif %}
         <li class="menu--item">
             <a href="{{ path('admin_help') }}" class="menu--link {% if active_menu|default('') == "help" %}active{% endif %}" title="ヘルプ">
                 <i class="menu--icon  fa fa-fw fa fa-question-circle"></i>

@@ -34,11 +34,13 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-4">
-                <ul class="btn_search_right">
-                    <li><a data-toggle="modal" data-target=".bs-example-modal-lg" class="click_to_load_modal_popup" href="{{ path('admin_app_user_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいユーザーを追加</a></li>
-                </ul>
-            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-md-4">
+                    <ul class="btn_search_right">
+                        <li><a data-toggle="modal" data-target=".bs-example-modal-lg" class="click_to_load_modal_popup" href="{{ path('admin_app_user_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいユーザーを追加</a></li>
+                    </ul>
+                </div>
+            {% endif %}
         </div>
     </div>
     <!-- //wrapp_search_btn -->
@@ -78,13 +80,19 @@
                     <th>電話</th>
                     <th>作成日</th>
                     <th>状態</th>
+                    {% if is_granted('ROLE_ADMIN') %}
                     <th>アクション</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
                 {% if pagination.page_total == 0 %}
                 <tr class="active">
-                    <td align="center" colspan="7">No Records.</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td align="center" colspan="7">No Records.</td>
+                    {% else %}
+                        <td align="center" colspan="6">No Records.</td>
+                    {% endif %}
                 </tr>
                 {% else %}
                     {% for item in users %}
@@ -110,14 +118,24 @@
 
                         <td>
                             {% if item.isEnabled %}
-                                <a href="{{ path('admin_app_user_active',{id:item.id}) }}" title="" class="blue">有効</a>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('admin_app_user_active',{id:item.id}) }}" title="" class="blue">有効</a>
+                                {% else %}
+                                    <a href="javascript:void(0);" title="" class="blue">有効</a>
+                                {% endif %}
                             {% else %}
-                                <a href="{{ path('admin_app_user_active',{id:item.id}) }}" title="" class="red">無効</a>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('admin_app_user_active',{id:item.id}) }}" title="" class="red">無効</a>
+                                {% else %}
+                                    <a href="javascript:void(0);" title="" class="red">無効</a>
+                                {% endif %}
                             {% endif %}
                         </td>
-                        <td>
-                            <a href="{{ path('admin_app_user_edit',{id:item.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
-                        </td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <td>
+                                <a href="{{ path('admin_app_user_edit',{id:item.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
+                            </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
 
