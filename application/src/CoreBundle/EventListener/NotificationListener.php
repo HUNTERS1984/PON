@@ -42,7 +42,8 @@ class NotificationListener
 
             $pushSetting
                 ->setNotificationId($result['id'])
-                ->setRecipientTotal($result['recipients']);
+                ->setRecipientTotal($result['recipients'])
+                ->setStatus(1);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $this->logger->error($e->getTraceAsString());
