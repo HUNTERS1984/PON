@@ -163,7 +163,8 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setNewsNumber(AppUser &$appUser)
     {
-        $appUser->setNewsNumber(10);
+        $newsNumber = $this->newsManager->getNewsNumber();
+        $appUser->setNewsNumber($newsNumber);
     }
 
     /**
