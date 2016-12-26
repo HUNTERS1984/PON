@@ -369,7 +369,7 @@ class SerializeListener implements EventSubscriberInterface
         /** @var RequestStack $request */
         $request = $this->request;
         $url = $request->getCurrentRequest()->getSchemeAndHttpHost();
-        $link = $router->generate('admin_coupon_link', ['id' => $coupon->getId()]);
+        $link = $router->generate('customer_coupon_link', ['id' => $coupon->getId()]);
         $coupon->setLink(sprintf("%s%s", $url, $link));
     }
 

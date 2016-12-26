@@ -50,3 +50,7 @@ customer_portfolio:
 customer_security_forgot:
     path:     /security/{id}/forgot
     defaults: { _controller: CustomerBundle:Security:forgot }
+
+customer_coupon_link:
+    path:     /coupon/link/{id}
+    defaults: { _controller: CustomerBundle:Coupon:link }
