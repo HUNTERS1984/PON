@@ -141,13 +141,14 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         }
 
         /**@var AppUser $appUser */
-        $appUser = $this->getManager()->findOneBy(['username' => $request->get('username')]);
-        $appUser->setBasePath($request->getSchemeAndHttpHost());
+        $appUser = $this->getManager()->getAppUserByEmail($request->get('username'));
         if (!$appUser || !is_null($appUser->getDeletedAt())) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'app_user.not_found'
             ));
         }
+
+        $appUser->setBasePath($request->getSchemeAndHttpHost());
 
         $result = [
             'token' => json_decode($token->getContent(), true)['access_token'],
