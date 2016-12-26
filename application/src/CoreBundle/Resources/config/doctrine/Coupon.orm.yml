@@ -21,18 +21,6 @@ CoreBundle\Entity\Coupon:
             mappedBy: coupon
             cascade: ["persist"]
             orphanRemoval: true
-    manyToMany:
-        tags:
-            targetEntity: Tag
-            inversedBy: coupon
-            joinTable:
-                name: coupons_tags
-                joinColumns:
-                    coupon_id:
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    tag_id:
-                        referencedColumnName: id
     manyToOne:
         store:
             targetEntity: Store

@@ -46,6 +46,12 @@ services:
         factory_method:   getEntityManager
         arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Client"]
 
+    pon.manager.setting:
+        class: CoreBundle\Manager\SettingManager
+        factory_service:  doctrine
+        factory_method:   getEntityManager
+        arguments: ["@doctrine.orm.entity_manager", "CoreBundle\\Entity\\Setting"]
+
     pon.manager.use_list:
         class: CoreBundle\Manager\UseListManager
         factory_service:  doctrine

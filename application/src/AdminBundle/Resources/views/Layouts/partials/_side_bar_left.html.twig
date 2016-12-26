@@ -70,6 +70,12 @@
         </li>
         {% if is_granted('ROLE_ADMIN') %}
             <li class="menu--item">
+                <a href="{{ path('admin_setting_system',{type:"contact"}) }}" class="menu--link {% if active_menu|default('') == "system-setting" %}active{% endif %}" title="システム設定">
+                    <i class="menu--icon  fa fa-fw fa fa-gavel"></i>
+                    <span class="menu--label">システム設定</span>
+                </a>
+            </li>
+            <li class="menu--item">
                 <a href="{{ path('admin_category') }}" class="menu--link {% if active_menu|default('') == "category" %}active{% endif %}" title="カテゴリ">
                     <i class="menu--icon  fa fa-fw fa fa fa-tags"></i>
                     <span class="menu--label">カテゴリ</span>

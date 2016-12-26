@@ -33,3 +33,9 @@ app_news:
     type: rest
     resource: AppBundle\Controller\NewsController
     name_prefix: api_news
+
+app_setting:
+    prefix: /v1
+    type: rest
+    resource: AppBundle\Controller\SettingController
+    name_prefix: api_setting

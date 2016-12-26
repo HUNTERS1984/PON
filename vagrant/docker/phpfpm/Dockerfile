@@ -39,8 +39,7 @@ COPY crontab.conf /usr/share/crontab/crontab.conf
 ARG RUN_CRON=yes
 RUN if [ "$RUN_CRON" = "yes" ] ; then crontab /usr/share/crontab/crontab.conf; fi
 
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 RUN apt-get install -y nodejs bzip2

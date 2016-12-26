@@ -1,0 +1,58 @@
+{% extends "AdminBundle:Layouts:layout.html.twig" %}
+{% block title %}Setting{% endblock %}
+{% set active_menu = 'system-setting' %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">システム設定</span></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% form_theme form with ['AdminBundle:Form:fields.html.twig', _self] %}
+{% block page_content %}
+    <!-- wrapp_tab -->
+    <div class="wrapp_tab">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" >
+                <a href="{{ path("admin_setting_system",{type:"contact"}) }}" aria-controls="tab1" role="tab">お問い合わせ</a>
+            </li>
+            <li role="presentation">
+                <a href="{{ path("admin_setting_system",{type:"term"}) }}" aria-controls="tab2" role="tab">利用規約</a>
+            </li>
+            <li role="presentation">
+                <a href="{{ path("admin_setting_system",{type:"privacy"}) }}" aria-controls="tab3" role="tab">特定商取引</a>
+            </li>
+            <li role="presentation" class="active">
+                <a href="#" aria-controls="tab4" role="tab">サービス期間</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="tab1">
+                {{ form_start(form, {'attr': {'class': 'submitModal','data-ajax-redirect': path('admin_setting_system',{type:"trade"}),'data-ajax-url': path("admin_setting_system",{type:"trade"}), 'enctype': 'multipart/form-data'  }}) }}
+                {{ form_errors(form) }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-setting">
+                                {{ form_row(form.value) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-setting">
+                                <span id="error_message" class="error text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <center><button type="submit" class="btn btn-setting">保存</button></center>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp_tab -->
+{% endblock %}
