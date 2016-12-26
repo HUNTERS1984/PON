@@ -133,6 +133,22 @@ class Coupon
     private $link;
 
     /**
+     * @var string
+     */
+    private $twitterSharing;
+
+    /**
+     * @var string
+     */
+    private $instagramSharing;
+
+    /**
+     * @var string
+     */
+    private $lineSharing;
+
+
+    /**
      * @var UploadedFile
      */
     private $imageFile;
@@ -866,5 +882,62 @@ class Coupon
     public function getCouponId()
     {
         return $this->couponId;
+    }
+
+    /**
+     * @param string $twitterSharing
+     * @return Coupon
+     */
+    public function setTwitterSharing(string $twitterSharing)
+    {
+        $this->twitterSharing = $twitterSharing;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTwitterSharing()
+    {
+        return $this->twitterSharing;
+    }
+
+    /**
+     * @param string $instagramSharing
+     * @return Coupon
+     */
+    public function setInstagramSharing(string $instagramSharing)
+    {
+        $this->instagramSharing = $instagramSharing;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstagramSharing()
+    {
+        return $this->instagramSharing;
+    }
+
+    /**
+     * @param string $lineSharing
+     * @return Coupon
+     */
+    public function setLineSharing(string $lineSharing)
+    {
+        $this->lineSharing = $lineSharing;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLineSharing()
+    {
+        return $this->lineSharing;
     }
 }

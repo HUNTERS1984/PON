@@ -33,6 +33,15 @@ CoreBundle\Entity\Coupon:
         link:
             expose: true
             groups: [view_coupon]
+        twitterSharing:
+            expose: true
+            groups: [view_coupon]
+        instagramSharing:
+            expose: true
+            groups: [view_coupon]
+        lineSharing:
+            expose: true
+            groups: [view_coupon]
         needLogin:
             expose: true
             groups: [featured_coupon,list_coupon,view_coupon, store_coupon]

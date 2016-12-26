@@ -222,11 +222,14 @@ class SerializeListener implements EventSubscriberInterface
         $this->setCouponType($coupon);
         $this->setCanUse($coupon);
         $this->setCode($coupon);
-        $this->setLink($coupon);
         $this->setCouponPhoto($coupon);
         $this->setAvatarCoupon($coupon);
         $this->setCouponUserPhoto($coupon);
         $this->setSimilarCoupon($coupon);
+        $this->setLink($coupon);
+        $this->setTwitterSharing($coupon);
+        $this->setInstagramSharing($coupon);
+        $this->setLineSharing($coupon);
     }
 
     /**
@@ -364,13 +367,48 @@ class SerializeListener implements EventSubscriberInterface
      */
     public function setLink(Coupon &$coupon)
     {
+
+        $coupon->setLink($this->getLink($coupon));
+    }
+
+    public function getLink(Coupon $coupon)
+    {
         /** @var Router $router */
         $router = $this->router;
         /** @var RequestStack $request */
         $request = $this->request;
         $url = $request->getCurrentRequest()->getSchemeAndHttpHost();
         $link = $router->generate('customer_coupon_link', ['id' => $coupon->getId()]);
-        $coupon->setLink(sprintf("%s%s", $url, $link));
+
+        return sprintf("%s%s", $url, $link);
+    }
+
+    /**
+     * @param Coupon $coupon
+     */
+    public function setTwitterSharing(Coupon &$coupon)
+    {
+        $content = sprintf("%s \n %s",str_replace(",", " ",$coupon->getHashTag()), $this->getLink($coupon));
+        $coupon->setTwitterSharing($content);
+    }
+
+
+    /**
+     * @param Coupon $coupon
+     */
+    public function setInstagramSharing(Coupon &$coupon)
+    {
+        $content = $coupon->getImageUrl();
+        $coupon->setInstagramSharing($content);
+    }
+
+    /**
+     * @param Coupon $coupon
+     */
+    public function setLineSharing(Coupon &$coupon)
+    {
+        $content = sprintf("%s \n %s",str_replace(",", " ",$coupon->getHashTag()), $this->getLink($coupon));
+        $coupon->setLineSharing($content);
     }
 
     /**
