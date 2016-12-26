@@ -62,8 +62,8 @@ class Post extends AbstractPost
                 $item['message'] = !empty($item['message']) ? $item['message'] : $item['story'];
 
                 $descriptions = [];
-                if (isset($params['attachments']['data'])) {
-                    $data = $params['attachments']['data'];
+                if (isset($item['attachments']['data'])) {
+                    $data = $item['attachments']['data'];
                     if (isset($data[0]['subattachments']['data'])) {
                         $data = $data[0]['subattachments']['data'];
                     }
