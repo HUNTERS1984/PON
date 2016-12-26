@@ -181,5 +181,19 @@ class NewsManager extends AbstractManager
         return !empty($result) ? $result[0] : null;
     }
 
+    /**
+     * get News number
+     *
+     * @param AppUser $user
+     * @return integer
+     */
+    public function getNewsNumber(AppUser $user)
+    {
+        $query = new Query();
+        $query->setQuery(new Query\MatchAll());
+        $pagination = $this->newsFinder->createPaginatorAdapter($query);
+        return $pagination->getTotalHits();
+    }
+
 
 }
