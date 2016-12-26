@@ -111,6 +111,8 @@ fos_oauth_server:
     auth_code_class:     CoreBundle\Entity\AuthCode
     service:
         user_provider: fos_user.user_provider.username_email             # This property will be used when valid credentials are given to load the user upon access token creation
+        options:
+            access_token_lifetime: 432000
 
 fos_rest:
     param_fetcher_listener: true

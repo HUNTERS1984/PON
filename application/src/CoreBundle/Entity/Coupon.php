@@ -88,11 +88,6 @@ class Coupon
     private $store;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $tags;
-
-    /**
      * @var boolean
      */
     private $like;
@@ -166,7 +161,6 @@ class Coupon
     {
         $this->useLists = new \Doctrine\Common\Collections\ArrayCollection();
         $this->likeLists = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -533,40 +527,6 @@ class Coupon
     public function getStore()
     {
         return $this->store;
-    }
-
-    /**
-     * Add tag
-     *
-     * @param \CoreBundle\Entity\Tag $tag
-     *
-     * @return Coupon
-     */
-    public function addTag(\CoreBundle\Entity\Tag $tag)
-    {
-        $this->tags[] = $tag;
-
-        return $this;
-    }
-
-    /**
-     * Remove tag
-     *
-     * @param \CoreBundle\Entity\Tag $tag
-     */
-    public function removeTag(\CoreBundle\Entity\Tag $tag)
-    {
-        $this->tags->removeElement($tag);
-    }
-
-    /**
-     * Get tags
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTags()
-    {
-        return $this->tags;
     }
 
     /**

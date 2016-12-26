@@ -1,0 +1,20 @@
+CoreBundle\Entity\Setting:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\SettingRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        type:
+            type: string
+            length: 100
+        value:
+            type: text
+            nullable: TRUE
+        updatedAt:
+            type: datetime
+    lifecycleCallbacks: {  }

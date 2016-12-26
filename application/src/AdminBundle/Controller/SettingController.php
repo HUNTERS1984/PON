@@ -2,12 +2,17 @@
 
 namespace AdminBundle\Controller;
 
+use AdminBundle\Form\Type\ContactType;
+use AdminBundle\Form\Type\SettingContactType;
 use AdminBundle\Form\Type\SettingStoreType;
+use AdminBundle\Form\Type\SettingSystemType;
 use AdminBundle\Form\Type\SettingUserType;
 use CoreBundle\Entity\AppUser;
+use CoreBundle\Entity\Setting;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Manager\AppUserManager;
+use CoreBundle\Manager\SettingManager;
 use CoreBundle\Manager\StoreManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -64,6 +69,60 @@ class SettingController extends Controller
             [
                 'formUser' => $formUser->createView(),
                 'appUser' => $appUser
+            ]
+        );
+    }
+
+    /**
+     * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function systemAction($type, Request $request)
+    {
+        $contact = $this->getSettingManager()->getSetting($type);
+        if(!$contact) {
+            $contact = new Setting();
+            $contact->setType($type);
+        }
+
+        $form = $this->createForm(
+            SettingSystemType::class,
+            $contact)->handleRequest($request);
+
+        if ($request->isXmlHttpRequest() && $form->isValid()) {
+
+            /** @var Setting $contact */
+            $contact = $form->getData();
+            $contact = $this->getSettingManager()->saveSetting($contact);
+
+            if (!$contact) {
+                return $this->getFailureMessage('連絡先が失敗しました');
+            }
+            return $this->getSuccessMessage();
+        }
+
+        if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
+            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+        }
+
+        $template = "AdminBundle:Setting:setting.html.twig";
+
+        if($type == "term") {
+            $template = "AdminBundle:Setting:term.html.twig";
+        }
+
+        if($type == "privacy") {
+            $template = "AdminBundle:Setting:privacy.html.twig";
+        }
+
+        if($type == "trade") {
+            $template = "AdminBundle:Setting:trade.html.twig";
+        }
+
+        return $this->render(
+            $template,
+            [
+                'form' => $form->createView()
             ]
         );
     }
@@ -154,6 +213,14 @@ class SettingController extends Controller
     public function getManager()
     {
         return $this->get('pon.manager.app_user');
+    }
+
+    /**
+     * @return SettingManager
+    */
+    public function getSettingManager()
+    {
+        return $this->get('pon.manager.setting');
     }
 
     /**
