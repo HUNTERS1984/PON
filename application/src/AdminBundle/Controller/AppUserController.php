@@ -66,8 +66,9 @@ class AppUserController extends Controller
             /** @var AppUser $appUser */
             $appUser = $form->getData();
 
-            if($this->isGranted('ROLE_CLIENT') && !$this->isGranted('ROLE_ADMIN')) {
-                $store = $this->getStoreManager()->getStore($appUser->getStore()->getId());
+            if($appUser->getStore()) {
+                $storeId = $appUser->getStore()->getId();
+                $store = $this->getStoreManager()->getStore($storeId);
                 if (!$store) {
                     return $this->getFailureMessage('店を見つけることができませんでした！');
                 }
