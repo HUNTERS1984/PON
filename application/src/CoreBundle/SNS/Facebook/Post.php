@@ -89,7 +89,7 @@ class Post extends AbstractPost
                 $createdAt = $post->getCreatedAt();
 
                 if($post->getPrivacy() !== 'EVERYONE') {
-
+                    continue;
                 }
 
                 if($createdAt < $from || $createdAt > $to) {
