@@ -184,10 +184,9 @@ class NewsManager extends AbstractManager
     /**
      * get News number
      *
-     * @param AppUser $user
      * @return integer
      */
-    public function getNewsNumber(AppUser $user)
+    public function getNewsNumber()
     {
         $query = new Query();
         $query->setQuery(new Query\MatchAll());
