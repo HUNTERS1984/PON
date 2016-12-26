@@ -61,7 +61,27 @@ class Post extends AbstractPost
 
                 $item['message'] = !empty($item['message']) ? $item['message'] : $item['story'];
 
-                if(empty($hashTags = $this->getHashTags($item['message']))) {
+                $descriptions = [];
+                if (isset($params['attachments']['data'])) {
+                    $data = $params['attachments']['data'];
+                    if (isset($data[0]['subattachments']['data'])) {
+                        $data = $data[0]['subattachments']['data'];
+                    }
+                    $descriptions = array_map(
+                        function ($attachment) {
+                            if(isset($attachment['description'])) {
+                                return $attachment['description'];
+                            }
+
+                            return '';
+                        },
+                        $data
+                    );
+                }
+
+                $strHashTags = implode(',',array_merge($item['message'], $descriptions));
+
+                if(empty($hashTags = $this->getHashTags($strHashTags))) {
                     continue;
                 }
                 $post = new PostType($item, $this->getPrefix());

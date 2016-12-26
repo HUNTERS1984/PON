@@ -65,7 +65,7 @@ class PostType extends BasePostType
 
             $images = array_map(
                 function ($attachment) {
-                    if ($attachment['type'] == 'photo') {
+                    if (isset($attachment['media']['image']['src'])) {
                         return $attachment['media']['image']['src'];
                     }
 
