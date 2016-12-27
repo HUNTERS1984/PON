@@ -43,15 +43,6 @@ class AppUserType extends AbstractType
                     'autocomplete' => 'off',
                 ]
             ])
-            ->add('plainPassword', PasswordType::class, [
-                'label' => 'パスワード',
-                'required' => true,
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'パスワード',
-                    'autocomplete' => 'off',
-                ]
-            ])
             ->add('name', TextType::class, [
                 'label' => 'フルネーム',
                 'required' => true,

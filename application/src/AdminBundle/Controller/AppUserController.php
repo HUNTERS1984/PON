@@ -9,6 +9,7 @@ use CoreBundle\Manager\StoreManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use CoreBundle\Manager\AppUserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -57,7 +58,15 @@ class AppUserController extends Controller
                     'ROLE_CLIENT' => 'ROLE_CLIENT'
                 ]
             ]
-        );
+        )->add('plainPassword', PasswordType::class, [
+            'label' => 'パスワード',
+            'required' => true,
+            'attr' => [
+                'class' => 'form-control',
+                'placeholder' => 'パスワード',
+                'autocomplete' => 'off',
+            ]
+        ]);
 
         $form = $form->handleRequest($request);
 
@@ -133,15 +142,25 @@ class AppUserController extends Controller
                     'ROLE_ADMIN' => 'ROLE_ADMIN',
                     'ROLE_CLIENT' => 'ROLE_CLIENT'
                 ]
-            ])->handleRequest($request);
+            ])
+            ->add('plainPassword', PasswordType::class, [
+            'label' => 'パスワード',
+            'required' => false,
+            'attr' => [
+                'class' => 'form-control',
+                'placeholder' => 'パスワード',
+                'autocomplete' => 'off',
+            ]
+        ])->handleRequest($request);
 
         if ($request->isXmlHttpRequest() && $form->isValid()) {
 
             /** @var AppUser $appUser */
             $appUser = $form->getData();
 
-            if($this->isGranted('ROLE_CLIENT') && !$this->isGranted('ROLE_ADMIN')) {
-                $store = $this->getStoreManager()->getStore($appUser->getStore()->getId());
+            if($appUser->getStore()) {
+                $storeId = $appUser->getStore()->getId();
+                $store = $this->getStoreManager()->getStore($storeId);
                 if (!$store) {
                     return $this->getFailureMessage('店を見つけることができませんでした！');
                 }
