@@ -54,3 +54,19 @@ customer_security_forgot:
 customer_coupon_link:
     path:     /coupon/link/{id}
     defaults: { _controller: CustomerBundle:Coupon:link }
+
+customer_setting_contact:
+    path:     /setting/contact
+    defaults: { _controller: CustomerBundle:Setting:contact }
+
+customer_setting_term:
+    path:     /setting/term
+    defaults: { _controller: CustomerBundle:Setting:term }
+
+customer_setting_trade:
+    path:     /setting/trade
+    defaults: { _controller: CustomerBundle:Setting:trade}
+
+customer_setting_privacy:
+    path:     /setting/privacy
+    defaults: { _controller: CustomerBundle:Setting:privacy }

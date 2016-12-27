@@ -1,0 +1,24 @@
+{% extends "CustomerBundle:Layouts:layout.html.twig" %}
+{% block title %}よくある質問{% endblock %}
+{% set active_menu = 'faq' %}
+{% block page_content %}
+    <div class="wrapp-sl-content">
+        <h2>プライバシーポリシー</h2>
+    </div>
+    <!-- //wrapp-sl-content -->
+
+    <div class="wrapp-category-faq">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="faq-content">
+                    {{ setting.value }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //wrapp-category-faq -->
+{% endblock %}
+
+
+
+
