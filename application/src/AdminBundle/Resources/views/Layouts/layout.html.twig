@@ -73,17 +73,23 @@
         <script type="text/javascript">
             var $modal = $('#load_popup_modal_show_id');
             $('.click_to_load_modal_popup').on('click', function(event){
+                $.blockUI({ message: 'Loading...' });
                 event.preventDefault();
                 var link = $(this).attr('href');
                 $modal.load(link,{},
                         function(){
                             $modal.modal('show');
+                            $.unblockUI();
                         });
 
             });
 
+            $modal.on('shown.bs.modal', function () {
+                $(this).html('');
+            });
+
             $modal.on('hidden.bs.modal', function () {
-                $modal.html('');
+                $(this).html('');
             });
         </script>
     {% endblock %}

@@ -57,6 +57,7 @@ gulp.task('admin-login-styles', function () {
 gulp.task('admin-scripts', function () {
     gulp.src([
             dir.admin_path + '/js/jquery.min.js',
+            dir.admin_path + '/js/block.js',
             dir.admin_path + '/js/bootstrap.min.js',
             dir.admin_path + '/js/vertical-responsive-menu.min.js',
             dir.admin_path + '/js/jquery.canvasjs.min.js',
