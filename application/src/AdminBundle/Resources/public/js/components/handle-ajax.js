@@ -35,11 +35,18 @@
                 url: options.ajaxUrl,
                 type: options.ajaxType,
                 data: data,
-                async: false,
-                cache: false,
+                async: true,
+                cache: true,
                 contentType: false,
                 processData: false,
+                beforeSend: function( ) {
+                    $.blockUI({
+                        message: 'Processing...',
+                        baseZ: 2000
+                    });
+                },
                 success: function (response) {
+                    $.unblockUI();
                     response = $.parseJSON(response);
 
                     if(!response.status) {
@@ -59,6 +66,9 @@
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(thrownError);
                     return false;
+                },
+                complete: function(){
+                    $.unblockUI();
                 }
             });
             return false;

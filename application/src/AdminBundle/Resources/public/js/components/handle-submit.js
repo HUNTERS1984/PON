@@ -17,15 +17,23 @@
         var _submit = function() {
             var $this = $(this);
             var formData = new FormData($(this)[0]);
+
             $.ajax({
                 url: options.ajaxUrl,
                 type: 'POST',
                 data: formData,
-                async: false,
-                cache: false,
+                async: true,
+                cache: true,
                 contentType: false,
                 processData: false,
+                beforeSend: function( ) {
+                    $('div.modal-dialog').block({
+                        message: 'Processing...',
+                        baseZ: 2000
+                    });
+                },
                 success: function (response) {
+                    $.unblockUI();
                     response = $.parseJSON(response);
 
                     if(!response.status) {
@@ -48,6 +56,9 @@
                 error: function (xhr, ajaxOptions, thrownError) {
                     $('#error_message').html(thrownError);
                     return false;
+                },
+                complete: function(){
+                    $.unblockUI();
                 }
             });
             return false;
