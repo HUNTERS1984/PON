@@ -31,6 +31,10 @@
                         message: 'Processing...',
                         baseZ: 2000
                     });
+                    $('div.tab-content').block({
+                        message: 'Processing...',
+                        baseZ: 2000
+                    });
                 },
                 success: function (response) {
                     $.unblockUI();
