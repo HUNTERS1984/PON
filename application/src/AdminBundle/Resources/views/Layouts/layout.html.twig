@@ -78,12 +78,14 @@
                 var link = $(this).attr('href');
                 $modal.load(link,{},
                         function(){
+                            $.unblockUI();
                             //$modal.modal('show');
                         });
 
             });
 
             $modal.on('shown.bs.modal', function () {
+                $.unblockUI();
                 $(this).html('');
             });
 
