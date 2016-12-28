@@ -81,10 +81,10 @@
                     <div class="media-body">
                         <div class="top-media">
                             <h4 class="media-heading">{{ coupon.title }}</h4>
-                            <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
+                            <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-dismiss="modal" data-backdrop="false" data-toggle="modal" data-target=".bs-example-modal-lg" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
                         </div>
                         <div class="top-media">
-                            <span class="left"><a href="click_to_load_modal_popup" class="link-id">{{ coupon_types[coupon.type] }}</a> ID: {{ coupon.couponId }}</span>
+                            <span class="left"><a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-dismiss="modal" data-backdrop="false" data-toggle="modal" data-target=".bs-example-modal-lg click_to_load_modal_popup"  class="link-id">{{ coupon_types[coupon.type] }}</a> ID: {{ coupon.couponId }}</span>
                             <span class="right"><span class="color-red">期限:{{ coupon.expiredTime|date("Y.m.d") }}</span></span>
                         </div>
                         <div class="top-media">

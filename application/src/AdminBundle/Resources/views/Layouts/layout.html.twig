@@ -78,8 +78,7 @@
                 var link = $(this).attr('href');
                 $modal.load(link,{},
                         function(){
-                            $modal.modal('show');
-                            $.unblockUI();
+                            //$modal.modal('show');
                         });
 
             });
@@ -90,6 +89,7 @@
 
             $modal.on('hidden.bs.modal', function () {
                 $(this).html('');
+                $.unblockUI();
             });
         </script>
     {% endblock %}

@@ -165,18 +165,18 @@
                 {% for coupon in coupons %}
                     <div class="col-md-3">
                         <div class="content_category_top">
-                            <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
+                            <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-dismiss="modal" data-backdrop="false" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
                                 <img width="236px" height="141px" src="{{ asset(coupon_avatar_path~coupon.imageUrl) }}" class="img_top" alt="">
                             </a>
-                            <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
+                            <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-dismiss="modal" data-backdrop="false" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
                                 <h3 class="h3_title">
                                     {{ coupon.title }}
                                 </h3>
                             </a>
 
-                            <p><a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">{{ coupon_types[coupon.type] }}</a></p>
+                            <p><a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-dismiss="modal" data-backdrop="false" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">{{ coupon_types[coupon.type] }}</a></p>
                             <p>
-                                <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
+                                <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-dismiss="modal" data-backdrop="false" data-target=".bs-example-modal-lg" class="link_blue click_to_load_modal_popup">
                                     <span class="red">期限: {{ coupon.expiredTime|date("Y.m.d") }}</span>
                                 </a>
                             </p>

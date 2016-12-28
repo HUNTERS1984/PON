@@ -98,17 +98,17 @@
                         </th>
 
                         <td>
-                            <a data-toggle="modal" data-target="#viewUser" class="click_to_load_modal_popup" href="{{ path('admin_management_user',{id:item.id}) }}">
+                            <a data-toggle="modal" data-target="#viewUser" data-dismiss="modal" data-backdrop="false" class="click_to_load_modal_popup" href="{{ path('admin_management_user',{id:item.id}) }}">
                                 <img src="{{ asset(user_avatar_path ~ item.appUser.avatarUrl) }}" alt="" height="42" width="42">
                             </a>
                         </td>
                         <td>
-                            <a data-toggle="modal" data-target="#viewUser" class="click_to_load_modal_popup" href="{{ path('admin_management_user',{id:item.id}) }}">
+                            <a data-toggle="modal" data-target="#viewUser" data-dismiss="modal" data-backdrop="false" class="click_to_load_modal_popup" href="{{ path('admin_management_user',{id:item.id}) }}">
                                 {{ item.appUser.username }}
                             </a>
                         </td>
                         <td>
-                            <a data-toggle="modal" data-target="#viewPhoto" class="click_to_load_modal_popup" href="{{ path('admin_management_photo',{id:item.id}) }}" title="" class="blue">
+                            <a data-toggle="modal" data-target="#viewPhoto" data-dismiss="modal" data-backdrop="false" class="click_to_load_modal_popup" href="{{ path('admin_management_photo',{id:item.id}) }}" title="" class="blue">
                                 写真を確認する
                             </a>
                         </td>
