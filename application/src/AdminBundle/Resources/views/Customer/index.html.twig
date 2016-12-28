@@ -83,7 +83,7 @@
                     {% for customer in customers %}
                         <tr {% if loop.index is divisible by(2) %}class="active"{% endif %}>
                             <td>
-                                <a href="{{ path('admin_customer_view',{id:customer.id}) }}" data-toggle="modal" data-modal="customerViewModal" data-target=".bs-example-modal-lg" class="click_to_load_modal_popup">
+                                <a href="{{ path('admin_customer_view',{id:customer.id}) }}" data-dismiss="modal" data-backdrop="false" data-toggle="modal" data-modal="customerViewModal" data-target=".bs-example-modal-lg" class="click_to_load_modal_popup">
                                     <img src="{{ asset(user_avatar_path ~ customer.avatarUrl) }}" alt="" height="42" width="42">
                                 </a>
                             </td>
