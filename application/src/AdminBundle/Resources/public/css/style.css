@@ -1487,3 +1487,7 @@ a.arrow_down.collapsed span{
     padding-left: 40px;
   }
 }
+
+.modal-backdrop+.modal-backdrop {
+  opacity : 0;
+}
