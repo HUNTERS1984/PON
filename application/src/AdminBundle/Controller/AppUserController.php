@@ -134,6 +134,7 @@ class AppUserController extends Controller
         if (!$appUser) {
             throw $this->createNotFoundException('ユーザーは見つかりませんでした。');
         }
+        $appUser->setRole($appUser->getRoles()[0]);
         $form = $this->createForm(
             AppUserType::class,
             $appUser,
