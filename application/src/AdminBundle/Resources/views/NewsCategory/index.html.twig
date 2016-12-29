@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-4">
                 <ul class="btn_search_right">
-                    <li><a data-toggle="modal" data-target=".bs-example-modal-lg" data-dismiss="modal" data-backdrop="false" class="click_to_load_modal_popup" href="{{ path('admin_news_category_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいカテゴリを追加</a></li>
+                    <li><a data-toggle="modal" data-target="#load_popup_modal_show_id" data-dismiss="modal"  class="click_to_load_modal_popup" href="{{ path('admin_news_category_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいカテゴリを追加</a></li>
                 </ul>
             </div>
         </div>
@@ -47,7 +47,7 @@
                     <div class="media-body">
                         <div class="top-media">
                             <h4 class="media-heading">{{ category.name }}</h4>
-                            <a href="{{ path('admin_news_category_edit',{id:category.id}) }}" data-toggle="modal" data-dismiss="modal" data-backdrop="false" data-target=".bs-example-modal-lg" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
+                            <a href="{{ path('admin_news_category_edit',{id:category.id}) }}" data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
                         </div>
                         <div class="top-media">
                             <span >

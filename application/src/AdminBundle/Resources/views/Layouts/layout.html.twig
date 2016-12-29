@@ -51,7 +51,7 @@
         <!-- /wrapper_breadcrumb -->
 
         <!-- Modal -->
-        <div id="load_popup_modal_show_id" class="modal fade bs-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div id="load_popup_modal_show_id"  class="modal fade" role="dialog" aria-labelledby="myLargeModalLabel">
 
         </div>
         <!-- //Modal -->
@@ -76,23 +76,26 @@
                 $.blockUI({ message: 'Loading...' });
                 event.preventDefault();
                 var link = $(this).attr('href');
+                if($(this).attr('data-target') !='') {
+                    $modal = $($(this).attr('data-target'));
+                    $modal.on('shown.bs.modal', function () {
+                        $.unblockUI();
+                        $(this).html('');
+                    });
+
+                    $modal.on('hidden.bs.modal', function () {
+                        $(this).html('');
+                        $.unblockUI();
+                    });
+                }
                 $modal.load(link,{},
                         function(){
                             $.unblockUI();
-                            //$modal.modal('show');
+                            $modal.modal('show');
                         });
 
             });
 
-            $modal.on('shown.bs.modal', function () {
-                $.unblockUI();
-                $(this).html('');
-            });
-
-            $modal.on('hidden.bs.modal', function () {
-                $(this).html('');
-                $.unblockUI();
-            });
         </script>
     {% endblock %}
 

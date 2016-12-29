@@ -37,7 +37,7 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="col-md-4">
                     <ul class="btn_search_right">
-                        <li><a data-toggle="modal" data-dismiss="modal" data-backdrop="false" data-target=".bs-example-modal-lg" class="click_to_load_modal_popup" href="{{ path('admin_app_user_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいユーザーを追加</a></li>
+                        <li><a data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="click_to_load_modal_popup" href="{{ path('admin_app_user_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいユーザーを追加</a></li>
                     </ul>
                 </div>
             {% endif %}
@@ -47,27 +47,6 @@
 
     <!-- wrapp_table -->
     <div class="wrapp_table">
-
-        <!-- poup user -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog photo_user" role="document">
-                <div class="modal-content mana_user">
-                    <div class="modal-body">
-                        <img src="{{ asset('backend/images/photo_user.jpg') }}" class="img-responsive" alt="">
-                        <div class="meta-footer">
-                            <span>#hashtag #hashtag #hashtag</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="wrapp_btn_close_poup_photo">
-                    <button type="button" class="btn_mana_user" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                </div>
-            </div>
-        </div>
-        <!-- //poup user -->
-
-
-
         <!-- table -->
         <div class="table-responsive">
             <table class="table management_01">
@@ -133,7 +112,7 @@
                         </td>
                         {% if is_granted('ROLE_ADMIN') %}
                             <td>
-                                <a href="{{ path('admin_app_user_edit',{id:item.id}) }}" data-toggle="modal" data-dismiss="modal" data-backdrop="false" data-target=".bs-example-modal-lg" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
+                                <a href="{{ path('admin_app_user_edit',{id:item.id}) }}" data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
                             </td>
                         {% endif %}
                     </tr>
