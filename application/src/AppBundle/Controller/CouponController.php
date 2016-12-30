@@ -172,7 +172,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getAction($id)
     {
         $coupon = $this->getManager()->getCoupon($id);
-        if (!$coupon) {
+        if (!$coupon || $coupon->getStatus() != 1) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_found'
             ));
@@ -323,7 +323,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
         $user = $this->getUser();
         $coupon = $this->getManager()->getCoupon($id);
-        if (!$coupon) {
+        if (!$coupon  || $coupon->getStatus() != 1) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_found'
             ));
@@ -377,7 +377,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
         $user = $this->getUser();
         $coupon = $this->getManager()->getCoupon($id);
-        if (!$coupon) {
+        if (!$coupon || $coupon->getStatus() != 1) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_found'
             ));
@@ -441,7 +441,7 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
         $user = $this->getUser();
         $coupon = $this->getManager()->getCouponByCouponId($id);
-        if (!$coupon) {
+        if (!$coupon  || $coupon->getStatus() != 1) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
                 'coupon.not_found'
             ));
