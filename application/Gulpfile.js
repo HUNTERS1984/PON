@@ -68,6 +68,7 @@ gulp.task('admin-scripts', function () {
             dir.admin_path + 'js/components/photo-collection-form-type.js',
             dir.admin_path + 'js/components/handle-submit.js',
             dir.admin_path + 'js/components/handle-ajax.js',
+            dir.admin_path + 'js/components/handle-avatar.js',
             dir.admin_path + 'js/components/modal-popup.js',
             dir.admin_path + 'js/app.js',
         ])

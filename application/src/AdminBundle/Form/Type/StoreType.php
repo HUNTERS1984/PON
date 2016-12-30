@@ -53,7 +53,10 @@ class StoreType extends AbstractType
             ])
             ->add('imageFile', FileType::class, [
                 'label' => '店舗イメージを変更する',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'avatar_file'
+                ],
             ])
             ->add('tel', TextType::class, [
                 'label' => '電話',

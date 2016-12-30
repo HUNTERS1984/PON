@@ -103,6 +103,14 @@ var App = function () {
         });
     };
 
+    var handleChangeAvatarImage = function ($element) {
+        $element.find('.wrapp_avar_btn').each(function () {
+            $(this).avatarModal({
+                onRowAdded: App.initComponents
+            });
+        });
+    }
+
 
     //* END:CORE HANDLERS *//
 
@@ -120,6 +128,7 @@ var App = function () {
             handleStoreVisibility($document);
             handleAjaxModal($document);
             handleCopyLink($document);
+            handleChangeAvatarImage($document);
         }
     };
 

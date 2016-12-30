@@ -126,6 +126,9 @@ class CouponType extends AbstractType
                 'allow_delete' => true,
             ])->add('imageFile', FileType::class, [
                 'label' => 'アカウントイメージの変更',
+                'attr' => [
+                    'class' => 'avatar_file'
+                ],
                 'required' => false
             ])
             ->add('store', StoreSearchType::class, [
