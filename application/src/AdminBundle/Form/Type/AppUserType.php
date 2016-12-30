@@ -114,7 +114,10 @@ class AppUserType extends AbstractType
             ])
             ->add('imageFile', FileType::class, [
                 'label' => 'アバター画像を変更する',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'avatar_file'
+                ],
             ]);
     }
 }

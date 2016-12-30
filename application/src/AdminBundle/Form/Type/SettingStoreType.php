@@ -57,7 +57,10 @@ class SettingStoreType extends AbstractType
             ])
             ->add('imageFile', FileType::class, [
                 'label' => 'アカウントイメージの変更',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'avatar_file'
+                ],
             ])
             ->add('tel', TextType::class, [
                 'label' => '電話',
