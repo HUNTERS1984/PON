@@ -7,6 +7,10 @@ fos_elastica:
             settings:
                 index:
                     analysis:
+                        tokenizer:
+                            comma:
+                                type: pattern
+                                pattern: [',']
                         char_filter:
                             space_hashtags:
                                 type: mapping
@@ -16,6 +20,9 @@ fos_elastica:
                                 type: word_delimiter
                                 type_table: ["# => ALPHANUM", "@ => ALPHANUM"]
                         analyzer:
+                            comma:
+                                type: custom
+                                tokenizer: comma
                             hashtag:
                                 type: custom
                                 char_filter: space_hashtags
@@ -146,7 +153,7 @@ fos_elastica:
                         description: ~
                         hashTag:
                             type: string
-                            index_analyzer: hashtag
+                            index_analyzer: comma
                         status:
                             type: boolean
                         size: ~

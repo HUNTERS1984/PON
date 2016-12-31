@@ -113,7 +113,7 @@ class SyncPostConsumer implements ConsumerInterface
 
     public function findCouponByHashTag($hashTags)
     {
-        return $this->couponManager->findCouponByHashTag($hashTags);
+        return $this->couponManager->findCouponByHashTag($this->convertHashTagsToArray($hashTags));
     }
 
     public function convertHashTagsToArray($hashTags)
