@@ -105,6 +105,11 @@ class SerializeListener implements EventSubscriberInterface
     /**
      * @var string
      */
+    private $baseUserAvatarPath;
+
+    /**
+     * @var string
+     */
     private $baseImagePath;
 
     /**
@@ -138,6 +143,7 @@ class SerializeListener implements EventSubscriberInterface
         $this->setFollowNumber($appUser);
         $this->setUsedNumber($appUser);
         $this->setNewsNumber($appUser);
+        $this->setAvatarUser($appUser);
     }
 
     /**
@@ -165,6 +171,17 @@ class SerializeListener implements EventSubscriberInterface
     {
         $newsNumber = $this->newsManager->getNewsNumber();
         $appUser->setNewsNumber($newsNumber);
+    }
+
+    /**
+     * @param AppUser $appUser
+     */
+    public function setAvatarUser(AppUser $appUser)
+    {
+        if (strpos($appUser->getAvatarUrl(), $this->getUrl()) === false) {
+            $avatarUrl = sprintf("%s/%s%s", $this->getUrl(), $this->baseUserAvatarPath, $appUser->getAvatarUrl());
+            $appUser->setAvatarUrl($avatarUrl);
+        }
     }
 
     /**
@@ -630,6 +647,17 @@ class SerializeListener implements EventSubscriberInterface
     public function setBaseCategoryAvatarPath(string $baseCategoryAvatarPath): SerializeListener
     {
         $this->baseCategoryAvatarPath = $baseCategoryAvatarPath;
+        return $this;
+    }
+
+    /**
+     * @param string $baseUserAvatarPath
+     * @return SerializeListener
+     */
+    public function setBaseUserAvatarPath(string $baseUserAvatarPath): SerializeListener
+    {
+        $this->baseUserAvatarPath = $baseUserAvatarPath;
+
         return $this;
     }
 }

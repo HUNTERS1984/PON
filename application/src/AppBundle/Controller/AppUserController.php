@@ -697,7 +697,7 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
                 $file['size'], $file['error'], $test = false);
             break;
         }
-        $appUser->setBasePath($request->getSchemeAndHttpHost());
+
         $data = $request->request->all();
         $appUser = $this->get('pon.utils.data')->setData($data, $appUser);
         if (!empty($data['password'])) {
@@ -713,7 +713,8 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
         }
 
         if ($fileUpload) {
-            $appUser->upload();
+            $fileUrl = $this->getManager()->uploadAvatar($fileUpload, $appUser->getAppUserId());
+            $appUser->setAvatarUrl($fileUrl);
         }
 
 

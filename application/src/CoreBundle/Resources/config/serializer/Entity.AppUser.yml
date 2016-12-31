@@ -16,10 +16,9 @@ CoreBundle\Entity\AppUser:
         address:
             expose: true
             groups: [view]
-        webPath:
+        avatarUrl:
             expose: true
             groups: [view]
-            serialized_name: avatar_url
         role:
             expose: true
             groups: [view]
@@ -30,8 +29,8 @@ CoreBundle\Entity\AppUser:
             expose : true
             groups: [view]
         newsNumber:
-                    expose : true
-                    groups: [view]
+            expose : true
+            groups: [view]
         createdAt:
             expose: true
             groups: [view]
