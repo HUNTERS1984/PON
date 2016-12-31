@@ -79,7 +79,7 @@ class Post extends AbstractPost
                     );
                 }
 
-                $strHashTags = implode(',',array_merge($item['message'], $descriptions));
+                $strHashTags = implode(',',array_merge([$item['message']], $descriptions));
 
                 if(empty($hashTags = $this->getHashTags($strHashTags))) {
                     continue;
