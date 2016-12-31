@@ -51,10 +51,6 @@ class Post extends AbstractPost
         $results = [];
         while (true) {
             foreach($posts as $item) {
-                if($item['type'] !== 'photo') {
-                    continue;
-                }
-
                 if(!$this->validatePost($item)) {
                     continue;
                 }
