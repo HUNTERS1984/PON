@@ -102,6 +102,7 @@ class CouponType extends AbstractType
             ->add('expiredTime', DateType::class, [
                 'label' => '期限',
                 'format' => 'y-M-d',
+                'data' => new \DateTime(),
                 'years' => range(date('Y'), date('Y') + 10),
                 'attr' => [
                     'class' => 'select_day',
