@@ -108,7 +108,7 @@ class CouponManager extends AbstractManager
         $boolQuery = new BoolQuery();
         $boolQuery
             ->addMust(new Term(['store.category.id' => ['value' => $category->getId()]]))
-            ->addMust(new Term(['status' => true]));
+            ->addMust(new Term(['status' => ['value' => true]]));
         $query->setQuery($boolQuery);
         $query->addSort(['impression' => ['order' => 'desc']]);
         $result = $this->couponFinder->find($query, 4);
@@ -131,7 +131,7 @@ class CouponManager extends AbstractManager
         $boolQuery = new BoolQuery();
         $boolQuery
             ->addMust(new Term(['store.category.id' => ['value' => $category->getId()]]))
-            ->addMust(new Term(['status' => true]));
+            ->addMust(new Term(['status' => ['value' => true]]));
         $query->setQuery($boolQuery);
         $query->addSort(['impression' => ['order' => 'desc']]);
 
@@ -155,7 +155,7 @@ class CouponManager extends AbstractManager
         $boolQuery = new BoolQuery();
         $boolQuery
             ->addMust(new Term(['store.category.id' => ['value' => $category->getId()]]))
-            ->addMust(new Term(['status' => true]));
+            ->addMust(new Term(['status' => ['value' => true]]));
         $query->setQuery($boolQuery);
         $query->addSort(['createdAt' => ['order' => 'desc']]);
         $result = $this->couponFinder->find($query, 4);
@@ -178,7 +178,7 @@ class CouponManager extends AbstractManager
         $boolQuery = new BoolQuery();
         $boolQuery
             ->addMust(new Term(['store.category.id' => ['value' => $category->getId()]]))
-            ->addMust(new Term(['status' => true]));
+            ->addMust(new Term(['status' => ['value' => true]]));
         $query->setQuery($boolQuery);
         $query->addSort(['createdAt' => ['order' => 'desc']]);
 
@@ -214,7 +214,7 @@ class CouponManager extends AbstractManager
         $boolQuery = new BoolQuery();
         $boolQuery
             ->addMust($mainQuery)
-            ->addMust(new Term(['status' => true]));
+            ->addMust(new Term(['status' => ['value' => true]]));
         $query->setQuery($boolQuery);
         $result = $this->couponFinder->find($query, 4);
 
@@ -248,7 +248,7 @@ class CouponManager extends AbstractManager
         $boolQuery = new BoolQuery();
         $boolQuery
             ->addMust($mainQuery)
-            ->addMust(new Term(['status' => true]));
+            ->addMust(new Term(['status' => ['value' => true]]));
         $query->setQuery($boolQuery);
 
         $pagination = $this->couponFinder->createPaginatorAdapter($query);
@@ -276,7 +276,7 @@ class CouponManager extends AbstractManager
         $query->setPostFilter(new Missing('coupon.deletedAt'));
 
         $userQuery = new Term(['appUser.id' => $user->getId()]);
-        $statusQuery = new Term(['status' => 1]);
+        $statusQuery = new Term(new Term(['status' => ['value' => 1]]));
         $date = new \DateTime();
         $expiredTimeQuery = new Range('expiredTime',['gte' => $date->format(\DateTime::ISO8601)]) ;
 
@@ -316,7 +316,7 @@ class CouponManager extends AbstractManager
         $query->setPostFilter(new Missing('coupon.deletedAt'));
 
         $userQuery = new Term(['appUser.id' => $user->getId()]);
-        $statusQuery = new Term(['status' => 1]);
+        $statusQuery = new Term(new Term(['status' => ['value' => 1]]));
         $date = new \DateTime();
         $expiredTimeQuery = new Range('expiredTime',['gte' => $date->format(\DateTime::ISO8601)]) ;
 
@@ -518,7 +518,7 @@ class CouponManager extends AbstractManager
         } else {
             $boolQuery->addMust(new MatchAll());
         }
-        $boolQuery->addMust(new Term(['status' => true]));
+        $boolQuery->addMust(new Term(['status' => ['value' => true]]));
         $mainQuery->setPostFilter(new Missing('deletedAt'));
 
         $mainQuery->setQuery($boolQuery);
@@ -600,7 +600,8 @@ class CouponManager extends AbstractManager
         $boolQuery->addMustNot(new Term(['id' => ['value' => $coupon->getId()]]));
         $boolQuery
             ->addMust(new Term(['type' => ['value' => $coupon->getType()]]))
-            ->addMust(new Term(['status' => true]));
+            ->addMust(new Term(['status' => ['value' => true]]));
+        $query->setQuery($boolQuery);
         $pagination = $this->couponFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults(0, 4);
         return $transformedPartialResults->toArray();
@@ -619,8 +620,9 @@ class CouponManager extends AbstractManager
         $boolQuery = new BoolQuery();
         $boolQuery
             ->addMust(new Term(['store.id' => ['value' => $store->getId()]]))
-            ->addMust(new Term(['status' => true]));
+            ->addMust(new Term(['status' => ['value' => true]]));
         $query->addSort(['updatedAt' => ['order' => 'desc']]);
+        $query->setQuery($boolQuery);
         $pagination = $this->couponFinder->createPaginatorAdapter($query);
         $transformedPartialResults = $pagination->getResults(0, 100);
         return $transformedPartialResults->toArray();
