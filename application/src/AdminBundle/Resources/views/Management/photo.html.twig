@@ -7,7 +7,7 @@
 
             <div class="meta-footer">
                 {% if post is defined and post.hashTags is defined %}
-                    <span>{{ post.hashTags|replace({',': ' '})}}</span>
+                    <span><a target="_blank" href="{{ post.url }}">{{ post.hashTags|replace({',': ' '})}}</a></span>
                 {% endif %}
             </div>
         </div>
