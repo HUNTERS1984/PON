@@ -47,7 +47,6 @@ class SummaryController extends Controller
     {
         $coupon = new Coupon();
         $expiredTime = new \DateTime();
-        $expiredTime->setTime(23, 59, 59);
         $coupon->setExpiredTime($expiredTime);
         $form = $this->createForm(CouponType::class, $coupon);
 
@@ -102,6 +101,10 @@ class SummaryController extends Controller
                 }
             }
 
+            $expiredTime = $coupon->getExpiredTime();
+            $expiredTime->setTime(23, 59, 59);
+            $coupon->setExpiredTime($expiredTime);
+
             $this->getManager()->createCoupon($coupon);
 
             if (!$coupon) {
@@ -129,9 +132,7 @@ class SummaryController extends Controller
         if (!$coupon) {
             throw $this->createNotFoundException('クーポンが見つかりません。');
         }
-        $expiredTime = $coupon->getExpiredTime();
-        $expiredTime->setTime(23, 59, 59);
-        $coupon->setExpiredTime($expiredTime);
+
         $form = $this->createForm(CouponType::class, $coupon);
 
         if ($this->isGranted('ROLE_ADMIN')) {
@@ -197,6 +198,10 @@ class SummaryController extends Controller
                     $coupon->getCouponUserPhotos()->set($key, $couponUserPhoto);
                 }
             }
+
+            $expiredTime = $coupon->getExpiredTime();
+            $expiredTime->setTime(23, 59, 59);
+            $coupon->setExpiredTime($expiredTime);
 
             $coupon = $this->getManager()->saveCoupon($coupon);
 
