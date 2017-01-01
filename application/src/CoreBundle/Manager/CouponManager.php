@@ -275,13 +275,17 @@ class CouponManager extends AbstractManager
         $query = new Query();
         $query->setPostFilter(new Missing('coupon.deletedAt'));
 
+        $date = new \DateTime();
+
         $userQuery = new Term(['appUser.id' => $user->getId()]);
         $statusQuery = new Term(['status' => 1]);
+        $expiredTimeQuery = new Range('expiredTime',['gte' => $date->format(\DateTime::ISO8601)]) ;
 
         $mainQuery = new BoolQuery();
         $mainQuery
             ->addMust($statusQuery)
             ->addMust($userQuery)
+            ->addMust($expiredTimeQuery)
             ->addMust(new Term(['coupon.store.category.id' => ['value' => $category->getId()]]));
 
         $query->setQuery($mainQuery);
