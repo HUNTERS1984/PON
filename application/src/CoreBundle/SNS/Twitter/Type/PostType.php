@@ -54,13 +54,17 @@ class PostType extends BasePostType
 
     public function __construct($item, $prefix='')
     {
-        $url = $item->entities->media[0]->url;
-        $images = array_map(function($media){
-            if($media->type == 'photo') {
-                return $media->media_url;
-            }
-            return '';
-        }, $item->entities->media);
+        $images = [];
+        $url = sprintf("%s/%s","https://twitter.com/statuses",$item->id);
+        if(isset($item->entities->media)) {
+            $images = array_map(function($media){
+                if($media->type == 'photo') {
+                    return $media->media_url;
+                }
+                return '';
+            }, $item->entities->media);
+        }
+
 
         $this
             ->setId(sprintf("%s%s",$prefix,$item->id))

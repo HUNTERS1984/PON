@@ -78,9 +78,9 @@ class Post extends AbstractPost
             return false;
         }
 
-        if(empty($entity->media)) {
-            return false;
-        }
+//        if(empty($entity->media)) {
+//            return false;
+//        }
 
         if(empty($item->id)) {
             return false;
