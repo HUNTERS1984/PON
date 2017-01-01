@@ -467,6 +467,10 @@ class UseListManager extends AbstractManager
             $boolQuery->addMust($statusQuery);
         }
 
+        $date = new \DateTime();
+        $expiredTimeQuery = new Query\Range('expiredTime',['gte' => $date->format(\DateTime::ISO8601)]);
+        $boolQuery->addMust($expiredTimeQuery);
+
         $query->setQuery($boolQuery);
 
         $pagination = $this->useListFinder->createPaginatorAdapter($query);
