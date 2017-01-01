@@ -56,9 +56,10 @@ CoreBundle\Entity\Store:
         category:
             expose: true
             groups: [view,view_coupon,list,list_coupon_store]
-        coupons:
+        activeCoupons:
             expose: true
             groups: [view,list]
+            serialized_name: coupons
         user:
             expose: true
             groups: [view]

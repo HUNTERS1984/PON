@@ -607,6 +607,26 @@ class CouponManager extends AbstractManager
     }
 
     /**
+     * get Coupon from Store
+     *
+     * @param Store $store
+     * @return array
+     */
+    public function getCouponFromStore(Store $store)
+    {
+        $query = new Query();
+        $query->setPostFilter(new Missing('deletedAt'));
+        $boolQuery = new BoolQuery();
+        $boolQuery
+            ->addMust(new Term(['store.id' => ['value' => $store->getId()]]))
+            ->addMust(new Term(['status' => true]));
+        $query->addSort(['updatedAt' => ['order' => 'desc']]);
+        $pagination = $this->couponFinder->createPaginatorAdapter($query);
+        $transformedPartialResults = $pagination->getResults(0, 100);
+        return $transformedPartialResults->toArray();
+    }
+
+    /**
      * List Coupon From Admin
      * @param array $params
      *
