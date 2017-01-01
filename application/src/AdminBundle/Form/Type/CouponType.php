@@ -34,8 +34,6 @@ class CouponType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $expiredTime = new \DateTime();
-        $expiredTime->setTime(23, 59, 59);
         $builder
             ->add('title', TextType::class, [
                 'label' => 'クーポンタイトル',
@@ -104,7 +102,6 @@ class CouponType extends AbstractType
             ->add('expiredTime', DateType::class, [
                 'label' => '期限',
                 'format' => 'y-M-d',
-                'data' => $expiredTime,
                 'years' => range(date('Y'), date('Y') + 10),
                 'attr' => [
                     'class' => 'select_day',
