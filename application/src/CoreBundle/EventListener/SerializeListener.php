@@ -210,6 +210,13 @@ class SerializeListener implements EventSubscriberInterface
         $this->setFollow($store);
         $this->setStorePhoto($store);
         $this->setAvatarStore($store);
+        $this->setCoupons($store);
+    }
+
+    public function setCoupons(Store &$store)
+    {
+        $coupons = $this->couponManager->getCouponFromStore($store);
+        $store->setActiveCoupons($coupons);
     }
 
     /**

@@ -103,6 +103,11 @@ class Store
     private $coupons;
 
     /**
+     * @var array
+    */
+    private $activeCoupons;
+
+    /**
      * @var \CoreBundle\Entity\Category
      */
     private $category;
@@ -141,6 +146,7 @@ class Store
         $this->pushSettings = new \Doctrine\Common\Collections\ArrayCollection();
         $this->news = new \Doctrine\Common\Collections\ArrayCollection();
         $this->coupons = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activeCoupons = [];
     }
 
     /**
@@ -884,5 +890,24 @@ class Store
     public function getLink()
     {
         return $this->link;
+    }
+
+    /**
+     * @param array $activeCoupons
+     * @return Store
+     */
+    public function setActiveCoupons($activeCoupons)
+    {
+        $this->activeCoupons = $activeCoupons;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActiveCoupons()
+    {
+        return $this->activeCoupons;
     }
 }
