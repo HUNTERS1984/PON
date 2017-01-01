@@ -129,7 +129,7 @@ class SummaryController extends Controller
         if (!$coupon) {
             throw $this->createNotFoundException('クーポンが見つかりません。');
         }
-        $expiredTime = new \DateTime();
+        $expiredTime = $coupon->getExpiredTime();
         $expiredTime->setTime(23, 59, 59);
         $coupon->setExpiredTime($expiredTime);
         $form = $this->createForm(CouponType::class, $coupon);
