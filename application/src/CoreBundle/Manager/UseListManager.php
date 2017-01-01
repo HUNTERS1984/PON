@@ -517,6 +517,10 @@ class UseListManager extends AbstractManager
                 ->addMust($statusQuery);
         }
 
+        $date = new \DateTime();
+        $expiredTimeQuery = new Query\Range('expiredTime',['gte' => $date->format(\DateTime::ISO8601)]);
+        $boolQuery->addMust($expiredTimeQuery);
+
         $boolQuery->addMust(new Query\Term(['coupon.store.id'=> $user->getStore()->getId()]));
         $query->setQuery($boolQuery);
 
