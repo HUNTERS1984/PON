@@ -59,7 +59,9 @@ class PushController extends Controller
             return $this->getFailureMessage('プッシュ設定の作成に失敗しました');
         }
 
-        $form = $this->createPush($request, $this->getParameter('segments'));
+        $pushSetting = new PushSetting();
+        $pushSetting->setDeliveryTime(new \DateTime());
+        $form = $this->createPush($request, $this->getParameter('segments'), $pushSetting);
 
         if (count($errors = $form->getErrors(true)) > 0) {
             return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));

@@ -45,6 +45,10 @@ class SummaryController extends Controller
 
     public function createAction(Request $request)
     {
+        $coupon = new Coupon();
+        $expiredTime = new \DateTime();
+        $expiredTime->setTime(23, 59, 59);
+        $coupon->setExpiredTime($expiredTime);
         $form = $this->createForm(CouponType::class);
 
         $form = $form->handleRequest($request);

@@ -68,7 +68,6 @@ class PushType extends AbstractType
             ->add('deliveryTime', DateTimeType::class, [
                 'label' => false,
                 'format' => 'y-M-d H:i:s',
-                'data' => new \DateTime(),
                 'with_seconds' => true,
                 'years' => range(date('Y'), date('Y') + 10)
             ])
