@@ -49,7 +49,7 @@ class SummaryController extends Controller
         $expiredTime = new \DateTime();
         $expiredTime->setTime(23, 59, 59);
         $coupon->setExpiredTime($expiredTime);
-        $form = $this->createForm(CouponType::class);
+        $form = $this->createForm(CouponType::class, $coupon);
 
         $form = $form->handleRequest($request);
 
@@ -129,6 +129,9 @@ class SummaryController extends Controller
         if (!$coupon) {
             throw $this->createNotFoundException('クーポンが見つかりません。');
         }
+        $expiredTime = new \DateTime();
+        $expiredTime->setTime(23, 59, 59);
+        $coupon->setExpiredTime($expiredTime);
         $form = $this->createForm(CouponType::class, $coupon);
 
         if ($this->isGranted('ROLE_ADMIN')) {
