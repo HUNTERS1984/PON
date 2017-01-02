@@ -76,6 +76,9 @@ class CouponType extends AbstractType
                     'yes' => 1,
                     'no' => 0
                 ],
+                'choice_label' => function($value, $key, $index) {
+                    return sprintf("form.coupon.need_login_choices.%s", $key);
+                },
                 'attr' => [
                     'class' => 'form-control'
                 ]
