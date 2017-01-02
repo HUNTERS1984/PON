@@ -34,92 +34,91 @@ class StoreType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'タイトル',
+                'label' => 'form.store.title',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'タイトル'
+                    'placeholder' => 'form.store.title'
                 ]
             ])
             ->add('operationStartTime', DateTimeType::class, [
-                'label' => '操作開始時刻',
+                'label' => 'form.store.operation_start_time',
                 'format' => 'y-M-d H:i',
                 'required' => true,
             ])
             ->add('operationEndTime', DateTimeType::class, [
-                'label' => '操作終了時刻',
+                'label' => 'form.store.operation_end_time',
                 'format' => 'y-M-d H:i',
                 'required' => true,
             ])
             ->add('imageFile', FileType::class, [
-                'label' => '店舗イメージを変更する',
+                'label' => 'form.store.avatar',
                 'required' => false,
                 'attr' => [
                     'class' => 'avatar_file'
                 ],
             ])
             ->add('tel', TextType::class, [
-                'label' => '電話',
+                'label' => 'form.store.tel',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '電話'
+                    'placeholder' => 'form.store.tel'
                 ],
                 'required' => true
             ])
             ->add('latitude', TextType::class, [
-                'label' => 'latitude',
+                'label' => 'form.store.latitude',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'latitude'
+                    'placeholder' => 'form.store.latitude'
                 ],
                 'required' => true
             ])
             ->add('longitude', TextType::class, [
-                'label' => 'longitude',
+                'label' => 'form.store.longitude',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'longitude'
+                    'placeholder' => 'form.store.longitude'
                 ],
                 'required' => true
             ])
             ->add('address', TextType::class, [
-                'label' => '住所',
+                'label' => 'form.store.address',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '住所'
+                    'placeholder' => 'form.store.address'
                 ],
                 'required' => true
             ])
             ->add('aveBill', NumberType::class, [
-                'label' => '平均予算',
+                'label' => 'form.store.ave_bill',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '平均予算'
+                    'placeholder' => 'form.store.ave_bill'
                 ],
                 'required' => true
             ])
             ->add('closeDate', TextareaType::class, [
-                'label' => 'アクセス',
+                'label' => 'form.store.close_date',
                 'attr' => [
                     'rows' => '5',
                     'class' => 'form-control',
-                    'placeholder' => 'アクセス'
+                    'placeholder' => 'form.store.close_date'
                 ],
             ])
             ->add('helpText', TextareaType::class, [
-                'label' => '説明',
+                'label' => 'form.store.description',
                 'attr' => [
                     'rows' => '5',
                     'class' => 'form-control',
-                    'placeholder' => '説明'
+                    'placeholder' => 'form.store.description'
                 ],
             ])
             ->add('category', CategorySearchType::class, [
                 'label' => false,
-                'store_label' => 'ショップ',
             ])
             ->add('storePhotos', CollectionType::class, [
-                'label' => 'ショップ写真',
+                'label' => 'form.store.store_photos',
                 'required' => false,
                 'entry_type' => StorePhotoType::class,
                 'by_reference' => false,

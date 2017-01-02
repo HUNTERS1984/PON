@@ -31,11 +31,11 @@ class NewsCategoryType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => '名',
+                'label' => 'form.news_category.name',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '名'
+                    'placeholder' => 'form.news_category.name'
                 ]
             ]);
     }

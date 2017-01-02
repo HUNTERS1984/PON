@@ -32,34 +32,33 @@ class NewsType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'タイトル',
+                'label' => 'form.news.title',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '名'
+                    'placeholder' => 'form.news.title'
                 ]
             ])
             ->add('introduction', TextareaType::class, [
-                'label' => '導入',
+                'label' => 'form.news.introduction',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 5,
-                    'placeholder' => '導入'
+                    'placeholder' => 'form.news.introduction'
                 ]
             ])
             ->add('description', TextareaType::class, [
-                'label' => '説明',
+                'label' => 'form.news.description',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 5,
-                    'placeholder' => '説明'
+                    'placeholder' => 'form.news.description'
                 ]
             ])
             ->add('newsCategory', NewsCategorySearchType::class, [
                 'label' => false,
-                'news_category_label' => 'ニュースカテゴリ',
             ]);
     }
 }

@@ -34,16 +34,16 @@ class SettingUserType extends AbstractType
     {
         $builder
             ->add('userName', TextType::class, [
-                'label' => 'ユーザー名',
+                'label' => 'form.setting_user.username',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'ユーザー名',
+                    'placeholder' => 'form.setting_user.username',
                     'autocomplete' => 'off',
                 ]
             ])
             ->add('newPassword', PasswordType::class, [
-                'label' => 'パスワード',
+                'label' => 'form.setting_user.new_password',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
@@ -52,69 +52,72 @@ class SettingUserType extends AbstractType
                 ]
             ])
             ->add('confirmPassword', PasswordType::class, [
-                'label' => 'パスワード(確認)',
+                'label' => 'form.setting_user.confirm_password',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'パスワード(確認)',
+                    'placeholder' => 'form.setting_user.confirm_password',
                     'autocomplete' => 'off',
                 ]
             ])
             ->add('name', TextType::class, [
-                'label' => 'フルネーム',
+                'label' => 'form.setting_user.name',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'フルネーム'
+                    'placeholder' => 'form.setting_user.name'
                 ]
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Eメール',
+                'label' => 'form.setting_user.email',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Eメール',
+                    'placeholder' => 'form.setting_user.email',
                     'autocomplete' => 'off',
                 ]
             ])
             ->add('gender', ChoiceType::class, [
-                'label' => '性別',
+                'label' => 'form.setting_user.gender',
                 'required' => true,
                 'choices'  => [
-                    '男性' => 1,
-                    '女性' => 0,
-                    'その他' => 2
+                    'male' => 1,
+                    'female' => 0,
+                    'other' => 2
                 ],
+                'choice_label' => function($value, $key, $index) {
+                    return sprintf("form.setting_user.gender_choices.%s", $key);
+                },
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('tel', TextType::class, [
-                'label' => '電話',
+                'label' => 'form.setting_user.tel',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '電話'
+                    'placeholder' => 'form.setting_user.tel'
                 ]
             ])
             ->add('company', TextType::class, [
-                'label' => '会社',
+                'label' => 'form.setting_user.company',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '会社'
+                    'placeholder' => 'form.setting_user.company'
                 ]
             ])
             ->add('address', TextType::class, [
-                'label' => '住所',
+                'label' => 'form.setting_user.address',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '住所'
+                    'placeholder' => 'form.setting_user.address'
                 ]
             ])
             ->add('imageFile', FileType::class, [
-                'label' => 'アバター画像を変更する',
+                'label' => 'form.setting_user.avatar',
                 'required' => false,
                 'attr' => [
                     'class' => 'avatar_file'
