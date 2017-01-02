@@ -37,7 +37,8 @@
                     });
                 },
                 success: function (response) {
-                    $.unblockUI();
+                    $('div.modal-dialog').unblock();
+                    $('div.tab-content').unblock();
                     response = $.parseJSON(response);
 
                     if(!response.status) {
@@ -58,11 +59,14 @@
                     return false;
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    $('div.modal-dialog').unblock();
+                    $('div.tab-content').unblock();
                     $('#error_message').html(thrownError);
                     return false;
                 },
                 complete: function(){
-                    $.unblockUI();
+                    $('div.modal-dialog').unblock();
+                    $('div.tab-content').unblock();
                 }
             });
             return false;
