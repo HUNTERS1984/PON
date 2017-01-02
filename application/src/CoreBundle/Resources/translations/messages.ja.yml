@@ -66,11 +66,11 @@ user:
         max_message: The Tel cannot be longer than 20 characters
 
 app_user:
-    not_found: App User is not found.
-    delete_false: Deleting is not successful
+    not_found: アプリユーザーが見つかりません。
+    delete_false: 削除が成功しません
     name:
-        min_message: The name must be at least 1 characters long
-        max_message: The name cannot be longer than 100 characters
+        min_message: 名前は1文字以上でなければなりません
+        max_message: 名前は100文字を超えることはできません
     username:
         not_blank: The Username should not be blank
         min_message: The Username must be at least 1 characters long

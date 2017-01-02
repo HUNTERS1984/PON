@@ -1491,3 +1491,11 @@ a.arrow_down.collapsed span{
 .modal-backdrop+.modal-backdrop {
   opacity : 0;
 }
+
+.control-label .required:after,
+.form-group .required:after {
+  content: "*";
+  color: #e02222;
+  font-size: 12px;
+  padding-left: 2px;
+}
