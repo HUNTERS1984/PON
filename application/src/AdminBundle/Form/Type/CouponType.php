@@ -36,71 +36,76 @@ class CouponType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'クーポンタイトル',
+                'label' => 'form.coupon.title',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'クーポンタイトル'
+                    'placeholder' => 'form.coupon.title'
                 ]
             ])
             ->add('status', ChoiceType::class, [
-                'label' => '状態',
+                'label' => 'form.coupon.status',
                 'required' => true,
                 'choices'  => [
-                    'アクティブ' => 1,
-                    '非アクティブ' => 0
+                    'active' => 1,
+                    'inactive' => 0
                 ],
+                'choice_label' => function($value, $key, $index) {
+                    return sprintf("form.coupon.status_choices.%s", $key);
+                },
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('type', ChoiceType::class,[
-                'label' => 'クーポンタイプ',
+                'label' => 'form.coupon.type',
                 'choices'  => [
-                    'ユーザー投稿型' => null,
                     'SNS' => 1,
                     'Store' => 2
                 ],
+                'choice_label' => function($value, $key, $index) {
+                    return sprintf("form.coupon.type_choices.%s", $key);
+                },
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('needLogin', ChoiceType::class,[
-                'label' => 'ログインする必要がある',
+                'label' => 'form.coupon.need_login',
                 'choices'  => [
-                    'はい' => 1,
-                    'いいえ' => 0
+                    'yes' => 1,
+                    'no' => 0
                 ],
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('hashTag', TextareaType::class, [
-                'label' => 'ハッシュタグ',
+                'label' => 'form.coupon.hash_tag',
                 'attr' => [
                     'rows' => '5',
                     'class' => 'form-control',
-                    'placeholder' => 'ハッシュタグ'
+                    'placeholder' => 'form.coupon.hash_tag'
                 ],
             ])
             ->add('size', IntegerType::class, [
-                'label' => '量',
+                'label' => 'form.coupon.amount',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '量'
+                    'placeholder' => 'form.coupon.amount'
                 ]
             ])
             ->add('description', TextareaType::class, [
-                'label' => '説明文',
+                'label' => 'form.coupon.description',
                 'attr' => [
                     'rows' => '5',
                     'class' => 'form-control',
-                    'placeholder' => '説明文'
+                    'placeholder' => 'form.coupon.description'
                 ],
             ])
             ->add('expiredTime', DateType::class, [
-                'label' => '期限',
+                'label' => 'form.coupon.expired_time',
                 'format' => 'y-M-d',
                 'years' => range(date('Y'), date('Y') + 10),
                 'attr' => [
@@ -108,7 +113,7 @@ class CouponType extends AbstractType
                 ],
             ])
             ->add('couponPhotos', CollectionType::class, [
-                'label' => 'クーポンの写真',
+                'label' => 'form.coupon.coupon_photos',
                 'required' => false,
                 'entry_type' => CouponPhotoType::class,
                 'by_reference' => false,
@@ -117,7 +122,7 @@ class CouponType extends AbstractType
                 'allow_delete' => true,
             ])
             ->add('couponUserPhotos', CollectionType::class, [
-                'label' => 'ユーザーの写真',
+                'label' => 'form.coupon.coupon_user_photos',
                 'required' => false,
                 'entry_type' => CouponUserPhotoType::class,
                 'by_reference' => false,
@@ -125,7 +130,7 @@ class CouponType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
             ])->add('imageFile', FileType::class, [
-                'label' => 'アカウントイメージの変更',
+                'label' => 'form.coupon.avatar',
                 'attr' => [
                     'class' => 'avatar_file'
                 ],
@@ -133,7 +138,6 @@ class CouponType extends AbstractType
             ])
             ->add('store', StoreSearchType::class, [
                 'label' => false,
-                'store_label' => 'ショップ',
             ]);
     }
 }

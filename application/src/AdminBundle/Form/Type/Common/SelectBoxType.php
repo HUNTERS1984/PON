@@ -21,7 +21,7 @@ class SelectBoxType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'placeholder' => 'Select',
+                'placeholder' => 'form.select_box.select',
                 'tags' => false,
                 'token_separators' => [','],
                 'min_length_to_search' => static::INFINITY,

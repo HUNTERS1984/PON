@@ -40,7 +40,7 @@ class StoreSearchType extends AbstractType
             [
                 'data_class' => Store::class,
                 'show_category' => true,
-                'store_label' => 'ショップ'
+                'store_label' => 'form.store_search.shop'
             ]
         );
     }
@@ -56,7 +56,7 @@ class StoreSearchType extends AbstractType
                 'label' => $options['store_label'],
                 'min_length_to_search' => 3,
                 'ajax-url' => 'admin_store_search',
-                'placeholder' => 'ショップ名を入力',
+                'placeholder' => 'form.store_search.place_holder',
                 'choice_label' => function ($value) {
                     if ($value) {
                         /** @var Store $store */

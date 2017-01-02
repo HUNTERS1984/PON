@@ -31,15 +31,15 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => '名',
+                'label' => 'form.category.name',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '名'
+                    'placeholder' => 'form.category.name'
                 ]
             ])
             ->add('imageFile', FileType::class, [
-                'label' => 'カテゴリ画像を変更する',
+                'label' => 'form.category.avatar',
                 'required' => false,
                 'attr' => [
                     'class' => 'avatar_file'

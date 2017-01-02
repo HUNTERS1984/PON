@@ -34,31 +34,31 @@ class PushType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $deliveryTimes = [
-            '今すぐ送信してください' => 'now',
-            '時間を指定して配信' => 'special'
+            'now' => 'now',
+            'special' => 'special'
         ];
 
         $segments = $options['segments'];
         $builder
             ->add('title', TextType::class, [
-                'label' => 'タイトル',
+                'label' => 'form.push.title',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'タイトル'
+                    'placeholder' => 'form.push.title'
                 ]
             ])
             ->add('message', TextareaType::class, [
-                'label' => 'メッセージ',
+                'label' => 'form.push.message',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 5,
-                    'placeholder' => 'メッセージ'
+                    'placeholder' => 'form.push.message'
                 ]
             ])
             ->add('segment', ChoiceType::class, [
-                'label' => 'セグメント',
+                'label' => 'form.push.segment',
                 'required' => true,
                 'choices' => array_flip($segments),
                 'attr' => [
@@ -73,8 +73,11 @@ class PushType extends AbstractType
             ])
             ->add('type', ChoiceType::class, [
                 'required' => true,
-                'label' => '配信時間指定',
+                'label' => 'form.push.type',
                 'choices' => $deliveryTimes,
+                'choice_label' => function($value, $key, $index) {
+                    return sprintf("form.push.type_choices.%s", $key);
+                },
                 'attr' => [
                     'class' => 'form-control push_delivery_time',
                     'children' => true

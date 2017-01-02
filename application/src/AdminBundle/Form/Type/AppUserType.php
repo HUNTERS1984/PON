@@ -35,46 +35,49 @@ class AppUserType extends AbstractType
     {
         $builder
             ->add('userName', TextType::class, [
-                'label' => 'ユーザー名',
+                'label' => 'form.app_user.username',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'ユーザー名',
+                    'placeholder' => 'form.app_user.username',
                     'autocomplete' => 'off',
                 ]
             ])
             ->add('name', TextType::class, [
-                'label' => 'フルネーム',
+                'label' => 'form.app_user.name',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'フルネーム'
+                    'placeholder' => 'form.app_user.name'
                 ]
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Eメール',
+                'label' => 'form.app_user.email',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Eメール',
+                    'placeholder' => 'form.app_user.email',
                     'autocomplete' => 'off',
                 ]
             ])
             ->add('gender', ChoiceType::class, [
-                'label' => '性別',
+                'label' => 'form.app_user.gender',
                 'required' => true,
                 'choices'  => [
-                    '男性' => 1,
-                    '女性' => 0,
-                    'その他' => 2
+                    'male' => 1,
+                    'female' => 0,
+                    'other' => 2
                 ],
+                'choice_label' => function($value, $key, $index) {
+                    return sprintf("form.app_user.gender_choices.%s", $key);
+                },
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('role', ChoiceType::class,[
                 'required' => true,
-                'label' => '役割',
+                'label' => 'form.app_user.role',
                 'choices'  => $options['roles'],
                 'attr' => [
                     'class' => 'form-control form-role'
@@ -86,34 +89,34 @@ class AppUserType extends AbstractType
                 'attr' => [
                     'class' => 'form-store'
                 ],
-                'store_label' => 'ショップ',
+                'store_label' => 'form.app_user.shop',
             ])
             ->add('tel', TextType::class, [
-                'label' => '電話',
+                'label' => 'form.app_user.tel',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '電話'
+                    'placeholder' => 'form.app_user.tel'
                 ]
             ])
             ->add('company', TextType::class, [
-                'label' => '会社',
+                'label' => 'form.app_user.company',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '会社'
+                    'placeholder' => 'form.app_user.company'
                 ]
             ])
             ->add('address', TextType::class, [
-                'label' => '住所',
+                'label' => 'form.app_user.address',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '住所'
+                    'placeholder' => 'form.app_user.address'
                 ]
             ])
             ->add('imageFile', FileType::class, [
-                'label' => 'アバター画像を変更する',
+                'label' => 'form.app_user.avatar',
                 'required' => false,
                 'attr' => [
                     'class' => 'avatar_file'

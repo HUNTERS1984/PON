@@ -30,12 +30,12 @@ class SettingSystemType extends AbstractType
     {
         $builder
             ->add('value', TextareaType::class, [
-                'label' => '説明',
+                'label' => 'form.setting_system.description',
                 'required' => true,
                 'attr' => [
                     'rows' => '10',
                     'class' => 'form-control',
-                    'placeholder' => '説明'
+                    'placeholder' => 'form.setting_system.description'
                 ]
             ]);
     }

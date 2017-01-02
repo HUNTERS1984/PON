@@ -40,7 +40,7 @@ class NewsCategorySearchType extends AbstractType
             [
                 'data_class' => NewsCategory::class,
                 'show_category' => true,
-                'news_category_label' => 'ニュースカテゴリ'
+                'news_category_label' => 'form.news_category_search.news_category'
             ]
         );
     }
@@ -56,7 +56,7 @@ class NewsCategorySearchType extends AbstractType
                 'label' => $options['news_category_label'],
                 'min_length_to_search' => 3,
                 'ajax-url' => 'admin_news_category_search',
-                'placeholder' => 'ニュースカテゴリ名を入力',
+                'placeholder' => 'form.news_category_search.place_holder',
                 'choice_label' => function ($value) {
                     if ($value) {
                         /** @var NewsCategory $newsCategory */

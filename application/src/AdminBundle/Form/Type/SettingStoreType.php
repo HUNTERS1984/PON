@@ -120,7 +120,7 @@ class SettingStoreType extends AbstractType
             ])
             ->add('category', CategorySearchType::class, [
                 'label' => false,
-                'store_label' => 'ショップ',
+                'category_label' => 'ショップ',
             ])
             ->add('storePhotos', CollectionType::class, [
                 'label' => 'ショップ写真',

@@ -275,3 +275,98 @@ security:
 
 form:
     add_image: 画像を追加
+    app_user:
+        username: ユーザー名
+        name: フルネーム
+        email: Eメール
+        gender: セックス
+        gender_choices:
+            male: 男性
+            female: 女性
+            other: その他
+        role: 役割
+        shop: ショップ
+        tel: 電話
+        company: 会社
+        address: 住所
+        avatar: アバター画像を変更する
+    category_search:
+        category: カテゴリー
+        place_holder: カテゴリを入力してください
+    category:
+        name: 名
+        avatar: アバター画像を変更する
+    coupon:
+        title: クーポンタイトル
+        status: 状態
+        status_choices:
+            active: アクティブ
+            inactive: 非アクティブ
+        type: クーポンタイプ
+        type_choices:
+            SNS: ソーシャル
+            Store: ショップ
+        need_login: ログインする必要がある
+        need_login_choices:
+            yes: はい
+            no: いいえ
+        hash_tag: ハッシュタグ
+        amount: 量
+        description: 説明
+        expired_time: 有効期限
+        coupon_photos: クーポン写真
+        coupon_user_photos: ユーザーの写真
+        avatar: アバター画像を変更する
+    news_category_search:
+        news_category: ニュースカテゴリ
+        place_holder: ニュースカテゴリを入力
+    news_category:
+        name: 名
+    news:
+        title: タイトル
+        introduction: 導入
+        description: 説明
+    push:
+        title: タイトル
+        message: メッセージ
+        segment: セグメント
+        type: 配信時間指定
+        type_choices:
+            now: 今すぐ送信してください
+            special: 時間を指定して配信
+    setting_system:
+        description: 説明
+    setting_user:
+        username: ユーザー名
+        new_password: パスワード
+        confirm_password: パスワード確認
+        name: フルネーム
+        email: Eメール
+        gender: セックス
+        gender_choices:
+            male: 男性
+            female: 女性
+            other: その他
+        tel: 電話
+        company: 会社
+        address: 住所
+        avatar: アバター画像を変更する
+    store_search:
+        shop: ショップ
+        place_holder: 店に入ってください test
+    store:
+        title: タイトル
+        operation_start_time: 操作開始時刻
+        operation_end_time: 操作終了時刻
+        avatar: アバター画像を変更する
+        tel: 電話
+        latitude: 緯度
+        longitude: 経度
+        address: 住所
+        ave_bill: 平均予算
+        close_date: アクセス
+        description: 説明
+        store_photos: 店舗の写真
+    select_box:
+        select: 選択
+

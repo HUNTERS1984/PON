@@ -40,7 +40,7 @@ class CategorySearchType extends AbstractType
             [
                 'data_class' => Category::class,
                 'show_category' => true,
-                'store_label' => 'カテゴリー'
+                'category_label' => 'form.category_search.category'
             ]
         );
     }
@@ -53,10 +53,10 @@ class CategorySearchType extends AbstractType
         $builder
             ->add('id', SelectBoxType::class, [
                 'required' => true,
-                'label' => $options['store_label'],
+                'label' => $options['category_label'],
                 'min_length_to_search' => 3,
                 'ajax-url' => 'admin_category_search',
-                'placeholder' => 'カテゴリ名を入力',
+                'placeholder' => 'form.category_search.place_holder',
                 'choice_label' => function ($value) {
                     if ($value) {
                         /** @var Category $category */
