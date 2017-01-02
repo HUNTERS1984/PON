@@ -32,8 +32,6 @@ class SummaryController extends Controller
             $result = $this->getManager()->listCouponFromClient($params, $user);
         }
 
-
-
         return $this->render(
             'AdminBundle:Summary:index.html.twig',
             [
@@ -60,7 +58,7 @@ class SummaryController extends Controller
             $store = $this->getStoreManager()->getStore($coupon->getStore()->getId());
 
             if (!$store) {
-                return $this->getFailureMessage('店を見つけることができませんでした！');
+                return $this->get('pon.utils.response')->getFailureMessage('coupon_list.create.store_not_found');
             }
 
             $coupon->setStore($store);
@@ -108,13 +106,13 @@ class SummaryController extends Controller
             $this->getManager()->createCoupon($coupon);
 
             if (!$coupon) {
-                return $this->getFailureMessage('クーポンの作成に失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.create');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -130,7 +128,7 @@ class SummaryController extends Controller
     {
         $coupon = $this->getManager()->getCoupon($id);
         if (!$coupon) {
-            throw $this->createNotFoundException('クーポンが見つかりません。');
+            throw $this->createNotFoundException($this->get('translator')->trans('coupon_list.edit.coupon_not_found'));
         }
 
         $form = $this->createForm(CouponType::class, $coupon);
@@ -139,7 +137,6 @@ class SummaryController extends Controller
             $form
                 ->add('store', StoreSearchType::class, [
                     'label' => false,
-                    'store_label' => 'ショップ',
                 ]);
         }
 
@@ -153,7 +150,7 @@ class SummaryController extends Controller
             $store = $this->getStoreManager()->getStore($coupon->getStore()->getId());
 
             if (!$store) {
-                return $this->getFailureMessage('店を見つけることができませんでした！');
+                return $this->get('pon.utils.response')->getFailureMessage('coupon_list.edit.store_not_found');
             }
 
             $coupon->setStore($store);
@@ -206,13 +203,13 @@ class SummaryController extends Controller
             $coupon = $this->getManager()->saveCoupon($coupon);
 
             if (!$coupon) {
-                return $this->getFailureMessage('クーポンの作成に失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.edit');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -223,24 +220,6 @@ class SummaryController extends Controller
             ]
         );
 
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getSuccessMessage($message = '')
-    {
-        return new Response(json_encode(['status' => true, 'message' => $message]));
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getFailureMessage($message = '')
-    {
-        return new Response(json_encode(['status' => false, 'message' => $message]));
     }
 
     /**
