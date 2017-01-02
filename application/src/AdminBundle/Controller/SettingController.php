@@ -39,7 +39,7 @@ class SettingController extends Controller
 
             if($appUser->getNewPassword() || $appUser->getConfirmPassword()) {
                 if($appUser->getNewPassword() != $appUser->getConfirmPassword()) {
-                    return $this->getFailureMessage('パスワードの確認は同じパスワードではありません');
+                    return $this->get('pon.utils.response')->getFailureMessage('account_setting.index.password_invalid');
                 }
 
                 if($appUser->getConfirmPassword()) {
@@ -55,13 +55,13 @@ class SettingController extends Controller
             $appUser = $this->getManager()->saveAppUser($appUser);
 
             if (!$appUser) {
-                return $this->getFailureMessage('ユーザーの作成に失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.edit');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $formUser->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -96,13 +96,13 @@ class SettingController extends Controller
             $contact = $this->getSettingManager()->saveSetting($contact);
 
             if (!$contact) {
-                return $this->getFailureMessage('連絡先が失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.edit');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         $template = "AdminBundle:Setting:setting.html.twig";
@@ -171,13 +171,13 @@ class SettingController extends Controller
             $store = $this->getStoreManager()->saveStore($store);
 
             if (!$store) {
-                return $this->getFailureMessage('ユーザーの作成に失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.edit');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -187,24 +187,6 @@ class SettingController extends Controller
                 'store' => $store
             ]
         );
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getSuccessMessage($message = '')
-    {
-        return new Response(json_encode(['status' => true, 'message' => $message]));
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getFailureMessage($message = '')
-    {
-        return new Response(json_encode(['status' => false, 'message' => $message]));
     }
 
     /**

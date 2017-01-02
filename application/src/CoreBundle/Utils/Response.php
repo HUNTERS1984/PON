@@ -1,9 +1,16 @@
 <?php
 namespace CoreBundle\Utils;
 
+use Symfony\Component\HttpFoundation\Response as BaseResponse;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class Response
 {
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
     public static function getData($data = [], $pagination = [])
     {
         $result = [
@@ -15,5 +22,34 @@ class Response
             $result['pagination'] = $pagination;
         }
        return $result;
+    }
+
+    /**
+     * @param string $message
+     * @return BaseResponse
+     */
+    public function getSuccessMessage($message = '')
+    {
+        return new BaseResponse(json_encode(['status' => true, 'message' => $this->translator->trans($message)]));
+    }
+
+    /**
+     * @param string $message
+     * @return BaseResponse
+     */
+    public function getFailureMessage($message = '')
+    {
+        return new BaseResponse(json_encode(['status' => false, 'message' => $this->translator->trans($message)]));
+    }
+
+    /**
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function setTranslator(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+
+        return $this;
     }
 }

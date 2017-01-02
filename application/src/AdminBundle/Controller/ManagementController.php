@@ -58,7 +58,7 @@ class ManagementController extends Controller
         }
 
         if(!$useList || $useList->getStatus() != 0) {
-            throw $this->createNotFoundException('Idが見つかりません。');
+            throw $this->createNotFoundException($this->get('translator')->trans('approve_management.approve.id_not_found'));
         }
 
         $this->getManager()->approveCoupon($useList);
@@ -80,7 +80,7 @@ class ManagementController extends Controller
             $this->getManager()->approveAllCouponFromClient($this->getUser());
         }
 
-        return $this->getSuccessMessage();
+        return $this->get('pon.utils.response')->getSuccessMessage();
 
     }
 
@@ -94,7 +94,7 @@ class ManagementController extends Controller
     {
         $ids = $request->request->get('ids');
         if(empty($ids)) {
-            throw $this->createNotFoundException('Idが見つかりません。');
+            throw $this->createNotFoundException($this->get('translator')->trans('approve_management.approve.id_not_found'));
         }
 
         $ids = explode(',', $ids);
@@ -105,7 +105,7 @@ class ManagementController extends Controller
             $this->getManager()->approveAllCouponFromClient($this->getUser(), $ids);
         }
 
-        return $this->getSuccessMessage();
+        return $this->get('pon.utils.response')->getSuccessMessage();
 
     }
 
@@ -125,7 +125,7 @@ class ManagementController extends Controller
         }
 
         if(!$useList || !in_array($useList->getStatus(), [0,1])) {
-            throw $this->createNotFoundException('Idが見つかりません。');
+            throw $this->createNotFoundException($this->get('translator')->trans('approve_management.approve.id_not_found'));
         }
 
         $post = null;
@@ -162,7 +162,7 @@ class ManagementController extends Controller
         }
 
         if(!$useList || !in_array($useList->getStatus(), [0,1])) {
-            throw $this->createNotFoundException('Idが見つかりません。');
+            throw $this->createNotFoundException($this->get('translator')->trans('approve_management.approve.id_not_found'));
         }
 
         $user = $this->getUserManager()->getAppUser($useList->getAppUser()->getId());
@@ -203,7 +203,7 @@ class ManagementController extends Controller
         }
 
         if(!$useList || $useList->getStatus() != 1) {
-            throw $this->createNotFoundException('Idが見つかりません。');
+            throw $this->createNotFoundException($this->get('translator')->trans('approve_management.approve.id_not_found'));
         }
 
         $this->getManager()->unApproveCoupon($useList);
@@ -241,23 +241,5 @@ class ManagementController extends Controller
     public function getPostPhotoManager()
     {
         return $this->get('pon.manager.post_photo');
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getSuccessMessage($message = '')
-    {
-        return new Response(json_encode(['status' => true, 'message' => $message]));
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getFailureMessage($message = '')
-    {
-        return new Response(json_encode(['status' => false, 'message' => $message]));
     }
 }

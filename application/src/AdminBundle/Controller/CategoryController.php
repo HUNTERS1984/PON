@@ -61,13 +61,13 @@ class CategoryController extends Controller
             $category = $this->getManager()->createCategory($category);
 
             if (!$category) {
-                return $this->getFailureMessage('カテゴリの作成に失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.create');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -89,7 +89,7 @@ class CategoryController extends Controller
     {
         $category = $this->getManager()->getCategory($id);
         if (!$category) {
-            throw $this->createNotFoundException('カテゴリが見つかりませんでした。');
+            throw $this->createNotFoundException($this->get('translator')->trans('category.edit.category_not_found'));
         }
         $form = $this->createForm(CategoryType::class, $category)->handleRequest($request);
 
@@ -106,13 +106,13 @@ class CategoryController extends Controller
             $category = $this->getManager()->saveCategory($category);
 
             if (!$category) {
-                return $this->getFailureMessage('カテゴリの作成に失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.edit');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -142,24 +142,6 @@ class CategoryController extends Controller
         $response = new JsonResponse();
         $data = $this->getSerializer()->serialize($result, ['list']);
         return $response->setData($data);
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getSuccessMessage($message = '')
-    {
-        return new Response(json_encode(['status' => true, 'message' => $message]));
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getFailureMessage($message = '')
-    {
-        return new Response(json_encode(['status' => false, 'message' => $message]));
     }
 
     /**

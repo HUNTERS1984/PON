@@ -28,6 +28,10 @@ common:
     delete: 削除
     n_a: N/A
     send: 送信
+    status_false:
+        create: 作成に失敗しました
+        edit: 更新に失敗しました
+
 
 dashboard:
     index:
@@ -51,7 +55,7 @@ dashboard:
 
 approve_management:
     index:
-        title: 管理を承認する
+        title: 承認管理
         coupon_list_number: クーポン一覧
         status:
             all: すべて
@@ -71,6 +75,9 @@ approve_management:
             check_photos: 写真を確認する
             unapproved: 未承認
             approved: 承認済み
+
+    approve:
+        id_not_found: Idが見つかりません。
 
     user:
         basic_information: 基本情報
@@ -94,11 +101,14 @@ coupon_list:
             all: すべて
             approved: 承認済み
             unapproved: 未承認
-        search_place_holder: ユーザー名/ハッシュタグを入力してください
+        search_place_holder: クーポンIDを入力してください
     create:
         create_coupon: クーポンを作成する
+        store_not_found: 店舗が見つかりませんでした
     edit:
         edit_coupon: クーポンを編集
+        store_not_found: 店舗が見つかりませんでした
+        coupon_not_found: クーポンが見つかりませんでした
 
 push:
     index:
@@ -115,6 +125,7 @@ push:
         send: このプッシュ通知を配信
     edit:
         title: プッシュ通知の詳細
+        push_not_found: プッシュが見つかりませんでした
 
 customer:
     index:
@@ -134,7 +145,8 @@ customer:
                 active: 有効
                 inactive: 無効
 
-
+    active:
+        customer_not_found: 顧客が見つかりませんでした
     view:
         basic_information: 基本情報
         user_id: ユーザーID
@@ -166,8 +178,11 @@ user:
                 inactive: 無効
     create:
         title: ユーザーの作成
+        store_not_found: 店舗が見つかりませんでした
     edit:
         title: ユーザーの編集
+        store_not_found: 店舗が見つかりませんでした
+        user_not_found: ユーザーが見つかりませんでした
 
 news:
     index:
@@ -176,14 +191,20 @@ news:
         add_news: ニュースを追加
     create:
         title: ニュースを作成する
+        store_not_found: 店舗が見つかりませんでした
+        news_category_not_found: ニュースカテゴリが見つかりませんでした
     edit:
         title: ニュースを編集
+        store_not_found: 店舗が見つかりませんでした
+        news_category_not_found: ニュースカテゴリが見つかりませんでした
+        news_not_found: ニュースが見つかりませんでした
 
 account_setting:
     index:
         title: アカウント設定
         account_information: 口座情報
         shop_information: ショップ情報
+        password_invalid: パスワードの確認は同じパスワードではありません
     store:
         title: ニュースを作成する
 
@@ -207,6 +228,7 @@ category:
         title: カテゴリを作成
     edit:
         title: カテゴリーを編集
+        category_not_found: カテゴリが見つかりませんでした
 
 shop:
     index:
@@ -218,8 +240,11 @@ shop:
         operation_close_time: 操作終了時刻
     create:
         title: ショップを作る
+        category_not_found: カテゴリが見つかりませんでした
     edit:
         title: ショップを編集
+        category_not_found: カテゴリが見つかりませんでした
+        store_not_found: 店舗が見つかりませんでした
 
 news_category:
     index:
@@ -231,12 +256,14 @@ news_category:
         title: ニュースカテゴリを作成する
     edit:
         title: ニュースカテゴリを編集
+        news_category_not_found: ニュースカテゴリが見つかりませんでした
 
 qr_code:
     create:
         title: QRコード出力
         download: QRコードをダウンロード
         copy: コピー
+        store_not_found: 店舗が見つかりませんでした
 
 help:
     index:
@@ -264,6 +291,13 @@ security:
     reset:
         title: パスワードを再設定する
         return_login: ログインに戻る
+        email_not_found: 電子メールが見つかりませんでした
+        user_not_found: ユーザーは見つかりませんでした。
+        token_expired: トークンが失効しました
+        invalid_message: パスワードフィールドは一致する必要があります。
+        first_password: パスワード
+        second_password: パスワードを認証する
+        subject: "[PON]パスワードリセット通知"
     false:
         title: パスワードの変更に失敗しました
 
@@ -280,6 +314,7 @@ form:
         name: フルネーム
         email: Eメール
         gender: セックス
+        password: パスワード
         gender_choices:
             male: 男性
             female: 女性
@@ -353,7 +388,7 @@ form:
         avatar: アバター画像を変更する
     store_search:
         shop: ショップ
-        place_holder: 店に入ってください test
+        place_holder: 店に入ってください
     store:
         title: タイトル
         operation_start_time: 操作開始時刻

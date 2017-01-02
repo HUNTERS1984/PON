@@ -44,7 +44,6 @@ class QRCodeController extends Controller
         if($this->isGranted('ROLE_ADMIN')) {
             $form->add('store', StoreSearchType::class, [
                 'label' => false,
-                'store_label' => 'ショップ'
             ]);
         }
 
@@ -60,20 +59,20 @@ class QRCodeController extends Controller
                 $store = $data['store'];
                 $link = $data['link'];
                 if (!$store) {
-                    return $this->getFailureMessage('店は空ではありません！');
+                    return $this->get('pon.utils.response')->getFailureMessage('qr_code.create.store_not_found');
                 }
                 $store = $this->getStoreManager()->getStore($store->getId());
                 $store->setLink($link);
             }
             $store = $this->getManager()->saveStore($store);
             if (!$store) {
-                return $this->getFailureMessage('ショップの作成に失敗しましたs');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.edit');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -101,7 +100,7 @@ class QRCodeController extends Controller
         $store = $this->getManager()->getStore($id);
 
         if(!$this->isGranted('ROLE_ADMIN') && $user->getStore()->getId() !== $store->getId()) {
-            return $this->getFailureMessage('ショップが見つかりませんでした');
+            return $this->get('pon.utils.response')->getFailureMessage('qr_code.create.store_not_found');
         }
         $data['store'] = $this->getSerializer()->serialize($store, ['list']);
         $link = $this->get('router')->generate('endroid_qrcode', [
@@ -112,27 +111,8 @@ class QRCodeController extends Controller
             'label_font_size' => 16,
         ]);
         $data['link'] = $link;
-        return $this->getSuccessMessage('Success', $data);
+        return $this->get('pon.utils.response')->getSuccessMessage('Success', $data);
     }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getSuccessMessage($message = '', $data = null)
-    {
-        return new Response(json_encode(['status' => true, 'message' => $message, 'data' => $data]));
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getFailureMessage($message = '')
-    {
-        return new Response(json_encode(['status' => false, 'message' => $message]));
-    }
-
 
     /**
      * @return StoreManager

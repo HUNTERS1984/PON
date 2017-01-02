@@ -83,7 +83,7 @@ class StoreController extends Controller
             $store = $form->getData();
             $category = $this->getCategoryManager()->getCategory($store->getCategory()->getId());
             if (!$category) {
-                return $this->getFailureMessage('ショップを見つけることができませんでした');
+                return $this->get('pon.utils.response')->getFailureMessage('shop.create.category_not_found');
             }
 
             $store->setCategory($category);
@@ -111,13 +111,13 @@ class StoreController extends Controller
             $store = $this->getManager()->createStore($store);
 
             if (!$store) {
-                return $this->getFailureMessage('ショップの作成に失敗しましたs');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.create');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -139,7 +139,7 @@ class StoreController extends Controller
     {
         $store = $this->getManager()->getStore($id);
         if (!$store) {
-            throw $this->createNotFoundException('ショップが見つかりませんでした。');
+            throw $this->createNotFoundException($this->get('translator')->trans('shop.edit.store_not_found'));
         }
         $form = $this->createForm(StoreType::class, $store)->handleRequest($request);
 
@@ -174,13 +174,13 @@ class StoreController extends Controller
             $store = $this->getManager()->saveStore($store);
 
             if (!$store) {
-                return $this->getFailureMessage('ショップの作成に失敗しましたs');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.edit');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -192,25 +192,6 @@ class StoreController extends Controller
         );
 
     }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getSuccessMessage($message = '')
-    {
-        return new Response(json_encode(['status' => true, 'message' => $message]));
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getFailureMessage($message = '')
-    {
-        return new Response(json_encode(['status' => false, 'message' => $message]));
-    }
-
 
     /**
      * @return StoreManager

@@ -56,7 +56,6 @@ class NewsController extends Controller
         if($this->isGranted('ROLE_ADMIN')) {
             $form->add('store', StoreSearchType::class, [
                 'label' => false,
-                'store_label' => 'ショップ',
             ]);
         }
 
@@ -76,7 +75,7 @@ class NewsController extends Controller
             }
 
             if (!$store) {
-                return $this->getFailureMessage('店を見つけることができませんでした！');
+                return $this->get('pon.utils.response')->getFailureMessage('news.create.store_not_found');
             }
 
             $news->setStore($store);
@@ -84,7 +83,7 @@ class NewsController extends Controller
             $newsCategory = $this->getNewsCategoryManager()->getNewsCategory($news->getNewsCategory()->getId());
 
             if(!$newsCategory) {
-                return $this->getFailureMessage('ニュースカテゴリを見つけることができませんでした');
+                return $this->get('pon.utils.response')->getFailureMessage('news.create.news_category_not_found');
             }
 
             $news->setNewsCategory($newsCategory);
@@ -93,13 +92,13 @@ class NewsController extends Controller
             $news = $this->getManager()->createNews($news);
 
             if (!$news) {
-                return $this->getFailureMessage('ニュースの作成に失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.create');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -121,13 +120,12 @@ class NewsController extends Controller
     {
         $news = $this->getManager()->getNews($id);
         if (!$news) {
-            throw $this->createNotFoundException('ニュースが見つかりませんでした。');
+            throw $this->createNotFoundException($this->get('translator')->trans('news.edit.news_not_found'));
         }
         $form = $this->createForm(NewsType::class, $news);
         if($this->isGranted('ROLE_ADMIN')) {
             $form->add('store', StoreSearchType::class, [
                 'label' => false,
-                'store_label' => 'ショップ',
             ]);
         }
         $form->handleRequest($request);
@@ -145,14 +143,14 @@ class NewsController extends Controller
             }
 
             if (!$store) {
-                return $this->getFailureMessage('店を見つけることができませんでした！');
+                return $this->get('pon.utils.response')->getFailureMessage('news.edit.store_not_found');
             }
             $news->setStore($store);
 
             $newsCategory = $this->getNewsCategoryManager()->getNewsCategory($news->getNewsCategory()->getId());
 
             if(!$newsCategory) {
-                return $this->getFailureMessage('ニュースカテゴリを見つけることができませんでした');
+                return $this->get('pon.utils.response')->getFailureMessage('news.edit.news_category_not_found');
             }
 
             $news->setNewsCategory($newsCategory);
@@ -160,13 +158,13 @@ class NewsController extends Controller
             $news = $this->getManager()->saveNews($news);
 
             if (!$news) {
-                return $this->getFailureMessage('ニュースの作成に失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.edit');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -177,24 +175,6 @@ class NewsController extends Controller
             ]
         );
 
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getSuccessMessage($message = '')
-    {
-        return new Response(json_encode(['status' => true, 'message' => $message]));
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getFailureMessage($message = '')
-    {
-        return new Response(json_encode(['status' => false, 'message' => $message]));
     }
 
     /**

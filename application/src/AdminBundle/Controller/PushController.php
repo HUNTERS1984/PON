@@ -56,7 +56,7 @@ class PushController extends Controller
     public function updateAction(Request $request)
     {
         if(!$request->isXmlHttpRequest() ) {
-            return $this->getFailureMessage('プッシュ設定の作成に失敗しました');
+            return $this->get('pon.utils.response')->getFailureMessage('common.status_false.create');
         }
 
         $pushSetting = new PushSetting();
@@ -64,7 +64,7 @@ class PushController extends Controller
         $form = $this->createPush($request, $this->getParameter('segments'), $pushSetting);
 
         if (count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         /** @var PushSetting $pushSetting */
@@ -77,21 +77,21 @@ class PushController extends Controller
         try{
             $pushSetting = $this->getManager()->createPushSetting($pushSetting);
         }catch (\Exception $ex) {
-            return $this->getFailureMessage($ex->getMessage());
+            return $this->get('pon.utils.response')->getFailureMessage($ex->getMessage());
         }
 
         if (!$pushSetting) {
-            return $this->getFailureMessage('プッシュ設定の作成に失敗しました');
+            return $this->get('pon.utils.response')->getFailureMessage('common.status_false.create');
         }
 
-        return $this->getSuccessMessage();
+        return $this->get('pon.utils.response')->getSuccessMessage();
     }
 
     public function editAction(Request $request, $id)
     {
         $pushSetting = $this->getManager()->getPushSetting($id);
         if (!$pushSetting) {
-            throw $this->createNotFoundException('プッシュが見つかりませんでした');
+            throw $this->createNotFoundException($this->get('translator')->trans('push.edit.push_not_found'));
         }
 
         $form = $this->createPush($request, $this->getParameter('segments'), $pushSetting);
@@ -122,23 +122,5 @@ class PushController extends Controller
             ->handleRequest($request);
 
         return $form;
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getSuccessMessage($message = '')
-    {
-        return new Response(json_encode(['status' => true, 'message' => $message]));
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getFailureMessage($message = '')
-    {
-        return new Response(json_encode(['status' => false, 'message' => $message]));
     }
 }

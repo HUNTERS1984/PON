@@ -21,14 +21,12 @@ class SecurityController extends Controller
 
         /** @var AppUser $user */
         $user = $this->getUser();
-//       var_dump($user);die();
         if(!is_null($user) && $this->isGranted('ROLE_AGENT')){
             return $this->redirectToRoute('admin_homepage');
         }
 
         return $this->render('AdminBundle:Security:login.html.twig',
             [
-//                'csrf_token' => 'xx',
                 'error' => $error,
                 'lastUsername' => $lastUsername,
             ]
@@ -39,11 +37,11 @@ class SecurityController extends Controller
     {
         $form = $this->createFormBuilder()
             ->add('email', EmailType::class, [
-                'label' => 'Eメールアドレス',
+                'label' => 'form.app_user.email',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Eメールアドレス',
+                    'placeholder' => 'form.app_user.email',
                     'autocomplete' => 'off',
                 ]
             ])
@@ -57,7 +55,7 @@ class SecurityController extends Controller
             /**@var AppUser $appUser */
             $appUser = $this->getManager()->getAppUserByEmail($email);
             if(!$appUser) {
-                $this->addFlash('forgot_password_error', "電子メールが見つかりませんでした");
+                $this->addFlash('forgot_password_error', $this->get('translator')->trans("security.reset.email_not_found"));
             }else{
                 $this->resetPassword($appUser);
                 return $this->render('AdminBundle:Security:forgot_success.html.twig');
@@ -74,31 +72,31 @@ class SecurityController extends Controller
         $token = $request->get('token');
         $appUser = $this->getManager()->getAppUserById($id);
         if(!$appUser) {
-            throw $this->createNotFoundException('ユーザーは見つかりませんでした。');
+            throw $this->createNotFoundException($this->get('translator')->trans('security.reset.user_not_found'));
         }
 
         if($appUser->getResetToken() != $token || $appUser->getTokenExpired() < new \DateTime()) {
-            throw $this->createNotFoundException('トークンが失効しました');
+            throw $this->createNotFoundException($this->get('translator')->trans('security.reset.token_expired'));
         }
 
         $form = $this->createFormBuilder()
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'invalid_message' => 'パスワードフィールドは一致する必要があります。',
+                'invalid_message' => $this->get('translator')->trans('security.reset.invalid_message'),
                 'options' => array('attr' => array('class' => 'form-control')),
                 'required' => true,
                 'first_options'  => [
-                    'label' => 'パスワード',
+                    'label' => 'security.reset.first_password',
                     'attr' => [
                         'class' => 'form-control',
-                        'placeholder' => 'パスワード'
+                        'placeholder' => 'security.reset.first_password'
                     ]
                 ],
                 'second_options' => [
-                    'label' => 'パスワードを認証する',
+                    'label' => 'security.reset.second_password',
                     'attr' => [
                         'class' => 'form-control',
-                        'placeholder' => 'パスワードを認証する'
+                        'placeholder' => 'security.reset.second_password'
                     ]
                 ],
             ))
@@ -140,7 +138,7 @@ class SecurityController extends Controller
         $appUser
             ->setTokenExpired($expiredTime)
             ->setResetToken(StringGenerator::secureGenerate());
-        $subject = "[PON]パスワードリセット通知";
+        $subject = $this->get('translator')->trans("security.reset.subject");
         $body = $this->get('twig')->render(
             'AdminBundle:Security:forgot_email.html.twig',
             [

@@ -285,6 +285,11 @@ services:
         class: CoreBundle\Exception\ExceptionHandler
         arguments: ["@validator", "@translator"]
 
+    pon.utils.response:
+        class: CoreBundle\Utils\Response
+        calls:
+            - [setTranslator, ["@translator"]]
+
     pon.utils.data:
         class: CoreBundle\Utils\Data
 

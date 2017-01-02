@@ -59,11 +59,11 @@ class AppUserController extends Controller
                 ]
             ]
         )->add('plainPassword', PasswordType::class, [
-            'label' => 'パスワード',
+            'label' => 'form.app_user.password',
             'required' => true,
             'attr' => [
                 'class' => 'form-control',
-                'placeholder' => 'パスワード',
+                'placeholder' => 'form.app_user.password',
                 'autocomplete' => 'off',
             ]
         ]);
@@ -79,7 +79,7 @@ class AppUserController extends Controller
                 $storeId = $appUser->getStore()->getId();
                 $store = $this->getStoreManager()->getStore($storeId);
                 if (!$store) {
-                    return $this->getFailureMessage('店を見つけることができませんでした！');
+                    return $this->get('pon.utils.response')->getFailureMessage('user.create.store_not_found');
                 }
                 $appUser->setStore($store);
             }
@@ -93,13 +93,13 @@ class AppUserController extends Controller
             $appUser = $this->getManager()->createAppUser($appUser);
 
             if (!$appUser) {
-                return $this->getFailureMessage('ユーザーの作成に失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.create');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -132,7 +132,7 @@ class AppUserController extends Controller
     {
         $appUser = $this->getManager()->getAppUser($id);
         if (!$appUser) {
-            throw $this->createNotFoundException('ユーザーは見つかりませんでした。');
+            throw $this->createNotFoundException($this->get('translator')->trans('user.edit.user_not_found'));
         }
         $appUser->setRole($appUser->getRoles()[0]);
         $form = $this->createForm(
@@ -145,11 +145,11 @@ class AppUserController extends Controller
                 ]
             ])
             ->add('plainPassword', PasswordType::class, [
-            'label' => 'パスワード',
+            'label' => 'form.app_user.password',
             'required' => false,
             'attr' => [
                 'class' => 'form-control',
-                'placeholder' => 'パスワード',
+                'placeholder' => 'form.app_user.password',
                 'autocomplete' => 'off',
             ]
         ])->handleRequest($request);
@@ -163,7 +163,7 @@ class AppUserController extends Controller
                 $storeId = $appUser->getStore()->getId();
                 $store = $this->getStoreManager()->getStore($storeId);
                 if (!$store) {
-                    return $this->getFailureMessage('店を見つけることができませんでした！');
+                    return $this->get('pon.utils.response')->getFailureMessage('user.edit.store_not_found');
                 }
                 $appUser->setStore($store);
             }
@@ -177,13 +177,13 @@ class AppUserController extends Controller
             $appUser = $this->getManager()->saveAppUser($appUser);
 
             if (!$appUser) {
-                return $this->getFailureMessage('ユーザーの作成に失敗しました');
+                return $this->get('pon.utils.response')->getFailureMessage('common.status_false.edit');
             }
-            return $this->getSuccessMessage();
+            return $this->get('pon.utils.response')->getSuccessMessage();
         }
 
         if ($request->isXmlHttpRequest() && count($errors = $form->getErrors(true)) > 0) {
-            return $this->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
+            return $this->get('pon.utils.response')->getFailureMessage($this->get('translator')->trans($errors[0]->getMessage()));
         }
 
         return $this->render(
@@ -206,7 +206,7 @@ class AppUserController extends Controller
     {
         $appUser = $this->getManager()->getAppUser($id);
         if (!$appUser) {
-            throw $this->createNotFoundException('ユーザーは見つかりませんでした。');
+            throw $this->createNotFoundException($this->get('translator')->trans('user.edit.user_not_found'));
         }
 
         $enabled = $appUser->isEnabled()? false: true;
@@ -215,24 +215,6 @@ class AppUserController extends Controller
         $this->getManager()->saveAppUser($appUser);
         return $this->redirectToRoute('admin_app_user');
 
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getSuccessMessage($message = '')
-    {
-        return new Response(json_encode(['status' => true, 'message' => $message]));
-    }
-
-    /**
-     * @param string $message
-     * @return Response
-     */
-    public function getFailureMessage($message = '')
-    {
-        return new Response(json_encode(['status' => false, 'message' => $message]));
     }
 
     /**

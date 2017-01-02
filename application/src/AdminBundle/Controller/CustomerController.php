@@ -46,7 +46,7 @@ class CustomerController extends Controller
     {
         $appUser = $this->getManager()->getAppUser($id);
         if (!$appUser) {
-            throw $this->createNotFoundException('ユーザーは見つかりませんでした。');
+            throw $this->createNotFoundException($this->get('translator')->trans('customer.active.customer_not_found'));
         }
 
         $enabled = $appUser->isEnabled()? false: true;
@@ -67,7 +67,7 @@ class CustomerController extends Controller
     {
         $appUser = $this->getManager()->getAppUser($id);
         if (!$appUser) {
-            throw $this->createNotFoundException('ユーザーは見つかりませんでした。');
+            throw $this->createNotFoundException($this->get('translator')->trans('customer.active.customer_not_found'));
         }
 
         return $this->render(
