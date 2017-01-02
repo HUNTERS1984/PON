@@ -369,4 +369,6 @@ form:
         store_photos: 店舗の写真
     select_box:
         select: 選択
+    collection:
+        add: 追加
 
