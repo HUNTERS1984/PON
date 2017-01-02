@@ -1,12 +1,12 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}{{ "dashboard.index.title"|trans }}{% endblock %}
 {% set active_menu = 'dashboard' %}
 
 {% block breadcurm %}
     <div class="row">
         <div class="col-md-12 col-xs-12">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">TOP</span></li>
+                <li><span class="text_bre">{{ "dashboard.index.title"|trans }}</span></li>
             </ul>
         </div>
     </div>
@@ -17,7 +17,7 @@
 {% block page_content %}
     <!-- wrapp_top -->
     <div class="wrapp_top">
-        <div class="span_title">最近発行したクーポン</div>
+        <div class="span_title">{{ "dashboard.index.coupon_recent"|trans }}</div>
         <div class="category_top">
             <div class="row">
                 {% for coupon in coupons %}
@@ -35,7 +35,7 @@
                             <p><a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="link_blue click_to_load_modal_popup">{{ coupon_types[coupon.type] }}</a></p>
                             <p>
                                 <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="link_blue click_to_load_modal_popup">
-                                    <span class="red">期限: {{ coupon.expiredTime|date("Y.m.d") }}</span>
+                                    <span class="red">{{ "dashboard.index.deadline"|trans }}: {{ coupon.expiredTime|date("Y.m.d") }}</span>
                                 </a>
                             </p>
                         </div>

@@ -1,5 +1,5 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}Management{% endblock %}
+{% block title %}{{ "approve_management.index.title"|trans }}{% endblock %}
 {% set active_menu = 'management' %}
 
 {% set count = pagination.item_total %}
@@ -18,15 +18,15 @@
     <div class="row">
         <div class="col-md-3 col-xs-12">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">クーポン一覧</span></li>
+                <li><span class="text_bre">{{ "approve_management.index.coupon_list_number"|trans }}</span></li>
                 <li><span class="no_bre">{{ count }}</span></li>
             </ul>
         </div>
         <div class="col-md-6 col-xs-12">
             <div class="btn-group btn-group-justified">
-                <a href="{{ path("admin_management", params_emptyapproved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is  empty %}active{% endif %}" role="button">全て</a>
-                <a href="{{ path("admin_management", params_approved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 1%}active{% endif %}" role="button">承認済み</a>
-                <a href="{{ path("admin_management", params_unapproved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 0%}active{% endif %}" role="button">未承認</a>
+                <a href="{{ path("admin_management", params_emptyapproved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is  empty %}active{% endif %}" role="button">{{ "approve_management.index.status.all"|trans }}</a>
+                <a href="{{ path("admin_management", params_approved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 1%}active{% endif %}" role="button">{{ "approve_management.index.status.approved"|trans }}</a>
+                <a href="{{ path("admin_management", params_unapproved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 0%}active{% endif %}" role="button">{{ "approve_management.index.status.unapproved"|trans }}</a>
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
         <div class="row">
             <form  method="GET" action="{{ path('admin_management') }}"  class="form-group" role="form">
                 <div class=" col-md-5 form-group ">
-                    <input type="text" value="{{ query }}" name="query" id="search" class="form-control has-feedback-left" id="" placeholder="サーチ">
+                    <input type="text" value="{{ query }}" name="query" id="search" class="form-control has-feedback-left" id="" placeholder="{{ "approve_management.index.search"|trans }}">
                 </div>
                 <div class="col-md-1">
                     <button type="submit" class="btn btn-white"><i class="fa fa-search"></i></button>
@@ -47,8 +47,8 @@
             </form>
             <div class="col-md-6">
                 <ul class="btn_search_right">
-                    <li><a class="ajaxModal" data-ajax-checked=".ckmanagement" data-ajax-checked-field="ids" data-ajax-confirm="あなたはすべてを承認するのですか？" data-ajax-url="{{ path("admin_management_approve_selected") }}"  data-ajax-redirect="{{ path("admin_management") }}" href="#">選択したユーザーを承認</a></li>
-                    <li><a class="ajaxModal"  data-ajax-confirm="あなたはすべてを承認するのですか？" data-ajax-url="{{ path("admin_management_approve_all") }}"  data-ajax-redirect="{{ path("admin_management") }}" href="#">すべてのユーザーを承認</a></li>
+                    <li><a class="ajaxModal" data-ajax-checked=".ckmanagement" data-ajax-checked-field="ids" data-ajax-confirm="{{ "approve_management.index.approve_select_confirm"|trans }}" data-ajax-url="{{ path("admin_management_approve_selected") }}"  data-ajax-redirect="{{ path("admin_management") }}" href="javascript:void(0);">{{ "approve_management.index.approve_select"|trans }}</a></li>
+                    <li><a class="ajaxModal"  data-ajax-confirm="{{ "approve_management.index.approve_all_confirm"|trans }}" data-ajax-url="{{ path("admin_management_approve_all") }}"  data-ajax-redirect="{{ path("admin_management") }}" href="javascript:void(0);">{{ "approve_management.index.approve_all"|trans }}</a></li>
                 </ul>
             </div>
         </div>
@@ -74,18 +74,18 @@
             <table class="table management_01">
                 <thead>
                 <tr>
-                    <th>選択</th>
+                    <th>{{ "approve_management.index.table.choice"|trans }}</th>
                     <th></th>
-                    <th>ユーザーネーム</th>
-                    <th>投稿写真</th>
-                    <th>ハッシュタグ</th>
-                    <th>ステータス</th>
+                    <th>{{ "approve_management.index.table.user_name"|trans }}</th>
+                    <th>{{ "approve_management.index.table.post_photo"|trans }}</th>
+                    <th>{{ "approve_management.index.table.hash_tag"|trans }}</th>
+                    <th>{{ "approve_management.index.table.status"|trans }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% if pagination.page_total == 0 %}
                 <tr class="active">
-                    <td align="center" colspan="9">No Records.</td>
+                    <td align="center" colspan="9">{{ "common.no_record"|trans }}</td>
                 </tr>
                 {% else %}
                     {% for item in lists %}
@@ -109,15 +109,15 @@
                         </td>
                         <td>
                             <a data-toggle="modal" data-target="#viewPhoto" data-dismiss="modal"  class="click_to_load_modal_popup" href="{{ path('admin_management_photo',{id:item.id}) }}" title="" class="blue">
-                                写真を確認する
+                                {{ "approve_management.index.table.check_photos"|trans }}
                             </a>
                         </td>
                         <td> {{ item.coupon.hashTag|replace({',': ' '})}}</td>
                         <td>
                             {% if item.status == 0 %}
-                                <a href="{{ path("admin_management_approve",{id:item.id}) }}" title="" class="red">未承認</a>
+                                <a href="{{ path("admin_management_approve",{id:item.id}) }}" title="" class="red"> {{ "approve_management.index.table.unapproved"|trans }}</a>
                             {% else %}
-                                <a href="{{ path("admin_management_unapprove",{id:item.id}) }}" title="" class="blue">承認された</a>
+                                <a href="{{ path("admin_management_unapprove",{id:item.id}) }}" title="" class="blue">{{ "approve_management.index.table.approved"|trans }}</a>
                             {% endif %}
                         </td>
                     </tr>

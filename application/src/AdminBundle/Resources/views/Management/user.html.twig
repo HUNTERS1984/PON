@@ -4,8 +4,8 @@
             <div class="row">
                 <div class="col-xs-9">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">基本情報</a></li>
-                        <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">PON利用情報</a></li>
+                        <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">{{ "approve_management.user.basic_information"|trans }}</a></li>
+                        <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">{{ "approve_management.user.usage_information"|trans }}</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-3">
@@ -20,9 +20,9 @@
                     <img src="{{ asset(user_avatar_path ~ user.avatarUrl) }}" class="img-responsive" alt="">
                 </div>
                 <div class="col-xs-3 us_poup_left">
-                    <p>ユーザーID</p>
-                    <p>ユーザーネーム</p>
-                    <p>性別</p>
+                    <p>{{ "approve_management.user.user_id"|trans }}</p>
+                    <p>{{ "approve_management.user.user_name"|trans }}</p>
+                    <p>{{ "approve_management.user.gender"|trans }}</p>
                 </div>
                 <div class="col-xs-6 us_poup_right">
                     <p>{{ user.appUserId }}</p>
@@ -42,8 +42,8 @@
                                 <table  class="table table-condensed tb_ul">
                                     <tbody>
                                     <tr>
-                                        <td width="25%">ユーザー属性</td>
-                                        <td width="15%"><strong>テキスト</strong></td>
+                                        <td width="25%">{{ "approve_management.user.table.user_attribute"|trans }}</td>
+                                        <td width="15%"><strong>{{ "approve_management.user.table.text"|trans }}</strong></td>
                                         <td width="60%">
                                             <ul class="nav_radio">
                                                 <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
@@ -59,8 +59,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>趣味趣向</td>
-                                        <td><strong>テキスト</strong></td>
+                                        <td>{{ "approve_management.user.table.hobby_state"|trans }}</td>
+                                        <td><strong>{{ "approve_management.user.table.text"|trans }}</strong></td>
                                         <td>
                                             <ul class="nav_radio">
                                                 <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
@@ -76,8 +76,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>クーポン利用回数</td>
-                                        <td><strong>12回</strong></td>
+                                        <td>{{ "approve_management.user.table.coupon_usage_count"|trans }}</td>
+                                        <td><strong>12{{ "approve_management.user.table.times"|trans }}</strong></td>
                                         <td>
                                             <ul class="nav_radio">
                                                 <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
@@ -93,8 +93,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>口コミ力</td>
-                                        <td><strong>テキスト</strong></td>
+                                        <td>{{ "approve_management.user.table.ability_to_review"|trans }}</td>
+                                        <td><strong>{{ "approve_management.user.table.text"|trans }}</strong></td>
                                         <td>
                                             <ul class="nav_radio">
                                                 <li><span><img src="{{ asset('backend/images/radio_disable.png') }}" alt=""></span></li>
@@ -116,7 +116,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="row">
-                            <h2>投稿画像</h2>
+                            <h2>{{ "approve_management.user.table.post_image"|trans }}</h2>
                             <ul class="img_poup_us">
                                 {% for postPhoto in postPhotos %}
                                     <li>

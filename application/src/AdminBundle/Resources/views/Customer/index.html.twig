@@ -1,5 +1,5 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}Customer{% endblock %}
+{% block title %}{{ "customer.index.title"|trans }}{% endblock %}
 {% set active_menu = 'customer' %}
 
 {% set count = pagination.item_total %}
@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-9 col-xs-6">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">顧客管理</span></li>
+                <li><span class="text_bre">{{ "customer.index.title"|trans }}</span></li>
                 <li><span class="no_bre">{{ count }}</span></li>
             </ul>
         </div>
@@ -28,13 +28,10 @@
                 <form method="GET" action="{{ path('admin_customer') }}">
                     <div class="row">
                         <div class="col-md-10">
-                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="ユーザー名/ハッシュタグを入力してください">
+                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="{{ "customer.index.search_place_holder"|trans }}">
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fa fa-search"></i>
-                                検索
-                            </button>
+                            <button type="submit" class="btn btn-white"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                 </form>
@@ -47,7 +44,7 @@
     <div class="result_search">
         <div class="row">
             <div class="col-md-12">
-                <span>検索結果 {{ count }}件</span>
+                <span>{{ "customer.index.search_result_title"|trans }} {{ count }} {{ "customer.index.item"|trans }}</span>
             </div>
         </div>
     </div>
@@ -66,18 +63,18 @@
             <table class="table management_01">
                 <thead>
                 <tr>
-                    <th>アバター</th>
-                    <th>ユーザーネーム</th>
-                    <th>ユーザーID</th>
-                    <th>性別</th>
-                    <th>最終ログイン</th>
-                    <th>状態</th>
+                    <th>{{ "customer.index.table.avatar"|trans }}</th>
+                    <th>{{ "customer.index.table.user_name"|trans }}</th>
+                    <th>{{ "customer.index.table.user_id"|trans }}</th>
+                    <th>{{ "customer.index.table.gender"|trans }}</th>
+                    <th>{{ "customer.index.table.last_login"|trans }}</th>
+                    <th>{{ "customer.index.table.status_title"|trans }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% if pagination.page_total == 0 %}
                     <tr class="active">
-                        <td align="center" colspan="6">No Records.</td>
+                        <td align="center" colspan="6">{{ "common.no_record"|trans }}</td>
                     </tr>
                 {% else %}
                     {% for customer in customers %}
@@ -104,9 +101,9 @@
 
                             <td>
                                 {% if customer.isEnabled %}
-                                    <a href="{{ path('admin_customer_active',{id:customer.id}) }}" title="" class="blue">有効</a>
+                                    <a href="{{ path('admin_customer_active',{id:customer.id}) }}" title="" class="blue">{{ "customer.index.table.status.active"|trans }}</a>
                                 {% else %}
-                                    <a href="{{ path('admin_customer_active',{id:customer.id}) }}" title="" class="red">無効</a>
+                                    <a href="{{ path('admin_customer_active',{id:customer.id}) }}" title="" class="red">{{ "customer.index.table.status.inactive"|trans }}</a>
                                 {% endif %}
                             </td>
                         </tr>

@@ -6,7 +6,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <img src="{{ asset('backend/images/check_push.png') }}" alt="">
-                <p>プッシュ通知を送信しました</p>
+                <p>{{ "push.create.message_success"|trans }}</p>
             </div>
         </div>
     </div>
@@ -15,7 +15,7 @@
 
 <div class="col-md-12">
     <a class="arrow_down collapsed" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        <span>新しくプッシュ通知を配信</span>
+        <span>{{ "push.create.title"|trans }}</span>
     </a>
     <div class="collapse" id="collapseExample">
         <div class="down_con">
@@ -45,7 +45,7 @@
             <div class="col-md-12">
                 <div class="button_send">
                     <button type="submit" class="btn btn-primary btn-send">
-                        このプッシュ通知を配信
+                        {{ "push.create.send"|trans }}
                     </button>
                 </div>
             </div>

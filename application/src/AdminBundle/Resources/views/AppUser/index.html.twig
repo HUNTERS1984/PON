@@ -1,5 +1,5 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}User Management{% endblock %}
+{% block title %}{{ "user.index.title"|trans }}{% endblock %}
 {% set active_menu = 'app_user' %}
 
 {% set count = pagination.item_total %}
@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-3 col-xs-12">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">クーポン一覧</span></li>
+                <li><span class="text_bre">{{ "user.index.title"|trans }}</span></li>
                 <li><span class="no_bre">{{ count }}</span></li>
             </ul>
         </div>
@@ -23,13 +23,10 @@
                 <form method="GET" action="{{ path('admin_app_user') }}">
                     <div class="row">
                         <div class="col-md-10">
-                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="">
+                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="{{ "user.index.search_place_holder"|trans }}">
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fa fa-search"></i>
-                                検索
-                            </button>
+                            <button type="submit" class="btn btn-white"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                 </form>
@@ -37,7 +34,7 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="col-md-4">
                     <ul class="btn_search_right">
-                        <li><a data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="click_to_load_modal_popup" href="{{ path('admin_app_user_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいユーザーを追加</a></li>
+                        <li><a data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="click_to_load_modal_popup" href="{{ path('admin_app_user_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> {{ "user.index.add_new_user"|trans }}</a></li>
                     </ul>
                 </div>
             {% endif %}
@@ -52,15 +49,15 @@
             <table class="table management_01">
                 <thead>
                 <tr>
-                    <th>アバター</th>
-                    <th>ユーザー名</th>
-                    <th>役割</th>
-                    <th>Eメール</th>
-                    <th>電話</th>
-                    <th>作成日</th>
-                    <th>状態</th>
+                    <th>{{ "user.index.table.avatar"|trans }}</th>
+                    <th>{{ "user.index.table.user_name"|trans }}</th>
+                    <th>{{ "user.index.table.role"|trans }}</th>
+                    <th>{{ "user.index.table.email"|trans }}</th>
+                    <th>{{ "user.index.table.phone"|trans }}</th>
+                    <th>{{ "user.index.table.created_date"|trans }}</th>
+                    <th>{{ "user.index.table.status_title"|trans }}</th>
                     {% if is_granted('ROLE_ADMIN') %}
-                    <th>アクション</th>
+                    <th>{{ "user.index.table.action"|trans }}</th>
                     {% endif %}
                 </tr>
                 </thead>
@@ -68,9 +65,9 @@
                 {% if pagination.page_total == 0 %}
                 <tr class="active">
                     {% if is_granted('ROLE_ADMIN') %}
-                        <td align="center" colspan="7">No Records.</td>
+                        <td align="center" colspan="7">{{ "common.no_record"|trans }}</td>
                     {% else %}
-                        <td align="center" colspan="6">No Records.</td>
+                        <td align="center" colspan="6">{{ "common.no_record"|trans }}</td>
                     {% endif %}
                 </tr>
                 {% else %}
@@ -98,15 +95,15 @@
                         <td>
                             {% if item.isEnabled %}
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('admin_app_user_active',{id:item.id}) }}" title="" class="blue">有効</a>
+                                    <a href="{{ path('admin_app_user_active',{id:item.id}) }}" title="" class="blue">{{ "user.index.table.status.active"|trans }}</a>
                                 {% else %}
-                                    <a href="javascript:void(0);" title="" class="blue">有効</a>
+                                    <a href="javascript:void(0);" title="" class="blue">{{ "user.index.table.status.active"|trans }}</a>
                                 {% endif %}
                             {% else %}
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('admin_app_user_active',{id:item.id}) }}" title="" class="red">無効</a>
+                                    <a href="{{ path('admin_app_user_active',{id:item.id}) }}" title="" class="red">{{ "user.index.table.status.inactive"|trans }}</a>
                                 {% else %}
-                                    <a href="javascript:void(0);" title="" class="red">無効</a>
+                                    <a href="javascript:void(0);" title="" class="red">{{ "user.index.table.status.inactive"|trans }}</a>
                                 {% endif %}
                             {% endif %}
                         </td>

@@ -13,13 +13,13 @@
         <li>
             <a data-toggle="modal" data-target="#load_popup_modal_show_id"  data-dismiss="modal" class="click_to_load_modal_popup" href="{{ path('admin_qrcode_create') }}">
                 <span class="fa fa-plus" aria-hidden="true"></span>
-                <span class="text_btn_top_right">QRコード出力</span>
+                <span class="text_btn_top_right">{{ "menu.top.create_qr_code"|trans }}</span>
             </a>
         </li>
         <li>
             <a data-toggle="modal" data-target="#load_popup_modal_show_id" data-dismiss="modal"  class="click_to_load_modal_popup" href="{{ path('admin_summary_create') }}">
                 <span class="fa fa-plus" aria-hidden="true"></span>
-                <span class="text_btn_top_right">新規クーポン作成</span>
+                <span class="text_btn_top_right">{{ "menu.top.create_coupon"|trans }}</span>
             </a>
         </li>
     </ul>

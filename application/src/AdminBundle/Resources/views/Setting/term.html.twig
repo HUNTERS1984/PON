@@ -1,12 +1,12 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}Setting{% endblock %}
+{% block title %}{{ "system_setting.term.title"|trans }}{% endblock %}
 {% set active_menu = 'system-setting' %}
 
 {% block breadcurm %}
     <div class="row">
         <div class="col-md-12 col-xs-12">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">システム設定</span></li>
+                <li><span class="text_bre">{{ "system_setting.term.title"|trans }}</span></li>
             </ul>
         </div>
     </div>
@@ -18,16 +18,16 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" >
-                <a href="{{ path("admin_setting_system",{type:"contact"}) }}" aria-controls="tab1" role="tab">お問い合わせ</a>
+                <a href="{{ path("admin_setting_system",{type:"contact"}) }}" aria-controls="tab1" role="tab">{{ "system_setting.contact.title"|trans }}</a>
             </li>
             <li role="presentation" class="active">
-                <a href="#" aria-controls="tab2" role="tab">利用規約</a>
+                <a href="#" aria-controls="tab2" role="tab">{{ "system_setting.term.title"|trans }}</a>
             </li>
             <li role="presentation">
-                <a href="{{ path("admin_setting_system",{type:"privacy"}) }}" aria-controls="tab3" role="tab">特定商取引</a>
+                <a href="{{ path("admin_setting_system",{type:"privacy"}) }}" aria-controls="tab3" role="tab">{{ "system_setting.privacy.title"|trans }}</a>
             </li>
             <li role="presentation">
-                <a href="{{ path("admin_setting_system",{type:"trade"}) }}" aria-controls="tab4" role="tab">サービス期間</a>
+                <a href="{{ path("admin_setting_system",{type:"trade"}) }}" aria-controls="tab4" role="tab">{{ "system_setting.trade.title"|trans }}</a>
             </li>
         </ul>
         <!-- Tab panes -->
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <center><button type="submit" class="btn btn-setting">保存</button></center>
+                        <center><button type="submit" class="btn btn-setting">{{ "common.save"|trans }}</button></center>
                     </div>
                 </div>
                 {{ form_end(form) }}
