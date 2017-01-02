@@ -32,7 +32,7 @@
                                 </h3>
                             </a>
 
-                            <p><a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="link_blue click_to_load_modal_popup">{{ "form.coupon.type_choices." ~coupon_types[coupon.type]|trans }}</a></p>
+                            <p><a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="link_blue click_to_load_modal_popup">{{ ("form.coupon.type_choices." ~coupon_types[coupon.type])|trans }}</a></p>
                             <p>
                                 <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="link_blue click_to_load_modal_popup">
                                     <span class="red">{{ "dashboard.index.deadline"|trans }}: {{ coupon.expiredTime|date("Y.m.d") }}</span>
