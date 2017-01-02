@@ -1,12 +1,12 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}Help{% endblock %}
+{% block title %}{{ "help.index.title"|trans }}{% endblock %}
 {% set active_menu = 'help' %}
 
 {% block breadcurm %}
     <div class="row">
         <div class="col-md-12 col-xs-12">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">ヘルプ</span></li>
+                <li><span class="text_bre">{{ "help.index.title"|trans }}</span></li>
             </ul>
         </div>
     </div>
@@ -16,8 +16,8 @@
     <!-- wrapp_help -->
     <div class="wrapp_help">
         <p><img src="{{ asset('backend/images/icon_help.png') }}" alt=""></p>
-        <p><h2>コンテンツがありません。</h2></p>
-        <p class="text_help_bottom">何かお困りですか?詳しくはサポートチームまでお問い合わせ下さい。<a href="">pon_support-team.jp</a></p>
+        <p><h2>{{ "help.index.no_content"|trans }}</h2></p>
+        <p class="text_help_bottom">{{ "help.index.question"|trans }}<a href="">pon_support-team.jp</a></p>
     </div>
     <!-- /wrapp_help -->
 {% endblock %}

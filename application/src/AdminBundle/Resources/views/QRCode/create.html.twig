@@ -7,7 +7,7 @@
             {{ form_errors(form) }}
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">QRコード出力</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ "qr_code.create.title"|trans }}</h4>
             </div>
             <div class="modal-body">
                 <div class="">
@@ -20,7 +20,7 @@
                                 {{ form_widget(form.link) }}
                                 <div class="input-group-btn" style="position: relative;font-size: 0;white-space: nowrap;">
                                     <a style="color: #FFFFFF;background-color: #18c0d4;border-color: #3598dc;" class="btn blue btn-copy" href="javascript:void(0)" target="_blank">
-                                        コ ピ ー
+                                        {{ "qr_code.create.copy"|trans }}
                                     </a>
                                 </div>
                             </div>
@@ -38,8 +38,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div style="margin-top: 153px;">
-                                    <a href="{{ link }}"  id="download_qr" download="QRCode.png" class="btn btn-primary btn-change">QRコードをダウンロード</a>
-                                    <button type="submit" class="btn btn-primary btn-change">変更</button>
+                                    <a href="{{ link }}"  id="download_qr" download="QRCode.png" class="btn btn-primary btn-change">{{ "qr_code.create.download"|trans }}</a>
+                                    <button type="submit" class="btn btn-primary btn-change">{{ "common.save"|trans }}</button>
                                 </div>
                             </div>
                         </div>
@@ -95,12 +95,5 @@
                 }
             });
         });
-
-//        $('#download_qr').on('click',function(){
-//            var $img = $('.img_qr');
-//            console.log($img);
-//            console.log($img.attr('src'));
-//            $img.wrap('<a href="' + $img.attr('src') + '" download />')
-//        });
     </script>
 {% endblock %}

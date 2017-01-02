@@ -1,8 +1,19 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}Category{% endblock %}
+{% block title %}{{ "category.index.title"|trans }}{% endblock %}
 {% set active_menu = 'category' %}
 
 {% set count = pagination.item_total %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">{{ "category.index.title"|trans }}</span></li>
+                <li><span class="no_bre">{{ count }}</span></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
 
 {% block page_content %}
 
@@ -13,20 +24,17 @@
                 <form method="GET" action="{{ path('admin_category') }}">
                     <div class="row">
                         <div class="col-md-10">
-                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="">
+                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="{{ "category.index.search_place_holder"|trans }}">
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fa fa-search"></i>
-                                検索
-                            </button>
+                            <button type="submit" class="btn btn-white"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="col-md-4">
                 <ul class="btn_search_right">
-                    <li><a data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="click_to_load_modal_popup" href="{{ path('admin_category_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいカテゴリを追加</a></li>
+                    <li><a data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="click_to_load_modal_popup" href="{{ path('admin_category_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> {{ "category.index.add_new_category"|trans }}</a></li>
                 </ul>
             </div>
         </div>
@@ -38,13 +46,12 @@
     <div class="wrapp_summary">
         {% if pagination.page_total == 0 %}
             <div class="media">
-                No Records.
+                {{ "common.no_record"|trans }}
             </div>
         {% else %}
             {% for category in categories %}
                 <div class="media">
                     <div class="media-left">
-                        {#<center><img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt=""></center>#}
                         <center><img width="171px" height="172px" class="media-object" src="{{ asset(category_avatar_path~category.iconUrl) }}" alt=""></center>
                     </div>
                     <div class="media-body">
@@ -54,7 +61,7 @@
                         </div>
                         <div class="top-media">
                             <span >
-                              作成日: {{ category.createdAt|date("Y.m.d") }}
+                              {{ "category.index.created_date"|trans }}: {{ category.createdAt|date("Y.m.d") }}
                             </span>
                         </div>
                     </div>

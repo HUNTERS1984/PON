@@ -1,5 +1,5 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}Push{% endblock %}
+{% block title %}{{ "push.index.title"|trans }}{% endblock %}
 {% set active_menu = 'push' %}
 
 {% set count = pagination.item_total %}
@@ -18,15 +18,15 @@
     <div class="row">
         <div class="col-md-3 col-xs-6">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">プッシュ通知</span></li>
+                <li><span class="text_bre">{{ "push.index.title"|trans }}</span></li>
                 <li><span class="no_bre">{{ count }}</span></li>
             </ul>
         </div>
         <div class="col-md-6 col-xs-12">
             <div class="btn-group btn-group-justified">
-                <a href="{{ path("admin_push", params_emptydelivered) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is  empty %}active{% endif %}" role="button">全て</a>
-                <a href="{{ path("admin_push", params_delivered) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 1%}active{% endif %}" role="button">正常に配信</a>
-                <a href="{{ path("admin_push", params_notdelivered) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 0%}active{% endif %}" role="button">配信されます</a>
+                <a href="{{ path("admin_push", params_emptydelivered) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is  empty %}active{% endif %}" role="button">{{ "push.index.status.all"|trans }}</a>
+                <a href="{{ path("admin_push", params_delivered) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 1%}active{% endif %}" role="button">{{ "push.index.status.delivered"|trans }}</a>
+                <a href="{{ path("admin_push", params_notdelivered) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 0%}active{% endif %}" role="button">{{ "push.index.status.not_delivered"|trans }}</a>
             </div>
         </div>
         <div class="col-md-3">
@@ -44,9 +44,12 @@
         <div class="row">
             <div class="col-md-6 col-xs-12">
                 <form class="form-group">
-                    <input type="text" value="{{ params.query }}" name="query" class="form-control has-feedback-left" id="" placeholder="サーチ">
-                    <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
+                    <input type="text" value="{{ params.query }}" name="query" class="form-control has-feedback-left" id="" placeholder="{{ "push.index.search_place_holder"|trans }}">
+                    <span class=" form-control-feedback left" aria-hidden="true"></span>
                 </form>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-white"><i class="fa fa-search"></i></button>
             </div>
 
 
@@ -63,7 +66,7 @@
     <div class="wrapp_push">
         {% if pagination.page_total == 0 %}
         <div class="media">
-            No Records.
+            {{ "common.no_record"|trans }}
         </div>
         {% else %}
             {% for push in pushs %}
@@ -74,8 +77,8 @@
                         <div class="left_push">
                             <h2>{{ push.title }}</h2>
                             <div class="des_deliver">
-                                <span class="des_push">配信先のセグメント</span>
-                                <span class="deliver_push"> {% if push.status == 0 %}配信されます{% else %} 正常に配信 {% endif %}</span>
+                                <span class="des_push">{{ "push.index.status_title"|trans }}</span>
+                                <span class="deliver_push"> {% if push.status == 0 %}{{ "push.index.status.not_delivered"|trans }}{% else %} {{ "push.index.status.delivered"|trans }} {% endif %}</span>
                             </div>
                         </div>
 

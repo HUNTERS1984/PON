@@ -1,12 +1,12 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}Setting{% endblock %}
+{% block title %}{{ "account_setting.index.title"|trans }}{% endblock %}
 {% set active_menu = 'setting' %}
 
 {% block breadcurm %}
     <div class="row">
         <div class="col-md-12 col-xs-12">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">アカウント設定</span></li>
+                <li><span class="text_bre">{{ "account_setting.index.title"|trans }}</span></li>
             </ul>
         </div>
     </div>
@@ -18,11 +18,11 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#tab1" aria-controls="tab1" role="tab">アカウント情報</a>
+                <a href="#tab1" aria-controls="tab1" role="tab">{{ "account_setting.index.account_information"|trans }}</a>
             </li>
             {% if(is_granted('ROLE_CLIENT') and not is_granted('ROLE_ADMIN')) %}
                 <li role="presentation">
-                    <a href="{{ path("admin_setting_store") }}" aria-controls="tab2" role="tab">ブランド情報</a>
+                    <a href="{{ path("admin_setting_store") }}" aria-controls="tab2" role="tab">{{ "account_setting.index.shop_information"|trans }}</a>
                 </li>
             {% endif %}
         </ul>
@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <center><button type="submit" class="btn btn-setting">保存</button></center>
+                            <center><button type="submit" class="btn btn-setting">{{ "common.save"|trans }}</button></center>
                         </div>
                     </div>
                 {{ form_end(formUser) }}

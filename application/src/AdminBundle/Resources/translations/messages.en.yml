@@ -1,0 +1,277 @@
+menu:
+    left:
+        online: オンライン
+        menu_title: Menu
+        top: Top
+        approve_management: 承認管理
+        coupon_list: クーポン一覧
+        push_notification: プッシュ通知
+        customer_management: 顧客管理
+        user_management: ユーザー管理
+        news: お知らせ・新着
+        other: Other
+        account_setting: アカウント設定
+        system_setting: システム設定
+        category: カテゴリー
+        shop: ショップ
+        news_category: ニュースカテゴリ
+        help: 助けて
+        contact_us: お問い合わせ
+        logout: ログアウト
+    top:
+        create_qr_code: QRコード出力
+        create_coupon: 新規クーポン作成
+
+common:
+    no_record: レコードはありません。
+    save: 変更
+    delete: 削除
+    n_a: N/A
+    send: 送信
+
+dashboard:
+    index:
+        title: ダッシュボード
+        coupon_recent: 最近発行したクーポン
+        deadline: 期限
+        chart:
+            title: アクセス
+            dimension:
+                hour: 時間別
+                day: 日
+                week: 週
+                month: 月
+            metric:
+                session: セッション
+                user: ユーザー数
+                page_view: スクリーンビュー
+                avg_session_duration: 平均セッション時間
+                bounce_rate: 離脱率
+                exit_rate: 新規セッション率
+
+approve_management:
+    index:
+        title: 管理を承認する
+        coupon_list_number: クーポン一覧
+        status:
+            all: すべて
+            approved: 承認済み
+            unapproved: 未承認
+        search: サーチ
+        approve_select_confirm: あなたはすべてを承認するのですか？
+        approve_all_confirm: あなたはすべてを承認するのですか？
+        approve_select: 選択したユーザーを承認
+        approve_all: すべてのユーザーを承認
+        table:
+            choice: 選択
+            user_name: ユーザーネーム
+            post_photo: 投稿写真
+            hash_tag: ハッシュタグ
+            status: 状態
+            check_photos: 写真を確認する
+            unapproved: 未承認
+            approved: 承認済み
+
+    user:
+        basic_information: 基本情報
+        usage_information: PON利用情報
+        user_id: ユーザーID
+        user_name: ユーザーネーム
+        gender: セックス
+        table:
+            user_attribute: ユーザー属性
+            text: テキスト
+            hobby_state: 趣味趣向
+            coupon_usage_count: クーポン利用回数
+            times: 回
+            ability_to_review: 口コミ力
+            post_image: 投稿画像
+
+coupon_list:
+    index:
+        title: クーポン一覧
+        status:
+            all: すべて
+            approved: 承認済み
+            unapproved: 未承認
+        search_place_holder: ユーザー名/ハッシュタグを入力してください
+    create:
+        create_coupon: クーポンを作成する
+    edit:
+        edit_coupon: クーポンを編集
+
+push:
+    index:
+        title: プッシュ通知
+        status:
+            all: すべて
+            delivered: 正常に配信
+            not_delivered: 配信されます
+        search_place_holder: タイトルまたはメッセージを入力してください
+        status_title: 状態
+    create:
+        message_success: プッシュ通知を送信しました
+        title: 新しくプッシュ通知を配信
+        send: このプッシュ通知を配信
+    edit:
+        title: プッシュ通知の詳細
+
+customer:
+    index:
+        title: 顧客管理
+        search_place_holder: ユーザー名/名前を入力してください
+        status_title: 状態
+        search_result_title: 検索結果
+        item: 件
+        table:
+            avatar: アバター
+            user_name: ユーザーネーム
+            user_id: ユーザーID
+            gender: セックス
+            last_login: 最終ログイン
+            status_title: 状態
+            status:
+                active: 有効
+                inactive: 無効
+
+
+    view:
+        basic_information: 基本情報
+        user_id: ユーザーID
+        user_name: ユーザーネーム
+        gender: セックス
+        email: Eメール
+        status_title: 状態
+        last_login: 最終ログイン
+        status:
+            active: 有効
+            inactive: 無効
+
+user:
+    index:
+        title: ユーザー管理
+        search_place_holder: ユーザー名/名前を入力してください
+        add_new_user: 新しいユーザーを追加
+        table:
+            avatar: アバター
+            user_name: ユーザーネーム
+            role: 役割
+            email: Eメール
+            phone: 電話
+            created_date: 作成日
+            action: アクション
+            status_title: 状態
+            status:
+                active: 有効
+                inactive: 無効
+    create:
+        title: ユーザーの作成
+    edit:
+        title: ユーザーの編集
+
+news:
+    index:
+        title: ニュース
+        search_place_holder: タイトルを入力してください
+        add_news: ニュースを追加
+    create:
+        title: ニュースを作成する
+    edit:
+        title: ニュースを編集
+
+account_setting:
+    index:
+        title: アカウント設定
+        account_information: 口座情報
+        shop_information: ショップ情報
+    store:
+        title: ニュースを作成する
+
+system_setting:
+    privacy:
+        title: プライバシー設定
+    contact:
+        title: 連絡先の設定
+    term:
+        title: 期間設定
+    trade:
+        title: トレードセッティング
+
+category:
+    index:
+        title: カテゴリー
+        search_place_holder: タイトルを入力してください
+        add_new_category: 新しいカテゴリを追加
+        created_date: 作成日
+    create:
+        title: カテゴリを作成
+    edit:
+        title: カテゴリーを編集
+
+shop:
+    index:
+        title: 店舗管理
+        search_place_holder: タイトルを入力してください
+        add_new_shop: 新しいショップを追加
+        category_name: カテゴリ名
+        operation_start_time: 操作開始時刻
+        operation_close_time: 操作終了時刻
+    create:
+        title: ショップを作る
+    edit:
+        title: ショップを編集
+
+news_category:
+    index:
+        title: ニュース - カテゴリ
+        search_place_holder: タイトルを入力してください
+        add_news_category: ニュースカテゴリを追加
+        created_date: 作成日
+    create:
+        title: ニュースカテゴリを作成する
+    edit:
+        title: ニュースカテゴリを編集
+
+qr_code:
+    create:
+        title: QRコード出力
+        download: QRコードをダウンロード
+        copy: コピー
+
+help:
+    index:
+        title: ヘルプ
+        no_content: コンテンツがありません。
+        question: 何かお困りですか?詳しくはサポートチームまでお問い合わせ下さい。
+
+contact:
+    index:
+        title: お問い合わせ
+        contact: お気軽にお問い合わせ下さい。
+        about_what: 何について
+        tell_us: 詳しくお聞かせください
+
+security:
+    login:
+        title: さあ、はじめましょう。
+        user_name: ユーザー名
+        password: パスワード
+        remember_me: 私を覚えてますか
+        login: ログイン
+        forgot_title: パスワードを忘れましたか？
+        reset_password: パスワードを再設定する
+
+    reset:
+        title: パスワードを再設定する
+        return_login: ログインに戻る
+    false:
+        title: パスワードの変更に失敗しました
+
+    forgot_success:
+        title: システムから電子メールが送信されました。 電子メールを開いてパスワードをリセットしてください。
+
+    success:
+        title: パスワードを正常に変更しました
+
+form:
+    add_image: 画像を追加

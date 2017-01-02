@@ -3,35 +3,35 @@
         <li><img src="{{ asset(user_avatar_path ~ app.user.avatarUrl) }}" alt=""></li>
         <li>
             <strong>{{ app.user.username }}</strong>
-            <p><i class="fa fa-circle"></i> オンライン</p>
+            <p><i class="fa fa-circle"></i> {{ "menu.left.online"|trans }}</p>
         </li>
     </ul>
     <ul id="js-menu" class="menu">
         <li class="menu--item">
-            <span class="menu--label--top">Menu</span>
+            <span class="menu--label--top">{{ "menu.left.menu_title"|trans }}</span>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_dashboard') }}" class="menu--link {% if active_menu|default('') == "dashboard" %}active{% endif %}" title="Top">
+            <a href="{{ path('admin_dashboard') }}" class="menu--link {% if active_menu|default('') == "dashboard" %}active{% endif %}" title="{{ "menu.left.top"|trans }}">
                 <i class="menu--icon  fa fa-fw fa fa-star"></i>
-                <span class="menu--label">Top</span>
+                <span class="menu--label">{{ "menu.left.top"|trans }}</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_management') }}" class="menu--link {% if active_menu|default('') == "management" %}active{% endif %}" title="承認管理">
+            <a href="{{ path('admin_management') }}" class="menu--link {% if active_menu|default('') == "management" %}active{% endif %}" title="{{ "menu.left.approve_management"|trans }}">
                 <i class="menu--icon  fa fa-fw fa fa-check-circle-o"></i>
-                <span class="menu--label">承認管理</span>
+                <span class="menu--label">{{ "menu.left.approve_management"|trans }}</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_summary') }}" class="menu--link {% if active_menu|default('') == "summary" %}active{% endif %}" title="クーポン一覧">
+            <a href="{{ path('admin_summary') }}" class="menu--link {% if active_menu|default('') == "summary" %}active{% endif %}" title="{{ "menu.left.coupon_list"|trans }}">
                 <i class="menu--icon  fa fa-fw fa fa fa-cubes"></i>
-                <span class="menu--label">クーポン一覧</span>
+                <span class="menu--label">{{ "menu.left.coupon_list"|trans }}</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_push') }}" class="menu--link {% if active_menu|default('') == "push" %}active{% endif %}" title="プッシュ通知">
+            <a href="{{ path('admin_push') }}" class="menu--link {% if active_menu|default('') == "push" %}active{% endif %}" title="{{ "menu.left.push_notification"|trans }}">
                 <i class="menu--icon  fa fa-fw fa fa-external-link-square"></i>
-                <span class="menu--label">プッシュ通知</span>
+                <span class="menu--label">{{ "menu.left.push_notification"|trans }}</span>
             </a>
         </li>
         {#<li class="menu--item">#}
@@ -42,75 +42,75 @@
         {#</li>#}
 
         <li class="menu--item">
-            <a href="{{ path('admin_customer') }}" class="menu--link {% if active_menu|default('') == "customer" %}active{% endif %}" title="顧客管理">
+            <a href="{{ path('admin_customer') }}" class="menu--link {% if active_menu|default('') == "customer" %}active{% endif %}" title="{{ "menu.left.customer_management"|trans }}">
                 <i class="menu--icon  fa fa-fw fa fa-user"></i>
-                <span class="menu--label">顧客管理</span>
+                <span class="menu--label">{{ "menu.left.customer_management"|trans }}</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_app_user') }}" class="menu--link {% if active_menu|default('') == "app_user" %}active{% endif %}" title="ユーザー管理">
+            <a href="{{ path('admin_app_user') }}" class="menu--link {% if active_menu|default('') == "app_user" %}active{% endif %}" title="{{ "menu.left.user_management"|trans }}">
                 <i class="menu--icon  fa fa-fw fa fa fa-users"></i>
-                <span class="menu--label">ユーザー管理</span>
+                <span class="menu--label">{{ "menu.left.user_management"|trans }}</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_news') }}" class="menu--link {% if active_menu|default('') == "news" %}active{% endif %}" title="お知らせ・新着">
+            <a href="{{ path('admin_news') }}" class="menu--link {% if active_menu|default('') == "news" %}active{% endif %}" title="{{ "menu.left.news"|trans }}">
                 <i class="menu--icon  fa fa-fw fa fa-newspaper-o"></i>
-                <span class="menu--label">お知らせ・新着</span>
+                <span class="menu--label">{{ "menu.left.news"|trans }}</span>
             </a>
         </li>
         <li class="menu--item">
-            <span class="menu--label--top">Other</span>
+            <span class="menu--label--top">{{ "menu.left.other"|trans }}</span>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_setting') }}" class="menu--link {% if active_menu|default('') == "setting" %}active{% endif %}" title="アカウント設定">
+            <a href="{{ path('admin_setting') }}" class="menu--link {% if active_menu|default('') == "setting" %}active{% endif %}" title="{{ "menu.left.account_setting"|trans }}">
                 <i class="menu--icon  fa fa-fw fa fa-cog"></i>
-                <span class="menu--label">アカウント設定</span>
+                <span class="menu--label">{{ "menu.left.account_setting"|trans }}</span>
             </a>
         </li>
         {% if is_granted('ROLE_ADMIN') %}
             <li class="menu--item">
-                <a href="{{ path('admin_setting_system',{type:"contact"}) }}" class="menu--link {% if active_menu|default('') == "system-setting" %}active{% endif %}" title="システム設定">
+                <a href="{{ path('admin_setting_system',{type:"contact"}) }}" class="menu--link {% if active_menu|default('') == "system-setting" %}active{% endif %}" title="{{ "menu.left.system_setting"|trans }}">
                     <i class="menu--icon  fa fa-fw fa fa-gavel"></i>
-                    <span class="menu--label">システム設定</span>
+                    <span class="menu--label">{{ "menu.left.system_setting"|trans }}</span>
                 </a>
             </li>
             <li class="menu--item">
-                <a href="{{ path('admin_category') }}" class="menu--link {% if active_menu|default('') == "category" %}active{% endif %}" title="カテゴリ">
+                <a href="{{ path('admin_category') }}" class="menu--link {% if active_menu|default('') == "category" %}active{% endif %}" title="{{ "menu.left.category"|trans }}">
                     <i class="menu--icon  fa fa-fw fa fa fa-tags"></i>
-                    <span class="menu--label">カテゴリ</span>
+                    <span class="menu--label">{{ "menu.left.category"|trans }}</span>
                 </a>
             </li>
             <li class="menu--item">
-                <a href="{{ path('admin_store') }}" class="menu--link {% if active_menu|default('') == "store" %}active{% endif %}" title="格納">
+                <a href="{{ path('admin_store') }}" class="menu--link {% if active_menu|default('') == "store" %}active{% endif %}" title="{{ "menu.left.shop"|trans }}">
                     <i class="menu--icon  fa fa-fw fa fa fa-university"></i>
-                    <span class="menu--label">格納</span>
+                    <span class="menu--label">{{ "menu.left.shop"|trans }}</span>
                 </a>
             </li>
             <li class="menu--item">
-                <a href="{{ path('admin_news_category') }}" class="menu--link {% if active_menu|default('') == "news-category" %}active{% endif %}" title="カテゴリ">
+                <a href="{{ path('admin_news_category') }}" class="menu--link {% if active_menu|default('') == "news-category" %}active{% endif %}" title="{{ "menu.left.news_category"|trans }}">
                     <i class="menu--icon  fa fa-fw fa fa fa-bars"></i>
-                    <span class="menu--label">新着 カテゴリ</span>
+                    <span class="menu--label">{{ "menu.left.news_category"|trans }}</span>
                 </a>
             </li>
         {% endif %}
         <li class="menu--item">
-            <a href="{{ path('admin_help') }}" class="menu--link {% if active_menu|default('') == "help" %}active{% endif %}" title="ヘルプ">
+            <a href="{{ path('admin_help') }}" class="menu--link {% if active_menu|default('') == "help" %}active{% endif %}" title="{{ "menu.left.help"|trans }}">
                 <i class="menu--icon  fa fa-fw fa fa-question-circle"></i>
-                <span class="menu--label">ヘルプ</span>
+                <span class="menu--label">{{ "menu.left.help"|trans }}</span>
             </a>
         </li>
         <li class="menu--item">
-            <a href="{{ path('admin_contact') }}" class="menu--link {% if active_menu|default('') == "contact" %}active{% endif %}" title="お問い合わせ">
+            <a href="{{ path('admin_contact') }}" class="menu--link {% if active_menu|default('') == "contact" %}active{% endif %}" title="{{ "menu.left.contact_us"|trans }}">
                 <i class="menu--icon  fa fa-fw fa fa-comments"></i>
-                <span class="menu--label">お問い合わせ</span>
+                <span class="menu--label">{{ "menu.left.contact_us"|trans }}</span>
             </a>
         </li>
 
         <li class="menu--item">
-            <a href="{{ path('admin_logout') }}" class="menu--link {% if active_menu|default('') == "logout" %}active{% endif %}" title="ログアウト">
+            <a href="{{ path('admin_logout') }}" class="menu--link {% if active_menu|default('') == "logout" %}active{% endif %}" title="{{ "menu.left.logout"|trans }}">
                 <i class="menu--icon fa fa-fw fa fa-sign-out"></i>
-                <span class="menu--label">ログアウト</span>
+                <span class="menu--label">{{ "menu.left.logout"|trans }}</span>
             </a>
         </li>
     </ul>

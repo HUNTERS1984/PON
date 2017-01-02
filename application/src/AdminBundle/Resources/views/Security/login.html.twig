@@ -10,36 +10,36 @@
 
             <div class="login-box-body">
 
-                <p class="login-box-msg">さあ、はじめましょう。</p>
+                <p class="login-box-msg">{{ "security.login.title"|trans }}</p>
 
                 <form method="POST" action="{{ path('admin_login') }}">
                     <div class="form-group has-feedback">
-                        <label for="_username">ユーザー名</label>
-                        <input class="form-control" name="_username" placeholder="Username" type="text">
+                        <label for="_username">{{ "security.login.user_name"|trans }}</label>
+                        <input class="form-control" name="_username" placeholder="{{ "security.login.user_name"|trans }}" type="text">
                         <span class="fa fa-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <label for="_password">パスワード</label>
-                        <input class="form-control" placeholder="Password" name="_password" type="password" value="">
+                        <label for="_password">{{ "security.login.password"|trans }}</label>
+                        <input class="form-control" placeholder="{{ "security.login.password"|trans }}" name="_password" type="password" value="">
                         <span class="fa fa-lock form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
                         <div class="checkbox">
                             <input id="checkbox-re" class="checkbox-remember"  name="_remember_me" type="checkbox">
                             <label for="_remember_me" class="checkbox-remember-label"></label>
-                            <span>Remember me</span>
+                            <span>{{ "security.login.remember_me"|trans }}</span>
                         </div>
                     </div>
                     <div class="form-group has-feedback">
-                        <input class="btn btn-primary btn-block btn-flat" type="submit" value="次へ">
+                        <input class="btn btn-primary btn-block btn-flat" type="submit" value="{{ "security.login.login"|trans }}">
                     </div>
                 </form>
                 <!-- //form -->
 
                 <div class="link-bottom">
                     <p>
-                        <span>もう登録されていますか?</span>
-                        <a href="{{ path("admin_forgot") }}" class="text-center-bottom">ログイン</a>
+                        <span>{{ "security.login.forgot_title"|trans }}</span>
+                        <a href="{{ path("admin_forgot") }}" class="text-center-bottom">{{ "security.login.reset_password"|trans }}</a>
                     </p>
                 </div>
                 <!-- //link-bottom -->

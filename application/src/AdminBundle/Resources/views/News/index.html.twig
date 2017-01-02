@@ -1,5 +1,5 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}News{% endblock %}
+{% block title %}{{ "news.index.title"|trans }}{% endblock %}
 {% set active_menu = 'news' %}
 
 {% set count = pagination.item_total %}
@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-12 col-xs-12">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">お知らせ・新着</span></li>
+                <li><span class="text_bre">{{ "news.index.title"|trans }}</span></li>
                 <li><span class="no_bre">{{ count }}</span></li>
             </ul>
         </div>
@@ -23,21 +23,18 @@
                     <div class="row">
                         <div class="col-md-10">
                             <form class="form-group">
-                                <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="ユーザー名/ハッシュタグを入力してください">
+                                <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="{{ "news.index.search_place_holder"|trans }}">
                             </form>
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fa fa-search"></i>
-                                検索
-                            </button>
+                            <button type="submit" class="btn btn-white"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="col-md-4">
                 <ul class="btn_search_right">
-                    <li><a data-toggle="modal" data-target="#load_popup_modal_show_id" data-dismiss="modal"  class="click_to_load_modal_popup" href="{{ path('admin_news_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいニュースを追加</a></li>
+                    <li><a data-toggle="modal" data-target="#load_popup_modal_show_id" data-dismiss="modal"  class="click_to_load_modal_popup" href="{{ path('admin_news_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> {{ "news.index.add_news"|trans }}</a></li>
                 </ul>
             </div>
             <div class="col-md-2 col-xs-6">
@@ -53,7 +50,7 @@
         <div class="row">
         {% if pagination.page_total == 0 %}
             <div class="col-md-12">
-                No Records.
+                {{ "common.no_record"|trans }}
             </div>
         {% else %}
             {% for item in news %}

@@ -1,8 +1,19 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}Store{% endblock %}
+{% block title %}{{ "shop.index.title"|trans }}{% endblock %}
 {% set active_menu = 'store' %}
 
 {% set count = pagination.item_total %}
+
+{% block breadcurm %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumbs_left">
+                <li><span class="text_bre">{{ "shop.index.title"|trans }}</span></li>
+                <li><span class="no_bre">{{ count }}</span></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
 
 {% block page_content %}
 
@@ -13,20 +24,17 @@
                 <form method="GET" action="{{ path('admin_store') }}">
                     <div class="row">
                         <div class="col-md-10">
-                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="">
+                            <input type="text" class="form-control has-feedback-left" value="{{ params.query }}" name="query" placeholder="{{ "shop.index.search_place_holder"|trans }}">
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fa fa-search"></i>
-                                検索
-                            </button>
+                            <button type="submit" class="btn btn-white"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="col-md-4">
                 <ul class="btn_search_right">
-                    <li><a data-toggle="modal" data-target="#load_popup_modal_show_id" data-dismiss="modal"  class="click_to_load_modal_popup" href="{{ path('admin_store_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> 新しいショップを追加</a></li>
+                    <li><a data-toggle="modal" data-target="#load_popup_modal_show_id" data-dismiss="modal"  class="click_to_load_modal_popup" href="{{ path('admin_store_create') }}"><span class="fa fa-plus" aria-hidden="true"></span> {{ "shop.index.add_new_shop"|trans }}</a></li>
                 </ul>
             </div>
         </div>
@@ -38,13 +46,12 @@
     <div class="wrapp_summary">
         {% if pagination.page_total == 0 %}
             <div class="media">
-                No Records.
+               {{ "common.no_record"|trans }}
             </div>
         {% else %}
             {% for store in stores %}
                 <div class="media">
                     <div class="media-left">
-                        {#<center><img class="media-object" src="{{ asset('backend/images/img_summary.jpg') }}" alt=""></center>#}
                         <center><img width="171px" height="172px" class="media-object" src="{{ asset(store_avatar_path~store.avatarUrl) }}" alt=""></center>
                     </div>
                     <div class="media-body">
@@ -53,13 +60,13 @@
                             <a href="{{ path('admin_store_edit',{id:store.id}) }}" data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="edit-icon click_to_load_modal_popup"><i class="fa fa-pencil"></i></a>
                         </div>
                         <div class="top-media">
-                            <span class="media-heading"><b>カテゴリ名: </b> {{ store.category.name }}</span>
+                            <span class="media-heading"><b>{{ "shop.index.category_name"|trans }}: </b> {{ store.category.name }}</span>
                         </div>
                         <div class="top-media">
-                            <span class="media-heading"><b>操作開始時刻: </b> {{ store.operationStartTime|date("H:i") }}</span>
+                            <span class="media-heading"><b>{{ "shop.index.operation_start_time"|trans }}: </b> {{ store.operationStartTime|date("H:i") }}</span>
                         </div>
                         <div class="top-media">
-                            <span class="media-heading"><b>操作終了時刻: </b> {{ store.operationEndTime|date("H:i") }}</span>
+                            <span class="media-heading"><b>{{ "shop.index.operation_close_time"|trans }}: </b> {{ store.operationEndTime|date("H:i") }}</span>
                         </div>
                     </div>
                 </div>
