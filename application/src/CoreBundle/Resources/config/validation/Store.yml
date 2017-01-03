@@ -6,15 +6,52 @@ CoreBundle\Entity\Store:
                 max: 255
                 minMessage: store.title.min_message
                 maxMessage: store.title.max_message
+        link:
+            - Length:
+                min: 1
+                max: 255
+                minMessage: store.link.min_message
+                maxMessage: store.link.max_message
+        tel:
+            - Length:
+                min: 1
+                max: 20
+                minMessage: store.tel.min_message
+                maxMessage: store.tel.max_message
         latitude:
+            - Regex:
+                pattern: '/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'
+                message: store.latitude.format
             - Length:
                 min: 1
                 max: 20
                 minMessage: store.latitude.min_message
                 maxMessage: store.latitude.max_message
         longitude:
+            - Regex:
+                pattern: '/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'
+                message: store.longitude.format
             - Length:
                 min: 1
                 max: 20
-                minMessage: store.longtitude.min_message
-                maxMessage: store.longtitude.max_message
+                minMessage: store.longitude.min_message
+                maxMessage: store.longitude.max_message
+        address:
+            - Length:
+                min: 1
+                max: 255
+                minMessage: store.address.min_message
+                maxMessage: store.address.max_message
+        closeDate:
+            - Length:
+                min: 1
+                max: 255
+                minMessage: store.close_date.min_message
+                maxMessage: store.close_date.max_message
+        imageFile:
+            - Image:
+                maxSize: 5024k
+                maxSizeMessage: store.file.max_size
+                mimeTypesMessage: store.file.type
+        storePhotos:
+            - Valid: ~

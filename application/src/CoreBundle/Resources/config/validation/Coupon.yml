@@ -1,37 +1,17 @@
 CoreBundle\Entity\Coupon:
     properties:
-        type:
-            - NotBlank:
-                message: coupon.type.not_blank
-            - Choice:
-                choices:  [1, 2]
-                message:  coupon.type.choice
         title:
-            - NotBlank:
-                message: coupon.title.not_blank
             - Length:
                 min: 1
                 max: 255
                 minMessage: coupon.title.min_message
                 maxMessage: coupon.title.max_message
-        expiredTime:
-            - NotBlank:
-                message: coupon.expired_time.not_blank
-            - Date:
-                message: coupon.start_date.date
-        status:
-            - NotBlank:
-                message: coupon.status.not_blank
-            - Choice:
-                choices:  [0, 1]
-                message:  coupon.status.choice
-        imageUrl:
-            - Length:
-                min: 1
-                max: 255
-                minMessage: coupon.image_url.min_message
-                maxMessage: coupon.image_url.max_message
-        size:
-            - Type:
-                type: integer
-                message: coupon.size.integer
+        imageFile:
+            - Image:
+                maxSize: 5024k
+                maxSizeMessage: coupon.file.max_size
+                mimeTypesMessage: coupon.file.type
+        couponPhotos:
+            - Valid: ~
+        couponUserPhotos:
+            - Valid: ~
