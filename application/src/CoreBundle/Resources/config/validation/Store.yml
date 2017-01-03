@@ -20,7 +20,7 @@ CoreBundle\Entity\Store:
                 maxMessage: store.tel.max_message
         latitude:
             - Regex:
-                pattern: '/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'
+                pattern: '/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/'
                 message: store.latitude.format
             - Length:
                 min: 1
@@ -29,7 +29,7 @@ CoreBundle\Entity\Store:
                 maxMessage: store.latitude.max_message
         longitude:
             - Regex:
-                pattern: '/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'
+                pattern: '/^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/'
                 message: store.longitude.format
             - Length:
                 min: 1
