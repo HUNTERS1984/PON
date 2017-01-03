@@ -15,7 +15,7 @@
 {% block page_content %}
     <!-- wrapp_help -->
     <div class="wrapp_help">
-        <p><img src="{{ asset('backend/images/icon_help.png') }}" alt=""></p>
+        <p><img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  src="{{ asset('backend/images/icon_help.png') }}" alt=""></p>
         <p><h2>{{ "help.index.no_content"|trans }}</h2></p>
         <p class="text_help_bottom">{{ "help.index.question"|trans }}<a href="">pon_support-team.jp</a></p>
     </div>

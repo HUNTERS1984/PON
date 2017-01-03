@@ -99,7 +99,7 @@
 
                         <td>
                             <a data-toggle="modal" data-target="#viewUser" data-dismiss="modal"  class="click_to_load_modal_popup" href="{{ path('admin_management_user',{id:item.id}) }}">
-                                <img src="{{ asset(user_avatar_path ~ item.appUser.avatarUrl) }}" alt="" height="42" width="42">
+                                <img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'" src="{{ asset(user_avatar_path ~ item.appUser.avatarUrl) }}" alt="" height="42" width="42">
                             </a>
                         </td>
                         <td>

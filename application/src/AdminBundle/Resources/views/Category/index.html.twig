@@ -52,7 +52,7 @@
             {% for category in categories %}
                 <div class="media">
                     <div class="media-left">
-                        <center><img width="171px" height="172px" class="media-object" src="{{ asset(category_avatar_path~category.iconUrl) }}" alt=""></center>
+                        <center><img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  width="171px" height="172px" class="media-object" src="{{ asset(category_avatar_path~category.iconUrl) }}" alt=""></center>
                     </div>
                     <div class="media-body">
                         <div class="top-media">

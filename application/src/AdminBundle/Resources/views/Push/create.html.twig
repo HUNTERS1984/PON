@@ -5,7 +5,7 @@
     <div class="modal-dialog modal_push" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <img src="{{ asset('backend/images/check_push.png') }}" alt="">
+                <img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  src="{{ asset('backend/images/check_push.png') }}" alt="">
                 <p>{{ "push.create.message_success"|trans }}</p>
             </div>
         </div>

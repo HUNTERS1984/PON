@@ -24,7 +24,7 @@
                     <div class="col-md-3">
                         <div class="content_category_top">
                             <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-dismiss="modal"  data-toggle="modal" data-target="#load_popup_modal_show_id" class="link_blue click_to_load_modal_popup">
-                                <img width="236px" height="141px" src="{{ asset(coupon_avatar_path~coupon.imageUrl) }}" class="img_top" alt="">
+                                <img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  width="236px" height="141px" src="{{ asset(coupon_avatar_path~coupon.imageUrl) }}" class="img_top" alt="">
                             </a>
                             <a href="{{ path('admin_summary_edit',{id:coupon.id}) }}" data-toggle="modal" data-dismiss="modal"  data-target="#load_popup_modal_show_id" class="link_blue click_to_load_modal_popup">
                                 <h3 class="h3_title">

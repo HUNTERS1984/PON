@@ -52,7 +52,7 @@
             {% for store in stores %}
                 <div class="media">
                     <div class="media-left">
-                        <center><img width="171px" height="172px" class="media-object" src="{{ asset(store_avatar_path~store.avatarUrl) }}" alt=""></center>
+                        <center><img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  width="171px" height="172px" class="media-object" src="{{ asset(store_avatar_path~store.avatarUrl) }}" alt=""></center>
                     </div>
                     <div class="media-body">
                         <div class="top-media">
