@@ -108,7 +108,7 @@ class StoreManager extends AbstractManager
                 'lat' => $params['latitude'],
                 'lon' => $params['longitude']
             ],
-            '1km'
+            '20km'
         );
         $query = new \Elastica\Query;
         $all = new Query\MatchAll();
@@ -179,7 +179,7 @@ class StoreManager extends AbstractManager
                 'lat' => $latitude,
                 'lon' => $longitude
             ],
-            '1km'
+            '20km'
         );
 
         $query = new Query();

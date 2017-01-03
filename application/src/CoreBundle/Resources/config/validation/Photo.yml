@@ -1,0 +1,7 @@
+CoreBundle\Entity\Photo:
+    properties:
+        imageFile:
+            - Image:
+                maxSize: 5024k
+                maxSizeMessage: photo.file.max_size
+                mimeTypesMessage: photo.file.type

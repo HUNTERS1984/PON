@@ -1,4 +1,6 @@
 app_user:
+    not_found: App User is not found.
+    delete_false: Deleting is not successful
     name:
         min_message: 名前は1文字以上でなければなりません
         max_message: 名前は100文字を超えることはできません
@@ -48,6 +50,8 @@ news_category:
         max_message: ニュースカテゴリは100文字以下でなければなりません
 
 news:
+    not_found: News is not found.
+    delete_false: Deleting is not successful
     title:
         not_blank: タイトルは空白であってはならない
         min_message: タイトルは少なくとも1文字でなければなりません
@@ -64,46 +68,45 @@ push:
 store:
     not_found: Store is not found.
     delete_false: Deleting is not successful
-    user:
-        not_blank: The User should not be blank
-    store_type:
-        not_blank: The StoreType should not be blank
-    name:
-        not_blank: The name should not be blank
-        min_message: The Name must be at least 1 characters long
-        max_message: The Name cannot be longer than 100 characters
+    title:
+        min_message: タイトルは1文字以上でなければなりません
+        max_message: タイトルは255文字以下にする必要があります
+    link:
+        min_message: リンクは1文字以上でなければなりません
+        max_message: リンクは255文字以下でなければなりません
+    tel:
+        min_message: 電話は1文字以上でなければなりません
+        max_message: 電話は20文字以下でなければなりません
     latitude:
-       not_blank: The latitude should not be blank
-       min_message: The latitude must be at least 1 characters long
-       max_message: The latitude cannot be longer than 20 characters
-    longtitude:
-       not_blank: The longtitude should not be blank
-       min_message: The longtitude must be at least 1 characters long
-       max_message: The longtitude cannot be longer than 20 characters
+        min_message: 緯度は1文字以上でなければなりません
+        max_message: 緯度は20文字を超えることはできません
+        format: 緯度が無効です
+    longitude:
+        min_message: 経度は少なくとも1文字でなければなりません
+        max_message: 経度は20文字を超えることはできません
+        format: 経度が無効な形式です
+    address:
+        min_message: アドレスは1文字以上でなければなりません
+        max_message: アドレスは255文字以下にする必要があります
+    close_date:
+        min_message: 終了日は1文字以上でなければなりません
+        max_message: 終了日は255文字以内でなければなりません
+    file:
+        max_size: アバターファイルが大きすぎます。 最大許容サイズは 5MBです。
+        type: 画像ファイルをアップロードしてください
+        not_null: アバター画像を選んでください
 
 coupon:
     not_found: Coupon is not found.
     delete_false: Deleting is not successful
-    coupon_type:
-        not_blank: The Coupon Type should not be blank
-    type:
-        not_blank: The type should not be blank
-        choice: The Type should be 1 or 0
     title:
-        not_blank: The Title should not be blank
-        min_message: The Title must be at least 1 characters long
-        max_message: The Title cannot be longer than 255 characters
-    start_date:
-        not_blank: The Start Date should not be blank
-        date: The Start Date should have format YYYY/mm/dd
-    end_date:
-        not_blank: The End Date should not be blank
-        date: The Start End should have format YYYY/mm/dd
-    status:
-        not_blank: The status should not be blank
-        choice: The status should be 1 or 0
-    image_url:
-        min_message: The Image Url must be at least 1 characters long
-        max_message: The Image Url cannot be longer than 255 characters
-    size:
-        integer: The Size should be integer
+        min_message: タイトルは1文字以上でなければなりません
+        max_message: タイトルは255文字以下にする必要があります
+    file:
+        max_size: アバターファイルが大きすぎます。 最大許容サイズは 5MBです。
+        type: 画像ファイルをアップロードしてください
+
+photo:
+    file:
+        max_size: アバターファイルが大きすぎます。 最大許容サイズは 5MBです。
+        type: 画像ファイルをアップロードしてください

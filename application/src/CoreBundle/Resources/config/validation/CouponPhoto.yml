@@ -1,0 +1,4 @@
+CoreBundle\Entity\CouponPhoto:
+    properties:
+        photo:
+            - Valid: ~

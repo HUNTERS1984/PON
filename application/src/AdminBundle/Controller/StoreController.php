@@ -93,18 +93,20 @@ class StoreController extends Controller
                 $store->setAvatarUrl($fileUrl);
             }
 
-            foreach ($store->getStorePhotos() as $key => $storePhoto) {
-                /** @var StorePhoto $storePhoto */
-                $photo = $storePhoto->getPhoto();
-                if ($photo && $imageFile = $photo->getImageFile()) {
-                    $photoId = $this->getManager()->createID('PH');
-                    $fileUrl = $this->getManager()->uploadImage($imageFile, $photoId);
-                    $photo
-                        ->setPhotoId($photoId)
-                        ->setCreatedAt(new \DateTime())
-                        ->setUpdatedAt(new \DateTime())
-                        ->setImageUrl($fileUrl);
-                    $storePhoto->setStore($store);
+            if(!empty($store->getStorePhotos())) {
+                foreach ($store->getStorePhotos() as $key => $storePhoto) {
+                    /** @var StorePhoto $storePhoto */
+                    $photo = $storePhoto->getPhoto();
+                    if ($photo && $imageFile = $photo->getImageFile()) {
+                        $photoId = $this->getManager()->createID('PH');
+                        $fileUrl = $this->getManager()->uploadImage($imageFile, $photoId);
+                        $photo
+                            ->setPhotoId($photoId)
+                            ->setCreatedAt(new \DateTime())
+                            ->setUpdatedAt(new \DateTime())
+                            ->setImageUrl($fileUrl);
+                        $storePhoto->setStore($store);
+                    }
                 }
             }
 
@@ -153,21 +155,23 @@ class StoreController extends Controller
                 $store->setAvatarUrl($fileUrl);
             }
 
-            foreach ($store->getStorePhotos() as $key => $storePhoto) {
-                /** @var StorePhoto $storePhoto */
-                $photo = $storePhoto->getPhoto();
-                if ($photo && $imageFile = $photo->getImageFile()) {
-                    $photoId = $this->getManager()->createID('PH');
-                    $fileUrl = $this->getManager()->uploadImage($imageFile, $photoId);
-                    $photo
-                        ->setPhotoId($photoId)
-                        ->setCreatedAt(new \DateTime())
-                        ->setUpdatedAt(new \DateTime())
-                        ->setImageUrl($fileUrl);
-                    $storePhoto
-                        ->setPhoto($photo)
-                        ->setStore($store);
-                    $store->getStorePhotos()->set($key, $storePhoto);
+            if(!empty($store->getStorePhotos())) {
+                foreach ($store->getStorePhotos() as $key => $storePhoto) {
+                    /** @var StorePhoto $storePhoto */
+                    $photo = $storePhoto->getPhoto();
+                    if ($photo && $imageFile = $photo->getImageFile()) {
+                        $photoId = $this->getManager()->createID('PH');
+                        $fileUrl = $this->getManager()->uploadImage($imageFile, $photoId);
+                        $photo
+                            ->setPhotoId($photoId)
+                            ->setCreatedAt(new \DateTime())
+                            ->setUpdatedAt(new \DateTime())
+                            ->setImageUrl($fileUrl);
+                        $storePhoto
+                            ->setPhoto($photo)
+                            ->setStore($store);
+                        $store->getStorePhotos()->set($key, $storePhoto);
+                    }
                 }
             }
 

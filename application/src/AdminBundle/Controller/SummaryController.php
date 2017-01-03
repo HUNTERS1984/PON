@@ -69,33 +69,37 @@ class SummaryController extends Controller
                 $coupon->setImageUrl($fileUrl);
             }
 
-            foreach ($coupon->getCouponPhotos() as $key => $couponPhoto) {
-                /** @var CouponPhoto $couponPhoto */
-                $photo = $couponPhoto->getPhoto();
-                if ($photo && $imageFile = $photo->getImageFile()) {
-                    $photoId = $this->getManager()->createID('PH');
-                    $fileUrl = $this->getManager()->uploadImage($imageFile, $photoId);
-                    $photo
-                        ->setPhotoId($photoId)
-                        ->setCreatedAt(new \DateTime())
-                        ->setUpdatedAt(new \DateTime())
-                        ->setImageUrl($fileUrl);
-                    $couponPhoto->setCoupon($coupon);
+            if(!empty($coupon->getCouponPhotos())) {
+                foreach ($coupon->getCouponPhotos() as $key => $couponPhoto) {
+                    /** @var CouponPhoto $couponPhoto */
+                    $photo = $couponPhoto->getPhoto();
+                    if ($photo && $imageFile = $photo->getImageFile()) {
+                        $photoId = $this->getManager()->createID('PH');
+                        $fileUrl = $this->getManager()->uploadImage($imageFile, $photoId);
+                        $photo
+                            ->setPhotoId($photoId)
+                            ->setCreatedAt(new \DateTime())
+                            ->setUpdatedAt(new \DateTime())
+                            ->setImageUrl($fileUrl);
+                        $couponPhoto->setCoupon($coupon);
+                    }
                 }
             }
 
-            foreach ($coupon->getCouponUserPhotos() as $key => $couponUserPhoto) {
-                /** @var CouponUserPhoto $couponUserPhoto */
-                $photo = $couponUserPhoto->getPhoto();
-                if ($photo && $imageFile = $photo->getImageFile()) {
-                    $photoId = $this->getManager()->createID('PH');
-                    $fileUrl = $this->getManager()->uploadImage($imageFile, $photoId);
-                    $photo
-                        ->setPhotoId($photoId)
-                        ->setCreatedAt(new \DateTime())
-                        ->setUpdatedAt(new \DateTime())
-                        ->setImageUrl($fileUrl);
-                    $couponUserPhoto->setCoupon($coupon);
+            if(!empty($coupon->getCouponUserPhotos())) {
+                foreach ($coupon->getCouponUserPhotos() as $key => $couponUserPhoto) {
+                    /** @var CouponUserPhoto $couponUserPhoto */
+                    $photo = $couponUserPhoto->getPhoto();
+                    if ($photo && $imageFile = $photo->getImageFile()) {
+                        $photoId = $this->getManager()->createID('PH');
+                        $fileUrl = $this->getManager()->uploadImage($imageFile, $photoId);
+                        $photo
+                            ->setPhotoId($photoId)
+                            ->setCreatedAt(new \DateTime())
+                            ->setUpdatedAt(new \DateTime())
+                            ->setImageUrl($fileUrl);
+                        $couponUserPhoto->setCoupon($coupon);
+                    }
                 }
             }
 

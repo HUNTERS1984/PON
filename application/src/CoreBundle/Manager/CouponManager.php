@@ -205,7 +205,7 @@ class CouponManager extends AbstractManager
                 'lat' => $latitude,
                 'lon' => $longitude
             ],
-            '1km'
+            '20km'
         );
 
         $query = new Query();
@@ -239,7 +239,7 @@ class CouponManager extends AbstractManager
                 'lat' => $latitude,
                 'lon' => $longitude
             ],
-            '1km'
+            '20km'
         );
 
         $query = new Query();

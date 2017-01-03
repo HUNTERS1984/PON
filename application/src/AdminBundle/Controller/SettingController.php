@@ -146,25 +146,27 @@ class SettingController extends Controller
             $store = $form->getData();
 
             if ($fileUpload = $store->getImageFile()) {
-                $fileUrl = $this->getManager()->uploadAvatar($fileUpload, $store->getStoreId());
+                $fileUrl = $this->getStoreManager()->uploadAvatar($fileUpload, $store->getStoreId());
                 $store->setAvatarUrl($fileUrl);
             }
 
-            foreach ($store->getStorePhotos() as $key => $storePhoto) {
-                /** @var StorePhoto $storePhoto */
-                $photo = $storePhoto->getPhoto();
-                if ($photo && $imageFile = $photo->getImageFile()) {
-                    $photoId = $this->getStoreManager()->createID('PH');
-                    $fileUrl = $this->getStoreManager()->uploadImage($imageFile, $photoId);
-                    $photo
-                        ->setPhotoId($photoId)
-                        ->setCreatedAt(new \DateTime())
-                        ->setUpdatedAt(new \DateTime())
-                        ->setImageUrl($fileUrl);
-                    $storePhoto
-                        ->setPhoto($photo)
-                        ->setStore($store);
-                    $store->getStorePhotos()->set($key, $storePhoto);
+            if(!empty($store->getStorePhotos())) {
+                foreach ($store->getStorePhotos() as $key => $storePhoto) {
+                    /** @var StorePhoto $storePhoto */
+                    $photo = $storePhoto->getPhoto();
+                    if ($photo && $imageFile = $photo->getImageFile()) {
+                        $photoId = $this->getStoreManager()->createID('PH');
+                        $fileUrl = $this->getStoreManager()->uploadImage($imageFile, $photoId);
+                        $photo
+                            ->setPhotoId($photoId)
+                            ->setCreatedAt(new \DateTime())
+                            ->setUpdatedAt(new \DateTime())
+                            ->setImageUrl($fileUrl);
+                        $storePhoto
+                            ->setPhoto($photo)
+                            ->setStore($store);
+                        $store->getStorePhotos()->set($key, $storePhoto);
+                    }
                 }
             }
 
