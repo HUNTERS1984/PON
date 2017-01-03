@@ -42,16 +42,24 @@ CoreBundle\Entity\AppUser:
                 max: 255
                 minMessage: app_user.address.min_message
                 maxMessage: app_user.address.max_message
+        company:
+            - Length:
+                min: 1
+                max: 255
+                minMessage: app_user.company.min_message
+                maxMessage: app_user.company.max_message
+        tel:
+            - Length:
+                min: 1
+                max: 20
+                minMessage: app_user.tel.min_message
+                maxMessage: app_user.tel.max_message
         gender:
             - Choice:
                 choices:  [0,1,2]
                 message:  app_user.gender.choice
-        avatarUrl:
-            - Length:
-                min: 1
-                max: 255
-                minMessage: app_user.avatar_url.min_message
-                maxMessage: app_user.avatar_url.max_message
-        file:
+        imageFile:
             - Image:
                 maxSize: 5024k
+                maxSizeMessage: app_user.file.max_size
+                mimeTypesMessage: app_user.file.type

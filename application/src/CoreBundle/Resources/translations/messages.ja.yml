@@ -1,106 +1,65 @@
-coupon_type:
-    not_found: Coupon Type is not found.
-    delete_false: Deleting is not successful
-    name:
-        not_blank: The name should not be blank
-        min_message: The Name must be at least 1 characters long
-        max_message: The Name cannot be longer than 100 characters
-    icon_url:
-       not_blank: The Icon Url should not be blank
-       min_message: The Icon Url must be at least 1 characters long
-       max_message: The Icon Url cannot be longer than 255 characters
-
-    store:
-        not_blank: The Store should not be blank
-
-user:
-    not_found: User is not found.
-    delete_false: Deleting is not successful
-    username:
-        not_blank: The Username should not be blank
-        min_message: The Username must be at least 1 characters long
-        max_message: The Username cannot be longer than 180 characters
-    email:
-        not_blank: The email should not be blank
-        min_message: The email must be at least 1 characters long
-        max_message: The email cannot be longer than 180 characters
-        email: The email is not a valid email.
-        unique: The email is already exists.
-    plain_password:
-        not_blank: The PlainPassword should not be blank
-        min_message: The PlainPassword must be at least 1 characters long
-        max_message: The PlainPassword cannot be longer than 180 characters
-    full_name:
-        not_blank: The FullName should not be blank
-        min_message: The FullName must be at least 1 characters long
-        max_message: The FullName cannot be longer than 255 characters
-    sex:
-        not_blank: The Sex should not be blank
-        choice: The Sex should be 1 or 0
-    birthday:
-        not_blank: The Birthday should not be blank
-        date: The Birthday should have format YYYY/mm/dd
-    locale:
-        not_blank: The Locale should not be blank
-        min_message: The Locale must be at least 1 characters long
-        max_message: The Locale cannot be longer than 5 characters
-    temporary_hash:
-        not_blank: The TemporaryHash should not be blank
-        min_message: The TemporaryHash must be at least 1 characters long
-        max_message: The TemporaryHash cannot be longer than 5 characters
-    remember_token:
-        not_blank: The TemporaryHash should not be blank
-        min_message: The RememberToken must be at least 1 characters long
-        max_message: The RememberToken cannot be longer than 100 characters
-    company:
-        not_blank: The Company should not be blank
-        min_message: The Company must be at least 1 characters long
-        max_message: The Company cannot be longer than 255 characters
-    address:
-        not_blank: The Address should not be blank
-        min_message: The Address must be at least 1 characters long
-        max_message: The Address cannot be longer than 255 characters
-    tel:
-        not_blank: The Tel should not be blank
-        min_message: The Tel must be at least 1 characters long
-        max_message: The Tel cannot be longer than 20 characters
-
 app_user:
-    not_found: アプリユーザーが見つかりません。
-    delete_false: 削除が成功しません
     name:
         min_message: 名前は1文字以上でなければなりません
         max_message: 名前は100文字を超えることはできません
     username:
-        not_blank: The Username should not be blank
-        min_message: The Username must be at least 1 characters long
-        max_message: The Username cannot be longer than 180 characters
-        unique: The Username is already exists.
+        not_blank: ユーザー名は空白であってはいけません
+        min_message: ユーザー名は少なくとも1文字でなければなりません
+        max_message: ユーザー名は180文字以下にする必要があります
+        unique: ユーザー名は既に存在します。
     email:
-        not_blank: The email should not be blank
-        min_message: The email must be at least 1 characters long
-        max_message: The email cannot be longer than 180 characters
-        email: The email is not a valid email.
-        unique: The email is already exists.
+        not_blank: 電子メールは空白であってはならない
+        min_message: 電子メールの長さは1文字以上でなければなりません
+        max_message: 電子メールは180文字以内で入力できます。
+        email: 電子メールは有効な電子メールではありません。
+        unique: 電子メールは既に存在します。
     password:
-        not_blank: The Password should not be blank
-        min_message: The Password must be at least 1 characters long
-        max_message: The Password cannot be longer than 180 characters
-    role:
-        min_message: The Locale must be at least 1 characters long
-        max_message: The Locale cannot be longer than 60 characters
+        not_blank: パスワードは空白にしないでください
+        min_message: パスワードは1文字以上でなければなりません
+        max_message: パスワードは180文字以下にする必要があります
     address:
-        min_message: The address must be at least 1 characters long
-        max_message: The address cannot be longer than 255 characters
-    avatar_url:
-        min_message: The Avatar Url must be at least 1 characters long
-        max_message: The Avatar Url cannot be longer than 255 characters
+        min_message: アドレスは1文字以上でなければなりません
+        max_message: アドレスは255文字以下にする必要があります
+    company:
+        min_message: 会社は1文字以上でなければなりません
+        max_message: 会社は255文字以下でなければなりません
+    tel:
+        min_message: 電話は1文字以上でなければなりません
+        max_message: 電話は20文字以下でなければなりません
     gender:
-        choice: The Gender should be 0, 1, 2
-    temporary_hash:
-        not_blank: The TemporaryHash should not be blank
-        min_message: The TemporaryHash must be at least 1 characters long
-        max_message: The TemporaryHash cannot be longer than 5 characters
+        choice: 性別は0,1,2です。
+    file:
+        max_size: アバターファイルが大きすぎます。 最大許容サイズは 5MBです。
+        type: 画像ファイルをアップロードしてください
+
+category:
+    name:
+        not_blank: カテゴリは空白であってはならない
+        min_message: カテゴリは1文字以上でなければなりません
+        max_message: カテゴリは100文字以下でなければなりません
+    file:
+        max_size: アバターファイルが大きすぎます。 最大許容サイズは 5MBです。
+        type: 画像ファイルをアップロードしてください
+
+news_category:
+    name:
+        not_blank: ニュースカテゴリは空白であってはならない
+        min_message: ニュースカテゴリは1文字以上でなければなりません
+        max_message: ニュースカテゴリは100文字以下でなければなりません
+
+news:
+    title:
+        not_blank: タイトルは空白であってはならない
+        min_message: タイトルは少なくとも1文字でなければなりません
+        max_message: タイトルは255文字以下にする必要があります
+
+push:
+    title:
+        not_blank: タイトルは空白であってはならない
+        min_message: タイトルは少なくとも1文字でなければなりません
+        max_message: タイトルは255文字以下にする必要があります
+    message:
+        not_blank: メッセージは空白であってはならない
 
 store:
     not_found: Store is not found.
@@ -148,66 +107,3 @@ coupon:
         max_message: The Image Url cannot be longer than 255 characters
     size:
         integer: The Size should be integer
-
-post:
-    not_found: Post is not found.
-    delete_false: Deleting is not successful
-    app_user:
-        not_blank: The App User should not be blank
-    social_user_id:
-        not_blank: The Social User Id should not be blank
-        integer: The Social User should be integer
-    social_media_id:
-        not_blank: The Social Media Id should not be blank
-        min_message: The Social Media Id must be at least 1 characters long
-        max_message: The Social Media Id cannot be longer than 50 characters
-    caption:
-        not_blank: The Caption should not be blank
-        min_message: The Title must be at least 1 characters long
-        max_message: The Title cannot be longer than 200 characters
-    created_time:
-        not_blank: The Created Time should not be blank
-        date: The Start Created Time should have format YYYY/mm/dd
-    status:
-        not_blank: The status should not be blank
-        choice: The status should be 1 or 0
-    social_user_name:
-        not_blank: The Social UserName should not be blank
-        min_message: The Social UserName must be at least 1 characters long
-        max_message: The Social UserName cannot be longer than 100 characters
-    social_avatar:
-        not_blank: The Social Avatar should not be blank
-        min_message: The Social Avatar must be at least 1 characters long
-        max_message: The Social Avatar cannot be longer than 255 characters
-    image_url:
-        not_blank: The Image Url should not be blank
-        min_message: The Image Url must be at least 1 characters long
-        max_message: The Image Url cannot be longer than 255 characters
-    url:
-        not_blank: The Url should not be blank
-        min_message: The Url must be at least 1 characters long
-        max_message: The Url cannot be longer than 255 characters
-
-news:
-    not_found: News is not found.
-    delete_false: Deleting is not successful
-    store:
-        not_blank: The Store should not be blank
-    title:
-        not_blank: The Title should not be blank
-        min_message: The Title must be at least 1 characters long
-        max_message: The Title cannot be longer than 255 characters
-    message:
-        min_message: The Message must be at least 1 characters long
-        max_message: The Message cannot be longer than 255 characters
-    json:
-        min_message: The Message must be at least 1 characters long
-        max_message: The Message cannot be longer than 255 characters
-    type:
-        integer: The Type should be integer
-    time:
-        not_blank: The Time should not be blank
-        date: The Time should have format YYYY/mm/dd
-    time:
-        not_blank: The Date should not be blank
-        date: The Date should have format YYYY/mm/dd

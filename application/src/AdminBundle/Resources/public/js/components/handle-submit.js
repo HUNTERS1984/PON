@@ -17,7 +17,7 @@
         var _submit = function() {
             var $this = $(this);
             var formData = new FormData($(this)[0]);
-
+            $('#error_message').html('');
             $.ajax({
                 url: options.ajaxUrl,
                 type: 'POST',
