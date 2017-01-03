@@ -9,9 +9,8 @@ CoreBundle\Entity\Category:
                 minMessage: category.name.min_message
                 maxMessage: category.name.max_message
 
-        iconUrl:
-            - Length:
-                min: 1
-                max: 255
-                minMessage: category.iconUrl.min_message
-                maxMessage: category.iconUrl.max_message
+        imageFile:
+            - Image:
+                maxSize: 5024k
+                maxSizeMessage: category.file.max_size
+                mimeTypesMessage: category.file.type

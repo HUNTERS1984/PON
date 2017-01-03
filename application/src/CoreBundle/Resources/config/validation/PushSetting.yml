@@ -1,0 +1,13 @@
+CoreBundle\Entity\PushSetting:
+    properties:
+        title:
+            - NotBlank:
+                message: push.title.not_blank
+            - Length:
+                min: 1
+                max: 255
+                minMessage: push.title.min_message
+                maxMessage: push.title.max_message
+        message:
+            - NotBlank:
+                message: push.message.not_blank

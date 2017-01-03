@@ -1,0 +1,10 @@
+CoreBundle\Entity\NewsCategory:
+    properties:
+        name:
+            - NotBlank:
+                message: news_category.name.not_blank
+            - Length:
+                min: 1
+                max: 100
+                minMessage: news_category.name.min_message
+                maxMessage: news_category.name.max_message
