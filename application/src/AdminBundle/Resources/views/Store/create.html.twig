@@ -13,7 +13,7 @@
                 <div class="">
                     <div class="col-md-12">
                         <div class="row wrapp_avar_btn">
-                            <div class="col-md-3"><img width="200px" height="200px" src="" alt=""></div>
+                            <div class="col-md-3"><img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  width="200px" height="200px" src="" alt=""></div>
                             <div class="col-md-4">
                                 <div class="btn_upload_image">
                                     <span>{{ form_label(form.imageFile) }}</span>

@@ -30,10 +30,10 @@
                             <div class="col-md-3">
                                 {% if store is not empty and store.link is not empty %}
                                     {% set link = qrcode_data_uri(store.link, { size: 200, padding: 10 }) %}
-                                    <img width="200px" class="img_qr" height="200px" src="{{ link }}" alt="">
+                                    <img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  width="200px" class="img_qr" height="200px" src="{{ link }}" alt="">
                                 {% else %}
                                     {% set link =  qrcode_data_uri(url("customer_homepage"), { size: 200, padding: 10 }) %}
-                                    <img width="200px" class="img_qr"  height="200px" src="{{ link }}" alt="">
+                                    <img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  width="200px" class="img_qr"  height="200px" src="{{ link }}" alt="">
                                 {% endif %}
                             </div>
                             <div class="col-md-6">

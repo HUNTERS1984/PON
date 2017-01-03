@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row wrapp_avar_btn avatar">
-                                <div class="col-md-2"><img style="border-radius: 50%;" width="127px" height="127px" src="{{ asset(store_avatar_path~ store.avatarUrl) }}" alt=""></div>
+                                <div class="col-md-2"><img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  style="border-radius: 50%;" width="127px" height="127px" src="{{ asset(store_avatar_path~ store.avatarUrl) }}" alt=""></div>
                                 <div class="col-md-8">
                                     <div class="btn_upload_image">
                                         <span>{{ form_label(form.imageFile) }}</span>

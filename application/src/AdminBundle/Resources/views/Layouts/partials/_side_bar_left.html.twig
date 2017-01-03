@@ -1,6 +1,6 @@
 <nav class="vertical_nav">
     <ul class="profile">
-        <li><img src="{{ asset(user_avatar_path ~ app.user.avatarUrl) }}" alt=""></li>
+        <li><img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  src="{{ asset(user_avatar_path ~ app.user.avatarUrl) }}" alt=""></li>
         <li>
             <strong>{{ app.user.username }}</strong>
             <p><i class="fa fa-circle"></i> {{ "menu.left.online"|trans }}</p>

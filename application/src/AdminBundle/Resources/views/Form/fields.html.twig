@@ -236,7 +236,7 @@
     {% if allow_delete and not disabled %}
         <button type="button" class="collection_image_close"><span aria-hidden="true">×</span></button>
     {% endif %}
-    <img width="200px" height="200px" src="{% if widget.vars.value.photo is defined %}{{ asset(base_image_upload~widget.vars.value.photo.imageUrl) }}{% endif %}" alt="">
+    <img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  width="200px" height="200px" src="{% if widget.vars.value.photo is defined %}{{ asset(base_image_upload~widget.vars.value.photo.imageUrl) }}{% endif %}" alt="">
 
     <div style="position: absolute;">
         {{ form_widget(form, {disabled: disabled, id: ''}) }}

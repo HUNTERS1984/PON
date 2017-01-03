@@ -74,7 +74,7 @@
                     {% for item in users %}
                     <tr {% if loop.index is divisible by(2) %}class="active"{% endif %}>
                         <td>
-                            <img src="{{ asset(user_avatar_path ~ item.avatarUrl) }}" alt="" height="42" width="42">
+                            <img onerror="this.src='{{ asset('backend/images/no_img.jpg') }}'"  src="{{ asset(user_avatar_path ~ item.avatarUrl) }}" alt="" height="42" width="42">
                         </td>
                         <td>
                             {{ item.username }}
