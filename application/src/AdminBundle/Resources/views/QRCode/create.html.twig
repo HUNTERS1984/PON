@@ -81,9 +81,9 @@
                     }
 
                     if(response.status) {
-                        $('.qrlink').val(response.data.store.link);
-                        $('.img_qr').attr('src',response.data.link);
-                        $('#download_qr').attr('href',response.data.link);
+                        $('.qrlink').val(response.data.link);
+                        $('.img_qr').attr('src',response.data.qr_link);
+                        $('#download_qr').attr('href',response.data.qr_link);
                         return true;
                     }
                     alert('Can not process data!');
