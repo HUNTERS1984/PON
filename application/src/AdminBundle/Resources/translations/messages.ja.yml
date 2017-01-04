@@ -31,7 +31,7 @@ common:
     status_false:
         create: 作成に失敗しました
         edit: 更新に失敗しました
-
+    delete_confirm: 削除しますか？
 
 dashboard:
     index:

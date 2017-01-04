@@ -132,6 +132,25 @@ class StoreController extends Controller
     }
 
     /**
+     * Delete Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function deleteAction($id)
+    {
+        $store = $this->getManager()->getStore($id);
+
+        if(!$store || $store->getDeletedAt()) {
+            return $this->get('pon.utils.response')->getFailureMessage('shop.edit.store_not_found');
+        }
+
+        $this->getManager()->deleteStore($store);
+        return $this->get('pon.utils.response')->getSuccessMessage();
+
+    }
+
+    /**
      * Edit Store Action
      *
      * @return Response

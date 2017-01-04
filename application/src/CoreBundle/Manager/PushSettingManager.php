@@ -70,7 +70,7 @@ class PushSettingManager extends AbstractManager
      *
      * @return boolean
      */
-    public function deleteSegment(PushSetting $pushSetting)
+    public function deletePush(PushSetting $pushSetting)
     {
         $pushSetting
             ->setDeletedAt(new \DateTime());

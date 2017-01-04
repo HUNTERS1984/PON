@@ -111,6 +111,30 @@ class NewsController extends Controller
     }
 
     /**
+     * Delete Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
+    public function deleteAction($id)
+    {
+        $news = $this->getManager()->getNews($id);
+        if(!$this->isGranted('ROLE_ADMIN') &&
+            $news->getStore()->getId() != $this->getUser()->getStore()->getId()
+        ) {
+            $news = null;
+        }
+
+        if(!$news || $news->getDeletedAt()) {
+            return $this->get('pon.utils.response')->getFailureMessage('news.edit.news_not_found');
+        }
+
+        $this->getManager()->deleteNews($news);
+        return $this->get('pon.utils.response')->getSuccessMessage();
+
+    }
+
+    /**
      * Edit News Action
      *
      * @return Response

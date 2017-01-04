@@ -53,6 +53,10 @@ class PushController extends Controller
         return $this->get('pon.manager.push_setting');
     }
 
+    /**
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
     public function updateAction(Request $request)
     {
         if(!$request->isXmlHttpRequest() ) {
@@ -87,6 +91,10 @@ class PushController extends Controller
         return $this->get('pon.utils.response')->getSuccessMessage();
     }
 
+    /**
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
     public function editAction(Request $request, $id)
     {
         $pushSetting = $this->getManager()->getPushSetting($id);
@@ -103,6 +111,30 @@ class PushController extends Controller
                 'pushSetting' => $pushSetting
             ]
         );
+
+    }
+
+    /**
+     * Delete Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
+    public function deleteAction($id)
+    {
+        $push = $this->getManager()->getPushSetting($id);
+        if(!$this->isGranted('ROLE_ADMIN') &&
+            $push->getStore()->getId() != $this->getUser()->getStore()->getId()
+        ) {
+            $push = null;
+        }
+
+        if(!$push || $push->getDeletedAt()) {
+            return $this->get('pon.utils.response')->getFailureMessage('push.edit.push_not_found');
+        }
+
+        $this->getManager()->deletePush($push);
+        return $this->get('pon.utils.response')->getSuccessMessage();
 
     }
 

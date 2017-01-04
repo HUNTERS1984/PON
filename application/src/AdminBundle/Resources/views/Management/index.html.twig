@@ -47,8 +47,8 @@
             </form>
             <div class="col-md-6">
                 <ul class="btn_search_right">
-                    <li><a class="ajaxModal" data-ajax-checked=".ckmanagement" data-ajax-checked-field="ids" data-ajax-confirm="{{ "approve_management.index.approve_select_confirm"|trans }}" data-ajax-url="{{ path("admin_management_approve_selected") }}"  data-ajax-redirect="{{ path("admin_management") }}" href="javascript:void(0);">{{ "approve_management.index.approve_select"|trans }}</a></li>
-                    <li><a class="ajaxModal"  data-ajax-confirm="{{ "approve_management.index.approve_all_confirm"|trans }}" data-ajax-url="{{ path("admin_management_approve_all") }}"  data-ajax-redirect="{{ path("admin_management") }}" href="javascript:void(0);">{{ "approve_management.index.approve_all"|trans }}</a></li>
+                    <li><a data-ajax-modal="ajaxModal" data-ajax-checked=".ckmanagement" data-ajax-checked-field="ids" data-ajax-confirm="{{ "approve_management.index.approve_select_confirm"|trans }}" data-ajax-url="{{ path("admin_management_approve_selected") }}"  data-ajax-redirect="{{ path("admin_management") }}" href="javascript:void(0);">{{ "approve_management.index.approve_select"|trans }}</a></li>
+                    <li><a data-ajax-modal="ajaxModal"  data-ajax-confirm="{{ "approve_management.index.approve_all_confirm"|trans }}" data-ajax-url="{{ path("admin_management_approve_all") }}"  data-ajax-redirect="{{ path("admin_management") }}" href="javascript:void(0);">{{ "approve_management.index.approve_all"|trans }}</a></li>
                 </ul>
             </div>
         </div>
