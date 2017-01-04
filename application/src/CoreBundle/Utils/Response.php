@@ -28,9 +28,17 @@ class Response
      * @param string $message
      * @return BaseResponse
      */
-    public function getSuccessMessage($message = '')
+    public function getSuccessMessage($message = '', $data = null)
     {
-        return new BaseResponse(json_encode(['status' => true, 'message' => $this->translator->trans($message)]));
+        return new BaseResponse(
+            json_encode(
+                [
+                    'status' => true,
+                    'message' => $this->translator->trans($message),
+                    'data' => $data
+                ]
+            )
+        );
     }
 
     /**

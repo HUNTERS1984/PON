@@ -102,7 +102,7 @@ class QRCodeController extends Controller
         if(!$this->isGranted('ROLE_ADMIN') && $user->getStore()->getId() !== $store->getId()) {
             return $this->get('pon.utils.response')->getFailureMessage('qr_code.create.store_not_found');
         }
-        $data['store'] = $this->getSerializer()->serialize($store, ['list']);
+        $data['link'] = $store->getLink();
         $link = $this->get('router')->generate('endroid_qrcode', [
             'text' => $store->getLink() ?? '',
             'extension' => 'png',
@@ -110,7 +110,7 @@ class QRCodeController extends Controller
             'label' => 'PON',
             'label_font_size' => 16,
         ]);
-        $data['link'] = $link;
+        $data['qr_link'] = $link;
         return $this->get('pon.utils.response')->getSuccessMessage('Success', $data);
     }
 
