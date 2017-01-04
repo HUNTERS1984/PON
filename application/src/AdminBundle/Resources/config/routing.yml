@@ -46,6 +46,10 @@ admin_app_user_edit:
     path:     /user/edit/{id}
     defaults: { _controller: AdminBundle:AppUser:edit }
 
+admin_app_user_delete:
+    path:     /user/delete/{id}
+    defaults: { _controller: AdminBundle:AppUser:delete }
+
 admin_app_user_active:
     path:     /user/active/{id}
     defaults: { _controller: AdminBundle:AppUser:active }
@@ -61,6 +65,10 @@ admin_summary_create:
 admin_summary_edit:
     path:     /summary/edit/{id}
     defaults: { _controller: AdminBundle:Summary:edit }
+
+admin_summary_delete:
+    path:     /summary/delete/{id}
+    defaults: { _controller: AdminBundle:Summary:delete }
 
 admin_category:
     path:     /category
@@ -82,9 +90,17 @@ admin_news_category_edit:
     path:     /news-category/edit/{id}
     defaults: { _controller: AdminBundle:NewsCategory:edit }
 
+admin_news_category_delete:
+    path:     /news-category/delete/{id}
+    defaults: { _controller: AdminBundle:NewsCategory:delete }
+
 admin_category_edit:
     path:     /category/edit/{id}
     defaults: { _controller: AdminBundle:Category:edit }
+
+admin_category_delete:
+    path:     /category/delete/{id}
+    defaults: { _controller: AdminBundle:Category:delete }
 
 admin_store:
     path:     /store
@@ -97,6 +113,10 @@ admin_store_create:
 admin_store_edit:
     path:     /store/edit/{id}
     defaults: { _controller: AdminBundle:Store:edit }
+
+admin_store_delete:
+    path:     /store/delete/{id}
+    defaults: { _controller: AdminBundle:Store:delete }
 
 admin_qrcode_create:
     path:     /qrcode/create
@@ -117,6 +137,10 @@ admin_push_update:
 admin_push_edit:
     path:     /push/edit/{id}
     defaults: { _controller: AdminBundle:Push:edit }
+
+admin_push_delete:
+    path:     /push/delete/{id}
+    defaults: { _controller: AdminBundle:Push:delete }
 
 admin_create:
     path:     /push/create
@@ -149,6 +173,10 @@ admin_news_create:
 admin_news_edit:
     path:     /news/edit/{id}
     defaults: { _controller: AdminBundle:News:edit }
+
+admin_news_delete:
+    path:     /news/delete/{id}
+    defaults: { _controller: AdminBundle:News:delete }
 
 admin_setting:
     path:     /setting

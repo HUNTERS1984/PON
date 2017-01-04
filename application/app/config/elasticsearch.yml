@@ -287,6 +287,8 @@ fos_elastica:
                             type: date
                         updatedAt:
                             type: date
+                        deletedAt:
+                            type: date
                     persistence:
                         driver: orm
                         model: CoreBundle\Entity\Category
@@ -303,6 +305,8 @@ fos_elastica:
                         createdAt:
                             type: date
                         updatedAt:
+                            type: date
+                        deletedAt:
                             type: date
                     persistence:
                         driver: orm

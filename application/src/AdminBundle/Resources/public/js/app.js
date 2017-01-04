@@ -41,7 +41,7 @@ var App = function () {
     };
 
     var handleAjaxModal = function ($element) {
-        $element.find('*[class=ajaxModal]').each(function () {
+        $element.find('*[data-ajax-modal=ajaxModal]').each(function () {
             $(this).ajaxModal({
                 onRowAdded: App.initComponents
             });

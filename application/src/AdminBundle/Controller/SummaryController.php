@@ -13,12 +13,17 @@ use CoreBundle\Manager\CouponManager;
 use CoreBundle\Manager\CouponPhotoManager;
 use CoreBundle\Manager\StoreManager;
 use Doctrine\Common\Collections\ArrayCollection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SummaryController extends Controller
 {
+    /**
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
     public function indexAction(Request $request)
     {
         $params = $request->query->all();
@@ -41,6 +46,10 @@ class SummaryController extends Controller
             ]);
     }
 
+    /**
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
     public function createAction(Request $request)
     {
         $coupon = new Coupon();
@@ -128,6 +137,10 @@ class SummaryController extends Controller
 
     }
 
+    /**
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
     public function editAction(Request $request, $id)
     {
         $coupon = $this->getManager()->getCoupon($id);
@@ -223,6 +236,30 @@ class SummaryController extends Controller
                 'coupon' => $coupon
             ]
         );
+
+    }
+
+    /**
+     * Delete Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
+    public function deleteAction($id)
+    {
+        $coupon = $this->getManager()->getCoupon($id);
+        if(!$this->isGranted('ROLE_ADMIN') &&
+            $coupon->getStore()->getId() != $this->getUser()->getStore()->getId()
+        ) {
+            $coupon = null;
+        }
+
+        if(!$coupon || $coupon->getDeletedAt()) {
+            return $this->get('pon.utils.response')->getFailureMessage('coupon_list.edit.coupon_not_found');
+        }
+
+        $this->getManager()->deleteCoupon($coupon);
+        return $this->get('pon.utils.response')->getSuccessMessage();
 
     }
 

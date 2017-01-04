@@ -18,7 +18,6 @@
         };
 
         var _submit = function() {
-
             if(options.ajaxConfirm !='' && !confirm(options.ajaxConfirm)) {
                 return false;
             }

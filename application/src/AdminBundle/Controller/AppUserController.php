@@ -197,6 +197,30 @@ class AppUserController extends Controller
     }
 
     /**
+     * Delete Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_CLIENT')")
+     */
+    public function deleteAction($id)
+    {
+        $appUser = $this->getManager()->getAppUser($id);
+        if(!$this->isGranted('ROLE_ADMIN') &&
+            $appUser->getStore()->getId() != $this->getUser()->getStore()->getId()
+        ) {
+            $appUser = null;
+        }
+
+        if(!$appUser || $appUser->getDeletedAt()) {
+            return $this->get('pon.utils.response')->getFailureMessage('user.edit.user_not_found');
+        }
+
+        $this->getManager()->deleteAppUser($appUser);
+        return $this->get('pon.utils.response')->getSuccessMessage();
+
+    }
+
+    /**
      * Active AppUser Action
      *
      * @return Response

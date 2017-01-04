@@ -80,6 +80,25 @@ class CategoryController extends Controller
     }
 
     /**
+     * Delete Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function deleteAction($id)
+    {
+        $category = $this->getManager()->getCategory($id);
+
+        if(!$category || $category->getDeletedAt()) {
+            return $this->get('pon.utils.response')->getFailureMessage('category.edit.category_not_found');
+        }
+
+        $this->getManager()->deleteCategory($category);
+        return $this->get('pon.utils.response')->getSuccessMessage();
+
+    }
+
+    /**
      * Edit Category Action
      *
      * @return Response

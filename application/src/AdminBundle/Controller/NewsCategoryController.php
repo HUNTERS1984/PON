@@ -97,6 +97,25 @@ class NewsCategoryController extends Controller
     }
 
     /**
+     * Delete Action
+     *
+     * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function deleteAction($id)
+    {
+        $newsCategory = $this->getManager()->getNewsCategory($id);
+
+        if(!$newsCategory || $newsCategory->getDeletedAt()) {
+            return $this->get('pon.utils.response')->getFailureMessage('news_category.edit.news_category_not_found');
+        }
+
+        $this->getManager()->deleteNewsCategory($newsCategory);
+        return $this->get('pon.utils.response')->getSuccessMessage();
+
+    }
+
+    /**
      * Edit News Category Action
      *
      * @return Response

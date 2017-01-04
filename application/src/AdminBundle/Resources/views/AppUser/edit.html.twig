@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-delete" data-dismiss="modal">{{ "common.delete"|trans }}</button>
+                <button type="button" data-ajax-modal="ajaxModal" data-ajax-confirm="{{ "common.delete_confirm"|trans }}" data-ajax-url="{{ path("admin_app_user_delete",{id: appUser.id}) }}"  data-ajax-redirect="{{ path('admin_app_user') }}" class="btn btn-default btn-delete" >{{ "common.delete"|trans }}</button>
                 <button type="submit" class="btn btn-primary btn-change">{{ "common.save"|trans }}</button>
             </div>
             {{ form_end(form) }}
