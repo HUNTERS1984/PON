@@ -70,3 +70,6 @@ customer_setting_trade:
 customer_setting_privacy:
     path:     /setting/privacy
     defaults: { _controller: CustomerBundle:Setting:privacy }
+customer_setting_hoping:
+    path:     /setting/hoping
+    defaults: { _controller: CustomerBundle:Setting:hoping }

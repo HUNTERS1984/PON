@@ -1,12 +1,12 @@
 {% extends "AdminBundle:Layouts:layout.html.twig" %}
-{% block title %}{{ "system_setting.contact.title"|trans }}{% endblock %}
+{% block title %}{{ "system_setting.trade.title"|trans }}{% endblock %}
 {% set active_menu = 'system-setting' %}
 
 {% block breadcurm %}
     <div class="row">
         <div class="col-md-12 col-xs-12">
             <ul class="breadcrumbs_left">
-                <li><span class="text_bre">{{ "system_setting.contact.title"|trans }}</span></li>
+                <li><span class="text_bre">{{ "system_setting.trade.title"|trans }}</span></li>
             </ul>
         </div>
     </div>
@@ -17,8 +17,8 @@
     <div class="wrapp_tab">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#tab1" aria-controls="tab1" role="tab">{{ "system_setting.contact.title"|trans }}</a>
+            <li role="presentation" >
+                <a href="{{ path("admin_setting_system",{type:"contact"}) }}" aria-controls="tab1" role="tab">{{ "system_setting.contact.title"|trans }}</a>
             </li>
             <li role="presentation">
                 <a href="{{ path("admin_setting_system",{type:"term"}) }}" aria-controls="tab2" role="tab">{{ "system_setting.term.title"|trans }}</a>
@@ -26,17 +26,17 @@
             <li role="presentation">
                 <a href="{{ path("admin_setting_system",{type:"privacy"}) }}" aria-controls="tab3" role="tab">{{ "system_setting.privacy.title"|trans }}</a>
             </li>
-            <li role="presentation">
+            <li role="presentation" >
                 <a href="{{ path("admin_setting_system",{type:"trade"}) }}" aria-controls="tab4" role="tab">{{ "system_setting.trade.title"|trans }}</a>
             </li>
-            <li role="presentation">
-                <a href="{{ path("admin_setting_system",{type:"hoping"}) }}" aria-controls="tab5" role="tab">{{ "system_setting.hoping.title"|trans }}</a>
+            <li role="presentation" class="active">
+                <a href="#" aria-controls="tab5" role="tab">{{ "system_setting.hoping.title"|trans }}</a>
             </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="tab1">
-                {{ form_start(form, {'attr': {'class': 'submitModal','data-ajax-redirect': path('admin_setting_system',{type:"contact"}),'data-ajax-url': path("admin_setting_system",{type:"contact"}), 'enctype': 'multipart/form-data'  }}) }}
+                {{ form_start(form, {'attr': {'class': 'submitModal','data-ajax-redirect': path('admin_setting_system',{type:"hoping"}),'data-ajax-url': path("admin_setting_system",{type:"hoping"}), 'enctype': 'multipart/form-data'  }}) }}
                 {{ form_errors(form) }}
                     <div class="row">
                         <div class="col-md-12">

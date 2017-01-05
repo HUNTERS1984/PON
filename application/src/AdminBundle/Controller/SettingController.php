@@ -119,6 +119,10 @@ class SettingController extends Controller
             $template = "AdminBundle:Setting:trade.html.twig";
         }
 
+        if($type == "hoping") {
+            $template = "AdminBundle:Setting:hoping.html.twig";
+        }
+
         return $this->render(
             $template,
             [

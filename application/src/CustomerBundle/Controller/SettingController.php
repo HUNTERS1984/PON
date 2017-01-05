@@ -23,7 +23,7 @@ class SettingController extends Controller
     {
         $setting = $this->getManager()->getSetting('privacy');
         if (!$setting) {
-            throw $this->createNotFoundException("連絡先が見つかりませんでした...");
+            throw $this->createNotFoundException("プライバシーが見つかりません...");
         }
 
         return $this->render('CustomerBundle:Setting:privacy.html.twig',[
@@ -35,7 +35,7 @@ class SettingController extends Controller
     {
         $setting = $this->getManager()->getSetting('term');
         if (!$setting) {
-            throw $this->createNotFoundException("連絡先が見つかりませんでした...");
+            throw $this->createNotFoundException("用語が見つかりません...");
         }
 
         return $this->render('CustomerBundle:Setting:term.html.twig',[
@@ -47,10 +47,22 @@ class SettingController extends Controller
     {
         $setting = $this->getManager()->getSetting('trade');
         if (!$setting) {
-            throw $this->createNotFoundException("連絡先が見つかりませんでした...");
+            throw $this->createNotFoundException("取引が見つかりません...");
         }
 
         return $this->render('CustomerBundle:Setting:trade.html.twig',[
+            'setting' => $setting
+        ]);
+    }
+
+    public function hopingAction()
+    {
+        $setting = $this->getManager()->getSetting('hoping');
+        if (!$setting) {
+            throw $this->createNotFoundException("希望が見つかりません...");
+        }
+
+        return $this->render('CustomerBundle:Setting:hoping.html.twig',[
             'setting' => $setting
         ]);
     }

@@ -217,6 +217,8 @@ system_setting:
         title: 期間設定
     trade:
         title: トレードセッティング
+    hoping:
+        title: 掲載希望のショップ様
 
 category:
     index:
