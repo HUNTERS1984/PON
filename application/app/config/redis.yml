@@ -1,0 +1,38 @@
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: redis://%redis_host%:%redis_port%/1
+            logging: %kernel.debug%
+        cache:
+            type: predis
+            alias: cache
+            dsn: redis://%redis_host%:%redis_port%/1
+        profiler_storage:
+            type: predis
+            alias: profiler_storage
+            dsn: redis://%redis_host%:%redis_port%/1
+            logging: false
+    session:
+        client: default
+        prefix: session
+    doctrine:
+        metadata_cache:
+            client: cache
+            entity_manager: default
+            document_manager: default
+        result_cache:
+            client: cache
+            entity_manager: [default, read]
+            document_manager: [default, slave1, slave2]
+            namespace: "dcrc:"
+        query_cache:
+            client: cache
+            entity_manager: default
+        second_level_cache:
+            client: cache
+            entity_manager: default
+    profiler_storage:
+        client: profiler_storage
+        ttl: 3600

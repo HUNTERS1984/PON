@@ -60,6 +60,7 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setUseListFinder, ["@fos_elastica.finder.app.useList"]]
+            - [setRedisManager, ["@snc_redis.default"]]
 
     pon.manager.follow_list:
         class: CoreBundle\Manager\FollowListManager
@@ -177,6 +178,7 @@ services:
             - [setSampleImagePath, ["%sample_image_path%"]]
             - [setAvatarDir, ["%coupon_avatar_path%"]]
             - [setImageDir, ["%image_path%"]]
+            - [setUseListManager, ["@pon.manager.use_list"]]
 
     pon.manager.photo:
         class: CoreBundle\Manager\PhotoManager
