@@ -559,6 +559,8 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
             ));
         }
 
+        $this->get('snc_redis.default')->hdel($keyCode);
+
         return $this->view(BaseResponse::getData([]), 200);
     }
 
