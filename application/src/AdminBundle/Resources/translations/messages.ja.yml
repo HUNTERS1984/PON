@@ -341,8 +341,8 @@ form:
             inactive: 非アクティブ
         type: クーポンタイプ
         type_choices:
-            SNS: ユーザー投稿型
-            Store: ブランド固定型
+            1: ユーザー投稿型
+            2: ブランド固定型
         need_login: ログインする必要がある
         need_login_choices:
             yes: はい
