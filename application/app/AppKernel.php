@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Endroid\QrCode\Bundle\EndroidQrCodeBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
+            new FOS\HttpCacheBundle\FOSHttpCacheBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -25,6 +25,12 @@ services:
     ports:
       - "6379:6379"
 
+  pon-varnish:
+    build: ./vagrant/docker/varnish
+    container_name: pon-varnish
+    ports:
+      - "80:80"
+
   pon-webserver:
     build: ./vagrant/docker/nginx
     container_name: pon-webserver
@@ -34,7 +40,6 @@ services:
     volumes_from:
       - pon-php-fpm
     ports:
-      - "80:80"
       - "443:443"
 
   pon-elasticsearch:

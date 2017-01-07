@@ -1,0 +1,26 @@
+fos_http_cache:
+    user_context:
+        enabled: true
+        role_provider: true
+    cache_control:
+        defaults:
+            overwrite: true
+        rules:
+            # only match login.example.com
+            -
+                match:
+                    path: ^/admin/login
+                headers:
+                    cache_control: { public: false, max_age: 0, s_maxage: 0 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+
+            # match all actions of a specific controller
+            -
+                match:
+                    attributes: { _controller: ^CustomerBundle:* }
+                    additional_cacheable_status: [400]
+                headers:
+                    cache_control: { public: true, max_age: 64000, s_maxage: 64000 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
