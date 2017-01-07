@@ -23,7 +23,7 @@ class ManagementController extends Controller
     public function indexAction(Request $request)
     {
         $params = $request->query->all();
-        $params['query'] = isset($params['query']) ? urlencode($params['query']) : '';
+        $params['query'] = isset($params['query']) ? $params['query'] : '';
         $user = $this->getUser();
         if ($this->isGranted('ROLE_ADMIN')) {
             $result = $this->getManager()->getUseListManagerFromAdmin($params);

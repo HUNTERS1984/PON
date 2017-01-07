@@ -61,7 +61,7 @@ approve_management:
             all: すべて
             approved: 承認済み
             unapproved: 未承認
-        search: サーチ
+        search: ユーザー名/ハッシュタグを入力してください
         approve_select_confirm: あなたはすべてを承認するのですか？
         approve_all_confirm: あなたはすべてを承認するのですか？
         approve_select: 選択したユーザーを承認
@@ -117,7 +117,7 @@ push:
             all: すべて
             delivered: 正常に配信
             not_delivered: 配信されます
-        search_place_holder: タイトルまたはメッセージを入力してください
+        search_place_holder: タイトルを入力してください
         status_title: 状態
     create:
         message_success: プッシュ通知を送信しました
@@ -130,7 +130,7 @@ push:
 customer:
     index:
         title: 顧客管理
-        search_place_holder: ユーザー名/名前を入力してください
+        search_place_holder: ユーザー名/ハッシュタグを入力してください
         status_title: 状態
         search_result_title: 検索結果
         item: 件
@@ -162,7 +162,7 @@ customer:
 user:
     index:
         title: ユーザー管理
-        search_place_holder: ユーザー名/名前を入力してください
+        search_place_holder: ユーザー名/ハッシュタグを入力してください
         add_new_user: 新しいユーザーを追加
         table:
             avatar: アバター

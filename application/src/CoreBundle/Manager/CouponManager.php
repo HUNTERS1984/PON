@@ -678,15 +678,13 @@ class CouponManager extends AbstractManager
         $query->addSort(['updatedAt' => ['order' => 'desc']]);
 
 
-
         $boolQuery = new BoolQuery();
         if (!empty($queryString)) {
-            $multiMatchQuery = new MultiMatch();
-            $multiMatchQuery->setFields(['title^9', 'store.title^2', 'store.category.name', 'store.address']);
-            $multiMatchQuery->setType('cross_fields');
-            $multiMatchQuery->setAnalyzer('standard');
-            $multiMatchQuery->setQuery($queryString);
-            $boolQuery->addMust($multiMatchQuery);
+            $keywordQuery = new Query\QueryString($queryString);
+            $keywordQuery->setQuery($queryString);
+            $keywordQuery->setAnalyzer('keyword_analyzer');
+            $query->setFields(['couponId^9','title^8', 'store.title^2', 'store.category.name', 'store.address']);
+            $boolQuery->addMust($keywordQuery);
         } else {
             $boolQuery->addMust(new MatchAll());
         }
@@ -725,12 +723,10 @@ class CouponManager extends AbstractManager
 
         $boolQuery = new BoolQuery();
         if (!empty($queryString)) {
-            $multiMatchQuery = new MultiMatch();
-            $multiMatchQuery->setFields(['title^9', 'store.title^2', 'store.category.name', 'store.address']);
-            $multiMatchQuery->setType('cross_fields');
-            $multiMatchQuery->setAnalyzer('standard');
-            $multiMatchQuery->setQuery($queryString);
-            $boolQuery->addMust($multiMatchQuery);
+            $keywordQuery = new Query\QueryString($queryString);
+            $keywordQuery->setAnalyzer('keyword_analyzer');
+            $query->setFields(['couponId^9','title^8', 'store.title^2', 'store.category.name', 'store.address']);
+            $boolQuery->addMust($keywordQuery);
         } else {
             $boolQuery->addMust(new MatchAll());
         }

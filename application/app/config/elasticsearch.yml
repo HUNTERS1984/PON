@@ -28,7 +28,7 @@ fos_elastica:
                                 char_filter: space_hashtags
                                 tokenizer: whitespace
                                 filter: ["lowercase", "hashtag_as_alphanum"]
-                            keyword_analyzer :
+                            keyword_analyzer:
                                 type     :    custom
                                 tokenizer:    keyword
                                 filter   :    [lowercase]
@@ -142,7 +142,7 @@ fos_elastica:
                         id: ~
                         couponId:
                             type: string
-                            index: not_analyzed
+                            index_analyzer: keyword_analyzer
                         title: ~
                         expiredTime:
                             type: date
@@ -281,7 +281,9 @@ fos_elastica:
                 category:
                     mappings:
                         id: ~
-                        name: ~
+                        name:
+                            type: string
+                            index_analyzer: keyword_analyzer
                         iconUrl: ~
                         createdAt:
                             type: date
