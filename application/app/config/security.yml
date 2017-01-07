@@ -189,6 +189,9 @@ security:
         admin_login:
             path: /admin/login
             roles: IS_AUTHENTICATED_ANONYMOUSLY
+        fos_cache:
+            path: ^/_fos_user_context_hash
+            roles: [IS_AUTHENTICATED_ANONYMOUSLY]
         admin_forgot:
             path: /admin/forgot
             roles: IS_AUTHENTICATED_ANONYMOUSLY

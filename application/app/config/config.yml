@@ -5,6 +5,7 @@ imports:
     - { resource: rabbitmq.yml }
     - { resource: elasticsearch.yml }
     - { resource: redis.yml }
+    - { resource: http_cache.yml }
     - { resource: "@AdminBundle/Resources/config/services.yml" }
     - { resource: "@CustomerBundle/Resources/config/services.yml" }
     - { resource: "@LandingPageBundle/Resources/config/services.yml" }
