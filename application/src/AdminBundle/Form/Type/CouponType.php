@@ -64,7 +64,7 @@ class CouponType extends AbstractType
                     'Store' => 2
                 ],
                 'choice_label' => function($value, $key, $index) {
-                    return sprintf("form.coupon.type_choices.%s", $key);
+                    return sprintf("form.coupon.type_choices.%s", $value);
                 },
                 'attr' => [
                     'class' => 'form-control'
