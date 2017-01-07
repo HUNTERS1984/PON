@@ -494,11 +494,11 @@ class UseListManager extends AbstractManager
     {
         $limit = isset($params['page_size']) ? $params['page_size'] : 10;
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
-        $queryString = isset($params['query']) ? $params['query'] : '';
+        $queryString = isset($params['query']) ? str_replace('#', '', $params['query']) : '';
 
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));
-        $query->addSort(['createdAt' => ['order' => 'desc']]);
+        $query->addSort(['updatedAt' => ['order' => 'desc']]);
 
         $statusQuery = new BoolQuery();
 
@@ -546,7 +546,7 @@ class UseListManager extends AbstractManager
         $offset = isset($params['page_index']) ? $this->pagination->getOffsetNumber($params['page_index'], $limit) : 0;
         $orderBy = isset($params['order_by']) ? $params['order_by'] : 'desc';
         $sortBy = 'updatedAt';
-        $queryString = isset($params['query']) ? $params['query'] : '';
+        $queryString = isset($params['query']) ? str_replace('#', '', $params['query']) : '';
 
         $query = new Query();
         $query->setPostFilter(new Missing('deletedAt'));

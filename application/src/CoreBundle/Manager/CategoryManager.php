@@ -103,13 +103,11 @@ class CategoryManager extends AbstractManager
         $boolQuery = new Query\BoolQuery();
 
         if (!empty($queryString)) {
-            $multiMatchQuery = new Query\MultiMatch();
-            $multiMatchQuery->setFields(['name']);
-            $multiMatchQuery->setType('cross_fields');
-            $multiMatchQuery->setAnalyzer('standard');
-            $multiMatchQuery->setQuery($queryString);
-            $boolQuery
-                ->addMust($multiMatchQuery);
+            $keywordQuery = new Query\QueryString($queryString);
+            $keywordQuery->setQuery($queryString);
+            $keywordQuery->setAnalyzer('keyword_analyzer');
+            $query->setFields(['name']);
+            $boolQuery->addMust($keywordQuery);
         } else {
             $boolQuery
                 ->addMust(new Query\MatchAll());
