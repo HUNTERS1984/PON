@@ -14,6 +14,17 @@ services:
     ports:
       - "3306:3306"
 
+  pon-redis:
+    image: redis:3.0
+    container_name: pon-redis
+    restart: on-failure:3
+    volumes:
+      - ./vagrant/data/redis:/data
+    env_file:
+      - ./vagrant/app.env
+    ports:
+      - "6379:6379"
+
   pon-webserver:
     build: ./vagrant/docker/nginx
     container_name: pon-webserver

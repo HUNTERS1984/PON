@@ -7,6 +7,7 @@ use AdminBundle\Form\Type\StoreType;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\StorePhoto;
 use CoreBundle\Manager\CategoryManager;
+use Endroid\QrCode\Factory\QrCodeFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Manager\StoreManager;
@@ -102,14 +103,18 @@ class QRCodeController extends Controller
         if(!$this->isGranted('ROLE_ADMIN') && $user->getStore()->getId() !== $store->getId()) {
             return $this->get('pon.utils.response')->getFailureMessage('qr_code.create.store_not_found');
         }
-        $data['link'] = $store->getLink();
-        $link = $this->get('router')->generate('endroid_qrcode', [
-            'text' => $store->getLink() ?? '',
+
+        $data['link'] = $store->getLink() ?? $request->getSchemeAndHttpHost();
+        /** @var QrCodeFactory $qrCodeFactory */
+        $qrCodeFactory = $this->get('endroid.qrcode.factory');
+        $qrCode = $qrCodeFactory->createQrCode([
+            'text' => $data['link'],
             'extension' => 'png',
             'size' => 200,
             'label' => 'PON',
             'label_font_size' => 16,
         ]);
+        $link = $qrCode->getDataUri();
         $data['qr_link'] = $link;
         return $this->get('pon.utils.response')->getSuccessMessage('Success', $data);
     }

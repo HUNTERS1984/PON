@@ -12,6 +12,7 @@ use Elastica\Query\BoolQuery;
 use Elastica\Query\Term;
 use Elastica\Query\Terms;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
+use Predis\Client;
 
 class UseListManager extends AbstractManager
 {
@@ -24,6 +25,11 @@ class UseListManager extends AbstractManager
      * @var Pagination
      */
     protected $pagination;
+
+    /**
+     * @var Client $redisManager
+    */
+    protected $redisManager;
 
     /**
      * @var Pagination $pagination
@@ -40,9 +46,11 @@ class UseListManager extends AbstractManager
      */
     public function createUseList(UseList $useList)
     {
+        if(!$useList->getCode()) {
+            $useList->setCode($this->createID('UL'));
+        }
         $useList
-            ->setCreatedAt(new \DateTime())
-            ->setCode($this->createID('UL'));
+            ->setCreatedAt(new \DateTime());
         return $this->saveUseList($useList);
     }
 
@@ -72,6 +80,42 @@ class UseListManager extends AbstractManager
         }
         $couponQuery = new Term(['coupon.id' => $coupon->getId()]);
         $userQuery = new Term(['appUser.id' => $user->getId()]);
+
+        if($coupon->getType() == 2) {
+            if($coupon->getDeletedAt() || !$coupon->getStatus()) {
+                return false;
+            }
+            $query = new Query();
+            $mainQuery = new BoolQuery();
+            $mainQuery
+                ->addMust($couponQuery)
+                ->addMust($userQuery);
+            $query->setQuery($mainQuery);
+            $result = $this->useListFinder->find($query);
+            if(empty($result)) {
+                $key = sprintf("p:ul:%s.%s",$user->getId(), $coupon->getId());
+                $code = $this->redisManager->hget($key, 'code');
+                $expiredTime = $coupon->getExpiredTime();
+                $expiredTime->modify('+1 day');
+                $expireAt = $expiredTime->getTimestamp();
+                if(!empty($code)) {
+                    $keyCode = sprintf("p:code:%s", $code);
+                    $this->redisManager->expireat($key, $expireAt);
+                    $this->redisManager->expireat($keyCode, $expireAt);
+                    return $code;
+                }
+
+                $code = $this->createID('UL');
+                $keyCode = sprintf("p:code:%s", $code);
+                $this->redisManager->hset($key, 'code', $code);
+                $this->redisManager->hset($keyCode, 'user', $user->getId());
+                $this->redisManager->hset($keyCode, 'coupon', $coupon->getId());
+                $this->redisManager->expireat($key, $expireAt);
+                $this->redisManager->expireat($keyCode, $expireAt);
+                return $code;
+            }
+        }
+
         $statusQuery = new Term(['status' => 1]);
         $query = new BoolQuery();
         $query
@@ -183,15 +227,16 @@ class UseListManager extends AbstractManager
      *
      * @param AppUser $appUser
      * @param Coupon $coupon
+     * @param int $status
      * @return UseList|null
      */
-    public function createNewUseList(AppUser $appUser, Coupon $coupon)
+    public function createNewUseList(AppUser $appUser, Coupon $coupon, $status = 0)
     {
         $useList = new UseList();
         $useList
             ->setAppUser($appUser)
             ->setCoupon($coupon)
-            ->setStatus(0)
+            ->setStatus($status)
             ->setExpiredTime($coupon->getExpiredTime());
 
         return $this->createUseList($useList);
@@ -210,11 +255,26 @@ class UseListManager extends AbstractManager
             return false;
         }
 
-        $query = new Query();
-        $query->setPostFilter(new Missing('coupon.deletedAt'));
-
         $couponQuery = new Term(['coupon.id' => $coupon->getId()]);
         $userQuery = new Term(['appUser.id' => $user->getId()]);
+        if($coupon->getType() == 2) {
+            if($coupon->getDeletedAt() || !$coupon->getStatus()) {
+                return false;
+            }
+            $query = new Query();
+            $mainQuery = new BoolQuery();
+            $mainQuery
+                ->addMust($couponQuery)
+                ->addMust($userQuery);
+            $query->setQuery($mainQuery);
+            $result = $this->useListFinder->find($query);
+            if(empty($result)) {
+                return true;
+            }
+        }
+
+        $query = new Query();
+        $query->setPostFilter(new Missing('coupon.deletedAt'));
         $statusQuery = new Term(['status' => 1]);
         $mainQuery = new BoolQuery();
         $mainQuery
@@ -529,6 +589,17 @@ class UseListManager extends AbstractManager
         $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset);
+    }
+
+    /**
+     * @param Client $redisManager
+     * @return UseListManager
+     */
+    public function setRedisManager($redisManager)
+    {
+        $this->redisManager = $redisManager;
+
+        return $this;
     }
 
 }

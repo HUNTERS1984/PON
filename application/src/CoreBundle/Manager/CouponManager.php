@@ -51,6 +51,11 @@ class CouponManager extends AbstractManager
     protected $categoryManager;
 
     /**
+     * @var UseListManager
+    */
+    protected $useListManager;
+
+    /**
      * @var Pagination $pagination
      */
     public function setPagination(Pagination $pagination)
@@ -567,14 +572,42 @@ class CouponManager extends AbstractManager
      *
      * @param AppUser $user
      * @param string $code
+     * @param Coupon $coupon
      *
      * @return null | UseList
      */
-    public function getCouponToRequest(AppUser $user, $code)
+    public function getCouponToRequest(AppUser $user, $code, Coupon $coupon = null)
     {
         $query = new Query();
         $boolQuery = new BoolQuery();
         $date = new \DateTime();
+        if($coupon && $coupon->getType() == 2) {
+            if($coupon->getDeletedAt() || !$coupon->getStatus()) {
+                return false;
+            }
+            $couponQuery = new Term(['coupon.id' => $coupon->getId()]);
+            $userQuery = new Term(['appUser.id' => $user->getId()]);
+
+            $query = new Query();
+            $mainQuery = new BoolQuery();
+            $mainQuery
+                ->addMust($couponQuery)
+                ->addMust($userQuery);
+            $query->setQuery($mainQuery);
+            $result = $this->useListFinder->find($query);
+            if(empty($result)) {
+                $useList = new UseList();
+                $useList
+                    ->setAppUser($user)
+                    ->setCoupon($coupon)
+                    ->setCode($code)
+                    ->setStatus(1)
+                    ->setExpiredTime($coupon->getExpiredTime());
+                $useList = $this->useListManager->createUseList($useList);
+                return $useList;
+            }
+        }
+
         $boolQuery
             ->addMust(new Term(['appUser.id' => ['value' => $user->getId()]]))
             ->addMust(new Match('code', $code))
@@ -871,6 +904,17 @@ class CouponManager extends AbstractManager
     public function getUseListFinder()
     {
         return $this->useListFinder;
+    }
+
+    /**
+     * @param UseListManager $useListManager
+     * @return CouponManager
+     */
+    public function setUseListManager($useListManager)
+    {
+        $this->useListManager = $useListManager;
+
+        return $this;
     }
 
 }
