@@ -4,15 +4,15 @@
 
 {% set count = pagination.item_total %}
 
-{% if params.status is defined %}
-    {% set status = params.status %}
+{% if params.type is defined %}
+    {% set type = params.type %}
 {% else %}
-    {% set status = null %}
+    {% set type = null %}
 {% endif %}
 
-{% set params_emptyapproved = params|merge({ 'status': null, 'page_index': 1 }) %}
-{% set params_approved = params|merge({ 'status': true, 'page_index': 1 }) %}
-{% set params_unapproved = params|merge({ 'status': false, 'page_index': 1 }) %}
+{% set params_all = params|merge({ 'type': null, 'page_index': 1 }) %}
+{% set params_sns = params|merge({ 'type': 1, 'page_index': 1 }) %}
+{% set params_store = params|merge({ 'type': 2, 'page_index': 1 }) %}
 
 {% block breadcurm %}
     <div class="row">
@@ -24,9 +24,9 @@
         </div>
         <div class="col-md-6 col-xs-12">
             <div class="btn-group btn-group-justified">
-                <a href="{{ path("admin_summary", params_emptyapproved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is  empty %}active{% endif %}" role="button">{{ "coupon_list.index.status.all"|trans }}</a>
-                <a href="{{ path("admin_summary", params_approved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 1%}active{% endif %}" role="button">{{ "coupon_list.index.status.approved"|trans }}</a>
-                <a href="{{ path("admin_summary", params_unapproved) }}" class="btn btn-default btn_tab_breadcrumbs {% if status is not empty and status == 0%}active{% endif %}" role="button">{{ "coupon_list.index.status.unapproved"|trans }}</a>
+                <a href="{{ path("admin_summary", params_all) }}" class="btn btn-default btn_tab_breadcrumbs {% if type is  empty %}active{% endif %}" role="button">{{ "coupon_list.index.type.all"|trans }}</a>
+                <a href="{{ path("admin_summary", params_sns) }}" class="btn btn-default btn_tab_breadcrumbs {% if type is not empty and type == 1%}active{% endif %}" role="button">{{ "coupon_list.index.type.sns"|trans }}</a>
+                <a href="{{ path("admin_summary", params_store) }}" class="btn btn-default btn_tab_breadcrumbs {% if type is not empty and type == 2%}active{% endif %}" role="button">{{ "coupon_list.index.type.store"|trans }}</a>
             </div>
         </div>
     </div>

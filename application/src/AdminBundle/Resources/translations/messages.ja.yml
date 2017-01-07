@@ -97,10 +97,10 @@ approve_management:
 coupon_list:
     index:
         title: クーポン一覧
-        status:
+        type:
             all: すべて
-            approved: 承認済み
-            unapproved: 未承認
+            sns: ユーザー投稿型
+            store: ブランド固定型
         search_place_holder: クーポンIDを入力してください
     create:
         create_coupon: クーポンを作成する
@@ -341,8 +341,8 @@ form:
             inactive: 非アクティブ
         type: クーポンタイプ
         type_choices:
-            SNS: ソーシャル
-            Store: ショップ
+            SNS: ユーザー投稿型
+            Store: ブランド固定型
         need_login: ログインする必要がある
         need_login_choices:
             yes: はい

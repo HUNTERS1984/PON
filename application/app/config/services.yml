@@ -12,8 +12,8 @@ parameters:
       apiCallback: 'http://localhost'
 
    coupon_types:
-      1: SNS
-      2: Store
+      1: ブランド固定型
+      2: 未承認
 
    genders:
       0: 女性

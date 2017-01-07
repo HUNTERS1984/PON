@@ -691,9 +691,8 @@ class CouponManager extends AbstractManager
             $boolQuery->addMust(new MatchAll());
         }
 
-        if(isset($params['status']) && in_array($params['status'], ["1","0"])) {
-            $status = $params["status"] == 1;
-            $boolQuery->addMust(new Term(['status' => ['value' => $status]]));
+        if(isset($params['type']) && in_array($params['type'], ["1","2"])) {
+            $boolQuery->addMust(new Term(['type' => ['value' => $params["type"]]]));
         }
 
         $query->setQuery($boolQuery);
@@ -736,9 +735,8 @@ class CouponManager extends AbstractManager
             $boolQuery->addMust(new MatchAll());
         }
 
-        if(isset($params['status']) && in_array($params['status'], ["1","0"])) {
-            $status = $params["status"] == 1;
-            $boolQuery->addMust(new Term(['status' => ['value' => $status]]));
+        if(isset($params['type']) && in_array($params['type'], ["1","2"])) {
+            $boolQuery->addMust(new Term(['type' => ['value' => $params["type"]]]));
         }
 
         $boolQuery->addMust(new Term(['store.id' => $user->getStore()->getId()]));
