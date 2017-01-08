@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html {% block html_attributes %}class="no-js"{% endblock %}>
+
+<head>
+    {% block meta_tags %}
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    {% endblock %}
+    <meta charset="utf-8">
+
+    <title>エラーページ</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('backend/css/admin_login.css') }}"/>
+    {% endblock %}
+
+    <!-- Favicons -->
+    {% block favicons %}
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    {% endblock %}
+
+</head>
+
+<body >
+{% block body %}
+    {% block page_content %}
+        <div class="hold-transition login-page">
+            <div>
+                <div class="login-logo">
+                    <a href="{{ path('customer_homepage') }}"><img src="{{ asset('backend/images/logo.png') }}" alt=""></a>
+                </div>
+                <!-- //login-logo -->
+
+                <div  class="login-box-body">
+
+                    <p class="login-box-msg">エラーページ</p>
+
+                    <p>エラーコード: {{ status_code }}</p>
+                    <p>メッセージエラー: {{ status_text }}</p>
+
+                    <p>
+                        要求されたページを見つけることができませんでした。 URLのスペルミスのチェックアウトまたは <a href="{{path('customer_homepage') }}">ホームページに戻る</a>。
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+</body>
+</html>
