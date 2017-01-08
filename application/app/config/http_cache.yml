@@ -24,3 +24,11 @@ fos_http_cache:
                     cache_control: { public: true, max_age: 64000, s_maxage: 64000 }
                     etag: true
                     vary: [Accept-Encoding, Accept-Language]
+            -
+                match:
+                    attributes: { _controller: ^LandingPageBundle:* }
+                    additional_cacheable_status: [400]
+                headers:
+                    cache_control: { public: true, max_age: 64000, s_maxage: 64000 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
