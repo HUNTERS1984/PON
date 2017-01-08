@@ -64,4 +64,9 @@ parameters:
     redis_host: '%redis.host%'
     redis_port: 6379
 
+    session_memcached_host:     '%memcached.host%'
+    session_memcached_port:     11211
+    session_memcached_prefix:   sess
+    session_memcached_expire:   3600
+    memcached_host: '%memcached.host%'
 

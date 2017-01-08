@@ -31,6 +31,12 @@ services:
     ports:
       - "80:80"
 
+  pon-memcached:
+    image: memcached:latest
+    container_name: pon-memcached
+    ports:
+      - "11211:11211"
+
   pon-webserver:
     build: ./vagrant/docker/nginx
     container_name: pon-webserver
