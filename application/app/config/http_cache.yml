@@ -2,6 +2,10 @@ fos_http_cache:
     user_context:
         enabled: true
         role_provider: true
+        user_identifier_headers:
+            - Authorization
+        hash_cache_ttl: 900
+        user_hash_header: X-User-Context-Hash
     cache_control:
         defaults:
             overwrite: true
@@ -27,6 +31,14 @@ fos_http_cache:
             -
                 match:
                     attributes: { _controller: ^LandingPageBundle:* }
+                    additional_cacheable_status: [400]
+                headers:
+                    cache_control: { public: true, max_age: 64000, s_maxage: 64000 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+            -
+                match:
+                    attributes: { _controller: ^AppBundle:* }
                     additional_cacheable_status: [400]
                 headers:
                     cache_control: { public: true, max_age: 64000, s_maxage: 64000 }
