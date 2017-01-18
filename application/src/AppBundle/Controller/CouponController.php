@@ -72,7 +72,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         $user = $this->getUser();
-
         $result = $this->getManager()->getFeaturedCoupon($type, $params, $user);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
     }

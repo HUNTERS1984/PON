@@ -8,6 +8,7 @@ use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\LikeList;
 use CoreBundle\Entity\Store;
 use CoreBundle\Entity\UseList;
+use CoreBundle\Event\CouponEvents;
 use CoreBundle\Paginator\Pagination;
 use CoreBundle\Utils\StringGenerator;
 use Doctrine\ORM\QueryBuilder;
@@ -22,6 +23,7 @@ use Elastica\Query\Nested;
 use Elastica\Query\Term;
 use Elastica\Query\Range;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class CouponManager extends AbstractManager
 {
@@ -54,6 +56,11 @@ class CouponManager extends AbstractManager
      * @var UseListManager
     */
     protected $useListManager;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * @var Pagination $pagination
@@ -89,7 +96,12 @@ class CouponManager extends AbstractManager
         $hashTags = $this->getHashTags($coupon->getHashTag());
         $coupon->setHashTag($hashTags);
         $coupon->setUpdatedAt(new \DateTime());
-        return $this->save($coupon);
+        $couponEvents = new CouponEvents();
+        $couponEvents->setCoupon($coupon);
+        $this->dispatcher->dispatch(CouponEvents::PRE_CREATE, $couponEvents);
+        $coupon = $this->save($coupon);
+        $this->dispatcher->dispatch(CouponEvents::POST_CREATE, $couponEvents);
+        return $coupon;
     }
 
     public function getHashTags($hashTags)
@@ -909,6 +921,25 @@ class CouponManager extends AbstractManager
         $this->useListManager = $useListManager;
 
         return $this;
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     * @return CouponManager
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher): CouponManager
+    {
+        $this->dispatcher = $dispatcher;
+
+        return $this;
+    }
+
+    /**
+     * @return EventDispatcherInterface
+     */
+    public function getDispatcher(): EventDispatcherInterface
+    {
+        return $this->dispatcher;
     }
 
 }

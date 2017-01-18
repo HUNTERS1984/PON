@@ -22,12 +22,6 @@ app_coupon:
     resource: AppBundle\Controller\CouponController
     name_prefix: api_coupon
 
-app_post:
-    prefix: /v1
-    type: rest
-    resource: AppBundle\Controller\PostController
-    name_prefix: api_post
-
 app_news:
     prefix: /v1
     type: rest
