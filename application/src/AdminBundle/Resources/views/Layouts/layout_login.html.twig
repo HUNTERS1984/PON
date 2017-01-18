@@ -13,13 +13,12 @@
         <link rel="stylesheet" href="{{ asset('backend/css/admin_login.css') }}"/>
     {% endblock %}
 
-    {% block datatables_stylesheets %}
-
+    {% block favicons %}
+        <link rel="shortcut icon" href="{{ asset('backend/images/favicon.ico') }}">
     {% endblock %}
 
-    <!-- Favicons -->
-    {% block favicons %}
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    {% block datatables_stylesheets %}
+
     {% endblock %}
 
 </head>
