@@ -1,6 +1,7 @@
 vcl 4.0;
 acl invalidators {
     "localhost";
+    "pon-php-fpm";
     # Add any other IP addresses that your application runs on and that you
     # want to allow invalidation requests from. For instance:
     # "192.168.1.0"/24;
@@ -13,11 +14,6 @@ backend default {
 
 sub vcl_recv {
 
-    set req.http.cookie = ";" + req.http.cookie;
-    set req.http.cookie = regsuball(req.http.cookie, "; +", ";");
-    set req.http.cookie = regsuball(req.http.cookie, ";(PHPSESSID)=", "; \1=");
-    set req.http.cookie = regsuball(req.http.cookie, ";[^ ][^;]*", "");
-    set req.http.cookie = regsuball(req.http.cookie, "^[; ]+|[; ]+$", "");
 
     if (req.http.Cache-Control ~ "no-cache" && client.ip ~ invalidators) {
             set req.hash_always_miss = true;

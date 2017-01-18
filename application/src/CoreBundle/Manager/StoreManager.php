@@ -6,6 +6,7 @@ use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Category;
 use CoreBundle\Entity\FollowList;
 use CoreBundle\Entity\Store;
+use CoreBundle\Event\StoreEvents;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Exists;
 use Elastica\Filter\GeoDistance;
@@ -15,6 +16,7 @@ use Elastica\Query;
 use Elastica\QueryBuilder\DSL\Filter;
 use Elastica\Test\Filter\MissingTest;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class StoreManager extends AbstractManager
 {
@@ -27,6 +29,11 @@ class StoreManager extends AbstractManager
      * @var TransformedFinder $storeFinder
      */
     protected $storeFinder;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * @var Pagination $pagination
@@ -60,7 +67,13 @@ class StoreManager extends AbstractManager
     public function saveStore(Store $store)
     {
         $store->setUpdatedAt(new \DateTime());
-        return $this->save($store);
+        $storeEvents = new StoreEvents();
+        $storeEvents->setStore($store);
+        $this->dispatcher->dispatch(StoreEvents::PRE_CREATE, $storeEvents);
+        $store = $this->save($store);
+        $this->dispatcher->dispatch(StoreEvents::POST_CREATE, $storeEvents);
+
+        return $store;
     }
 
     /**
@@ -342,6 +355,17 @@ class StoreManager extends AbstractManager
     public function setStoreFinder($storeFinder)
     {
         $this->storeFinder = $storeFinder;
+        return $this;
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     * @return StoreManager
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher): StoreManager
+    {
+        $this->dispatcher = $dispatcher;
+
         return $this;
     }
 

@@ -1,4 +1,11 @@
 fos_http_cache:
+    proxy_client:
+        varnish:
+            servers:
+                - pon-varnish
+            base_url: pon.dev
+    cache_manager:
+        enabled: true
     user_context:
         enabled: true
         role_provider: true
