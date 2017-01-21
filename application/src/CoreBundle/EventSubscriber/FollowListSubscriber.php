@@ -33,6 +33,7 @@ class FollowListSubscriber implements EventSubscriberInterface
                 ["clearUsedCoupon", -80],
                 ["clearSearchCoupon", -90],
                 ["clearFollowShop", -100],
+                ["clearGetProfile", -100],
 
             ],
             FollowListEvents::POST_DELETE => [
@@ -47,7 +48,7 @@ class FollowListSubscriber implements EventSubscriberInterface
                 ["clearUsedCoupon", -80],
                 ["clearSearchCoupon", -90],
                 ["clearFollowShop", -100],
-
+                ["clearGetProfile", -100],
             ],
         ];
     }
@@ -202,6 +203,16 @@ class FollowListSubscriber implements EventSubscriberInterface
     {
         $this->cacheManager
             ->invalidateRegex("^/api/v1/follow/shops")
+            ->flush();
+    }
+
+    /**
+     * @param FollowListEvents $event
+     */
+    public function clearGetProfile(FollowListEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex('^/api/v1/profile')
             ->flush();
     }
 

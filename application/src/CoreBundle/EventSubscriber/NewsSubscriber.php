@@ -24,10 +24,12 @@ class NewsSubscriber implements EventSubscriberInterface
             NewsEvents::POST_CREATE => [
                 ["clearNewsList", 10],
                 ["clearNewsDetail", -10],
+                ["clearGetProfile", -20],
             ],
             NewsEvents::POST_CATEGORY_CREATE => [
                 ["clearNewsList", 10],
                 ["clearNewsCategoryDetail", -10],
+                ["clearGetProfile", -20],
             ],
         ];
     }
@@ -59,6 +61,16 @@ class NewsSubscriber implements EventSubscriberInterface
     {
         $this->cacheManager
             ->invalidateRegex(sprintf("^/api/v1/news/[0-9]+"))
+            ->flush();
+    }
+
+    /**
+     * @param NewsEvents $event
+     */
+    public function clearGetProfile(NewsEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex('^/api/v1/profile')
             ->flush();
     }
 
