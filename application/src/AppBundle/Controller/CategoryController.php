@@ -100,14 +100,6 @@ class CategoryController extends FOSRestController implements ClassResourceInter
     }
 
     /**
-     * @return Serializer
-     */
-    public function getSerializer()
-    {
-        return $this->get('pon.serializator.serializer');
-    }
-
-    /**
      * @return StoreManager
      */
     public function getStoreManager()

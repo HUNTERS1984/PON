@@ -4,10 +4,12 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\News;
+use CoreBundle\Event\NewsEvents;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class NewsManager extends AbstractManager
 {
@@ -19,6 +21,11 @@ class NewsManager extends AbstractManager
      * @var Pagination
      */
     protected $pagination;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * @var Pagination $pagination
@@ -50,7 +57,13 @@ class NewsManager extends AbstractManager
     public function saveNews(News $news)
     {
         $news->setUpdatedAt(new \DateTime());
-        return $this->save($news);
+        $newsEvents = new NewsEvents();
+        $newsEvents->setNews($news);
+        $this->dispatcher->dispatch(NewsEvents::PRE_CREATE, $newsEvents);
+        $news = $this->save($news);
+        $this->dispatcher->dispatch(NewsEvents::POST_CREATE, $newsEvents);
+
+        return $news;
     }
 
     /**
@@ -192,6 +205,14 @@ class NewsManager extends AbstractManager
         $query->setQuery(new Query\MatchAll());
         $pagination = $this->newsFinder->createPaginatorAdapter($query);
         return $pagination->getTotalHits();
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
     }
 
 

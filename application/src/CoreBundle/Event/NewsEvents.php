@@ -12,6 +12,8 @@ class NewsEvents extends Event
 
     const POST_CREATE = 'pon.event.news.post_create';
 
+    const POST_CATEGORY_CREATE = 'pon.event.news_category.post_create';
+
     /**
      * @var News
      */

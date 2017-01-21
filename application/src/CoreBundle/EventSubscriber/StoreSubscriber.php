@@ -28,7 +28,12 @@ class StoreSubscriber implements EventSubscriberInterface
                 ["clearFeaturedShopType", -30],
                 ["clearFeaturedShop", -40],
                 ["clearShopCouponByMap", -50],
-                ["clearCategoriesIncludeShop", -60]
+                ["clearCategoriesIncludeShop", -60],
+                ["clearFavoriteCoupon", -70],
+                ["clearUsedCoupon", -80],
+                ["clearSearchCoupon", -90],
+                ["clearFollowShop", -100],
+
             ],
         ];
     }
@@ -103,6 +108,46 @@ class StoreSubscriber implements EventSubscriberInterface
     {
         $this->cacheManager
             ->invalidateRegex("^/api/v1/categories/shop")
+            ->flush();
+    }
+
+    /**
+     * @param StoreEvents $event
+     */
+    public function clearFavoriteCoupon(StoreEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex('^/api/v1/favorite/coupons')
+            ->flush();
+    }
+
+    /**
+     * @param StoreEvents $event
+     */
+    public function clearUsedCoupon(StoreEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex('^/api/v1/used/coupons')
+            ->flush();
+    }
+
+    /**
+     * @param StoreEvents $event
+     */
+    public function clearSearchCoupon(StoreEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex("^/api/v1/search/coupons")
+            ->flush();
+    }
+
+    /**
+     * @param StoreEvents $event
+     */
+    public function clearFollowShop(StoreEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex("^/api/v1/follow/shops")
             ->flush();
     }
 
