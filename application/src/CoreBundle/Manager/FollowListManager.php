@@ -5,11 +5,13 @@ namespace CoreBundle\Manager;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\FollowList;
 use CoreBundle\Entity\Store;
+use CoreBundle\Event\FollowListEvents;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Term;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class FollowListManager extends AbstractManager
 {
@@ -22,6 +24,11 @@ class FollowListManager extends AbstractManager
      * @var Pagination
      */
     protected $pagination;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * @var Pagination $pagination
@@ -94,7 +101,13 @@ class FollowListManager extends AbstractManager
 
     public function unFollowStore(FollowList $followList)
     {
-        return $this->delete($followList);
+        $followListEvents = new FollowListEvents();
+        $followListEvents->setFollowList($followList);
+        $this->dispatcher->dispatch(FollowListEvents::PRE_DELETE, $followListEvents);
+        $result = $this->delete($followList);
+        $this->dispatcher->dispatch(FollowListEvents::POST_DELETE, $followListEvents);
+
+        return $result;
     }
 
     /**
@@ -104,6 +117,12 @@ class FollowListManager extends AbstractManager
      */
     public function saveFollowList(FollowList $followList)
     {
+        $followListEvents = new FollowListEvents();
+        $followListEvents->setFollowList($followList);
+        $this->dispatcher->dispatch(FollowListEvents::PRE_CREATE, $followListEvents);
+        $followList = $this->save($followList);
+        $this->dispatcher->dispatch(FollowListEvents::POST_CREATE, $followListEvents);
+
         return $this->save($followList);
     }
 
@@ -123,6 +142,14 @@ class FollowListManager extends AbstractManager
     {
         $this->followListFinder = $followListFinder;
         return $this;
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
     }
 
 }

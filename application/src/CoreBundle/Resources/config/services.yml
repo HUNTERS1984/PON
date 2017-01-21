@@ -71,6 +71,7 @@ services:
         calls:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setFollowListFinder, ["@fos_elastica.finder.app.followList"]]
+            - [setDispatcher, ["@event_dispatcher"]]
 
     pon.manager.like_list:
         class: CoreBundle\Manager\LikeListManager
@@ -502,8 +503,15 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    pon.subscriber.list_list:
+    pon.subscriber.like_list:
         class: CoreBundle\EventSubscriber\LikeListSubscriber
+        calls:
+            - [setCacheManager, ["@fos_http_cache.cache_manager"]]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    pon.subscriber.follow_list:
+        class: CoreBundle\EventSubscriber\FollowListSubscriber
         calls:
             - [setCacheManager, ["@fos_http_cache.cache_manager"]]
         tags:
