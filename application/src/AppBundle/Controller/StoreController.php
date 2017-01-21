@@ -362,14 +362,14 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
 
         if (!$followList) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                'coupon.like.not_exists'
+                'store.follow.not_exists'
             ));
         }
 
         $result = $this->getFollowListManager()->unFollowStore($followList);
         if (!$result) {
             return $this->view($this->get('pon.exception.exception_handler')->throwError(
-                'coupon.unfollow.not_success'
+                'store.unfollow.not_success'
             ));
         }
 
