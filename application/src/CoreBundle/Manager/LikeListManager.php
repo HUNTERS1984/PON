@@ -124,11 +124,22 @@ class LikeListManager extends AbstractManager
 
     /**
      * @param TransformedFinder $likeListFinder
-     * @return UseListManager
+     * @return LikeListManager
      */
     public function setLikeListFinder($likeListFinder)
     {
         $this->likeListFinder = $likeListFinder;
+        return $this;
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     * @return LikeListManager
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher): LikeListManager
+    {
+        $this->dispatcher = $dispatcher;
+
         return $this;
     }
 
