@@ -26,6 +26,38 @@ fos_http_cache:
                     etag: true
                     vary: [Accept-Encoding, Accept-Language]
 
+            -
+                match:
+                    path: ^/api/v1/signout
+                headers:
+                    cache_control: { public: false, max_age: 0, s_maxage: 0 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+
+            -
+                match:
+                    path: ^/api/v1/authorized
+                headers:
+                    cache_control: { public: false, max_age: 0, s_maxage: 0 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+
+            -
+                match:
+                    path: ^/api/v1/scrapping
+                headers:
+                    cache_control: { public: false, max_age: 0, s_maxage: 0 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+
+            -
+                match:
+                    path: ^/api/v1/sync
+                headers:
+                    cache_control: { public: false, max_age: 0, s_maxage: 0 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+
             # match all actions of a specific controller
             -
                 match:

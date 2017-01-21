@@ -857,12 +857,4 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     {
         return $this->get('pon.manager.like_list');
     }
-
-    /**
-     * @return Serializer
-     */
-    public function getSerializer()
-    {
-        return $this->get('pon.serializator.serializer');
-    }
 }

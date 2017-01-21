@@ -28,6 +28,11 @@ class CouponSubscriber implements EventSubscriberInterface
                 ["clearShopDetail", -30],
                 ["clearShopCouponByMap", -40],
                 ["clearSearchCouponByMap", -50],
+                ["clearFavoriteCoupon", -60],
+                ["clearUsedCoupon", -70],
+                ["clearRequestCoupon", -80],
+                ["clearRequestCouponDetail", -90],
+                ["clearSearchCoupon", -100],
             ],
         ];
     }
@@ -88,10 +93,50 @@ class CouponSubscriber implements EventSubscriberInterface
     /**
      * @param CouponEvents $event
      */
-    public function clearSearchCouponByMap(CouponEvents $event)
+    public function clearSearchCoupon(CouponEvents $event)
     {
         $this->cacheManager
             ->invalidateRegex("^/api/v1/search/coupons")
+            ->flush();
+    }
+
+    /**
+     * @param CouponEvents $event
+     */
+    public function clearFavoriteCoupon(CouponEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex('^/api/v1/favorite/coupons')
+            ->flush();
+    }
+
+    /**
+     * @param CouponEvents $event
+     */
+    public function clearUsedCoupon(CouponEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex('^/api/v1/used/coupons')
+            ->flush();
+    }
+
+    /**
+     * @param CouponEvents $event
+     */
+    public function clearRequestCoupon(CouponEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex('^/api/v1/request/coupons')
+            ->flush();
+    }
+
+    /**
+     * @param CouponEvents $event
+     */
+    public function clearRequestCouponDetail(CouponEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex('^/api/v1/request/coupons/[a-zA-Z0-9]+')
             ->flush();
     }
 

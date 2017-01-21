@@ -10,7 +10,7 @@ class AppUserEvents extends Event
 
     const PRE_CREATE = 'pon.event.app_user.pre_create';
 
-    const POST_CREATE = 'pon.event.news.post_create';
+    const POST_CREATE = 'pon.event.app_user.post_create';
 
     /**
      * @var AppUser
@@ -21,7 +21,7 @@ class AppUserEvents extends Event
      * @param AppUser $appUser
      * @return AppUserEvents
      */
-    public function setAppUserEvents(AppUser $appUser): AppUserEvents
+    public function setAppUser(AppUser $appUser): AppUserEvents
     {
         $this->appUser = $appUser;
 
