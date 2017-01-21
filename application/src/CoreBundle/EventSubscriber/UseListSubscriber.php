@@ -32,6 +32,8 @@ class UseListSubscriber implements EventSubscriberInterface
                 ["clearUsedCoupon", -70],
                 ["clearRequestCoupon", -80],
                 ["clearRequestCouponDetail", -90],
+                ["clearGetProfile", -100],
+
             ],
         ];
     }
@@ -136,6 +138,16 @@ class UseListSubscriber implements EventSubscriberInterface
     {
         $this->cacheManager
             ->invalidateRegex('^/api/v1/request/coupons/[a-zA-Z0-9]+')
+            ->flush();
+    }
+
+    /**
+     * @param UseListEvents $event
+     */
+    public function clearGetProfile(UseListEvents $event)
+    {
+        $this->cacheManager
+            ->invalidateRegex('^/api/v1/profile')
             ->flush();
     }
 
