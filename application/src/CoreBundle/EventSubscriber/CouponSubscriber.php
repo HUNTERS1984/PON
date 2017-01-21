@@ -27,12 +27,11 @@ class CouponSubscriber implements EventSubscriberInterface
                 ["clearCouponsDetail", -20],
                 ["clearShopDetail", -30],
                 ["clearShopCouponByMap", -40],
-                ["clearSearchCouponByMap", -50],
+                ["clearSearchCoupon", -50],
                 ["clearFavoriteCoupon", -60],
                 ["clearUsedCoupon", -70],
                 ["clearRequestCoupon", -80],
                 ["clearRequestCouponDetail", -90],
-                ["clearSearchCoupon", -100],
             ],
         ];
     }
