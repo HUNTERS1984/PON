@@ -101,12 +101,4 @@ class NewsController extends FOSRestController  implements ClassResourceInterfac
     {
         return $this->get('pon.manager.store');
     }
-
-    /**
-     * @return Serializer
-     */
-    public function getSerializer()
-    {
-        return $this->get('pon.serializator.serializer');
-    }
 }

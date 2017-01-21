@@ -1,7 +1,18 @@
 fos_http_cache:
+    proxy_client:
+        varnish:
+            servers:
+                - pon-varnish
+            base_url: pon.dev
+    cache_manager:
+        enabled: true
     user_context:
         enabled: true
         role_provider: true
+        user_identifier_headers:
+            - Authorization
+        hash_cache_ttl: 900
+        user_hash_header: X-User-Context-Hash
     cache_control:
         defaults:
             overwrite: true
@@ -10,6 +21,38 @@ fos_http_cache:
             -
                 match:
                     path: ^/admin/login
+                headers:
+                    cache_control: { public: false, max_age: 0, s_maxage: 0 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+
+            -
+                match:
+                    path: ^/api/v1/signout
+                headers:
+                    cache_control: { public: false, max_age: 0, s_maxage: 0 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+
+            -
+                match:
+                    path: ^/api/v1/authorized
+                headers:
+                    cache_control: { public: false, max_age: 0, s_maxage: 0 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+
+            -
+                match:
+                    path: ^/api/v1/scrapping
+                headers:
+                    cache_control: { public: false, max_age: 0, s_maxage: 0 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+
+            -
+                match:
+                    path: ^/api/v1/sync
                 headers:
                     cache_control: { public: false, max_age: 0, s_maxage: 0 }
                     etag: true
@@ -27,6 +70,14 @@ fos_http_cache:
             -
                 match:
                     attributes: { _controller: ^LandingPageBundle:* }
+                    additional_cacheable_status: [400]
+                headers:
+                    cache_control: { public: true, max_age: 64000, s_maxage: 64000 }
+                    etag: true
+                    vary: [Accept-Encoding, Accept-Language]
+            -
+                match:
+                    attributes: { _controller: ^AppBundle:* }
                     additional_cacheable_status: [400]
                 headers:
                     cache_control: { public: true, max_age: 64000, s_maxage: 64000 }

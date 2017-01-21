@@ -4,6 +4,7 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Category;
+use CoreBundle\Event\CategoryEvents;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Aggregation\Nested;
 use Elastica\Aggregation\ValueCount;
@@ -11,6 +12,7 @@ use Elastica\Filter\Missing;
 use Elastica\Query;
 use Elastica\Query\Term;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class CategoryManager extends AbstractManager
 {
@@ -23,6 +25,11 @@ class CategoryManager extends AbstractManager
      * @var TransformedFinder $categoryFinder
      */
     protected $categoryFinder;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * @var Pagination $pagination
@@ -40,7 +47,13 @@ class CategoryManager extends AbstractManager
     public function saveCategory(Category $category)
     {
         $category->setUpdatedAt(new \DateTime());
-        return $this->save($category);
+        $categoryEvents = new CategoryEvents();
+        $categoryEvents->setCategory($category);
+        $this->dispatcher->dispatch(CategoryEvents::PRE_CREATE, $categoryEvents);
+        $category = $this->save($category);
+        $this->dispatcher->dispatch(CategoryEvents::POST_CREATE, $categoryEvents);
+
+        return $category;
     }
 
     /**
@@ -129,6 +142,17 @@ class CategoryManager extends AbstractManager
     public function setCategoryFinder($categoryFinder)
     {
         $this->categoryFinder = $categoryFinder;
+        return $this;
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     * @return CategoryManager
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher): CategoryManager
+    {
+        $this->dispatcher = $dispatcher;
+
         return $this;
     }
 

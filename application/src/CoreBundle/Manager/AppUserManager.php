@@ -5,6 +5,7 @@ namespace CoreBundle\Manager;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\SocialProfile;
+use CoreBundle\Event\AppUserEvents;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query;
@@ -14,6 +15,7 @@ use Facebook\FacebookResponse;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 use MetzWeb\Instagram\Instagram;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AppUserManager extends AbstractManager
 {
@@ -48,6 +50,11 @@ class AppUserManager extends AbstractManager
     protected $pagination;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
+
+    /**
      * @var Pagination $pagination
      */
     public function setPagination(Pagination $pagination)
@@ -80,7 +87,13 @@ class AppUserManager extends AbstractManager
     public function saveAppUser(AppUser $appUser)
     {
         $appUser->setUpdatedAt(new \DateTime());
-        return $this->save($appUser);
+        $appUserEvents = new AppUserEvents();
+        $appUserEvents->setAppUser($appUser);
+        $this->dispatcher->dispatch(AppUserEvents::PRE_CREATE, $appUserEvents);
+        $appUser = $this->save($appUser);
+        $this->dispatcher->dispatch(AppUserEvents::POST_CREATE, $appUserEvents);
+
+        return $appUser;
     }
 
     /**
@@ -708,5 +721,13 @@ class AppUserManager extends AbstractManager
         $this->emailProducer = $emailProducer;
 
         return $this;
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
     }
 }

@@ -72,7 +72,6 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
         }
 
         $user = $this->getUser();
-
         $result = $this->getManager()->getFeaturedCoupon($type, $params, $user);
         return $this->view(BaseResponse::getData($result['data'], $result['pagination']));
     }
@@ -857,13 +856,5 @@ class CouponController extends FOSRestController implements ClassResourceInterfa
     public function getLikeListManager()
     {
         return $this->get('pon.manager.like_list');
-    }
-
-    /**
-     * @return Serializer
-     */
-    public function getSerializer()
-    {
-        return $this->get('pon.serializator.serializer');
     }
 }

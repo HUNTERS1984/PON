@@ -26,6 +26,7 @@ services:
             - [setAppUserFinder, ["@fos_elastica.finder.app.appUser"]]
             - [setAvatarDir, ["%user_avatar_path%"]]
             - [setEmailProducer, ["@old_sound_rabbit_mq.email_producer"]]
+            - [setDispatcher, ["@event_dispatcher"]]
 
     pon.manager.analytics:
         class: CoreBundle\Manager\AnalyticsManager
@@ -99,6 +100,7 @@ services:
             - [setAvatarDir, ["%store_avatar_path%"]]
             - [setStoreFinder, ["@fos_elastica.finder.app.store"]]
             - [setImageDir, ["%image_path%"]]
+            - [setDispatcher, ["@event_dispatcher"]]
 
     pon.manager.push_setting:
         class: CoreBundle\Manager\PushSettingManager
@@ -120,6 +122,7 @@ services:
             - [setSampleImagePath, ["%sample_image_path%"]]
             - [setAvatarDir, ["%category_avatar_path%"]]
             - [setCategoryFinder, ["@fos_elastica.finder.app.category"]]
+            - [setDispatcher, ["@event_dispatcher"]]
 
     pon.manager.news_category:
         class: CoreBundle\Manager\NewsCategoryManager
@@ -130,6 +133,7 @@ services:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setSampleImagePath, ["%sample_image_path%"]]
             - [setNewsCategoryFinder, ["@fos_elastica.finder.app.newsCategory"]]
+            - [setDispatcher, ["@event_dispatcher"]]
 
     pon.manager.coupon_photo:
         class: CoreBundle\Manager\CouponPhotoManager
@@ -179,6 +183,7 @@ services:
             - [setAvatarDir, ["%coupon_avatar_path%"]]
             - [setImageDir, ["%image_path%"]]
             - [setUseListManager, ["@pon.manager.use_list"]]
+            - [setDispatcher, ["@event_dispatcher"]]
 
     pon.manager.photo:
         class: CoreBundle\Manager\PhotoManager
@@ -216,6 +221,7 @@ services:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setSampleImagePath, ["%sample_image_path%"]]
             - [setNewsFinder, ["@fos_elastica.finder.app.news"]]
+            - [setDispatcher, ["@event_dispatcher"]]
 
     pon.dummy.client:
         class: CoreBundle\DummyData\ClientDummy
@@ -245,6 +251,7 @@ services:
         calls:
             - [setManager, ["@pon.manager.news_category"]]
             - [setAvatarDirPath, ["%news_category_avatar_path%"]]
+
     pon.dummy.store:
         class: CoreBundle\DummyData\StoreDummy
         calls:
@@ -458,3 +465,38 @@ services:
         arguments: ['@doctrine', '', {  }]
         calls:
             - [setPropertyAccessor, ['@fos_elastica.property_accessor']]
+
+    pon.subscriber.coupon:
+        class: CoreBundle\EventSubscriber\CouponSubscriber
+        calls:
+            - [setCacheManager, ["@fos_http_cache.cache_manager"]]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    pon.subscriber.store:
+        class: CoreBundle\EventSubscriber\StoreSubscriber
+        calls:
+            - [setCacheManager, ["@fos_http_cache.cache_manager"]]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    pon.subscriber.category:
+        class: CoreBundle\EventSubscriber\CategorySubscriber
+        calls:
+            - [setCacheManager, ["@fos_http_cache.cache_manager"]]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    pon.subscriber.news:
+        class: CoreBundle\EventSubscriber\NewsSubscriber
+        calls:
+            - [setCacheManager, ["@fos_http_cache.cache_manager"]]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    pon.subscriber.app_user:
+        class: CoreBundle\EventSubscriber\AppUserSubscriber
+        calls:
+            - [setCacheManager, ["@fos_http_cache.cache_manager"]]
+        tags:
+            - { name: kernel.event_subscriber }

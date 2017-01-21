@@ -917,12 +917,4 @@ class AppUserController extends FOSRestController implements ClassResourceInterf
     {
         return $this->get('pon.manager.social_profile');
     }
-
-    /**
-     * @return Serializer
-     */
-    public function getSerializer()
-    {
-        return $this->get('pon.serializator.serializer');
-    }
 }

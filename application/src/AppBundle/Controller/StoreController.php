@@ -463,12 +463,4 @@ class StoreController extends FOSRestController  implements ClassResourceInterfa
     {
         return $this->get('pon.manager.user');
     }
-
-    /**
-     * @return Serializer
-     */
-    public function getSerializer()
-    {
-        return $this->get('pon.serializator.serializer');
-    }
 }

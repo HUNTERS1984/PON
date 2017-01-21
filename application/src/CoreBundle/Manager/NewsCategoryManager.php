@@ -4,6 +4,7 @@ namespace CoreBundle\Manager;
 
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\NewsCategory;
+use CoreBundle\Event\NewsEvents;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Aggregation\Nested;
 use Elastica\Aggregation\ValueCount;
@@ -11,6 +12,7 @@ use Elastica\Filter\Missing;
 use Elastica\Query;
 use Elastica\Query\Term;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class NewsCategoryManager extends AbstractManager
 {
@@ -23,6 +25,11 @@ class NewsCategoryManager extends AbstractManager
      * @var TransformedFinder $newsCategoryFinder
      */
     protected $newsCategoryFinder;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * @var Pagination $pagination
@@ -39,8 +46,11 @@ class NewsCategoryManager extends AbstractManager
      */
     public function saveNewsCategory(NewsCategory $newsCategory)
     {
+        $newsEvents = new NewsEvents();
         $newsCategory->setUpdatedAt(new \DateTime());
-        return $this->save($newsCategory);
+        $newsCategory = $this->save($newsCategory);
+        $this->dispatcher->dispatch(NewsEvents::POST_CATEGORY_CREATE, $newsEvents);
+        return $newsCategory;
     }
 
     /**
@@ -213,6 +223,17 @@ class NewsCategoryManager extends AbstractManager
         $results = $transformedPartialResults->toArray();
         $total = $transformedPartialResults->getTotalHits();
         return $this->pagination->response($results, $total, $limit, $offset, $sortBy, $orderBy);
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     * @return NewsCategoryManager
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher): NewsCategoryManager
+    {
+        $this->dispatcher = $dispatcher;
+
+        return $this;
     }
 
 }
