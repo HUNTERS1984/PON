@@ -55,6 +55,12 @@ class LikeListManager extends AbstractManager
      */
     public function saveLikeList(LikeList $likeList)
     {
+        $likeListEvents = new LikeListEvents();
+        $likeListEvents->setLikeList($likeList);
+        $this->dispatcher->dispatch(LikeListEvents::PRE_CREATE, $likeListEvents);
+        $likeList = $this->save($likeList);
+        $this->dispatcher->dispatch(LikeListEvents::POST_CREATE, $likeListEvents);
+
         return $this->save($likeList);
     }
 
@@ -63,14 +69,7 @@ class LikeListManager extends AbstractManager
         $likeCoupon = new LikeList();
         $likeCoupon->setCoupon($coupon);
         $likeCoupon->setAppUser($appUser);
-
-        $likeListEvents = new LikeListEvents();
-        $likeListEvents->setLikeList($likeCoupon);
-        $this->dispatcher->dispatch(LikeListEvents::PRE_CREATE, $likeListEvents);
-        $likeCoupon = $this->saveLikeList($likeCoupon);
-        $this->dispatcher->dispatch(LikeListEvents::POST_CREATE, $likeListEvents);
-
-        return $likeCoupon;
+        return $this->saveLikeList($likeCoupon);
     }
 
     public function unLikeCoupon(LikeList $likeList)
