@@ -5,6 +5,7 @@ namespace CoreBundle\Manager;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\UseList;
+use CoreBundle\Event\UseListEvents;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Query;
 use Elastica\Filter\Missing;
@@ -13,6 +14,7 @@ use Elastica\Query\Term;
 use Elastica\Query\Terms;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 use Predis\Client;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class UseListManager extends AbstractManager
 {
@@ -30,6 +32,11 @@ class UseListManager extends AbstractManager
      * @var Client $redisManager
     */
     protected $redisManager;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * @var Pagination $pagination
@@ -62,7 +69,13 @@ class UseListManager extends AbstractManager
     public function saveUseList(UseList $useList)
     {
         $useList->setUpdatedAt(new \DateTime());
-        return $this->save($useList);
+        $useListEvents = new UseListEvents();
+        $useListEvents->setUseList($useList);
+        $this->dispatcher->dispatch(UseListEvents::PRE_CREATE, $useListEvents);
+        $useList = $this->save($useList);
+        $this->dispatcher->dispatch(UseListEvents::POST_CREATE, $useListEvents);
+
+        return $useList;
     }
 
 
@@ -598,6 +611,17 @@ class UseListManager extends AbstractManager
     public function setRedisManager($redisManager)
     {
         $this->redisManager = $redisManager;
+
+        return $this;
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     * @return UseListManager
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher): UseListManager
+    {
+        $this->dispatcher = $dispatcher;
 
         return $this;
     }

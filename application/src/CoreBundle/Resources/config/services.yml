@@ -62,6 +62,7 @@ services:
             - [setPagination, ["@pon.paginator.pagination"]]
             - [setUseListFinder, ["@fos_elastica.finder.app.useList"]]
             - [setRedisManager, ["@snc_redis.default"]]
+            - [setDispatcher, ["@event_dispatcher"]]
 
     pon.manager.follow_list:
         class: CoreBundle\Manager\FollowListManager
@@ -512,6 +513,13 @@ services:
 
     pon.subscriber.follow_list:
         class: CoreBundle\EventSubscriber\FollowListSubscriber
+        calls:
+            - [setCacheManager, ["@fos_http_cache.cache_manager"]]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    pon.subscriber.use_list:
+        class: CoreBundle\EventSubscriber\UseListSubscriber
         calls:
             - [setCacheManager, ["@fos_http_cache.cache_manager"]]
         tags:
