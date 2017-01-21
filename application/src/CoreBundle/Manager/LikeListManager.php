@@ -5,23 +5,30 @@ namespace CoreBundle\Manager;
 use CoreBundle\Entity\AppUser;
 use CoreBundle\Entity\Coupon;
 use CoreBundle\Entity\LikeList;
+use CoreBundle\Event\LikeListEvents;
 use CoreBundle\Paginator\Pagination;
 use Elastica\Filter\Missing;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Term;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class LikeListManager extends AbstractManager
 {
     /**
      * @var TransformedFinder $couponFinder
      */
-    protected $likListFinder;
+    protected $likeListFinder;
 
     /**
      * @var Pagination
      */
     protected $pagination;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * @var Pagination $pagination
@@ -56,7 +63,14 @@ class LikeListManager extends AbstractManager
         $likeCoupon = new LikeList();
         $likeCoupon->setCoupon($coupon);
         $likeCoupon->setAppUser($appUser);
-        return $this->saveLikeList($likeCoupon);
+
+        $likeListEvents = new LikeListEvents();
+        $likeListEvents->setLikeList($likeCoupon);
+        $this->dispatcher->dispatch(LikeListEvents::PRE_CREATE, $likeListEvents);
+        $likeCoupon = $this->saveLikeList($likeCoupon);
+        $this->dispatcher->dispatch(LikeListEvents::POST_CREATE, $likeListEvents);
+
+        return $likeCoupon;
     }
 
     public function unLikeCoupon(LikeList $likeList)
@@ -82,7 +96,7 @@ class LikeListManager extends AbstractManager
         $query
             ->addMust($couponQuery)
             ->addMust($userQuery);
-        $result = $this->likListFinder->find($query);
+        $result = $this->likeListFinder->find($query);
         return !empty($result) ? $result[0] : null;
     }
 
@@ -97,7 +111,7 @@ class LikeListManager extends AbstractManager
         $mainQuery->setPostFilter(new Missing('coupon.deletedAt'));
         $mainQuery->setQuery($userQuery);
 
-        $pagination = $this->likListFinder->createPaginatorAdapter($mainQuery);
+        $pagination = $this->likeListFinder->createPaginatorAdapter($mainQuery);
         $transformedPartialResults = $pagination->getResults($offset, $limit);
         $results = $transformedPartialResults->toArray();
         $coupons = array_map(function(LikeList $likeList){
@@ -114,7 +128,7 @@ class LikeListManager extends AbstractManager
      */
     public function setLikeListFinder($likeListFinder)
     {
-        $this->likListFinder = $likeListFinder;
+        $this->likeListFinder = $likeListFinder;
         return $this;
     }
 
